@@ -1,7 +1,6 @@
 <template>
     <div id="app">
-        <img alt="Vue logo" src="./assets/logo.png">
-        <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+        <HelloWorld />
     </div>
 </template>
 
@@ -11,10 +10,15 @@
 
     @Component( {components: { HelloWorld } })
     export default class App extends Vue {
+        public selected;
     }
 </script>
 
 <style lang="less">
+// body {
+//     background: #242424;
+// }
+
 #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;

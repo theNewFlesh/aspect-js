@@ -1,4 +1,4 @@
 module.exports = {
-    baseUrl: '/aspect',
-    assetsDir: 'assets'
+    baseUrl: "/aspect",
+    assetsDir: "assets"
 }
