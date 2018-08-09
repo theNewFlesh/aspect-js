@@ -1,12 +1,13 @@
-import { shallowMount } from '@vue/test-utils';
-import HelloWorld from '@/components/HelloWorld.vue';
+import * as vtu from "@vue/test-utils";
+import HelloWorld from "@/components/HelloWorld.vue";
 
-describe('HelloWorld.vue', () => {
-  it('renders props.msg when passed', () => {
-    const msg = 'new message';
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg },
+describe("HelloWorld.vue", () => {
+    it("run example test", () => {
+        const msg = "banana";
+        const wrapper = vtu.mount(HelloWorld, {
+            propsData: { message: msg },
+        });
+        const vm = wrapper.vm;
+        expect(vm.message).toMatch(msg);
     });
-    expect(wrapper.text()).toMatch(msg);
-  });
 });

@@ -1,19 +1,65 @@
 {
-  "defaultSeverity": "warning",
-  "extends": [
-    "tslint:recommended"
-  ],
-  "linterOptions": {
+    "defaultSeverity": "warning",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "rules": {
+        "class-name": true,
+        "eofline": true,
+        "indent": [true, "spaces", 4],
+        "interface-name": false,
+        "no-consecutive-blank-lines": false,
+        "no-duplicate-super": true,
+        "object-literal-sort-keys": false,
+        "ordered-imports": false,
+        "prefer-const": true,
+        "quotemark": [true, "double"],
+        "semicolon": [true, "always"],
+        "trailing-comma": [
+            true,
+            {
+                "multiline": {
+                    "array": "always"
+                }
+            }
+        ]
+    },
+    "compilerOptions": {
+        "target": "es5",
+        "module": "esnext",
+        "strict": true,
+        "jsx": "preserve",
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": true,
+        "baseUrl": ".",
+        "types": [
+            "node",
+            "jest"
+        ],
+        "paths": {
+            "@/*": [
+                "src/*"
+            ]
+        },
+        "lib": [
+            "esnext",
+            "dom",
+            "dom.iterable",
+            "scripthost"
+        ]
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue",
+        "tests/**/*.ts",
+        "tests/**/*.tsx"
+    ],
     "exclude": [
-      "node_modules/**"
+        "node_modules"
     ]
-  },
-  "rules": {
-    "quotemark": [true, "single"],
-    "indent": [true, "spaces", 2],
-    "interface-name": false,
-    "ordered-imports": false,
-    "object-literal-sort-keys": false,
-    "no-consecutive-blank-lines": false
-  }
 }
