@@ -10,7 +10,6 @@
     },
     "dependencies": {
         "@chenfengyuan/vue-number-input": "^0.5.2",
-        "slim-select": "^1.17.0",
         "vue": "^2.5.17",
         "vue-color": "^2.4.6",
         "vue-patternfly-ts": "0.0.131",

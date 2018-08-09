@@ -1,14 +1,14 @@
 <template>
     <div id="app">
-        <HelloWorld />
+        <DevContainer />
     </div>
 </template>
 
 <script lang="ts">
     import { Component, Vue } from "vue-property-decorator";
-    import HelloWorld from "./components/HelloWorld.vue";
+    import DevContainer from "./components/DevContainer.vue";
 
-    @Component( {components: { HelloWorld } })
+    @Component( {components: { DevContainer } })
     export default class App extends Vue {
         public selected;
     }

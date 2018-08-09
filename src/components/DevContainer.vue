@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="components">
     <!-- <VueNumberInput /> -->
     <v-select multiple :options="options">
         <option></option>
@@ -17,7 +17,7 @@
     import vSelect from "vue-select";
 
     @Component( {components: { vSelect }} )
-    export default class HelloWorld extends Vue {
+    export default class DevContainer extends Vue {
         public options: string[] = [
             "bagel",
             "creame cheese",
