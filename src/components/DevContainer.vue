@@ -1,6 +1,6 @@
 <template>
     <div class="components">
-    <!-- <VueNumberInput /> -->
+    <VueNumberInput inline controls/>
     <vue-slider ref="slider" v-model="value">
     </vue-slider>
     <v-select multiple :options="options">
@@ -11,24 +11,33 @@
     </v-select>
     <sketch v-model="colors">
     </sketch>
+    <tooltip placement="top" mode="hover">
+        <div slot="outlet">hover me</div>
+        <div slot="tooltip">tooltip</div>
+    </tooltip>
     </div>
 </template>
 
 <script lang="ts">
     import Vue from "vue";
     import { Component, Prop } from "vue-property-decorator";
-    // import VueNumberInput from  "@chenfengyuan/vue-number-input";
+    import VueNumberInput from  "@chenfengyuan/vue-number-input";
     import vueSlider from "vue-slider-component";
     import { Sketch } from "vue-color";
     import vSelect from "vue-select";
+    import VTooltip from "v-tooltip";
+    import Tooltip from "hsy-vue-tooltip";
+    Vue.use(Tooltip);
 
-    @Component( {components: { vSelect, vueSlider, Sketch }} )
+    @Component( {components: { vSelect, vueSlider, Sketch, VueNumberInput }} )
     export default class DevContainer extends Vue {
         public options: string[] = [
             "bagel",
             "creame cheese",
             "muffin"
         ];
+
+        public tooltip: string = "I am a tooltip";
 
         public value: number = 1;
 

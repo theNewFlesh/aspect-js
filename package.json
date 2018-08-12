@@ -10,9 +10,11 @@
     },
     "dependencies": {
         "@chenfengyuan/vue-number-input": "^0.5.2",
+        "ag-grid": "^18.1.2",
+        "ag-grid-vue": "^18.1.0",
+        "hsy-vue-tooltip": "0.0.7",
         "vue": "^2.5.17",
         "vue-color": "^2.4.6",
-        "vue-patternfly-ts": "0.0.131",
         "vue-select": "^2.4.0",
         "vue-slider-component": "^2.7.5",
         "vuex": "^3.0.1"
