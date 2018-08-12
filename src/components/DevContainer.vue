@@ -9,14 +9,14 @@
             <option>B</option>
             <option>C</option>
         </v-select>
-        <sketch v-model="colors">
-        </sketch>
+        <chrome v-model="colors">
+        </chrome>
         <tooltip placement="top" mode="hover">
             <div slot="outlet">hover me</div>
             <div slot="tooltip">tooltip</div>
         </tooltip>
         <ag-grid-vue style="width: 500px; height: 500px;"
-                    class="ag-theme-balham"
+                    class="ag-theme-balham-dark"
                     :columnDefs="columnDefs"
                     :rowData="rowData">
         </ag-grid-vue>
@@ -25,22 +25,22 @@
 
 <script lang="ts">
     import "../../node_modules/ag-grid/dist/styles/ag-grid.css";
-    import "../../node_modules/ag-grid/dist/styles/ag-theme-balham.css";
+    import "../../node_modules/ag-grid/dist/styles/ag-theme-balham-dark.css";
 
     import Vue from "vue";
     import { AgGridVue } from "ag-grid-vue";
     import { Component, Prop } from "vue-property-decorator";
     import VueNumberInput from  "@chenfengyuan/vue-number-input";
     import vueSlider from "vue-slider-component";
-    import { Sketch } from "vue-color";
+    import { Chrome } from "vue-color";
     import vSelect from "vue-select";
     import Tooltip from "hsy-vue-tooltip";
     Vue.use(Tooltip);
 
-    @Component( {components: { AgGridVue, vSelect, vueSlider, Sketch, VueNumberInput }} )
+    @Component( {components: { AgGridVue, vSelect, vueSlider, Chrome, VueNumberInput }} )
     export default class DevContainer extends Vue {
-        public columDefs = null;
-        public rowData = null;
+        public columnDefs;
+        public rowData;
 
         public options: string[] = [
             "bagel",
