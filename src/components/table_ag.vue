@@ -29,9 +29,12 @@
     import * as _ from "lodash";
 
     @Component( {components: { AgGridVue }} )
-    export default class Table extends Vue {
+    export default class TableAg extends Vue {
         @Prop()
         public columns: string[];
+
+        @Prop()
+        public rows: string[];
 
         @Prop()
         public data: object[];

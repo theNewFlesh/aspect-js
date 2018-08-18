@@ -1,15 +1,13 @@
 <template>
     <div id="app">
-        <!-- <Table :data="data" :columns="columns"/> -->
-        <TreeGrid :columns="columns" :rows="rows" />
+        <TableAg :columns="columns" :rows="rows" :data="data" />
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import DevContainer from "./components/DevContainer.vue";
-import Table from "./components/table.vue";
-import TreeGrid from "./components/treegrid.vue";
+import TableAg from "./components/table_ag.vue";
 import * as _ from "lodash";
 import * as pf from "vue-patternfly-ts";
 
@@ -28,10 +26,11 @@ const columns = [
 
 const data = _.map(rows, (row) => (_.zipObject(columns, row)) );
 
-@Component( {components: { TreeGrid } })
+@Component( {components: { TableAg } })
 export default class App extends Vue {
     public columns = columns;
-    public rows = data;
+    public rows = rows;
+    public data = data;
 }
 </script>
 
