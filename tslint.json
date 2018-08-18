@@ -15,6 +15,8 @@
         "prefer-const": true,
         "quotemark": [true, "double"],
         "semicolon": [true, "always"],
+        "variable-name": [true, "allow-snake-case", "allow-leading-underscore"],
+        "no-string-literal": false,
         "trailing-comma": [
             true,
             {
