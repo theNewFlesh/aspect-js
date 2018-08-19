@@ -8,7 +8,7 @@
     >
         <!-- for row in vdata -->
         <template slot="items" slot-scope="row">
-            <tr @click="row.expanded = !row.expanded">
+            <tr @click="row.expanded = !row.expanded" >
                 <td v-for="header in vcolumns" :key="header.index">
                     <Cell
                         :column="header.value"
@@ -16,14 +16,14 @@
                     />
                 </td>
             </tr>
-            <template v-if="index.length > 0" slot="expand" slot-scope="row">
-                <Table
-                    :data="row.item.child_data"
-                    :columns="index[0].child_columns"
-                    :index="index.slice(1)"
-                    show_index="true"
-                />
-            </template>
+        </template>
+        <template v-if="index.length > 0" slot="expand" slot-scope="row" >
+            <Table
+                :data="row.item.child_data"
+                :columns="index[0].child_columns"
+                :index="index.slice(1)"
+                show_index="true"
+            />
         </template>
     </v-data-table>
 </template>
@@ -31,6 +31,7 @@
 <script lang="ts">
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Cell from "./cell.vue";
+    import { OrderedDict, omit } from "../tools";
     import * as _ from "lodash";
 
     interface IHeader {
@@ -50,68 +51,6 @@
 
     interface IRow {
         index: number;
-    }
-
-    class OrderedDict {
-        constructor(items: object = undefined, default_value = undefined) {
-            this.default = default_value;
-            if (items !== undefined) {
-                this._keys = Object.keys(items);
-                this._items = items;
-            }
-        }
-
-        public _keys = [];
-        public _items = {};
-        public default;
-
-        public get(key) {
-            if (this._items[key] === undefined) {
-                if (this.default !== undefined) {
-                    this._items[key] = _.clone(this.default);
-                    this._keys.push(key);
-                }
-            }
-            return this._items[key];
-        };
-
-        public set(key, value) {
-            if (this._items[key] === undefined) {
-                this._keys.push(key);
-            }
-            this._items[key] = value;
-        }
-
-        public insert(position, key, value) {
-            if (this._items[key] !== undefined) {
-                this._keys.splice(position, 0, key);
-                this._items[key] = value;
-            }
-        }
-
-        public get items() {
-            return _.map(this._keys, (key) => ( [key, this.get(key)] ));
-        }
-
-        public get keys(): any[] {
-            return this._keys;
-        }
-
-        public get values(): any[] {
-            const output = [];
-            for (const key of this._keys) {
-                output.push(this._items[key]);
-            }
-            return output;
-        }
-
-        public get length(): number {
-            return this._keys.length;
-        };
-
-        public as_object(): object {
-            return this._items;
-        }
     }
 
     @Component({components: { Cell }})
@@ -157,7 +96,8 @@
                 const idx = this.index[0];
                 const groups = this._group(idx.parent_column);
 
-                const omit_cols = _.omit(idx.child_columns, "filter");
+                const omit_cols = _.omit(idx.child_columns, "index");
+                console.log(omit_cols);
                 const pick_cols = idx.child_columns;
                 pick_cols.push("index");
 
@@ -171,6 +111,7 @@
                     );
 
                     output.push({
+                        index: i,
                         parent_data: parent,
                         child_data: child,
                     });
@@ -178,16 +119,18 @@
             } else {
                 for (const i in this.data) {
                     output.push({
+                        index: i,
                         parent_data: this.data[i],
                         child_data: [],
                     });
                 }
             }
+            console.log(output);
             return output;
         }
 
         public get vcolumns() {
-            let vcolumns: IHeader[] = [];
+            let vcolumns = [];
             let i: number = 0;
             for (const col of this.columns) {
                 vcolumns.push({
@@ -204,9 +147,13 @@
                 vcolumns = _.filter(vcolumns, (item) => (item.value !== "index"));
             }
 
-            // if (this.index.length > 0) {
-            //     vcolumns = _.omit(vcolumns, this.index[0].child_columns);
-            // }
+            if (this.index.length > 0) {
+                vcolumns = _.filter(vcolumns,
+                    (item) => (
+                        !this.index[0].child_columns.includes(item)
+                    )
+                );
+            }
             return vcolumns;
         }
     }

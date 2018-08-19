@@ -1,6 +1,6 @@
 <template>
     <v-app dark id="app">
-        <Table :data="data" :columns="columns" :index="index" show_index="true" />
+        <Table :data="data" :columns="columns" :index="index" />
     </v-app>
 </template>
 
@@ -24,23 +24,22 @@ Vue.use(Vuetify, {
 });
 
 const rows = [
-        [0, "scene-001",  "graph-001", "node-001", "func2", 0, 0, [0, 1, 2, 3], "slider",        "absent"],
-        [1, "scene-001",  "graph-001", "node-002", "func3", 2, 2, [0, 1, 2, 3], "float_input",   "present"],
-        [2, "scene-002",  "graph-001", "node-001", "func2", 3, 3, [0, 1, 2, 3], "multidropdown", "override"],
-        [3, "scene-002",  "graph-001", "node-001", "func2", 4, 4, [0, 1, 2, 3], "textarea",      "unlocked"],
-        [4, "scene-002",  "graph-001", "node-002", "func3", 5, 5, [0, 1, 2, 3], "slider",        "present"],
+        ["scene-001",  "graph-001", "node-001", "foo", "func1", 0, 0, [0, 1, 2, 3], "slider",        "absent"],
+        ["scene-001",  "graph-001", "node-001", "bar", "func1", 2, 2, [0, 1, 2, 3], "float_input",   "present"],
+        ["scene-002",  "graph-001", "node-002", "baz", "func2", 3, 3, [0, 1, 2, 3], "multidropdown", "override"],
+        ["scene-002",  "graph-001", "node-002", "boo", "func2", 4, 4, [0, 1, 2, 3], "textarea",      "unlocked"],
+        ["scene-002",  "graph-001", "node-002", "fuz", "func2", 5, 5, [0, 1, 2, 3], "slider",        "present"],
     ];
 
 const columns = [
-    "index",
-    "scene-id", "graph-id", "node-id", "node-name",
+    "scene-id", "graph-id", "node-id", "node-name", "inport-name",
     "value", "default_value", "options", "widget", "lock"
 ];
 
 const data = _.map(rows, (row) => (_.zipObject(columns, row)) );
 
 const index = [
-    {   parent_column: "node-id", child_columns: ["value", "default_value", "options", "widget", "lock"] },
+    {   parent_column: "node-id", child_columns: ["inport-name", "value", "default_value", "options", "widget", "lock"] },
 ];
 
 @Component( {components: { Table } })
