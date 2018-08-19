@@ -1,15 +1,14 @@
 <template>
     <v-app dark id="app">
         <!-- <TableAg :columns="columns" :rows="rows" :data="data" width /> -->
-        <TableVu :data="data" :columns="columns"/>
+        <Table :data="data" :columns="columns"/>
     </v-app>
 </template>
 
 <script lang="ts">
     import { Component, Vue } from "vue-property-decorator";
     import DevContainer from "./components/DevContainer.vue";
-    import TableAg from "./components/table_ag.vue";
-    import TableVu from "./components/table_vu.vue";
+    import Table from "./components/table.vue";
     import * as _ from "lodash";
 
     import Vuetify from "vuetify";
@@ -40,7 +39,7 @@
 
     const data = _.map(rows, (row) => (_.zipObject(columns, row)) );
 
-    @Component( {components: { TableAg, TableVu } })
+    @Component( {components: { Table } })
     export default class App extends Vue {
         public columns = columns;
         public rows = rows;
