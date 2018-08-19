@@ -2,31 +2,31 @@
     <div class="widget-container" v-if="widget == 'slider'">
         <Slider class="widget"
         :value="value"
-        :options_="options_"
+        :default_value="default_value"
     />
     </div>
     <div class="widget-container" v-else-if="widget == 'float_input'">
         <FloatInput class="widget"
         :value="value"
-        :options_="options_"
+        :default_value="default_value"
     />
     </div>
     <div class="widget-container" v-else-if="widget == 'multidropdown'">
         <MultiDropDown class="widget"
         :value="value"
-        :options_="options_"
+        :default_value="default_value"
     />
     </div>
     <div class="widget-container" v-else-if="widget == 'dropdown'">
         <DropDown class="widget"
         :value="value"
-        :options_="options_"
+        :default_value="default_value"
     />
     </div>
     <div class="widget-container" v-else-if="widget == 'textarea'">
         <TextArea class="widget"
         :value="value"
-        :options_="options_"
+        :default_value="default_value"
     />
     </div>
 </template>
@@ -43,12 +43,12 @@
     @Component( {components: { Slider, FloatInput, MultiDropDown, DropDown, TextArea }} )
     export default class Widget extends Vue {
         public value;
-        public options_ = null;
+        public default_value = null;
         public widget: string;
 
         public create() {
             if (this.value === undefined) {
-                this.value = this.options_;
+                this.value = this.default_value;
             }
         }
     }

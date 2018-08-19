@@ -3,7 +3,7 @@
         <VueNumberInput inline controls/>
         <vue-slider ref="slider" v-model="value">
         </vue-slider>
-        <v-select multiple :options="options">
+        <v-select multiple :options="default_value">
             <option></option>
             <option selected>A</option>
             <option>B</option>
@@ -30,7 +30,7 @@
     import Vue from "vue";
     import { AgGridVue } from "ag-grid-vue";
     import { Component, Prop } from "vue-property-decorator";
-    import VueNumberInput from  "@chenfengyuan/vue-number-input";
+    import VueNumberInput from "@chenfengyuan/vue-number-input";
     import vueSlider from "vue-slider-component";
     import { Chrome } from "vue-color";
     import vSelect from "vue-select";
@@ -42,7 +42,7 @@
         public columnDefs;
         public rowData;
 
-        public options: string[] = [
+        public default_value: string[] = [
             "bagel",
             "creame cheese",
             "muffin"

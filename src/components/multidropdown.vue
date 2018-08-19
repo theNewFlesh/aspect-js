@@ -15,7 +15,7 @@
     @Component( {components: { vSelect }} )
     export default class MultiDropDown extends Vue {
         public value;
-        public options_;
+        public default_value;
     }
 </script>
 

@@ -14,7 +14,7 @@
     @Component( {components: { VueNumberInput }} )
     export default class FloatInput extends Vue {
         public value;
-        public options_;
+        public default_value;
     }
 </script>
 

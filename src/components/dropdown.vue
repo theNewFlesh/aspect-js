@@ -1,6 +1,6 @@
 <template>
     <v-select :value="value">
-        <option v-for="opt in options_">{{ opt }}</option>
+        <!-- <option v-for="option in default_value">{{ option }}</option> -->
     </v-select>
 </template>
 
@@ -12,7 +12,7 @@
     @Component( {components: { vSelect }} )
     export default class DropDown extends Vue {
         public value;
-        public options_ = [];
+        public default_value = [];
     }
 </script>
 

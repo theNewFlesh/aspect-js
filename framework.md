@@ -40,14 +40,21 @@ values --> may not include dicts or lists that contain dicts
 
 [scene-<id>.graph-<id>.node-<id>.inport-<id>]
     scene-<id>.graph-<id>.node-<id>.inport-<id>.value:
-    scene-<id>.graph-<id>.node-<id>.inport-<id>.default:
-    scene-<id>.graph-<id>.node-<id>.inport-<id>.type:
-    scene-<id>.graph-<id>.node-<id>.inport-<id>.pattern:
+    scene-<id>.graph-<id>.node-<id>.inport-<id>.default-value:
+    scene-<id>.graph-<id>.node-<id>.inport-<id>.options: []
+    scene-<id>.graph-<id>.node-<id>.inport-<id>.type: ["node", "widget", "both", "none"]
+    scene-<id>.graph-<id>.node-<id>.inport-<id>.lock: ["absent", "present", "unlocked", "override"]
     scene-<id>.graph-<id>.node-<id>.inport-<id>.<display>
 
 [scene-<id>.graph-<id>.node-<id>.outport-<id>]
     scene-<id>.graph-<id>.node-<id>.outport-<id>.value:
     scene-<id>.graph-<id>.node-<id>.outport-<id>.<display>
+
+---PORT-LOCKS-------------------------------------------------------------------
+absent   - unlock port when data is absent
+present  - unlock port when data is present
+unlocked - port remains unlocked
+override - unlock all ports when data is present
 
 ---EVENTS-----------------------------------------------------------------------
 SearchBox
@@ -91,10 +98,10 @@ NodePanel
     set-value
     hover-value (css event)
     click-config
-        set-default
+        set-default_value
         set-widget
         set-type
-        set-pattern
+        set-lock
 
 ---WEB-COMPONENTS---------------------------------------------------------------
 App
@@ -114,7 +121,7 @@ App
         |-- Item --> node --> function { row }
             |-- Parameter --> inport --> function parameter { value cell, type cell }
                 |-- Widget
-                    |-- Config (sets widget, default, pattern, color) { ag-grid }
+                    |-- Config (sets widget, default_value, lock, color) { ag-grid }
                     |-- Tooltip (doc strings)                         { hsy-vue-tooltip }
                     |-- Textbox (option)                              { textarea }
                     |-- Slider (option)                               { vue-slider-component }
@@ -278,8 +285,6 @@ luts
     }
 
 Scene DataFrame
-
-
 
 ---BROADER-FRAMEWORK------------------------------------------------------------
 client

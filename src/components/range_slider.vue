@@ -1,11 +1,11 @@
 <template>
     <v-flex>
-        <v-slider
+        <v-range-slider
             v-model="value"
             :min="options.min"
             :max="options.max"
             :step="options.step"
-        ></v-slider>
+        ></v-range-slider>
     </v-flex>
 </template>
 
@@ -14,14 +14,19 @@
     import { Component, Prop } from "vue-property-decorator";
 
     @Component
-    export default class Slider extends Vue {
-        public value: number = 0;
-        public default_value: number = 0;
-        public options: object = {
+    export default class RangeSlider extends Vue {
+        @Prop({default: 0})
+        public value;
+
+        @Prop({default: 0})
+        public default_value;
+
+        @Prop({default: {
             min: 0,
             max: 100,
             step: 1,
-        };
+        }})
+        public options;
     }
 </script>
 

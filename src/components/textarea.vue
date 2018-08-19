@@ -1,6 +1,6 @@
 <template>
     <div class="textarea-container">
-        <textarea class="textarea" v-model="value">{{ value }}</textarea>
+        <textarea class="textarea" v-model="value"></textarea>
     </div>
 </template>
 
@@ -11,7 +11,7 @@
     @Component({})
     export default class TextArea extends Vue {
         public value;
-        public options_;
+        public default_value;
     }
 </script>
 
