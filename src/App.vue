@@ -42,13 +42,11 @@ const index = [
     {   parent_column: "node-id", child_columns: ["inport-name", "value", "default_value", "options", "widget", "lock"] },
 ];
 
-const groups = ["node-id"];
-
 @Component( {components: { Table } })
 export default class App extends Vue {
     public columns = columns;
     public rows = rows;
     public data = data;
-    public groups = groups;
+    public groups = ["node-id", "inport-name"];
 }
 </script>

@@ -25,7 +25,6 @@
                     :data="_child_data.get(row.item[_group_column])"
                     :groups="groups.slice(1)"
                     :columns="columns"
-                    :show_index="show_index"
                 />
             </td>
         </template>
@@ -75,11 +74,6 @@
         @Prop({default: []})
         public groups: string[];
 
-        @Prop({default: false})
-        public show_index: boolean;
-
-        public _data: IRow[];
-        public _columns;
         public _group_column: string;
         public _rows: object[];
         public _child_data: object;
@@ -98,27 +92,13 @@
         }
 
         public created() {
-            // add index to rows
-            let rows = [];
-            for (const i in this.data) {
-                const row = this.data[i];
-                // needed by v-data-table
-                row["index"] = i;
-                rows.push(row);
-            }
-
-            this._columns = this.columns;
-            if (!this.columns.includes("index")) {
-                this._columns.splice(0, 0, "index");
-            }
-
             if (this.groups.length > 0) {
                 const col = this.groups[0];
                 const group = this.group_by(col);
                 this._child_data = group;
                 this._group_column = col;
 
-                rows = [];
+                const rows = [];
                 for (const i in group.keys) {
                     const key = group.keys[i];
                     const row = group.get(key)[0];
@@ -128,7 +108,7 @@
                 }
                 this._rows = rows;
             } else {
-                this._rows = rows;
+                this._rows = this.data;
             }
         }
 
@@ -143,7 +123,7 @@
         public get headers(): IHeader[] {
             let headers = [];
             let i: number = 0;
-            for (const col of this._columns) {
+            for (const col of this.columns) {
                 headers.push({
                     text: col,
                     value: col,
@@ -155,9 +135,7 @@
                 });
             }
 
-            if (this.show_index === false) {
-                headers = _.filter(headers, (item) => (item.value !== "index"));
-            }
+            headers = _.filter(headers, (item) => (item.value !== "index"));
             return headers;
         }
     }
