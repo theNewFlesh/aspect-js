@@ -4,13 +4,13 @@
         :headers="headers"
         :items="_rows"
         hide-actions
-        item-key="index"
+        item-key="__index"
         class="elevation-1"
     >
         <!-- for col in row -->
         <template slot="items" slot-scope="row">
             <tr @click="row.expanded = !row.expanded" >
-                <td v-for="header in headers" :key="header.index">
+                <td v-for="header in headers" :key="header.__index">
                     <Cell
                         :column="header.value"
                         :row="row.item"
@@ -103,7 +103,7 @@
                     const key = group.keys[i];
                     const row = group.get(key)[0];
                     // needed by v-data-table
-                    row["index"] = i;
+                    row["__index"] = i;
                     rows.push(row);
                 }
                 this._rows = rows;
@@ -135,7 +135,7 @@
                 });
             }
 
-            headers = _.filter(headers, (item) => (item.value !== "index"));
+            headers = _.filter(headers, (item) => (item.value !== "__index"));
             return headers;
         }
     }
