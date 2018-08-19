@@ -1,6 +1,6 @@
 <template>
     <v-app dark id="app">
-        <Table :data="data" :columns="columns" :index="index" />
+        <Table :data="data" :columns="columns" :groups="groups" />
     </v-app>
 </template>
 
@@ -24,11 +24,11 @@ Vue.use(Vuetify, {
 });
 
 const rows = [
-        ["scene-001",  "graph-001", "node-001", "foo", "func1", 0, 0, [0, 1, 2, 3], "slider",        "absent"],
-        ["scene-001",  "graph-001", "node-001", "bar", "func1", 2, 2, [0, 1, 2, 3], "float_input",   "present"],
-        ["scene-002",  "graph-001", "node-002", "baz", "func2", 3, 3, [0, 1, 2, 3], "multidropdown", "override"],
-        ["scene-002",  "graph-001", "node-002", "boo", "func2", 4, 4, [0, 1, 2, 3], "textarea",      "unlocked"],
-        ["scene-002",  "graph-001", "node-002", "fuz", "func2", 5, 5, [0, 1, 2, 3], "slider",        "present"],
+        ["scene-001",  "graph-001", "node-001", "func1", "foo", 0, 0, [0, 1, 2, 3], "slider",        "absent"],
+        ["scene-001",  "graph-001", "node-001", "func1", "bar", 2, 2, [0, 1, 2, 3], "float_input",   "present"],
+        ["scene-002",  "graph-001", "node-002", "func2", "baz", 3, 3, [0, 1, 2, 3], "multidropdown", "override"],
+        ["scene-002",  "graph-001", "node-002", "func2", "boo", 4, 4, [0, 1, 2, 3], "textarea",      "unlocked"],
+        ["scene-002",  "graph-001", "node-002", "func2", "fuz", 5, 5, [0, 1, 2, 3], "slider",        "present"],
     ];
 
 const columns = [
@@ -42,11 +42,13 @@ const index = [
     {   parent_column: "node-id", child_columns: ["inport-name", "value", "default_value", "options", "widget", "lock"] },
 ];
 
+const groups = ["node-id"];
+
 @Component( {components: { Table } })
 export default class App extends Vue {
     public columns = columns;
     public rows = rows;
     public data = data;
-    public index = index;
+    public groups = groups;
 }
 </script>

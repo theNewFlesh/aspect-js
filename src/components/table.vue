@@ -1,29 +1,33 @@
 <template>
+    <!-- for row in rows -->
     <v-data-table
-        :headers="vcolumns"
-        :items="vdata"
+        :headers="headers"
+        :items="_rows"
         hide-actions
         item-key="index"
         class="elevation-1"
     >
-        <!-- for row in vdata -->
+        <!-- for col in row -->
         <template slot="items" slot-scope="row">
             <tr @click="row.expanded = !row.expanded" >
-                <td v-for="header in vcolumns" :key="header.index">
+                <td v-for="header in headers" :key="header.index">
                     <Cell
                         :column="header.value"
-                        :row="row.item.parent_data"
+                        :row="row.item"
                     />
                 </td>
             </tr>
         </template>
-        <template v-if="index.length > 0" slot="expand" slot-scope="row" >
-            <Table
-                :data="row.item.child_data"
-                :columns="index[0].child_columns"
-                :index="index.slice(1)"
-                show_index="true"
-            />
+        <!-- child data row -->
+        <template v-if="_child_data.get(row.item[_group_column]).length > 0" slot="expand" slot-scope="row" >
+            <td>
+                <Table
+                    :data="_child_data.get(row.item[_group_column])"
+                    :groups="groups.slice(1)"
+                    :columns="columns"
+                    :show_index="show_index"
+                />
+            </td>
         </template>
     </v-data-table>
 </template>
@@ -41,7 +45,7 @@
         sortable: boolean;
         class: string[];
         width?: number;
-        index?: number;
+        index: number;
     }
 
     interface ILevel {
@@ -53,87 +57,94 @@
         index: number;
     }
 
+    interface IGroupRow {
+        group: string;
+        index: any;
+        parent: IRow;
+        child: IRow[];
+    }
+
     @Component({components: { Cell }})
     export default class Table extends Vue {
         @Prop()
         public data: object[];
 
         @Prop()
-        public columns: string[];
+        public columns: string[][];
 
         @Prop({default: []})
-        public index: ILevel[];
+        public groups: string[];
 
         @Prop({default: false})
         public show_index: boolean;
 
-        public get shape(): number[] {
-            return [this.columns.length, this.data.length];
+        public _data: IRow[];
+        public _columns;
+        public _group_column: string;
+        public _rows: object[];
+        public _child_data: object;
+
+        public log(item) {
+            console.log(item);
+            return item;
         }
 
-        public render_cell(value: any, widget: string) {
-            return `value = ${value}, widget = ${widget}`;
+        public get stuff() {
+            return {
+                rows: this._rows,
+                child_data: this._child_data,
+                group_column: this._group_column
+            };
         }
 
-        public _group(column: string) {
-            const groups = new OrderedDict({}, []);
-            for (const row of this.data) {
-                groups.get( row[column] ).push(row);
+        public created() {
+            // add index to rows
+            let rows = [];
+            for (const i in this.data) {
+                const row = this.data[i];
+                // needed by v-data-table
+                row["index"] = i;
+                rows.push(row);
             }
 
-            return _.map(
-                groups.items,
-                (item) => ({
-                    column: item[0],
-                    data: item[1],
-                })
-            );
-        }
+            this._columns = this.columns;
+            if (!this.columns.includes("index")) {
+                this._columns.splice(0, 0, "index");
+            }
 
-        public get vdata(): IRow[] {
-            let output = [];
-            if (this.index.length > 0) {
-                const idx = this.index[0];
-                const groups = this._group(idx.parent_column);
+            if (this.groups.length > 0) {
+                const col = this.groups[0];
+                const group = this.group_by(col);
+                this._child_data = group;
+                this._group_column = col;
 
-                const omit_cols = _.omit(idx.child_columns, "index");
-                console.log(omit_cols);
-                const pick_cols = idx.child_columns;
-                pick_cols.push("index");
-
-                for (const i in groups) {
-                    const col = groups[i].column;
-                    const rows = groups[i].data;
-                    const parent = _.omit(rows[0], omit_cols);
-                    const child  = _.map(
-                        rows,
-                        (row) => ( _.pick(row, pick_cols) )
-                    );
-
-                    output.push({
-                        index: i,
-                        parent_data: parent,
-                        child_data: child,
-                    });
+                rows = [];
+                for (const i in group.keys) {
+                    const key = group.keys[i];
+                    const row = group.get(key)[0];
+                    // needed by v-data-table
+                    row["index"] = i;
+                    rows.push(row);
                 }
+                this._rows = rows;
             } else {
-                for (const i in this.data) {
-                    output.push({
-                        index: i,
-                        parent_data: this.data[i],
-                        child_data: [],
-                    });
-                }
+                this._rows = rows;
             }
-            console.log(output);
-            return output;
         }
 
-        public get vcolumns() {
-            let vcolumns = [];
+        public group_by(column: string): OrderedDict {
+            const group = new OrderedDict({}, []);
+            for (const row of this.data) {
+                group.get( row[column] ).push(row);
+            }
+            return group;
+        }
+
+        public get headers(): IHeader[] {
+            let headers = [];
             let i: number = 0;
-            for (const col of this.columns) {
-                vcolumns.push({
+            for (const col of this._columns) {
+                headers.push({
                     text: col,
                     value: col,
                     align: "left",
@@ -143,18 +154,11 @@
                     index: i++,
                 });
             }
-            if (this.show_index === false) {
-                vcolumns = _.filter(vcolumns, (item) => (item.value !== "index"));
-            }
 
-            if (this.index.length > 0) {
-                vcolumns = _.filter(vcolumns,
-                    (item) => (
-                        !this.index[0].child_columns.includes(item)
-                    )
-                );
+            if (this.show_index === false) {
+                headers = _.filter(headers, (item) => (item.value !== "index"));
             }
-            return vcolumns;
+            return headers;
         }
     }
 </script>
