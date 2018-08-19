@@ -1,144 +1,105 @@
 <template>
     <v-data-table
-        :headers="columns"
-        :items="rows"
+        :headers="vcolumns"
+        :items="vdata"
         hide-actions
+        item-key="index"
         class="elevation-1"
     >
-        <template slot="items" slot-scope="child">
-            <td v-for="col in columns" :key="col.id"
-                class="text-xs-right">{{ child.item[col.value] }}
-            </td>
+        <template slot="items" slot-scope="props">
+            <tr @click="props.expanded = !props.expanded">
+                <td v-for="col in vcolumns" :key="col.index"
+                    class="text-xs-right">{{ render_cell(props.item[col.value], col.value) }}
+                </td>
+            </tr>
+        </template>
+        <template v-if="index === undefined" slot="expand" slot-scope="props">
+            <v-card flat>
+                <v-card-text>Peek-a-boo!</v-card-text>
+            </v-card>
         </template>
     </v-data-table>
 </template>
 
 <script lang="ts">
     import { Component, Prop, Vue } from "vue-property-decorator";
+    import * as _ from "lodash";
+
+    interface IHeader {
+        text: string;
+        value: string;
+        align: string; // "left", "center", "right"
+        sortable: boolean;
+        class: string[];
+        width?: number;
+        index?: number;
+    }
+
+    interface ILevel {
+        group: string;
+        columns: string[];
+    }
+
+    interface IRow {
+        index: number;
+    }
 
     @Component
     export default class TableVu extends Vue {
+        @Prop()
+        public data: object[];
 
+        @Prop()
+        public columns: string[];
 
-        public columns = [
-            {
-                text: "id",
-                value: "id"
-            },
-            {
-                text: "dessert",
-                align: "left",
-                sortable: false,
-                value: "name"
-            },
-            { text: "calories", value: "calories" },
-            { text: "fat", value: "fat" },
-            { text: "carbs", value: "carbs" },
-            { text: "protein", value: "protein" },
-            { text: "iron", value: "iron" }
-        ];
+        @Prop()
+        public index: ILevel[];
 
-        public rows = [
-            {
-                id: 0,
-                value: false,
-                name: "Frozen Yogurt",
-                calories: 159,
-                fat: 6.0,
-                carbs: 24,
-                protein: 4.0,
-                iron: "1%"
-            },
-            {
-                id: 1,
-                value: false,
-                name: "Ice cream sandwich",
-                calories: 237,
-                fat: 9.0,
-                carbs: 37,
-                protein: 4.3,
-                iron: "1%"
-            },
-            {
-                id: 2,
-                value: false,
-                name: "Eclair",
-                calories: 262,
-                fat: 16.0,
-                carbs: 23,
-                protein: 6.0,
-                iron: "7%"
-            },
-            {
-                id: 3,
-                value: false,
-                name: "Cupcake",
-                calories: 305,
-                fat: 3.7,
-                carbs: 67,
-                protein: 4.3,
-                iron: "8%"
-            },
-            {
-                id: 4,
-                value: false,
-                name: "Gingerbread",
-                calories: 356,
-                fat: 16.0,
-                carbs: 49,
-                protein: 3.9,
-                iron: "16%"
-            },
-            {
-                id: 5,
-                value: false,
-                name: "Jelly bean",
-                calories: 375,
-                fat: 0.0,
-                carbs: 94,
-                protein: 0.0,
-                iron: "0%"
-            },
-            {
-                id: 6,
-                value: false,
-                name: "Lollipop",
-                calories: 392,
-                fat: 0.2,
-                carbs: 98,
-                protein: 0,
-                iron: "2%"
-            },
-            {
-                id: 7,
-                value: false,
-                name: "Honeycomb",
-                calories: 408,
-                fat: 3.2,
-                carbs: 87,
-                protein: 6.5,
-                iron: "45%"
-            },
-            {
-                id: 8,
-                value: false,
-                name: "Donut",
-                calories: 452,
-                fat: 25.0,
-                carbs: 51,
-                protein: 4.9,
-                iron: "22%"
-            },
-            {
-                id: 9,
-                value: false,
-                name: "KitKat",
-                calories: 518,
-                fat: 26.0,
-                carbs: 65,
-                protein: 7,
-                iron: "6%"
+        @Prop({default: false})
+        public show_index: boolean;
+
+        public get shape(): number[] {
+            return [this.columns.length, this.data.length];
+        }
+
+        public render_cell(value: any, widget: string) {
+            return `value = ${value}, widget = ${widget}`;
+        }
+
+        public get vdata(): IRow[] {
+            const data = [];
+            for(let i in this.data) {
+                const row = this.data[i];
+                row["index"] = i;
+                data.push(row);
             }
-        ];
+            return data;
+        }
+
+        public get vcolumns() {
+            let vcolumns: IHeader[] = [];
+            if (this.show_index) {
+                vcolumns.push({
+                    text: "index",
+                    value: "index",
+                    align: "left",
+                    sortable: true,
+                    class: ["index-column"],
+                });
+            }
+            let i: number = 0;
+            for (const col of this.columns) {
+                vcolumns.push({
+                    text: col,
+                    value: col,
+                    align: "left",
+                    sortable: true,
+                    class: [col + "-column"],
+                    // width: "100%",
+                    index: i++,
+                });
+            }
+            return vcolumns;
+        }
     }
 </script>
