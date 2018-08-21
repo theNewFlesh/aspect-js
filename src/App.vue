@@ -2,8 +2,7 @@
     <v-app dark id="app">
         <Table
             :data="data"
-            :columns="columns"
-            :groups="groups"
+
             :hide_parent_headers="hide_parent_headers"
             :hide_child_headers="hide_child_headers"
         />

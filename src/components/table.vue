@@ -74,6 +74,10 @@
         public _child_data: object;
 
         public created() {
+            if (this.columns === undefined) {
+                this.columns = this._generate_columns();
+            }
+
             if (this.groups.length > 0) {
                 const col = this.groups[0];
                 const group = this.group_by(col);
@@ -94,7 +98,17 @@
             }
         }
 
+        public _generate_columns(): string[][] {
+            let cols: any = _.map(this.data, (row) => (Object.keys(row)));
+            cols = _.reduce(cols, (a, b) => (_.concat(a, b)));
+            cols = _.uniq(cols);
+            return [ cols ];
+        }
+
         public get groups(): string[] {
+            if (this.columns === undefined) {
+                return [];
+            }
             return _.map(this.columns, (col) => (col[0]));
         }
 
