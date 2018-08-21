@@ -226,7 +226,7 @@
 
     .application .theme--dark.v-table tbody tr:hover:not(.v-datatable__expand-row), .theme--dark .v-table tbody tr:hover:not(.v-datatable__expand-row) {
         // background-color: #5D5D7A;
-        background-color: rgba(95, 150, 222, 0.5);
+        background-color: rgba(95, 150, 222, 0.25);
         // background-color: rgba(0, 221, 255, 0.125);
     }
 </style>

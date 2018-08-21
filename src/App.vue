@@ -79,7 +79,7 @@ const data = _.map(rows, (row) => (_.zipObject(cols, row)) );
 
 @Component( {components: { Table } })
 export default class App extends Vue {
-    public columns = ccols;
+    public columns = ecols;
     public data = data;
     public hide_parent_headers = false;
     public hide_child_headers = false;
