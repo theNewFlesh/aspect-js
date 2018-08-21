@@ -85,3 +85,9 @@ export default class App extends Vue {
     public hide_child_headers = false;
 }
 </script>
+
+<style lang="less">
+    .application.theme--dark {
+        background-color: #343434;
+    }
+</style>

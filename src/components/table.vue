@@ -209,4 +209,24 @@
         padding-right: 0px;
         background-color: #343434;
     }
+
+    #aspect-table thead tr th,
+    #aspect-table table.v-table tbody td,
+    #aspect-table table.v-table tbody th,
+    #aspect-table thead,
+    #aspect-table thead tr {
+        border-left: 0px;
+        border-bottom: 0px;
+    }
+
+    .application .theme--dark.v-table tbody tr:not(:last-child),
+    .theme--dark .v-table tbody tr:not(:last-child) {
+        border-color: #343434;
+    }
+
+    .application .theme--dark.v-table tbody tr:hover:not(.v-datatable__expand-row), .theme--dark .v-table tbody tr:hover:not(.v-datatable__expand-row) {
+        // background-color: #5D5D7A;
+        background-color: rgba(95, 150, 222, 0.5);
+        // background-color: rgba(0, 221, 255, 0.125);
+    }
 </style>
