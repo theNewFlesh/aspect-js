@@ -1,11 +1,13 @@
 <template>
     <v-textarea
-          v-model="value"
-          :color="options.color"
-          :background-color="options.background_color"
-          :placeholder="options.placeholder"
-          autogrow="true"
-          box="true"
+        class="aspect-testarea"
+        v-model="value"
+        :color="options.color"
+        :background-color="options.background_color"
+        :placeholder="options.placeholder"
+        hide-details="true"
+        autogrow="true"
+        box="true"
     />
 </template>
 
@@ -29,4 +31,7 @@
 </script>
 
 <style scoped lang="less">
+    .aspect-testarea {
+        border: 1px solid #A4A4A4;
+    }
 </style>

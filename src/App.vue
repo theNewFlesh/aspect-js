@@ -1,6 +1,12 @@
 <template>
     <v-app dark id="app">
-        <Table :data="data" :columns="columns" :groups="groups" />
+        <Table
+            :data="data"
+            :columns="columns"
+            :groups="groups"
+            :hide_parent_headers="hide_parent_headers"
+            :hide_child_headers="hide_child_headers"
+        />
     </v-app>
 </template>
 
@@ -13,9 +19,9 @@ import * as _ from "lodash";
 import Vuetify from "vuetify";
 Vue.use(Vuetify, {
     theme: {
-        primary: "#F4F4F4",
-        secondary: "#242424",
-        accent: "#A4A4A4",
+        primary: "#A4A4A4",
+        secondary: "#F4F4F4",
+        accent: "#7EC4CF",
         error: "#F77E70",
         info: "#5F95DE",
         success: "#8BD155",
@@ -48,23 +54,30 @@ const rows = [
     ["scene-002",  "graph-001", "node-002", "func2", "fuz", 55, 55, options, display, "slider",        "present"],
 ];
 
-const columns = [
-    ["scene-id", "graph-id", "node-id", "node-name"],
-    ["inport-name", "value", "default_value", "options", "widget", "lock"]
-];
-
 const cols = [
     "scene-id", "graph-id", "node-id", "node-name",
     "inport-name", "value", "default_value", "options", "display", "widget", "lock"
 ]
 
+const ecols = [
+    ["scene-id", "graph-id", "node-id", "node-name"],
+    ["inport-name", "value", "default_value", "options", "widget", "lock"]
+];
+
+const ccols = [
+    ["node-name"],
+    ["inport-name", "value"]
+];
+
 const data = _.map(rows, (row) => (_.zipObject(cols, row)) );
 
 @Component( {components: { Table } })
 export default class App extends Vue {
-    public columns = columns;
+    public columns = ecols;
     public rows = rows;
     public data = data;
-    public groups = ["node-id"];
+    public groups = ["node-name"];
+    public hide_parent_headers = false;
+    public hide_child_headers = true;
 }
 </script>

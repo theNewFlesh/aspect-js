@@ -4,14 +4,17 @@
         id="aspect-table"
         :headers="headers"
         :items="_rows"
-        :hide-headers="options.hide_headers"
+        :hide-headers="hide_parent_headers"
         item-key="__index"
         hide-actions
     >
         <!-- for col in row -->
         <template slot="items" slot-scope="row">
             <tr @click="row.expanded = !row.expanded" >
-                <td v-for="header in headers" :key="header.__index" :class="header.value + '-cell'" id="cell" >
+                <td v-for="header in headers"
+                    :key="header.__index"
+                    :class="header.value + '-cell'" id="cell"
+                >
                     <Cell
                         :column="header.value"
                         :row="row.item"
@@ -20,13 +23,19 @@
             </tr>
         </template>
         <!-- child data row -->
-        <template v-if="_child_data.get(row.item[_group_column]).length > 0" slot="expand" slot-scope="row" >
-            <Table
-                :data="_child_data.get(row.item[_group_column])"
-                :groups="groups.slice(1)"
-                :columns="columns.slice(1)"
-                options="{hide_headers: true}"
-            />
+        <template v-if="_child_data.get(row.item[_group_column]).length > 0"
+            slot="expand" slot-scope="row"
+        >
+            <td id="indent"></td>
+            <td id="child-table-container">
+                <Table
+                    :data="_child_data.get(row.item[_group_column])"
+                    :groups="groups.slice(1)"
+                    :columns="columns.slice(1)"
+                    :hide_parent_headers="hide_child_headers"
+                    :hide_child_headers="hide_child_headers"
+                />
+            </td>
         </template>
     </v-data-table>
 </template>
@@ -34,7 +43,7 @@
 <script lang="ts">
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Cell from "./cell.vue";
-    import { OrderedDict, omit } from "../tools";
+    import { OrderedDict, omit, to_kebab_case } from "../tools";
     import * as _ from "lodash";
 
     interface IHeader {
@@ -58,9 +67,11 @@
         @Prop({default: []})
         public groups: string[];
 
-        public options: object = {
-            hide_headers: false,
-        }
+        @Prop({default: true})
+        public hide_parent_headers: boolean;
+
+        @Prop({default: true})
+        public hide_child_headers: boolean;
 
         public _group_column: string;
         public _rows: object[];
@@ -113,7 +124,7 @@
             let i: number = 0;
             for (const col of this.columns[0]) {
                 headers.push({
-                    text: col,
+                    text: to_kebab_case(col),
                     value: col,
                     align: "left",
                     sortable: true,
@@ -130,6 +141,7 @@
 </script>
 
 <style lang="less">
+    #aspect-table thead tr th,
     #aspect-table table.v-table tbody td,
     #aspect-table table.v-table tbody th,
     #aspect-table thead, #aspect-table thead tr {
@@ -137,15 +149,13 @@
         line-height: unset;
         font-size: 12px;
         font-weight: 1;
+        border-left: 1px solid #343434;
+        border-bottom: 1px solid #343434;
+        padding: 8px 8px 8px 8px;
     }
 
     .application .theme--dark.v-table, .theme--dark .v-table {
         background-color: #242424;
-    }
-
-    #aspect-table thead tr th {
-        border-left: 1px solid #444444;
-        padding: 8px 8px 8px 8px;
     }
 
     #cell {
@@ -156,6 +166,17 @@
 
     .value-cell , .default_value-cell {
         min-width: 300px;
-        border-left: 1px solid #444444;
+        border-right: 1px solid #343434;
+    }
+
+    #aspect-table #child-table-container {
+        padding: 0px 0px 0px 0px;
+        width: 100%;
+    }
+
+    #aspect-table #indent {
+        padding: 0px 0px 0px 30px;
+        border-right: 0px;
+        background-color: #343434;
     }
 </style>

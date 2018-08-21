@@ -76,3 +76,7 @@ export function omit(items, trash) {
     }
     return output;
 }
+
+export function to_kebab_case(item: string) {
+    return item.replace(/_/g, "-")
+}
