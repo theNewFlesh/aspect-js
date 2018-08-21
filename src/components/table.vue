@@ -1,16 +1,17 @@
 <template>
     <!-- for row in rows -->
     <v-data-table
+        id="aspect-table"
         :headers="headers"
         :items="_rows"
-        hide-actions
+        :hide-headers="options.hide_headers"
         item-key="__index"
-        class="elevation-1"
+        hide-actions
     >
         <!-- for col in row -->
         <template slot="items" slot-scope="row">
             <tr @click="row.expanded = !row.expanded" >
-                <td v-for="header in headers" :key="header.__index">
+                <td v-for="header in headers" :key="header.__index" :class="header.value + '-cell'" id="cell" >
                     <Cell
                         :column="header.value"
                         :row="row.item"
@@ -20,13 +21,12 @@
         </template>
         <!-- child data row -->
         <template v-if="_child_data.get(row.item[_group_column]).length > 0" slot="expand" slot-scope="row" >
-            <td>
-                <Table
-                    :data="_child_data.get(row.item[_group_column])"
-                    :groups="groups.slice(1)"
-                    :columns="columns"
-                />
-            </td>
+            <Table
+                :data="_child_data.get(row.item[_group_column])"
+                :groups="groups.slice(1)"
+                :columns="columns.slice(1)"
+                options="{hide_headers: true}"
+            />
         </template>
     </v-data-table>
 </template>
@@ -47,22 +47,6 @@
         index: number;
     }
 
-    interface ILevel {
-        parent_column: string;
-        child_columns: string[];
-    }
-
-    interface IRow {
-        index: number;
-    }
-
-    interface IGroupRow {
-        group: string;
-        index: any;
-        parent: IRow;
-        child: IRow[];
-    }
-
     @Component({components: { Cell }})
     export default class Table extends Vue {
         @Prop()
@@ -73,6 +57,10 @@
 
         @Prop({default: []})
         public groups: string[];
+
+        public options: object = {
+            hide_headers: false,
+        }
 
         public _group_column: string;
         public _rows: object[];
@@ -123,7 +111,7 @@
         public get headers(): IHeader[] {
             let headers = [];
             let i: number = 0;
-            for (const col of this.columns) {
+            for (const col of this.columns[0]) {
                 headers.push({
                     text: col,
                     value: col,
@@ -140,3 +128,34 @@
         }
     }
 </script>
+
+<style lang="less">
+    #aspect-table table.v-table tbody td,
+    #aspect-table table.v-table tbody th,
+    #aspect-table thead, #aspect-table thead tr {
+        height: unset;
+        line-height: unset;
+        font-size: 12px;
+        font-weight: 1;
+    }
+
+    .application .theme--dark.v-table, .theme--dark .v-table {
+        background-color: #242424;
+    }
+
+    #aspect-table thead tr th {
+        border-left: 1px solid #444444;
+        padding: 8px 8px 8px 8px;
+    }
+
+    #cell {
+        padding: 8px 8px 8px 8px;
+        height: unset;
+        line-height: unset;
+    }
+
+    .value-cell , .default_value-cell {
+        min-width: 300px;
+        border-left: 1px solid #444444;
+    }
+</style>

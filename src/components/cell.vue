@@ -1,10 +1,12 @@
 <template>
-    <div class="widget-container" v-if="widget === 'slider'">
+    <v-flex class="widget-container" v-if="widget === 'slider'">
         <Slider class="widget"
             :value="value"
             :default_value="default_value"
+            :options="options"
+            :display="display"
         />
-    </div>
+    </v-flex>
     <!-- <div class="widget-container" v-else-if="widget === 'float_input'">
         <FloatInput class="widget"
             :value="value"
@@ -23,12 +25,14 @@
             :default_value="default_value"
         />
     </div> -->
-    <div class="widget-container" v-else-if="widget === 'textarea'">
+    <v-flex class="widget-container" v-else-if="widget === 'textarea'">
         <TextArea class="widget"
             :value="value"
             :default_value="default_value"
+            :options="options"
+            :display="display"
         />
-    </div>
+    </v-flex>
     <!-- <div class="widget-container" v-else-if="widget === 'lock_options'">
         <DropDown class="widget"
             :value="value"
@@ -65,12 +69,16 @@
             return this.row.default_value;
         }
 
-        public get options(): any {
+        public get options(): object {
             return this.row.options;
         }
 
-        public get lock(): any {
+        public get lock(): string {
             return this.row.lock;
+        }
+
+        public get display(): object {
+            return this.row.display;
         }
 
         public get widget(): string {

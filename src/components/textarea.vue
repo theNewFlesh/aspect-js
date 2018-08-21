@@ -1,7 +1,12 @@
 <template>
-    <div class="textarea-container">
-        <textarea class="textarea" v-model="value"></textarea>
-    </div>
+    <v-textarea
+          v-model="value"
+          :color="options.color"
+          :background-color="options.background_color"
+          :placeholder="options.placeholder"
+          autogrow="true"
+          box="true"
+    />
 </template>
 
 <script lang="ts">
@@ -12,14 +17,16 @@
     export default class TextArea extends Vue {
         public value;
         public default_value;
+        public options: object = {
+            color: "#FF0000",
+            background_color: "#FF0000",
+            plaveholder: "text,"
+        };
+
+        public display: object = {
+        }
     }
 </script>
 
 <style scoped lang="less">
-    .textarea-container {
-        display: flex;
-    }
-    .textarea {
-        flex-grow: 10;
-    }
 </style>
