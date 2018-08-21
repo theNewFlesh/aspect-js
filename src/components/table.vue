@@ -30,7 +30,6 @@
             <td id="child-table-container">
                 <Table
                     :data="_child_data.get(row.item[_group_column])"
-                    :groups="groups.slice(1)"
                     :columns="columns.slice(1)"
                     :hide_parent_headers="hide_child_headers"
                     :hide_child_headers="hide_child_headers"
@@ -64,9 +63,6 @@
         @Prop()
         public columns: string[][];
 
-        @Prop({default: []})
-        public groups: string[];
-
         @Prop({default: true})
         public hide_parent_headers: boolean;
 
@@ -76,19 +72,6 @@
         public _group_column: string;
         public _rows: object[];
         public _child_data: object;
-
-        public log(item) {
-            console.log(item);
-            return item;
-        }
-
-        public get stuff() {
-            return {
-                rows: this._rows,
-                child_data: this._child_data,
-                group_column: this._group_column
-            };
-        }
 
         public created() {
             if (this.groups.length > 0) {
@@ -109,6 +92,10 @@
             } else {
                 this._rows = this.data;
             }
+        }
+
+        public get groups(): string[] {
+            return _.map(this.columns, (col) => (col[0]));
         }
 
         public group_by(column: string): OrderedDict {

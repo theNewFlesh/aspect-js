@@ -59,8 +59,14 @@ const cols = [
     "inport-name", "value", "default_value", "options", "display", "widget", "lock"
 ]
 
+// const ecols = [
+//     ["scene-id", "graph-id", "node-id", "node-name"],
+//     ["inport-name", "value", "default_value", "options", "widget", "lock"]
+// ];
+
 const ecols = [
-    ["scene-id", "graph-id", "node-id", "node-name"],
+    ["scene-id"],
+    ["graph-id", "node-id", "node-name"],
     ["inport-name", "value", "default_value", "options", "widget", "lock"]
 ];
 
@@ -73,10 +79,9 @@ const data = _.map(rows, (row) => (_.zipObject(cols, row)) );
 
 @Component( {components: { Table } })
 export default class App extends Vue {
-    public columns = ecols;
+    public columns = ccols;
     public rows = rows;
     public data = data;
-    public groups = ["node-name"];
     public hide_parent_headers = false;
     public hide_child_headers = true;
 }
