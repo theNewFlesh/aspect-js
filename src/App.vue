@@ -2,7 +2,7 @@
     <v-app dark id="app">
         <Table
             :data="data"
-
+            :columns="columns"
             :hide_parent_headers="hide_parent_headers"
             :hide_child_headers="hide_child_headers"
         />
@@ -65,7 +65,8 @@ const cols = [
 
 const ecols = [
     ["scene-id"],
-    ["graph-id", "node-id", "node-name"],
+    ["graph-id"],
+    ["node-id", "node-name"],
     ["inport-name", "value", "default_value", "options", "widget", "lock"]
 ];
 
@@ -79,9 +80,8 @@ const data = _.map(rows, (row) => (_.zipObject(cols, row)) );
 @Component( {components: { Table } })
 export default class App extends Vue {
     public columns = ccols;
-    public rows = rows;
     public data = data;
     public hide_parent_headers = false;
-    public hide_child_headers = true;
+    public hide_child_headers = false;
 }
 </script>

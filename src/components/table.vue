@@ -180,4 +180,33 @@
         border-right: 0px;
         background-color: #343434;
     }
+
+    .v-textarea.v-text-field--enclosed .v-text-field__slot textarea {
+        margin-top: 0px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+
+    .v-text-field.v-text-field--enclosed .v-input__slot,
+    .v-text-field.v-text-field--enclosed .v-text-field__details {
+        padding-left: 4px;
+    }
+
+    .v-text-field>.v-input__control>.v-input__slot:before,
+    .v-text-field>.v-input__control>.v-input__slot:after {
+        display: none;
+    }
+
+    .v-text-field.v-text-field--enclosed .v-input__append-inner,
+    .v-text-field.v-text-field--enclosed .v-input__append-outer,
+    .v-text-field.v-text-field--enclosed .v-input__prepend-inner,
+    .v-text-field.v-text-field--enclosed .v-input__prepend-outer {
+        margin-top: 0px;
+    }
+
+    .v-text-field.v-text-field--enclosed .v-input__slot,
+    .v-text-field.v-text-field--enclosed .v-text-field__details {
+        padding-right: 0px;
+        background-color: #343434;
+    }
 </style>

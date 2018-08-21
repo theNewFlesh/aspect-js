@@ -8,6 +8,7 @@
         hide-details="true"
         autogrow="true"
         box="true"
+        clearable="true"
     />
 </template>
 
