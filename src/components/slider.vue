@@ -1,7 +1,6 @@
 <template>
     <v-slider
-        class="widget"
-        ref="slider"
+        class="aspect-slider"
         :v-model="value"
         :min="options.min"
         :max="options.max"
