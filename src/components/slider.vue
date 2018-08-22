@@ -20,6 +20,7 @@
 <script lang="ts">
     import Vue from "vue";
     import { Component, Prop } from "vue-property-decorator";
+    import { add_style_attribute } from "../tools";
     import * as _ from "lodash";
 
     @Component
@@ -38,6 +39,10 @@
 
         public display: object = {
             color: "#5F95DE"
+        }
+
+        public mounted() {
+            add_style_attribute(".v-messages", "display", "none");
         }
 
         public get tick_labels(): number[] {
@@ -66,5 +71,9 @@
 
     .aspect-textarea .v-input__control .v-input__slot {
         margin-bottom: 0px;
+    }
+
+    #aspect-slider-messages {
+        display: none;
     }
 </style>

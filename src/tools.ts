@@ -81,12 +81,26 @@ export function to_kebab_case(item: string) {
     return item.replace(/_/g, "-")
 }
 
+export function add_attribute(
+    selector: string,
+    attribute: string,
+    value: any
+) {
+    const elems = document.querySelectorAll(selector);
+    for (const elem of elems) {
+        elem.setAttribute(attribute, value);
+    }
+}
+
 export function add_style_attribute(
     selector: string, attribute: string, value: any
 ) {
     const elems = document.querySelectorAll(selector);
-    for (const elem: HTMLDivElement in elems) {
-        let style: string = elem.getAttribute("style");
+    for (const elem of elems) {
+        let style = elem.getAttribute("style");
+        if (style === null) {
+            style = "";
+        }
         style = style + ` ${attribute}: ${value};`;
         elem.setAttribute("style", style);
     }

@@ -27,11 +27,6 @@
 
         public display: object = {
         }
-
-        public mounted() {
-            const elem = document.querySelector(".v-messages");
-            elem.setAttribute("style", "display: none");
-        }
     }
 </script>
 
