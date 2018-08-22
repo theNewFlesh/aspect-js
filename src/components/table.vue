@@ -26,13 +26,14 @@
         <template v-if="_child_data.get(row.item[_group_column]).length > 0"
             slot="expand" slot-scope="row"
         >
-            <td id="indent"></td>
+            <td id="indent" v-if="indent"></td>
             <td id="child-table-container">
                 <Table
                     :data="_child_data.get(row.item[_group_column])"
                     :columns="columns.slice(1)"
                     :hide_parent_headers="hide_child_headers"
                     :hide_child_headers="hide_child_headers"
+                    :indent="indent"
                 />
             </td>
         </template>
@@ -68,6 +69,9 @@
 
         @Prop({default: true})
         public hide_child_headers: boolean;
+
+        @Prop({default: true})
+        public indent: boolean;
 
         public _group_column: string;
         public _rows: object[];

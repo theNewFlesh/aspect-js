@@ -5,6 +5,7 @@
             :columns="columns"
             :hide_parent_headers="hide_parent_headers"
             :hide_child_headers="hide_child_headers"
+            :indent="indent"
         />
     </v-app>
 </template>
@@ -83,6 +84,7 @@ export default class App extends Vue {
     public data = data;
     public hide_parent_headers = false;
     public hide_child_headers = false;
+    public indent = false;
 }
 </script>
 
