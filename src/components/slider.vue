@@ -6,6 +6,7 @@
         :max="options.max"
         :step="options.step"
         :tick-labels="tick_labels"
+        height="35px"
         color="accent"
         thumb-color="accent"
         thumb-size="18px"
@@ -43,6 +44,9 @@
 
         public mounted() {
             add_style_attribute(".v-messages", "display", "none");
+            add_style_attribute(
+                ".v-slider__thumb-label__container", "transform", "translateY(6px)"
+            );
         }
 
         public get tick_labels(): number[] {
@@ -65,15 +69,7 @@
         font-size: 12px;
     }
 
-    .v-input__control {
-        height: 30px;
-    }
-
     .aspect-textarea .v-input__control .v-input__slot {
         margin-bottom: 0px;
-    }
-
-    #aspect-slider-messages {
-        display: none;
     }
 </style>
