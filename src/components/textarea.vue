@@ -3,10 +3,11 @@
         class="aspect-testarea"
         v-model="value"
         :color="options.color"
-        :background-color="options.background_color"
-        :placeholder="options.placeholder"
+        background-color="'#343434'"
+        placeholder="placeholder text"
+        row-height="0.5"
         hide-details="true"
-        autogrow="true"
+        auto-grow="true"
         box="true"
         clearable="true"
     />
@@ -22,17 +23,25 @@
         public default_value;
         public options: object = {
             color: "#FF0000",
-            background_color: "#FF0000",
-            plaveholder: "text,"
         };
 
         public display: object = {
+        }
+
+        public mounted() {
+            const elem = document.querySelector(".v-messages");
+            elem.setAttribute("style", "display: none");
         }
     }
 </script>
 
 <style scoped lang="less">
-    .aspect-testarea {
-        border: 1px solid #A4A4A4;
+    .aspect-testarea textarea {
+        font-size: 12px;
+        padding-bottom: 2px;
+    }
+
+    .aspect-testarea .v-input__slot {
+        min-height: 20px;
     }
 </style>

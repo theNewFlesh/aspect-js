@@ -32,7 +32,8 @@ Vue.use(Vuetify, {
 const options = {
     min: 0,
     max: 100,
-    step: 10,
+    step: 1,
+    tick_step: 10,
 }
 
 const display = {
@@ -49,8 +50,8 @@ const display = {
 const rows = [
     ["scene-001",  "graph-001", "node-001", "func1", "foo", 50, 50, options, display, "slider",        "absent"],
     ["scene-001",  "graph-001", "node-001", "func1", "bar", 52, 52, options, display, "float_input",   "present"],
-    ["scene-002",  "graph-001", "node-002", "func2", "baz", 53, 53, options, display, "multidropdown", "override"],
-    ["scene-002",  "graph-001", "node-002", "func2", "boo", 54, 54, options, display, "textarea",      "unlocked"],
+    ["scene-002",  "graph-001", "node-001", "func1", "baz", 53, 53, options, display, "multidropdown", "override"],
+    ["scene-002",  "graph-001", "node-001", "func1", "boo", 54, 54, options, display, "textarea",      "unlocked"],
     ["scene-002",  "graph-001", "node-002", "func2", "fuz", 55, 55, options, display, "slider",        "present"],
 ];
 
@@ -59,17 +60,17 @@ const cols = [
     "inport-name", "value", "default_value", "options", "display", "widget", "lock"
 ]
 
-// const ecols = [
-//     ["scene-id", "graph-id", "node-id", "node-name"],
-//     ["inport-name", "value", "default_value", "options", "widget", "lock"]
-// ];
-
 const ecols = [
-    ["scene-id"],
-    ["graph-id"],
-    ["node-id", "node-name"],
+    ["scene-id", "graph-id", "node-id", "node-name"],
     ["inport-name", "value", "default_value", "options", "widget", "lock"]
 ];
+
+// const ecols = [
+//     ["scene-id"],
+//     ["graph-id"],
+//     ["node-id", "node-name"],
+//     ["inport-name", "value", "default_value", "options", "widget", "lock"]
+// ];
 
 const ccols = [
     ["node-name"],
@@ -82,13 +83,17 @@ const data = _.map(rows, (row) => (_.zipObject(cols, row)) );
 export default class App extends Vue {
     public columns = ccols;
     public data = data;
-    public hide_parent_headers = false;
-    public hide_child_headers = false;
+    public hide_parent_headers = true;
+    public hide_child_headers = true;
     public indent = true;
 }
 </script>
 
 <style lang="less">
+    * {
+        margin: 0px 0px 0px 0px !important;
+    }
+
     .application.theme--dark {
         background-color: #343434;
     }

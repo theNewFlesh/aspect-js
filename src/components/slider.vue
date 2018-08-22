@@ -6,11 +6,12 @@
         :max="options.max"
         :step="options.step"
         :tick-labels="tick_labels"
-        thumb-color="accent"
         color="accent"
+        thumb-color="accent"
         thumb-size="18px"
         thumb-label="true"
         ticks="true"
+        tick-size="1"
         always-dirty
         dark
     />
@@ -27,28 +28,43 @@
 
         public default_value: number;
 
-        public options = {
+        @Prop({default: {
             min: 0,
             max: 100,
-            step: 10,
-        };
+            step: 1,
+            tick_step: 10,
+        }})
+        public options: object;
 
         public display: object = {
             color: "#5F95DE"
         }
 
-        public get tick_size(): number {
-            const delta = this.options.max - this.options.min;
-            return delta / this.options.step;
-        }
-
         public get tick_labels(): number[] {
-            return _.range(
-                this.options.min, this.options.max, this.options.step
+            let ticks: any[] = _.range(
+                this.options.min, this.options.max + 1, this.options.step
             );
+            ticks = _.map(ticks, (x) => {
+                if (x % this.options.tick_step === 0) {
+                    return x;
+                }
+                return "";
+            });
+            return ticks;
         }
     }
 </script>
 
 <style scoped lang="less">
+    .v-input {
+        font-size: 12px;
+    }
+
+    .v-input__control {
+        height: 30px;
+    }
+
+    .aspect-textarea .v-input__control .v-input__slot {
+        margin-bottom: 0px;
+    }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <!-- for row in rows -->
     <v-data-table
-        id="aspect-table"
+        class="aspect-table"
         :headers="headers"
         :items="_rows"
         :hide-headers="hide_parent_headers"
@@ -146,17 +146,17 @@
 </script>
 
 <style lang="less">
-    #aspect-table thead tr th,
-    #aspect-table table.v-table tbody td,
-    #aspect-table table.v-table tbody th,
-    #aspect-table thead, #aspect-table thead tr {
+    .aspect-table thead tr th,
+    .aspect-table table.v-table tbody td,
+    .aspect-table table.v-table tbody th,
+    .aspect-table thead, .aspect-table thead tr {
         height: unset;
         line-height: unset;
         font-size: 12px;
         font-weight: 1;
         border-left: 1px solid #343434;
-        border-bottom: 1px solid #343434;
-        padding: 8px 8px 8px 8px;
+        // border-top: 2px solid #343434;
+        padding: 6px 6px 6px 6px;
     }
 
     .application .theme--dark.v-table, .theme--dark .v-table {
@@ -164,9 +164,8 @@
     }
 
     #cell {
-        padding: 8px 8px 8px 8px;
         height: unset;
-        line-height: unset;
+        line-height: 0.6;
     }
 
     .value-cell , .default_value-cell {
@@ -174,14 +173,17 @@
         border-right: 1px solid #343434;
     }
 
-    #aspect-table #child-table-container {
+    .aspect-table #child-table-container {
         padding: 0px 0px 0px 0px;
         width: 100%;
     }
 
-    #aspect-table #indent {
+    .aspect-table #child-table-container {
+        border-right: 1px solid #343434;
+    }
+
+    .aspect-table #indent {
         padding: 0px 0px 0px 30px;
-        border-right: 0px;
         background-color: #343434;
     }
 
@@ -214,23 +216,12 @@
         background-color: #343434;
     }
 
-    #aspect-table thead tr th,
-    #aspect-table table.v-table tbody td,
-    #aspect-table table.v-table tbody th,
-    #aspect-table thead,
-    #aspect-table thead tr {
-        border-left: 0px;
-        border-bottom: 0px;
-    }
-
     .application .theme--dark.v-table tbody tr:not(:last-child),
     .theme--dark .v-table tbody tr:not(:last-child) {
         border-color: #343434;
     }
 
     .application .theme--dark.v-table tbody tr:hover:not(.v-datatable__expand-row), .theme--dark .v-table tbody tr:hover:not(.v-datatable__expand-row) {
-        // background-color: #5D5D7A;
-        background-color: rgba(95, 150, 222, 0.25);
-        // background-color: rgba(0, 221, 255, 0.125);
+        background-color: rgba(126, 196, 207, 0.25);
     }
 </style>
