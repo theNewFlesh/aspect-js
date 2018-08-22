@@ -1,5 +1,5 @@
 <template>
-    <v-app dark id="app">
+    <v-app dark id="app" class="app" >
         <Table
             :data="data"
             :columns="columns"
@@ -36,14 +36,14 @@ const options = {
 }
 
 const display = {
-    height: "20px",
+    // height: "20px",
     color: "#5F95DE",
-    background_color: "#FF0000",
-    thumb_color: "#FF0000",
-    thumb_size: "20px",
-    track_color: "#FF0000",
-    ticks: true,
-    placeholder: "text",
+    // background_color: "#FF0000",
+    // thumb_color: "#FF0000",
+    // thumb_size: "20px",
+    // track_color: "#FF0000",
+    // ticks: true,
+    // placeholder: "text",
 }
 
 const rows = [
@@ -80,11 +80,11 @@ const data = _.map(rows, (row) => (_.zipObject(cols, row)) );
 
 @Component( {components: { Table } })
 export default class App extends Vue {
-    public columns = ecols;
+    public columns = ccols;
     public data = data;
     public hide_parent_headers = false;
     public hide_child_headers = false;
-    public indent = false;
+    public indent = true;
 }
 </script>
 

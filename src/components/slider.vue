@@ -1,20 +1,19 @@
 <template>
     <v-slider
         class="widget"
+        ref="slider"
         :v-model="value"
         :min="options.min"
         :max="options.max"
         :step="options.step"
-        :color="display.color"
-        :background-color="display.background_color"
-        :thumb-color="display.thumb_color"
-        :track_color="display.track_color"
-        :ticks="display.ticks"
         :tick-labels="tick_labels"
-        thumb-size="10"
-        range="true"
-        thumb-label="always"
-        always_dirty="true"
+        thumb-color="accent"
+        color="accent"
+        thumb-size="18px"
+        thumb-label="true"
+        ticks="true"
+        always-dirty
+        dark
     />
 </template>
 
@@ -36,12 +35,7 @@
         };
 
         public display: object = {
-            color: "#5F95DE",
-            background_color: "#FF0000",
-            thumb_color: "#FF0000",
-            thumb_size: "20px",
-            track_color: "#FF0000",
-            ticks: true,
+            color: "#5F95DE"
         }
 
         public get tick_size(): number {

@@ -40,7 +40,7 @@
             :options="['present', 'absent', 'unlocked', 'override']"
         />
     </div> -->
-    <div class="widget-container" v-else-if="widget === 'none'">
+    <div class="widget-container" v-else>
         {{ value }}
     </div>
 </template>
