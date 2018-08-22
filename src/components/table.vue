@@ -61,6 +61,9 @@
         @Prop()
         public data: object[];
 
+        @Prop()
+        public columns: string[][];
+
         @Prop({default: true})
         public hide_parent_headers: boolean;
 
@@ -69,8 +72,6 @@
 
         @Prop({default: true})
         public indent: boolean;
-
-        public columns: string[][];
 
         public _group_column: string;
         public _rows: object[];
@@ -227,8 +228,9 @@
         border-color: #343434;
     }
 
-    .application .theme--dark.v-table tbody tr:hover:not(.v-datatable__expand-row),
-    .theme--dark .v-table tbody tr:hover:not(.v-datatable__expand-row) {
-        background-color: rgba(126, 196, 207, 0.25);
+    .application .theme--dark.v-table tbody tr:hover:not(.v-datatable__expand-row), .theme--dark .v-table tbody tr:hover:not(.v-datatable__expand-row) {
+        // background-color: #5D5D7A;
+        background-color: rgba(95, 150, 222, 0.25);
+        // background-color: rgba(0, 221, 255, 0.125);
     }
 </style>
