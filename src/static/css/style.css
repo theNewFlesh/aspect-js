@@ -4233,7 +4233,8 @@ p {
 .theme--dark .v-text-field--solo .v-input__slot,
 .application .theme--dark.v-text-field--solo .v-input__slot {
   border-radius: 2px;
-  background: #424242;
+  /* background: #424242; */
+  background: #343434;
 }
 .theme--dark .v-text-field--solo-inverted.v-text-field--solo .v-input__slot,
 .application .theme--dark.v-text-field--solo-inverted.v-text-field--solo .v-input__slot {
@@ -4668,7 +4669,8 @@ p {
 .v-select__slot {
   align-items: center;
   display: flex;
-  height: 100%;
+  /* height: 100%; */
+  height: 20px;
   width: 100%;
 }
 .v-select:not(.v-text-field--single-line) .v-select__slot > input {

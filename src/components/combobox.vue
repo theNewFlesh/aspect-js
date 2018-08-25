@@ -6,8 +6,8 @@
         :hide-no-data="!search"
         :items="items"
         :search-input.sync="search"
-        hide-selected
         label="search for an option"
+        hide-selected
         multiple
         small-chips
         solo
@@ -195,5 +195,9 @@
     .v-text-field.v-text-field--enclosed .v-text-field__details,
     .v-text-field.v-text-field--enclosed .v-input__slot {
         padding: 0 6px;
+    }
+
+    .v-select__slot {
+        height: 15px !important;
     }
 </style>

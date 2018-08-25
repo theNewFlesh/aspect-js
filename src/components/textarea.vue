@@ -3,7 +3,7 @@
         class="aspect-testarea"
         v-model="value"
         :color="display.color"
-        background-color="'#343434'"
+        background-color="'#242424'"
         placeholder="placeholder text"
         :row-height="0.5"
         :hide-details="true"
