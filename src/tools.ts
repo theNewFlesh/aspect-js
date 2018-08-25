@@ -78,7 +78,8 @@ export function omit(items, trash) {
 }
 
 export function to_kebab_case(item: string) {
-    return item.replace(/_/g, "-")
+    // return item.replace(/_/g, "-")
+    return item.replace(/_/g, " ")
 }
 
 export function add_attribute(

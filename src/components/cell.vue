@@ -1,5 +1,5 @@
 <template>
-    <v-flex class="widget-container" v-if="widget === 'slider'">
+    <v-flex class="widget-container pad" v-if="widget === 'slider'">
         <Slider class="widget"
             :value="value"
             :default_value="default_value"
@@ -7,12 +7,12 @@
             :display="display"
         />
     </v-flex>
-    <!-- <div class="widget-container" v-else-if="widget === 'float_input'">
+    <!-- <v-flex class="widget-container pad" v-else-if="widget === 'float_input'">
         <FloatInput class="widget"
             :value="value"
             :default_value="default_value"
         />
-    </div> -->
+    </v-flex> -->
     <v-flex class="widget-container" v-else-if="widget === 'combobox'">
         <ComboBox class="widget"
             :value="value"
@@ -21,13 +21,13 @@
             :display="display"
         />
     </v-flex>
-    <!-- <div class="widget-container" v-else-if="widget === 'dropdown'">
+    <!-- <v-flex class="widget-container pad" v-else-if="widget === 'dropdown'">
         <DropDown class="widget"
             :value="value"
             :default_value="default_value"
         />
-    </div> -->
-    <!-- <v-flex class="widget-container" v-else-if="widget === 'textarea'">
+    </v-flex> -->
+    <!-- <v-flex class="widget-container pad" v-else-if="widget === 'textarea'">
         <TextArea class="widget"
             :value="value"
             :default_value="default_value"
@@ -35,16 +35,16 @@
             :display="display"
         />
     </v-flex> -->
-    <!-- <div class="widget-container" v-else-if="widget === 'lock_options'">
+    <!-- <v-flex class="widget-container pad" v-else-if="widget === 'lock_options'">
         <DropDown class="widget"
             :value="value"
             :default_value="present"
             :options="['present', 'absent', 'unlocked', 'override']"
         />
-    </div> -->
-    <div class="widget-container" v-else>
+    </v-flex> -->
+    <v-flex class="widget-container pad" v-else>
         {{ value }}
-    </div>
+    </v-flex>
 </template>
 
 <script lang="ts">
@@ -105,7 +105,7 @@
 </script>
 
 <style lang="less">
-    .widget-container, th {
+    .widget-container.pad, th {
         padding: 2px 6px 2px 6px;
     }
 </style>

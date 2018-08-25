@@ -29,66 +29,61 @@ Vue.use(Vuetify, {
     }
 });
 
-const options = {
-    min: 0,
-    max: 100,
-    step: 1,
-    tick_step: 10,
-}
-
-const cbox = ["a", "b", "c"];
-
 const display = {
-    // height: "20px",
     color: "#5F95DE",
-    // background_color: "#FF0000",
-    // thumb_color: "#FF0000",
-    // thumb_size: "20px",
-    // track_color: "#FF0000",
-    // ticks: true,
-    // placeholder: "text",
+    options: {
+        min: 0,
+        max: 100,
+        step: 10,
+        tick_step: 10,
+        values: [
+            "----------------------------------------------------------------------------------------------------",
+            "a", "b", "c", "d", "e",
+        ],
+        default_color: "red",
+    }
 }
 
 const rows = [
-    ["scene-001",  "graph-001", "node-001", "func1", "foo", 50, 50,   options, display, "none",        "absent"  ],
-    ["scene-001",  "graph-001", "node-001", "func1", "bar", 52, 52,   options, display, "float_input", "present" ],
-    ["scene-002",  "graph-001", "node-001", "func1", "baz", 53, 99,      cbox, display, "combobox",    "override"],
-    ["scene-002",  "graph-001", "node-001", "func2", "boo", 54, 54,   options, display, "textarea",    "unlocked"],
-    ["scene-002",  "graph-001", "node-002", "func2", "fuz", 55, 55,   options, display, "slider",      "present" ],
-    ["scene-002",  "graph-001", "node-003", "func3", "baz", 53, 99,      cbox, display, "combobox",    "override"],
-    ["scene-002",  "graph-001", "node-003", "func3", "boo", 54, 54,   options, display, "textarea",    "unlocked"],
-    ["scene-002",  "graph-001", "node-003", "func3", "fuz", 55, 55,   options, display, "slider",      "present" ],
+    ["scene_001",  "graph_001", "node_001", "func1", "foo", 50, 50, display, "none",        "absent"  ],
+    ["scene_001",  "graph_001", "node_001", "func1", "bar", 52, 52, display, "float_input", "present" ],
+    ["scene_002",  "graph_001", "node_001", "func1", "baz", 53, 99, display, "combobox",    "override"],
+    ["scene_002",  "graph_001", "node_001", "func2", "boo", 54, 54, display, "textarea",    "unlocked"],
+    ["scene_002",  "graph_001", "node_002", "func2", "fuz", 55, 55, display, "slider",      "present" ],
+    ["scene_002",  "graph_001", "node_003", "func3", "baz", 53, 99, display, "combobox",    "override"],
+    ["scene_002",  "graph_001", "node_003", "func3", "boo", 54, 54, display, "textarea",    "unlocked"],
+    ["scene_002",  "graph_001", "node_003", "func3", "fuz", 55, 55, display, "slider",      "present" ],
 ];
 
 const cols = [
-    "scene-id", "graph-id", "node-id", "node-name",
-    "inport-name", "value", "default_value", "options", "display", "widget", "lock"
+    "scene_id", "graph_id", "node_id", "node_name",
+    "inport_name", "value", "default_value", "display", "widget", "lock"
 ]
 
-const ecols = [
-    ["scene-id", "graph-id", "node-id", "node-name"],
-    ["inport-name", "value", "default_value", "options", "widget", "lock"]
+const acols = [
+    ["node_name"],
+    ["inport_name", "value"]
 ];
 
-// const ecols = [
-//     ["scene-id"],
-//     ["graph-id"],
-//     ["node-id", "node-name"],
-//     ["inport-name", "value", "default_value", "options", "widget", "lock"]
-// ];
+const bcols = [
+    ["scene_id", "graph_id", "node_id", "node_name"],
+    ["inport_name", "value", "default_value", "display", "widget", "lock"]
+];
 
 const ccols = [
-    ["node-name"],
-    ["inport-name", "value"]
+    ["scene_id"],
+    ["graph_id"],
+    ["node_id", "node_name"],
+    ["inport_name", "value", "default_value", "options", "widget", "lock"]
 ];
 
 const data = _.map(rows, (row) => (_.zipObject(cols, row)) );
 
 @Component( {components: { Table } })
 export default class App extends Vue {
-    public columns = ecols;
+    public columns = acols;
     public data = data;
-    public hide_parent_headers = true;
+    public hide_parent_headers = false;
     public hide_child_headers = false;
     public indent = true;
 }
@@ -107,5 +102,9 @@ export default class App extends Vue {
 
     .v-messages {
         display: none;
+    }
+
+    button, input, optgroup, select, textarea {
+        font-size: 13px;
     }
 </style>

@@ -4230,9 +4230,10 @@ p {
 .application .theme--dark.v-text-field__suffix {
   color: rgba(255,255,255,0.7);
 }
+/* edit */
 .theme--dark .v-text-field--solo .v-input__slot,
 .application .theme--dark.v-text-field--solo .v-input__slot {
-  border-radius: 2px;
+  border-radius: 0px;
   /* background: #424242; */
   background: #343434;
 }
@@ -4307,10 +4308,11 @@ p {
   padding-left: 0;
   padding-right: 4px;
 }
+/* edit */
 .v-text-field input {
   flex: 1 1 auto;
   line-height: 20px;
-  padding: 8px 0 8px;
+  /* padding: 8px 0 8px; */
   max-width: 100%;
   min-width: 0px;
   width: 100%;
@@ -4461,10 +4463,12 @@ p {
 .v-text-field.v-text-field--enclosed .v-input__append-outer {
   margin-top: 16px;
 }
+/* edit */
 /* .v-text-field.v-text-field--enclosed .v-text-field__details,
 .v-text-field.v-text-field--enclosed .v-input__slot {
   padding: 0 12px;
 } */
+/* edit */
 /* .v-text-field.v-text-field--enclosed .v-text-field__details {
   margin-bottom: 8px;
 } */
@@ -4524,6 +4528,7 @@ p {
 .v-text-field.v-text-field--solo .v-label {
   top: calc(50% - 10px);
 }
+/* edit */
 /* .v-text-field.v-text-field--solo .v-input__control {
   min-height: 48px;
   padding: 0;
@@ -4669,8 +4674,7 @@ p {
 .v-select__slot {
   align-items: center;
   display: flex;
-  /* height: 100%; */
-  height: 20px;
+  height: 100%;
   width: 100%;
 }
 .v-select:not(.v-text-field--single-line) .v-select__slot > input {
@@ -4765,6 +4769,7 @@ p {
   border-color: currentColor;
   color: #9e9e9e;
 }
+/* edit */
 /* .v-chip--small {
   height: 24px;
 } */
@@ -5194,6 +5199,7 @@ p {
 .v-input__prepend-outer {
   margin-right: 9px;
 }
+/* edit */
 /* .v-input__control {
   display: flex;
   flex-direction: column;
@@ -5215,6 +5221,7 @@ p {
 .v-input__icon--clear {
   border-radius: 50%;
 }
+/* edit */
 .v-input__slot {
   align-items: center;
   color: inherit;
@@ -5256,8 +5263,9 @@ p {
 .application .theme--dark.v-label--is-disabled {
   color: rgba(255,255,255,0.5);
 }
+/* edit  */
 .v-label {
-  font-size: 16px;
+  font-size: 13px;
   line-height: 1;
   min-height: 8px;
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
@@ -5275,6 +5283,7 @@ p {
 .application--is-rtl .v-messages {
   text-align: right;
 }
+/* edit */
 /* .v-messages {
   flex: 1 1 auto;
   font-size: 12px;
@@ -5514,11 +5523,12 @@ p {
 .application .theme--dark.v-subheader {
   color: rgba(255,255,255,0.7);
 }
+/* edit */
 .v-subheader {
   align-items: center;
   display: flex;
-  height: 48px;
-  font-size: 14px;
+  height: 30px;
+  font-size: 13px;
   font-weight: 500;
   padding: 0 16px 0 16px;
 }
@@ -5619,15 +5629,16 @@ p {
 .v-list .v-input__slot {
   margin: 0;
 }
+/* edit */
 .v-list__tile {
   align-items: center;
   color: inherit;
   display: flex;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 400;
-  height: 48px;
+  height: 30px;
   margin: 0;
-  padding: 0 16px;
+  padding: 0 8px;
   position: relative;
   text-decoration: none;
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
@@ -7108,11 +7119,13 @@ p {
 .application .theme--light.v-table tfoot tr {
   border-top: 1px solid rgba(0,0,0,0.12);
 }
+/* edit */
 /* .theme--dark .v-table,
 .application .theme--dark.v-table {
   background-color: #424242;
   color: #fff;
 } */
+/* edit */
 /* .theme--dark .v-table thead tr:first-child,
 .application .theme--dark.v-table thead tr:first-child {
   border-bottom: 1px solid rgba(255,255,255,0.12);
@@ -7121,6 +7134,7 @@ p {
 .application .theme--dark.v-table thead th {
   color: rgba(255,255,255,0.7);
 }
+/* edit */
 /* .theme--dark .v-table tbody tr:not(:last-child),
 .application .theme--dark.v-table tbody tr:not(:last-child) {
   border-bottom: 1px solid rgba(255,255,255,0.12);
@@ -7129,6 +7143,7 @@ p {
 .application .theme--dark.v-table tbody tr[active] {
   background: #505050;
 }
+/* edit */
 /* .theme--dark .v-table tbody tr:hover:not(.v-datatable__expand-row),
 .application .theme--dark.v-table tbody tr:hover:not(.v-datatable__expand-row) {
   background: #616161;
@@ -7149,6 +7164,7 @@ table.v-table {
   width: 100%;
   max-width: 100%;
 }
+/* edit */
 /* table.v-table thead td:not(:nth-child(1)),
 table.v-table tbody td:not(:nth-child(1)),
 table.v-table thead th:not(:nth-child(1)),
@@ -7159,9 +7175,11 @@ table.v-table thead th:first-child,
 table.v-table tbody th:first-child {
   padding: 0 24px;
 } */
+/* edit */
 /* table.v-table thead tr {
   height: 56px;
 } */
+/* edit */
 /* table.v-table thead th {
   font-weight: 500;
   font-size: 12px;
@@ -7182,10 +7200,12 @@ table.v-table tbody tr {
   transition: background 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
   will-change: background;
 }
+/* edit */
 /* table.v-table tbody td,
 table.v-table tbody th {
   height: 48px;
 } */
+/* edit */
 /* table.v-table tbody td {
   font-weight: 400;
   font-size: 13px;
@@ -7252,6 +7272,7 @@ table.v-table tfoot tr td {
 .application .theme--dark.v-datatable thead th.column.sortable.active i {
   color: #fff;
 }
+/* edit */
 /* .theme--dark .v-datatable .v-datatable__actions,
 .application .theme--dark.v-datatable .v-datatable__actions {
   background-color: #424242;
@@ -7348,6 +7369,7 @@ table.v-table tfoot tr td {
   padding: 0 !important;
   height: 0px !important;
 }
+/* edit */
 /* .v-datatable__expand-col--expanded {
   border-bottom: 1px solid rgba(0,0,0,0.12);
 } */

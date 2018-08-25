@@ -1,5 +1,5 @@
 ---SCENE------------------------------------------------------------------------
-<id>   --> uuid written in full as <component>-<id>
+<id>   --> uuid written in full as <component>_<id>
 keys   --> fields separated by single periods only
 values --> may not include dicts or lists that contain dicts
 
@@ -13,42 +13,42 @@ values --> may not include dicts or lists that contain dicts
     display.translate: < gn  > [x,y,z]
     display.rotate:    < gn  > [x,y,z]
     display.scale:     < gn  > [x,y,z]
-    display.widget:    <    p> ["none", "textbox", "slider", "range-slider", "color-picker", "dropdown", "multi-dropdown", "integer-input", "float-input"]
+    display.widget:    <    p> ["none", "textbox", "slider", "range_slider", "color_picker", "dropdown", "multi_dropdown", "integer_input", "float_input"]
+    display.options    <    p> various widget display options in a dict, such as {"min": 0, "max": 100, "step": 1}
 
-[scene-<id>]
-    scene-<id>.<display>
-    scene-<id>.resource-<id>:
+[scene_<id>]
+    scene_<id>.<display>
+    scene_<id>.resource_<id>:
 
-[scene-<id>.graph-<id>]
-    scene-<id>.graph-<id>.<display>
-    scene-<id>.graph-<id>.type: ["normal", "view"]
-    scene-<id>.graph-<id>.input-node-<id>:
-    scene-<id>.graph-<id>.output-node-<id>:
+[scene_<id>.graph_<id>]
+    scene_<id>.graph_<id>.<display>
+    scene_<id>.graph_<id>.type: ["normal", "view"]
+    scene_<id>.graph_<id>.input_node_<id>:
+    scene_<id>.graph_<id>.output_node_<id>:
 
-[scene-<id>.edge-<id>]
-    scene-<id>.edge-<id>.<display>
-    scene-<id>.edge-<id>.outport: scene-<id>.graph-<id>.node-<id>.outport-<id>
-    scene-<id>.edge-<id>.inport: scene-<id>.graph-<id>.node-<id>.inport-<id>
+[scene_<id>.edge_<id>]
+    scene_<id>.edge_<id>.<display>
+    scene_<id>.edge_<id>.outport: scene_<id>.graph_<id>.node_<id>.outport_<id>
+    scene_<id>.edge_<id>.inport: scene_<id>.graph_<id>.node_<id>.inport_<id>
 
-[scene-<id>.graph-<id>.node-<id>]
-    scene-<id>.graph-<id>.node-<id>.<display>
-    scene-<id>.graph-<id>.node-<id>.type: [input, output, subgraph, ...]
-    scene-<id>.graph-<id>.node-<id>.operator.module: ["module-name"] (same as module)
-    scene-<id>.graph-<id>.node-<id>.operator.function: ["function-name"] (same as function)
-    scene-<id>.graph-<id>.node-<id>.subgraph.input-node: ["none", "scene-<id>.graph-<id>.node-<id>"] (if type == subgraph, node.type == "input")
-    scene-<id>.graph-<id>.node-<id>.subgraph.output-node: ["none", "scene-<id>.graph-<id>.node-<id>"] (if type == subgraph, node.type == "output")
+[scene_<id>.graph_<id>.node_<id>]
+    scene_<id>.graph_<id>.node_<id>.<display>
+    scene_<id>.graph_<id>.node_<id>.type: [input, output, subgraph, ...]
+    scene_<id>.graph_<id>.node_<id>.operator.module: ["module_name"] (same as module)
+    scene_<id>.graph_<id>.node_<id>.operator.function: ["function_name"] (same as function)
+    scene_<id>.graph_<id>.node_<id>.subgraph.input_node: ["none", "scene_<id>.graph_<id>.node_<id>"] (if type == subgraph, node.type == "input")
+    scene_<id>.graph_<id>.node_<id>.subgraph.output_node: ["none", "scene_<id>.graph_<id>.node_<id>"] (if type == subgraph, node.type == "output")
 
-[scene-<id>.graph-<id>.node-<id>.inport-<id>]
-    scene-<id>.graph-<id>.node-<id>.inport-<id>.value:
-    scene-<id>.graph-<id>.node-<id>.inport-<id>.default-value:
-    scene-<id>.graph-<id>.node-<id>.inport-<id>.options: []
-    scene-<id>.graph-<id>.node-<id>.inport-<id>.type: ["node", "widget", "both", "none"]
-    scene-<id>.graph-<id>.node-<id>.inport-<id>.lock: ["absent", "present", "unlocked", "override"]
-    scene-<id>.graph-<id>.node-<id>.inport-<id>.<display>
+[scene_<id>.graph_<id>.node_<id>.inport_<id>]
+    scene_<id>.graph_<id>.node_<id>.inport_<id>.value:
+    scene_<id>.graph_<id>.node_<id>.inport_<id>.default_value:
+    scene_<id>.graph_<id>.node_<id>.inport_<id>.type: ["node", "widget", "both", "none"]
+    scene_<id>.graph_<id>.node_<id>.inport_<id>.lock: ["absent", "present", "unlocked", "override"]
+    scene_<id>.graph_<id>.node_<id>.inport_<id>.<display>
 
-[scene-<id>.graph-<id>.node-<id>.outport-<id>]
-    scene-<id>.graph-<id>.node-<id>.outport-<id>.value:
-    scene-<id>.graph-<id>.node-<id>.outport-<id>.<display>
+[scene_<id>.graph_<id>.node_<id>.outport_<id>]
+    scene_<id>.graph_<id>.node_<id>.outport_<id>.value:
+    scene_<id>.graph_<id>.node_<id>.outport_<id>.<display>
 
 ---PORT-LOCKS-------------------------------------------------------------------
 absent   - unlock port when data is absent
@@ -76,14 +76,14 @@ SearchBox
         edge (client)
 
 SceneView
-    select-nodes
-    deselect-nodes
-    delete-node
-    select-edges
-    deselect-edges
-    delete-edge
-    create-edge
-    pick-walk
+    select_nodes
+    deselect_nodes
+    delete_node
+    select_edges
+    deselect_edges
+    delete_edge
+    create_edge
+    pick_walk
     translate
     rotate
     scale
@@ -91,58 +91,58 @@ SceneView
     recolor
 
 NodePanel
-    select-node
-    select-nodes
-    walk-up
-    walk-down
-    set-value
-    hover-value (css event)
-    click-config
-        set-default_value
-        set-widget
-        set-type
-        set-lock
+    select_node
+    select_nodes
+    walk_up
+    walk_down
+    set_value
+    hover_value (css event)
+    click_config
+        set_default_value
+        set_widget
+        set_type
+        set_lock
 
 ---WEB-COMPONENTS---------------------------------------------------------------
 App
-    |-- SceneViewer
-    |   |-- Overlay (HUD with scene name, etc)
-    |   |-- ThreeJS
-    |       |-- Node (rectalinear prism)
+    |- SceneViewer
+    |   |- Overlay (HUD with scene name, etc)
+    |   |- ThreeJS
+    |       |- Node (rectalinear prism)
     |       |       Color
     |       |       Name
-    |       |-- Edge (cylinder of dynamic length)
+    |       |- Edge (cylinder of dynamic length)
     |               Color
     |               Name
-    |-- SearchBox (a la VSCode's Search)
-    |   |-- CommandInput
-    |   |-- ResultBox { ag-grid }
-    |-- NodePanel { ag-grid }
-        |-- Item --> node --> function { row }
-            |-- Parameter --> inport --> function parameter { value cell, type cell }
-                |-- Widget
-                    |-- Config (sets widget, default_value, lock, color) { ag-grid }
-                    |-- Tooltip (doc strings)                         { hsy-vue-tooltip }
-                    |-- Textbox (option)                              { textarea }
-                    |-- Slider (option)                               { vue-slider-component }
-                    |-- RangeSlider (option)                          { vue-slider-component }
-                    |-- ColorPicker (option)                          { vue-color }
-                    |-- Dropdown (option)                             { vue-select }
-                    |-- MultiDropdown (option)                        { vue-select }
-                    |-- IntegerInput (option)                         { vue-number-input }
-                    |-- FloatInput (option)                           { vue-number-input }
+    |- SearchBox (a la VSCode's Search)
+    |   |- CommandInput
+    |   |- ResultBox { ag_grid }
+    |- NodePanel { ag_grid }
+        |- Item --> node --> function { row }
+            |- Parameter --> inport --> function parameter { value cell, type cell }
+                |- Widget
+                    |- Config (sets widget, default_value, lock, color) { ag_grid }
+                    |- Tooltip (doc strings)                         { hsy_vue_tooltip }
+                    |- Textbox (option)                              { textarea }
+                    |- Slider (option)                               { vue_slider_component }
+                    |- RangeSlider (option)                          { vue_slider_component }
+                    |- ColorPicker (option)                          { vue_color }
+                    |- Dropdown (option)                             { vue_select }
+                    |- MultiDropdown (option)                        { vue_select }
+                    |- IntegerInput (option)                         { vue_number_input }
+                    |- FloatInput (option)                           { vue_number_input }
 
 DataTable
     Should be used for SearchBox, Config, NodePanel and NodePanel configuration.
-    Inport order determines intra-node inport row order.
-    Outport order determines intra-node outport row order.
+    Inport order determines intra_node inport row order.
+    Outport order determines intra_node outport row order.
     Node row groups are sorted by most recently selected then alphabetical by name.
     Graph row groups are sorted by most recently selected then alphabetical by name.
     Use immutable, chainable API.
 
 ---DSL--------------------------------------------------------------------------
 Component   Query
-----------------------------------------------------
+-----------------------------
 All         all=(name, id)
 Scene       scene=(name, id)
 Graph       graph=(name, id)
@@ -159,7 +159,7 @@ n= expands to node=
 i= expands to inport=
 o= expands to outport=
 
-Field type is specified with <field>.<field-type>
+Field type is specified with <field>.<field_type>
 Name is default field type
 all.name       all.id
 scene.name     scene.id
@@ -184,17 +184,17 @@ outport.name   outport.id
             Viewer component
 
 ---FUNCTIONS--------------------------------------------------------------------
-dotsplit( scene, scene-<id>.graph-<id>.node-<id>.inport-<id> ) => {
-    scene: scene-<id>,
-    graph: graph-<id>,
-    node: node-<id>,
-    inport: inport-<id>
+dotsplit( scene, scene_<id>.graph_<id>.node_<id>.inport_<id> ) => {
+    scene: scene_<id>,
+    graph: graph_<id>,
+    node: node_<id>,
+    inport: inport_<id>
 }
 
 to_dict(scene, key) => {
-    graph-<id>: {
-        input-node: node-<id>,
-        output-node: node-<id>,
+    graph_<id>: {
+        input_node: node_<id>,
+        output_node: node_<id>,
         display: {
             name: <name>,
             info: <info>,
@@ -210,113 +210,113 @@ to_dict(scene, key) => {
 }
 
 resolve
-    ( scene, graph-<id>    ) => scene-<id>.graph-<id>
-    ( scene, edge-<id>     ) => scene-<id>.edge-<id>
-    ( scene, node-<id>     ) => scene-<id>.graph-<id>.node-<id>
-    ( scene, inport-<id>   ) => scene-<id>.graph-<id>.node-<id>.inport-<id>
-    ( scene, outport-<id>  ) => scene-<id>.graph-<id>.node-<id>.outport-<id>
+    ( scene, graph_<id>    ) => scene_<id>.graph_<id>
+    ( scene, edge_<id>     ) => scene_<id>.edge_<id>
+    ( scene, node_<id>     ) => scene_<id>.graph_<id>.node_<id>
+    ( scene, inport_<id>   ) => scene_<id>.graph_<id>.node_<id>.inport_<id>
+    ( scene, outport_<id>  ) => scene_<id>.graph_<id>.node_<id>.outport_<id>
 
 unresolve
     unresolve_to_id
-        ( scene, scene-<id>.graph-<id>                        ) => graph-<id>
-        ( scene, scene-<id>.edge-<id>                         ) => edge-<id>
-        ( scene, scene-<id>.graph-<id>.node-<id>              ) => node-<id>
-        ( scene, scene-<id>.graph-<id>.node-<id>.inport-<id>  ) => inport-<id>
-        ( scene, scene-<id>.graph-<id>.node-<id>.outport-<id> ) => outport-<id>
+        ( scene, scene_<id>.graph_<id>                        ) => graph_<id>
+        ( scene, scene_<id>.edge_<id>                         ) => edge_<id>
+        ( scene, scene_<id>.graph_<id>.node_<id>              ) => node_<id>
+        ( scene, scene_<id>.graph_<id>.node_<id>.inport_<id>  ) => inport_<id>
+        ( scene, scene_<id>.graph_<id>.node_<id>.outport_<id> ) => outport_<id>
 
     unresolve_to_name
-        ( scene, scene-<id>                                   ) => scene-<id>.display.name
-        ( scene, scene-<id>.graph-<id>                        ) => graph-<id>.display.name
-        ( scene, scene-<id>.edge-<id>                         ) => edge-<id>.display.name
-        ( scene, scene-<id>.graph-<id>.node-<id>              ) => node-<id>.display.name
-        ( scene, scene-<id>.graph-<id>.node-<id>.inport-<id>  ) => inport-<id>.display.name
-        ( scene, scene-<id>.graph-<id>.node-<id>.outport-<id> ) => outport-<id>.display.name
+        ( scene, scene_<id>                                   ) => scene_<id>.display.name
+        ( scene, scene_<id>.graph_<id>                        ) => graph_<id>.display.name
+        ( scene, scene_<id>.edge_<id>                         ) => edge_<id>.display.name
+        ( scene, scene_<id>.graph_<id>.node_<id>              ) => node_<id>.display.name
+        ( scene, scene_<id>.graph_<id>.node_<id>.inport_<id>  ) => inport_<id>.display.name
+        ( scene, scene_<id>.graph_<id>.node_<id>.outport_<id> ) => outport_<id>.display.name
 
 filter
     filter_by_value
-        ( scene, value         ) => [ scene-<id>.graph-<id>.node-<id>.port-<id>...    ]
+        ( scene, value         ) => [ scene_<id>.graph_<id>.node_<id>.port_<id>...    ]
 
     filter_by_id
-        ( scene, graph-<id>    ) => [ scene-<id>.graph-<id>...                        ]
-        ( scene, edge-<id>     ) => [ scene-<id>.edge-<id>...                         ]
-        ( scene, node-<id>     ) => [ scene-<id>.graph-<id>.node-<id>...              ]
-        ( scene, inport-<id>   ) => [ scene-<id>.graph-<id>.node-<id>.inport-<id>...  ]
-        ( scene, outport-<id>  ) => [ scene-<id>.graph-<id>.node-<id>.outport-<id>... ]
+        ( scene, graph_<id>    ) => [ scene_<id>.graph_<id>...                        ]
+        ( scene, edge_<id>     ) => [ scene_<id>.edge_<id>...                         ]
+        ( scene, node_<id>     ) => [ scene_<id>.graph_<id>.node_<id>...              ]
+        ( scene, inport_<id>   ) => [ scene_<id>.graph_<id>.node_<id>.inport_<id>...  ]
+        ( scene, outport_<id>  ) => [ scene_<id>.graph_<id>.node_<id>.outport_<id>... ]
 
     filter_by_name
-        ( scene, graph-name    ) => [ scene-<id>.graph-<id>...                        ]
-        ( scene, node-name     ) => [ scene-<id>.graph-<id>.node-<id>...              ]
-        ( scene, inport-name   ) => [ scene-<id>.graph-<id>.node-<id>.inport-<id>...  ]
-        ( scene, outport-name  ) => [ scene-<id>.graph-<id>.node-<id>.outport-<id>... ]
-        ( scene, module-name   ) => [ scene-<id>.graph-<id>.node-<id>...              ]
-        ( scene, function-name ) => [ scene-<id>.graph-<id>.node-<id>...              ]
-        ( scene, node-type     ) => [ scene-<id>.graph-<id>.node-<id>...              ]
+        ( scene, graph_name    ) => [ scene_<id>.graph_<id>...                        ]
+        ( scene, node_name     ) => [ scene_<id>.graph_<id>.node_<id>...              ]
+        ( scene, inport_name   ) => [ scene_<id>.graph_<id>.node_<id>.inport_<id>...  ]
+        ( scene, outport_name  ) => [ scene_<id>.graph_<id>.node_<id>.outport_<id>... ]
+        ( scene, module_name   ) => [ scene_<id>.graph_<id>.node_<id>...              ]
+        ( scene, function_name ) => [ scene_<id>.graph_<id>.node_<id>...              ]
+        ( scene, node_type     ) => [ scene_<id>.graph_<id>.node_<id>...              ]
 
     filter_by_component
-        ( scene, "graph"       ) => [ scene-<id>.graph-<id>...                        ]
-        ( scene, "edge"        ) => [ scene-<id>.edge-<id>...                         ]
-        ( scene, "node"        ) => [ scene-<id>.graph-<id>.node-<id>...              ]
-        ( scene, "inport"      ) => [ scene-<id>.graph-<id>.node-<id>.inport-<id>...  ]
-        ( scene, "outport"     ) => [ scene-<id>.graph-<id>.node-<id>.outport-<id>... ]
+        ( scene, "graph"       ) => [ scene_<id>.graph_<id>...                        ]
+        ( scene, "edge"        ) => [ scene_<id>.edge_<id>...                         ]
+        ( scene, "node"        ) => [ scene_<id>.graph_<id>.node_<id>...              ]
+        ( scene, "inport"      ) => [ scene_<id>.graph_<id>.node_<id>.inport_<id>...  ]
+        ( scene, "outport"     ) => [ scene_<id>.graph_<id>.node_<id>.outport_<id>... ]
 
 ---CACHE------------------------------------------------------------------------
 luts
-    graph_lut = { graph-<id>: scene-<id>.graph-<id> }
-    graph_ilut = { <graph.name>: [graph-<id>] }
+    graph_lut = { graph_<id>: scene_<id>.graph_<id> }
+    graph_ilut = { <graph.name>: [graph_<id>] }
 
-    node_lut = { node-<id>: scene-<id>.graph-<id>.node-<id> }
-    node_ilut = { <node.name>: [node-<id>...] }
+    node_lut = { node_<id>: scene_<id>.graph_<id>.node_<id> }
+    node_ilut = { <node.name>: [node_<id>...] }
 
-    edge_lut = { edge-<id>: scene-<id>.edge-<id> }
-    edge_ilut = { inport-<id>: edge-<id> } (one edge per inport)
+    edge_lut = { edge_<id>: scene_<id>.edge_<id> }
+    edge_ilut = { inport_<id>: edge_<id> } (one edge per inport)
 
     inport_lut = {
-        inport-<id>: scene-<id>.graph-<id>.node-<id>.inport-<id>
+        inport_<id>: scene_<id>.graph_<id>.node_<id>.inport_<id>
     }
     inport_ilut = {
-        <inport.name>: [scene-<id>.graph-<id>.node-<id>.inport-<id>...]
+        <inport.name>: [scene_<id>.graph_<id>.node_<id>.inport_<id>...]
     }
 
     outport_lut = {
-        outport-<id>: scene-<id>.graph-<id>.node-<id>.outport-<id>
+        outport_<id>: scene_<id>.graph_<id>.node_<id>.outport_<id>
     }
     outport_ilut = {
-        <outport.name>: [scene-<id>.graph-<id>.node-<id>.outport-<id>...]
+        <outport.name>: [scene_<id>.graph_<id>.node_<id>.outport_<id>...]
     }
 
 Scene DataFrame
 
 ---BROADER-FRAMEWORK------------------------------------------------------------
 client
-    |-- client-config
-    |-- server-config
-    |-- scene
-    |-- properties panel
-    |-- search
-    |-- crud sgne
-    |-- undo cache
+    |- client_config
+    |- server_config
+    |- scene
+    |- properties panel
+    |- search
+    |- crud sgne
+    |- undo cache
         |- scene
-        |-- client-config
-        |-- server-config
+        |- client_config
+        |- server_config
 
-resource-server (crud) update versions elements
-    |-- code
-    |-- data
-    |-- client-config
-    |-- server-config
-    |-- scene [scene-id, scene-name and version]
-    |-- graph [graph-id, graph-name and version]
-    |-- nodes (from code)
+resource_server (crud) update versions elements
+    |- code
+    |- data
+    |- client_config
+    |- server_config
+    |- scene [scene_id, scene_name and version]
+    |- graph [graph_id, graph_name and version]
+    |- nodes (from code)
 
     talks to S3
 
-job-server
+job_server
     |
     receive scene
     |
-    parse scene -- graph cache
+    parse scene _ graph cache
     |
-    schedule jobs -- response cache
+    schedule jobs _ response cache
     |
     emit jobs
 
@@ -339,19 +339,19 @@ worker
     find function
     |
     call function
-    |    |-- resolve data resources @aspect
-    |    |-- compute data with input parameters
-    |    |-- write new data resource @aspect
-    |    |-- resolve output dict @aspect
-    |    |-- return dict
+    |    |- resolve data resources @aspect
+    |    |- compute data with input parameters
+    |    |- write new data resource @aspect
+    |    |- resolve output dict @aspect
+    |    |- return dict
     |
     send status and dict to provisioner
 
 event server
 
 widgets
-    |-- text box
-    |-- slider - ion.rangeSlider
-    |-- checkbox
-    |-- dropdown
-    |-- multi dropdown
+    |- text box
+    |- slider _ ion.rangeSlider
+    |- checkbox
+    |- dropdown
+    |- multi dropdown
