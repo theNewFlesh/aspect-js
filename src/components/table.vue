@@ -146,40 +146,71 @@
 </script>
 
 <style lang="less">
-    .aspect-table thead tr th,
-    .aspect-table table.v-table tbody td,
-    .aspect-table table.v-table tbody th,
-    .aspect-table thead, .aspect-table thead tr {
-        height: unset;
-        line-height: unset;
-        font-size: 12px;
-        font-weight: 1;
+    table.v-table thead td:not(:nth-child(1)),
+    table.v-table tbody td:not(:nth-child(1)),
+    table.v-table thead th:not(:nth-child(1)),
+    table.v-table tbody th:not(:nth-child(1)),
+    table.v-table thead td:first-child,
+    table.v-table tbody td:first-child,
+    table.v-table thead th:first-child,
+    table.v-table tbody th:first-child {
+        // padding: 0 6px;
         border-left: 1px solid #343434;
-        // border-top: 2px solid #343434;
-        padding: 6px 6px 6px 6px;
     }
 
-    .application .theme--dark.v-table, .theme--dark .v-table {
+    .theme--dark .v-datatable .v-datatable__actions,
+    .application .theme--dark.v-datatable .v-datatable__actions {
         background-color: #242424;
+        color: rgba(255,255,255,0.7);
+        // border-top: 1px solid rgba(255,255,255,0.12);
     }
 
-    #cell {
-        height: unset;
-        line-height: 0.6;
+    .theme--dark .v-table,
+    .application .theme--dark.v-table {
+        background-color: #242424;
+        color: #F4F4F4;
     }
 
-    .value-cell , .default_value-cell {
-        min-width: 300px;
-        border-right: 1px solid #343434;
+    .theme--dark .v-datatable .v-datatable__actions,
+    .application .theme--dark.v-datatable .v-datatable__actions {
+        background-color: #242424;
+        color: rgba(255,255,255,0.7);
+        // border-top: 1px solid rgba(255,255,255,0.12);
     }
 
-    .aspect-table #child-table-container {
-        padding: 0px 0px 0px 0px;
-        width: 100%;
+    .v-datatable__expand-col--expanded {
+        border-bottom: 1px solid #343434;
     }
 
-    .aspect-table #child-table-container {
-        border-right: 1px solid #343434;
+    table.v-table tbody td {
+        font-weight: 400;
+        font-size: 13px;
+    }
+
+    table.v-table thead th {
+        font-weight: 500;
+        font-size: 13px;
+        transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+        white-space: nowrap;
+        -webkit-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none;
+    }
+
+    .theme--dark .v-table tbody tr:not(:last-child),
+    .application .theme--dark.v-table tbody tr:not(:last-child) {
+        border-bottom: 1px solid #343434;
+    }
+
+    .theme--dark .v-table thead tr:first-child,
+    .application .theme--dark.v-table thead tr:first-child {
+        border-bottom: 1px solid #343434;
+    }
+
+    .theme--dark .v-table tbody tr:hover:not(.v-datatable__expand-row),
+    .application .theme--dark.v-table tbody tr:hover:not(.v-datatable__expand-row) {
+        background: rgba(126, 196, 207, 0.25);
     }
 
     .aspect-table #indent {
@@ -187,41 +218,77 @@
         background-color: #343434;
     }
 
-    .v-textarea.v-text-field--enclosed .v-text-field__slot textarea {
-        margin-top: 0px;
-        padding-top: 4px;
-        padding-bottom: 4px;
-    }
+    // .aspect-table thead tr th,
+    // .aspect-table table.v-table tbody td,
+    // .aspect-table table.v-table tbody th,
+    // .aspect-table thead, .aspect-table thead tr {
+    //     height: unset;
+    //     line-height: unset;
+    //     // font-size: 12px;
+    //     font-weight: 1;
+    //     border-left: 1px solid #343434;
+    //     // border-top: 2px solid #343434;
+    //     padding: 6px 6px 6px 6px;
+    // }
 
-    .v-text-field.v-text-field--enclosed .v-input__slot,
-    .v-text-field.v-text-field--enclosed .v-text-field__details {
-        padding-left: 4px;
-    }
+    // .application .theme--dark.v-table, .theme--dark .v-table {
+    //     background-color: #242424;
+    // }
 
-    .v-text-field>.v-input__control>.v-input__slot:before,
-    .v-text-field>.v-input__control>.v-input__slot:after {
-        display: none;
-    }
+    // #cell {
+    //     height: unset;
+    //     line-height: 0.6;
+    // }
 
-    .v-text-field.v-text-field--enclosed .v-input__append-inner,
-    .v-text-field.v-text-field--enclosed .v-input__append-outer,
-    .v-text-field.v-text-field--enclosed .v-input__prepend-inner,
-    .v-text-field.v-text-field--enclosed .v-input__prepend-outer {
-        margin-top: 0px;
-    }
+    // .value-cell , .default_value-cell {
+    //     min-width: 300px;
+    //     border-right: 1px solid #343434;
+    // }
 
-    .v-text-field.v-text-field--enclosed .v-input__slot,
-    .v-text-field.v-text-field--enclosed .v-text-field__details {
-        padding-right: 0px;
-        background-color: #343434;
-    }
+    // .aspect-table #child-table-container {
+    //     padding: 0px 0px 0px 0px;
+    //     width: 100%;
+    // }
 
-    .application .theme--dark.v-table tbody tr:not(:last-child),
-    .theme--dark .v-table tbody tr:not(:last-child) {
-        border-color: #343434;
-    }
+    // .aspect-table #child-table-container {
+    //     border-right: 1px solid #343434;
+    // }
 
-    .application .theme--dark.v-table tbody tr:hover:not(.v-datatable__expand-row), .theme--dark .v-table tbody tr:hover:not(.v-datatable__expand-row) {
-        background-color: rgba(126, 196, 207, 0.25);
-    }
+    // .v-textarea.v-text-field--enclosed .v-text-field__slot textarea {
+    //     margin-top: 0px;
+    //     padding-top: 4px;
+    //     padding-bottom: 4px;
+    // }
+
+    // .v-text-field.v-text-field--enclosed .v-input__slot,
+    // .v-text-field.v-text-field--enclosed .v-text-field__details {
+    //     padding-left: 4px;
+    // }
+
+    // .v-text-field>.v-input__control>.v-input__slot:before,
+    // .v-text-field>.v-input__control>.v-input__slot:after {
+    //     display: none;
+    // }
+
+    // .v-text-field.v-text-field--enclosed .v-input__append-inner,
+    // .v-text-field.v-text-field--enclosed .v-input__append-outer,
+    // .v-text-field.v-text-field--enclosed .v-input__prepend-inner,
+    // .v-text-field.v-text-field--enclosed .v-input__prepend-outer {
+    //     margin-top: 0px;
+    // }
+
+    // .v-text-field.v-text-field--enclosed .v-input__slot,
+    // .v-text-field.v-text-field--enclosed .v-text-field__details {
+    //     padding-right: 0px;
+    //     background-color: #343434;
+    // }
+
+    // .application .theme--dark.v-table tbody tr:not(:last-child),
+    // .theme--dark .v-table tbody tr:not(:last-child) {
+    //     border-color: #343434;
+    // }
+
+    // .v-datatable__expand-col--expanded {
+    //     border-bottom: 0px;
+    // }
 </style>

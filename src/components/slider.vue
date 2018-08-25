@@ -10,9 +10,9 @@
         color="accent"
         thumb-color="accent"
         thumb-size="18px"
-        thumb-label="true"
-        ticks="true"
-        tick-size="1"
+        :thumb-label="true"
+        :ticks="true"
+        :tick-size="1"
         always-dirty
         dark
     />
@@ -65,11 +65,11 @@
 </script>
 
 <style scoped lang="less">
-    .v-input {
-        font-size: 12px;
-    }
+    // .v-input {
+    //     font-size: 12px;
+    // }
 
-    .aspect-textarea .v-input__control .v-input__slot {
-        margin-bottom: 0px;
-    }
+    // .aspect-textarea .v-input__control .v-input__slot {
+    //     margin-bottom: 0px;
+    // }
 </style>

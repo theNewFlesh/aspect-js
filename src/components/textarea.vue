@@ -2,14 +2,14 @@
     <v-textarea
         class="aspect-testarea"
         v-model="value"
-        :color="options.color"
+        :color="display.color"
         background-color="'#343434'"
         placeholder="placeholder text"
-        row-height="0.5"
-        hide-details="true"
-        auto-grow="true"
-        box="true"
-        clearable="true"
+        :row-height="0.5"
+        :hide-details="true"
+        :auto-grow="true"
+        :box="true"
+        :clearable="true"
     />
 </template>
 
@@ -19,24 +19,27 @@
 
     @Component({})
     export default class TextArea extends Vue {
+        @Prop()
         public value;
-        public default_value;
-        public options: object = {
-            color: "#FF0000",
-        };
 
-        public display: object = {
-        }
+        @Prop()
+        public default_value;
+
+        @Prop()
+        public options;
+
+        @Prop()
+        public display;
     }
 </script>
 
 <style scoped lang="less">
-    .aspect-testarea textarea {
-        font-size: 12px;
-        padding-bottom: 2px;
-    }
+    // .aspect-testarea textarea {
+    //     font-size: 12px;
+    //     padding-bottom: 2px;
+    // }
 
-    .aspect-testarea .v-input__slot {
-        min-height: 20px;
-    }
+    // .aspect-testarea .v-input__slot {
+    //     min-height: 20px;
+    // }
 </style>

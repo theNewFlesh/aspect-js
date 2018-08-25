@@ -13,26 +13,28 @@
             :default_value="default_value"
         />
     </div> -->
-    <!-- <div class="widget-container" v-else-if="widget === 'multidropdown'">
-        <MultiDropDown class="widget"
-            :value="value"
-            :default_value="default_value"
-        />
-    </div> -->
-    <!-- <div class="widget-container" v-else-if="widget === 'dropdown'">
-        <DropDown class="widget"
-            :value="value"
-            :default_value="default_value"
-        />
-    </div> -->
-    <v-flex class="widget-container" v-else-if="widget === 'textarea'">
-        <TextArea class="widget"
+    <v-flex class="widget-container" v-else-if="widget === 'combobox'">
+        <ComboBox class="widget"
             :value="value"
             :default_value="default_value"
             :options="options"
             :display="display"
         />
     </v-flex>
+    <!-- <div class="widget-container" v-else-if="widget === 'dropdown'">
+        <DropDown class="widget"
+            :value="value"
+            :default_value="default_value"
+        />
+    </div> -->
+    <!-- <v-flex class="widget-container" v-else-if="widget === 'textarea'">
+        <TextArea class="widget"
+            :value="value"
+            :default_value="default_value"
+            :options="options"
+            :display="display"
+        />
+    </v-flex> -->
     <!-- <div class="widget-container" v-else-if="widget === 'lock_options'">
         <DropDown class="widget"
             :value="value"
@@ -49,11 +51,11 @@
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Slider from "./slider.vue";
     import FloatInput from "./float_input.vue";
-    import MultiDropDown from "./multidropdown.vue";
+    import ComboBox from "./combobox.vue";
     import DropDown from "./dropdown.vue";
     import TextArea from "./textarea.vue";
 
-    @Component( {components: { Slider, FloatInput, MultiDropDown, DropDown, TextArea }} )
+    @Component( {components: { Slider, FloatInput, ComboBox, DropDown, TextArea }} )
     export default class Cell extends Vue {
         @Prop()
         public row: any;
@@ -89,7 +91,7 @@
                 return this.row.widget;
             }
             if (this.column === "options") {
-                return "multidropdown";
+                return "combobox";
             }
             if (this.column === "widget") {
                 return "dropdown";
@@ -101,3 +103,9 @@
         }
     }
 </script>
+
+<style lang="less">
+    .widget-container, th {
+        padding: 2px 6px 2px 6px;
+    }
+</style>
