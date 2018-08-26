@@ -11,7 +11,8 @@
         <!-- for col in row -->
         <template slot="items" slot-scope="row">
             <tr id="aspect-table-row" @click="row.expanded = !row.expanded" >
-                <td v-for="header in headers"
+                <td
+                    v-for="header in headers"
                     :key="header.__index"
                     :class="header.value + '-cell'" id="cell"
                 >
@@ -163,7 +164,7 @@
     table.v-table thead th:first-child,
     table.v-table tbody th:first-child {
         // padding: 0 6px;
-        border-left: 1px solid #343434;
+        border-left: 1px solid #141414;
     }
 
     .theme--dark .v-datatable .v-datatable__actions,
@@ -187,7 +188,7 @@
     }
 
     .v-datatable__expand-col--expanded {
-        border-bottom: 1px solid #343434;
+        border-bottom: 1px solid #141414;
     }
 
     table.v-table tbody td {
@@ -208,12 +209,12 @@
 
     .theme--dark .v-table tbody tr:not(:last-child),
     .application .theme--dark.v-table tbody tr:not(:last-child) {
-        border-bottom: 1px solid #343434;
+        border-bottom: 1px solid #141414;
     }
 
     .theme--dark .v-table thead tr:first-child,
     .application .theme--dark.v-table thead tr:first-child {
-        border-bottom: 1px solid #343434;
+        border-bottom: 1px solid #141414;
     }
 
     .theme--dark .v-table tbody tr:hover:not(.v-datatable__expand-row),
@@ -222,7 +223,7 @@
     }
 
     .aspect-table #indent {
-        padding: 0px 0px 0px 30px;
-        background-color: #343434;
+        padding: 0px 0px 0px 15px;
+        background-color: #141414;
     }
 </style>

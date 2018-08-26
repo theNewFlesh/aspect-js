@@ -20,7 +20,7 @@ import Vuetify from "vuetify";
 Vue.use(Vuetify, {
     theme: {
         primary: "#A4A4A4",
-        secondary: "#F4F4F4",
+        secondary: "#242424",
         accent: "#7EC4CF",
         error: "#F77E70",
         info: "#5F95DE",
@@ -40,19 +40,45 @@ const display = {
             "----------------------------------------------------------------------------------------------------",
             "a", "b", "c", "d", "e",
         ],
-        default_color: "red",
+        default_color: "success",
     }
 }
 
-const rows = [
-    ["scene_001",  "graph_001", "node_001", "func1", "foo", 50, 50, display, "none",        "absent"  ],
-    ["scene_001",  "graph_001", "node_001", "func1", "bar", 52, 52, display, "float_input", "present" ],
-    ["scene_002",  "graph_001", "node_001", "func1", "baz", 53, 99, display, "combobox",    "override"],
-    ["scene_002",  "graph_001", "node_001", "func2", "boo", 54, 54, display, "textarea",    "unlocked"],
-    ["scene_002",  "graph_001", "node_002", "func2", "fuz", 55, 55, display, "slider",      "present" ],
-    ["scene_002",  "graph_001", "node_003", "func3", "baz", 53, 99, display, "combobox",    "override"],
-    ["scene_002",  "graph_001", "node_003", "func3", "boo", 54, 54, display, "textarea",    "unlocked"],
-    ["scene_002",  "graph_001", "node_003", "func3", "fuz", 55, 55, display, "none",      "present" ],
+const text = "texty mctest test";
+
+let rows = [
+    ["scene_001",  "graph_001", "node_001", "func1", "foo", 50,   50,   display, "none",        "absent"  ],
+    ["scene_001",  "graph_001", "node_001", "func1", "bar", 52,   52,   display, "float_input", "present" ],
+    ["scene_002",  "graph_001", "node_001", "func1", "baz", 53,   99,   display, "combobox",    "override"],
+    ["scene_002",  "graph_001", "node_001", "func2", "boo", text, text, display, "textarea",    "unlocked"],
+    ["scene_002",  "graph_001", "node_002", "func2", "fuz", 55,   55,   display, "slider",      "present" ],
+    ["scene_002",  "graph_001", "node_003", "func3", "baz", 53,   99,   display, "combobox",    "override"],
+    ["scene_002",  "graph_001", "node_003", "func3", "boo", text, text, display, "textarea",    "unlocked"],
+    ["scene_002",  "graph_001", "node_003", "func3", "fuz", 55,   55,   display, "none",        "present" ],
+    ["scene_001",  "graph_001", "node_004", "func4", "foo", 50,   50,   display, "none",        "absent"  ],
+    ["scene_001",  "graph_001", "node_004", "func4", "bar", 52,   52,   display, "float_input", "present" ],
+    ["scene_002",  "graph_001", "node_004", "func4", "baz", 53,   99,   display, "combobox",    "override"],
+    ["scene_002",  "graph_001", "node_004", "func4", "boo", text, text, display, "textarea",    "unlocked"],
+    ["scene_002",  "graph_001", "node_004", "func4", "fuz", 55,   55,   display, "slider",      "present" ],
+    ["scene_002",  "graph_001", "node_005", "func5", "baz", 53,   99,   display, "combobox",    "override"],
+    ["scene_002",  "graph_001", "node_005", "func5", "boo", text, text, display, "textarea",    "unlocked"],
+    ["scene_002",  "graph_001", "node_005", "func5", "fuz", 55,   55,   display, "none",        "present" ],
+    ["scene_001",  "graph_001", "node_005", "func5", "foo", 50,   50,   display, "none",        "absent"  ],
+    ["scene_001",  "graph_001", "node_005", "func5", "bar", 52,   52,   display, "float_input", "present" ],
+    ["scene_002",  "graph_001", "node_005", "func5", "baz", 53,   99,   display, "combobox",    "override"],
+    ["scene_002",  "graph_001", "node_005", "func5", "boo", text, text, display, "textarea",    "unlocked"],
+    ["scene_002",  "graph_001", "node_005", "func5", "fuz", 55,   55,   display, "slider",      "present" ],
+    ["scene_002",  "graph_001", "node_005", "func5", "baz", 53,   99,   display, "combobox",    "override"],
+    ["scene_002",  "graph_001", "node_006", "func6", "boo", text, text, display, "textarea",    "unlocked"],
+    ["scene_002",  "graph_001", "node_006", "func6", "fuz", 55,   55,   display, "none",        "present" ],
+    ["scene_001",  "graph_001", "node_006", "func6", "foo", 50,   50,   display, "none",        "absent"  ],
+    ["scene_001",  "graph_001", "node_006", "func6", "bar", 52,   52,   display, "float_input", "present" ],
+    ["scene_002",  "graph_001", "node_006", "func6", "baz", 53,   99,   display, "combobox",    "override"],
+    ["scene_002",  "graph_001", "node_006", "func6", "boo", text, text, display, "textarea",    "unlocked"],
+    ["scene_002",  "graph_001", "node_006", "func6", "fuz", 55,   55,   display, "slider",      "present" ],
+    ["scene_002",  "graph_001", "node_007", "func7", "baz", 53,   99,   display, "combobox",    "override"],
+    ["scene_002",  "graph_001", "node_007", "func7", "boo", text, text, display, "textarea",    "unlocked"],
+    ["scene_002",  "graph_001", "node_007", "func7", "fuz", 55,   55,   display, "none",        "present" ],
 ];
 
 const cols = [
@@ -102,7 +128,7 @@ export default class App extends Vue {
     }
 
     .application.theme--dark {
-        background-color: #343434;
+        background-color: #141414;
         color: #F4F4F4;
     }
 

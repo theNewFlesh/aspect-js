@@ -109,4 +109,8 @@
     .value-cell {
         min-width: 250px;
     }
+
+    .inport_name-cell {
+        min-width: 50px;
+    }
 </style>

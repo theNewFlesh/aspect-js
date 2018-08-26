@@ -33,7 +33,7 @@
         @Prop()
         public default_value: number;
 
-        @Prop({defualt: {
+        @Prop({default: {
             color: "#5F95DE",
             options: {
                 min: 0,
@@ -43,13 +43,6 @@
             }
         }})
         public display: object;
-
-        public mounted() {
-            // add_style_attribute(".v-messages", "display", "none");
-            // add_style_attribute(
-            //     ".v-slider__thumb-label__container", "transform", "translateY(6px)"
-            // );
-        }
 
         public get tick_labels(): number[] {
             let ticks: any[] = _.range(
@@ -73,5 +66,9 @@
 
     .aspect-textarea .v-input__control .v-input__slot {
         margin-bottom: 0px;
+    }
+
+    .v-slider__thumb-label {
+        color: #242424;
     }
 </style>
