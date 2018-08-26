@@ -3,8 +3,7 @@
         <Table
             :data="data"
             :columns="columns"
-            :hide_parent_headers="hide_parent_headers"
-            :hide_child_headers="hide_child_headers"
+            :header_masks="masks"
             :indent="indent"
         />
     </v-app>
@@ -37,7 +36,7 @@ const display = {
         step: 5,
         tick_step: 10,
         values: [
-            "----------------------------------------------------------------------------------------------------",
+            // "----------------------------------------------------------------------------------------------------",
             "a", "b", "c", "d", "e",
         ],
         default_color: "success",
@@ -105,12 +104,13 @@ const ccols = [
 
 const data = _.map(rows, (row) => (_.zipObject(cols, row)) );
 
+const masks = [false, true, true, false];
+
 @Component( {components: { Table } })
 export default class App extends Vue {
-    public columns = acols;
+    public columns = ccols;
     public data = data;
-    public hide_parent_headers = false;
-    public hide_child_headers = true;
+    public masks = masks;
     public indent = true;
 }
 </script>

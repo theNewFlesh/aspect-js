@@ -4,12 +4,12 @@
         class="aspect-table"
         :headers="headers"
         :items="_rows"
-        :hide-headers="hide_parent_headers"
+        :hide-headers="_header_masks[0]"
         item-key="__index"
         hide-actions
     >
         <!-- for col in row -->
-        <template slot="items" slot-scope="row">
+        <template slot="items" slot-scope="row" >
             <tr id="aspect-table-row" @click="row.expanded = !row.expanded" >
                 <td
                     v-for="header in headers"
@@ -32,8 +32,7 @@
                 <Table
                     :data="_child_data.get(row.item[_group_column])"
                     :columns="columns.slice(1)"
-                    :hide_parent_headers="hide_child_headers"
-                    :hide_child_headers="hide_child_headers"
+                    :header_masks="_header_masks.slice(1)"
                     :indent="indent"
                 />
             </td>
@@ -66,11 +65,8 @@
         @Prop()
         public columns: string[][];
 
-        @Prop({default: true})
-        public hide_parent_headers: boolean;
-
-        @Prop({default: true})
-        public hide_child_headers: boolean;
+        @Prop()
+        public header_masks: boolean[];
 
         @Prop({default: true})
         public indent: boolean;
@@ -79,21 +75,18 @@
         public _rows: object[];
         public _child_data: object;
 
-        public _index: number = -1;
-
-        // public _add_index(data): object[] {
-        //     const output: object[] = [];
-        //     for (const i in this.data) {
-        //         const row = this.data[i];
-        //         row["__index"] = this.index;
-        //         output.push(row);
-        //     }
-        //     return output;
-        // }
+        public get _header_masks(): boolean[] {
+            if (this.header_masks.length > 0) {
+                return this.header_masks;
+            }
+            return _.map(this.columns, (x) => (true));
+        }
 
         public created() {
-            // this._rows = this._add_index(this.data);
+            this.initialize_rows()
+        }
 
+        public initialize_rows() {
             if (this.columns === undefined) {
                 this.columns = this._generate_columns();
             }
@@ -105,8 +98,7 @@
                 this._group_column = col;
 
                 const rows = [];
-                for (const i in group.keys) {
-                    const key = group.keys[i];
+                for (const key of group.keys) {
                     const row = group.get(key)[0];
                     // needed by v-data-table
                     row["__index"] = uuidv4();
@@ -212,6 +204,7 @@
     }
 
     table.v-table thead th {
+        background-color: #343434;
         font-weight: 500;
         font-size: 13px;
         transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
