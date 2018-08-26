@@ -2,7 +2,7 @@
     <v-textarea
         class="aspect-testarea"
         v-model="value"
-        :color="display.color"
+        color="accent"
         background-color="'#242424'"
         placeholder="placeholder text"
         :row-height="0.5"
@@ -34,12 +34,22 @@
 </script>
 
 <style scoped lang="less">
-    // .aspect-testarea textarea {
-    //     font-size: 12px;
-    //     padding-bottom: 2px;
-    // }
+    .aspect-testarea textarea {
+        margin-top: 0px;
+        font-size: 12px;
+        padding-left: 6px !important;
+        padding-bottom: 2px !important;
+    }
 
-    // .aspect-testarea .v-input__slot {
-    //     min-height: 20px;
-    // }
+    .aspect-testarea .v-input__slot {
+        min-height: 20px;
+    }
+
+    .v-text-field > .v-input__control > .v-input__slot {
+        display: none;
+    }
+
+    .v-datatable__expand-col.v-datatable__expand-col--expanded {
+        display: none !important;
+    }
 </style>

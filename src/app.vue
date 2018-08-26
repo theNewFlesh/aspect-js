@@ -32,9 +32,9 @@ Vue.use(Vuetify, {
 const display = {
     color: "#5F95DE",
     options: {
-        min: 0,
-        max: 100,
-        step: 10,
+        min: 10,
+        max: 60,
+        step: 5,
         tick_step: 10,
         values: [
             "----------------------------------------------------------------------------------------------------",
@@ -52,7 +52,7 @@ const rows = [
     ["scene_002",  "graph_001", "node_002", "func2", "fuz", 55, 55, display, "slider",      "present" ],
     ["scene_002",  "graph_001", "node_003", "func3", "baz", 53, 99, display, "combobox",    "override"],
     ["scene_002",  "graph_001", "node_003", "func3", "boo", 54, 54, display, "textarea",    "unlocked"],
-    ["scene_002",  "graph_001", "node_003", "func3", "fuz", 55, 55, display, "slider",      "present" ],
+    ["scene_002",  "graph_001", "node_003", "func3", "fuz", 55, 55, display, "none",      "present" ],
 ];
 
 const cols = [
@@ -83,14 +83,20 @@ const data = _.map(rows, (row) => (_.zipObject(cols, row)) );
 export default class App extends Vue {
     public columns = acols;
     public data = data;
-    public hide_parent_headers = false;
-    public hide_child_headers = false;
+    public hide_parent_headers = true;
+    public hide_child_headers = true;
     public indent = true;
 }
 </script>
 
 <style lang="less">
-    @import "./static/css/style.css";
+    .aspect-testarea textarea {
+        margin-top: 0px !important;
+        font-size: 12px;
+        padding-left: 6px !important;
+        padding-bottom: 2px !important;
+    }
+
     * {
         box-shadow: unset !important;
     }
@@ -107,4 +113,6 @@ export default class App extends Vue {
     button, input, optgroup, select, textarea {
         font-size: 13px;
     }
+
+    @import "./static/css/style.css";
 </style>

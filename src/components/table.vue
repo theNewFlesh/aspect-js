@@ -10,7 +10,7 @@
     >
         <!-- for col in row -->
         <template slot="items" slot-scope="row">
-            <tr @click="row.expanded = !row.expanded" >
+            <tr id="aspect-table-row" @click="row.expanded = !row.expanded" >
                 <td v-for="header in headers"
                     :key="header.__index"
                     :class="header.value + '-cell'" id="cell"
@@ -146,6 +146,14 @@
 </script>
 
 <style lang="less">
+    .v-datatable__expand-content {
+        display: flex !important;
+    }
+
+    #child-table-container {
+        flex-grow: 10;
+    }
+
     table.v-table thead td:not(:nth-child(1)),
     table.v-table tbody td:not(:nth-child(1)),
     table.v-table thead th:not(:nth-child(1)),
@@ -217,78 +225,4 @@
         padding: 0px 0px 0px 30px;
         background-color: #343434;
     }
-
-    // .aspect-table thead tr th,
-    // .aspect-table table.v-table tbody td,
-    // .aspect-table table.v-table tbody th,
-    // .aspect-table thead, .aspect-table thead tr {
-    //     height: unset;
-    //     line-height: unset;
-    //     // font-size: 12px;
-    //     font-weight: 1;
-    //     border-left: 1px solid #343434;
-    //     // border-top: 2px solid #343434;
-    //     padding: 6px 6px 6px 6px;
-    // }
-
-    // .application .theme--dark.v-table, .theme--dark .v-table {
-    //     background-color: #242424;
-    // }
-
-    // #cell {
-    //     height: unset;
-    //     line-height: 0.6;
-    // }
-
-    // .value-cell , .default_value-cell {
-    //     min-width: 300px;
-    //     border-right: 1px solid #343434;
-    // }
-
-    // .aspect-table #child-table-container {
-    //     padding: 0px 0px 0px 0px;
-    //     width: 100%;
-    // }
-
-    // .aspect-table #child-table-container {
-    //     border-right: 1px solid #343434;
-    // }
-
-    // .v-textarea.v-text-field--enclosed .v-text-field__slot textarea {
-    //     margin-top: 0px;
-    //     padding-top: 4px;
-    //     padding-bottom: 4px;
-    // }
-
-    // .v-text-field.v-text-field--enclosed .v-input__slot,
-    // .v-text-field.v-text-field--enclosed .v-text-field__details {
-    //     padding-left: 4px;
-    // }
-
-    // .v-text-field>.v-input__control>.v-input__slot:before,
-    // .v-text-field>.v-input__control>.v-input__slot:after {
-    //     display: none;
-    // }
-
-    // .v-text-field.v-text-field--enclosed .v-input__append-inner,
-    // .v-text-field.v-text-field--enclosed .v-input__append-outer,
-    // .v-text-field.v-text-field--enclosed .v-input__prepend-inner,
-    // .v-text-field.v-text-field--enclosed .v-input__prepend-outer {
-    //     margin-top: 0px;
-    // }
-
-    // .v-text-field.v-text-field--enclosed .v-input__slot,
-    // .v-text-field.v-text-field--enclosed .v-text-field__details {
-    //     padding-right: 0px;
-    //     background-color: #343434;
-    // }
-
-    // .application .theme--dark.v-table tbody tr:not(:last-child),
-    // .theme--dark .v-table tbody tr:not(:last-child) {
-    //     border-color: #343434;
-    // }
-
-    // .v-datatable__expand-col--expanded {
-    //     border-bottom: 0px;
-    // }
 </style>

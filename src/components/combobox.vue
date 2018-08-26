@@ -8,7 +8,7 @@
         :items="items"
         :search-input.sync="query"
         label="search for an option"
-        multiLine="true"
+        multiLine
         hide-selected
         multiple
         small-chips
@@ -100,6 +100,7 @@
 <script lang="ts">
     import { Component, Prop, Watch, Vue } from "vue-property-decorator";
     import * as _ from "lodash";
+    import { add_style_attribute } from "../tools";
 
     @Component({})
     export default class ComboBox extends Vue {
@@ -209,9 +210,5 @@
     .v-text-field.v-text-field--enclosed .v-input__slot {
         padding: 0 6px;
         border-radius: 0px;
-    }
-
-    .v-label.theme--dark {
-        padding-left: 6px !important;
     }
 </style>

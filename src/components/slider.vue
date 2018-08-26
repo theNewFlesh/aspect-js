@@ -2,14 +2,15 @@
     <v-slider
         class="aspect-slider"
         :v-model="value"
-        :min="options.min"
-        :max="options.max"
-        :step="options.step"
+        :min="display.options.min"
+        :max="display.options.max"
+        :step="display.options.step"
         :tick-labels="tick_labels"
-        height="35px"
+        height="20px"
         color="accent"
         thumb-color="accent"
         thumb-size="18px"
+        track-color="primary"
         :thumb-label="true"
         :ticks="true"
         :tick-size="1"
@@ -26,35 +27,36 @@
 
     @Component
     export default class Slider extends Vue {
+        @Prop()
         public value: number;
 
+        @Prop()
         public default_value: number;
 
-        @Prop({default: {
-            min: 0,
-            max: 100,
-            step: 1,
-            tick_step: 10,
+        @Prop({defualt: {
+            color: "#5F95DE",
+            options: {
+                min: 0,
+                max: 100,
+                step: 1,
+                tick_step: 10,
+            }
         }})
-        public options: object;
-
-        public display: object = {
-            color: "#5F95DE"
-        }
+        public display: object;
 
         public mounted() {
-            add_style_attribute(".v-messages", "display", "none");
-            add_style_attribute(
-                ".v-slider__thumb-label__container", "transform", "translateY(6px)"
-            );
+            // add_style_attribute(".v-messages", "display", "none");
+            // add_style_attribute(
+            //     ".v-slider__thumb-label__container", "transform", "translateY(6px)"
+            // );
         }
 
         public get tick_labels(): number[] {
             let ticks: any[] = _.range(
-                this.options.min, this.options.max + 1, this.options.step
+                this.display.options.min, this.display.options.max + 1, this.display.options.step
             );
             ticks = _.map(ticks, (x) => {
-                if (x % this.options.tick_step === 0) {
+                if (x % this.display.options.tick_step === 0) {
                     return x;
                 }
                 return "";
@@ -65,11 +67,11 @@
 </script>
 
 <style scoped lang="less">
-    // .v-input {
-    //     font-size: 12px;
-    // }
+    .v-input {
+        font-size: 12px;
+    }
 
-    // .aspect-textarea .v-input__control .v-input__slot {
-    //     margin-bottom: 0px;
-    // }
+    .aspect-textarea .v-input__control .v-input__slot {
+        margin-bottom: 0px;
+    }
 </style>

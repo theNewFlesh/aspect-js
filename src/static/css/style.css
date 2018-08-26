@@ -20,6 +20,7 @@
     margin-left: -2px;
   }
 }
+
 .black {
   background-color: #000 !important;
   border-color: #000 !important;
@@ -4108,12 +4109,13 @@ p {
 .application .theme--dark.v-icon.v-icon--disabled {
   color: rgba(255,255,255,0.5) !important;
 }
+/* edit */
 .v-icon {
   align-items: center;
   display: inline-flex;
   -webkit-font-feature-settings: 'liga';
           font-feature-settings: 'liga';
-  font-size: 24px;
+  font-size: 16px;
   justify-content: center;
   line-height: 1;
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
@@ -5200,7 +5202,7 @@ p {
   margin-right: 9px;
 }
 /* edit */
-/* .v-input__control {
+.v-input__control {
   display: flex;
   flex-direction: column;
   height: auto;
@@ -5208,7 +5210,7 @@ p {
   flex-wrap: wrap;
   position: relative;
   width: 100%;
-} */
+}
 .v-input__icon {
   align-items: center;
   display: inline-flex;
@@ -7373,8 +7375,10 @@ table.v-table tfoot tr td {
 /* .v-datatable__expand-col--expanded {
   border-bottom: 1px solid rgba(0,0,0,0.12);
 } */
+/* edit */
 .v-datatable__expand-content {
   transition: height 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  display: flex;
 }
 .v-datatable__expand-content > .card {
   border-radius: 0;
@@ -9147,10 +9151,12 @@ table.v-table tfoot tr td {
 .application .theme--dark.v-input--slider .v-slider__track__container:after {
   border: 1px solid #fff;
 }
+/* edit */
 .theme--dark .v-input--slider .v-slider__ticks,
 .application .theme--dark.v-input--slider .v-slider__ticks {
-  border-color: #fff;
-  color: rgba(255,255,255,0.7);
+    border-color: #646464;
+    color: #A4A4A4;
+    height: 10px;
 }
 .theme--dark .v-input--slider:not(.v-input--is-dirty) .v-slider__thumb-label,
 .application .theme--dark.v-input--slider:not(.v-input--is-dirty) .v-slider__thumb-label {
@@ -10262,12 +10268,13 @@ table.v-table tfoot tr td {
 .v-textarea.v-text-field--solo {
   align-items: flex-start;
 }
+/* edit */
 .v-textarea.v-text-field--solo .v-input__prepend-inner,
 .v-textarea.v-text-field--solo .v-input__prepend-outer,
 .v-textarea.v-text-field--solo .v-input__append-inner,
 .v-textarea.v-text-field--solo .v-input__append-outer {
   align-self: flex-start;
-  margin-top: 16px;
+  /* margin-top: 16px; */
 }
 .v-textarea--auto-grow textarea {
   overflow: hidden;
@@ -10679,6 +10686,20 @@ table.v-table tfoot tr td {
     padding: 10px 16px;
   }
 }
-
+/* edit */
+.v-label.theme--dark {
+    padding-left: 6px !important;
+}
+/* edit */
+.v-input__append-inner::before {
+    display: none !important;
+}
+/* edit */
+.v-input__append-inner {
+    margin-top: 0px !important;
+}
+.v-input__slot::before {
+    display: none !important;
+}
 
 /*# sourceMappingURL=vuetify.css.map*/

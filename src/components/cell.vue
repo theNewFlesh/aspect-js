@@ -1,48 +1,45 @@
 <template>
-    <v-flex class="widget-container pad" v-if="widget === 'slider'">
+    <v-flex class="widget-container" v-if="widget === 'slider'">
         <Slider class="widget"
             :value="value"
             :default_value="default_value"
-            :options="options"
             :display="display"
         />
     </v-flex>
-    <!-- <v-flex class="widget-container pad" v-else-if="widget === 'float_input'">
+    <!-- <v-flex class="widget-container" v-else-if="widget === 'float_input'">
         <FloatInput class="widget"
             :value="value"
             :default_value="default_value"
         />
     </v-flex> -->
-    <v-flex class="widget-container" v-else-if="widget === 'combobox'">
+    <v-flex class="widget-container-no-pad" v-else-if="widget === 'combobox'">
         <ComboBox class="widget"
             :value="value"
             :default_value="default_value"
-            :options="options"
             :display="display"
         />
     </v-flex>
-    <!-- <v-flex class="widget-container pad" v-else-if="widget === 'dropdown'">
+    <!-- <v-flex class="widget-container" v-else-if="widget === 'dropdown'">
         <DropDown class="widget"
             :value="value"
             :default_value="default_value"
         />
     </v-flex> -->
-    <!-- <v-flex class="widget-container pad" v-else-if="widget === 'textarea'">
+    <v-flex class="widget-container-no-pad" v-else-if="widget === 'textarea'">
         <TextArea class="widget"
             :value="value"
             :default_value="default_value"
-            :options="options"
             :display="display"
         />
-    </v-flex> -->
-    <!-- <v-flex class="widget-container pad" v-else-if="widget === 'lock_options'">
+    </v-flex>
+    <!-- <v-flex class="widget-container" v-else-if="widget === 'lock_options'">
         <DropDown class="widget"
             :value="value"
             :default_value="present"
             :options="['present', 'absent', 'unlocked', 'override']"
         />
     </v-flex> -->
-    <v-flex class="widget-container pad" v-else>
+    <v-flex class="widget-container" v-else>
         {{ value }}
     </v-flex>
 </template>
@@ -105,7 +102,11 @@
 </script>
 
 <style lang="less">
-    .widget-container.pad, th {
+    .widget-container, th {
         padding: 2px 6px 2px 6px;
+    }
+
+    .value-cell {
+        min-width: 250px;
     }
 </style>
