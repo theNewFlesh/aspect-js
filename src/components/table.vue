@@ -46,6 +46,7 @@
     import Cell from "./cell.vue";
     import { OrderedDict, omit, to_kebab_case } from "../tools";
     import * as _ from "lodash";
+    import uuidv4 from "uuid/v4";
 
     interface IHeader {
         text: string;
@@ -78,7 +79,21 @@
         public _rows: object[];
         public _child_data: object;
 
+        public _index: number = -1;
+
+        // public _add_index(data): object[] {
+        //     const output: object[] = [];
+        //     for (const i in this.data) {
+        //         const row = this.data[i];
+        //         row["__index"] = this.index;
+        //         output.push(row);
+        //     }
+        //     return output;
+        // }
+
         public created() {
+            // this._rows = this._add_index(this.data);
+
             if (this.columns === undefined) {
                 this.columns = this._generate_columns();
             }
@@ -94,7 +109,7 @@
                     const key = group.keys[i];
                     const row = group.get(key)[0];
                     // needed by v-data-table
-                    row["__index"] = i;
+                    row["__index"] = uuidv4();
                     rows.push(row);
                 }
                 this._rows = rows;

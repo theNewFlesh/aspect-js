@@ -109,7 +109,7 @@ const data = _.map(rows, (row) => (_.zipObject(cols, row)) );
 export default class App extends Vue {
     public columns = acols;
     public data = data;
-    public hide_parent_headers = true;
+    public hide_parent_headers = false;
     public hide_child_headers = true;
     public indent = true;
 }
