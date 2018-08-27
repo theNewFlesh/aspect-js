@@ -24,7 +24,7 @@
             </tr>
         </template>
         <!-- child data row -->
-        <template v-if="_child_data.get(row.item[_group_column]).length > 0"
+        <template v-if="_has_data(row.item)"
             slot="expand" slot-scope="row"
         >
             <td id="indent" v-if="indent"></td>
@@ -65,7 +65,7 @@
         @Prop()
         public columns: string[][];
 
-        @Prop()
+        @Prop({default: []})
         public header_masks: boolean[];
 
         @Prop({default: true})
@@ -74,6 +74,11 @@
         public _group_column: string;
         public _rows: object[];
         public _child_data: object;
+
+        public log(item) {
+            console.log(item);
+            return item;
+        }
 
         public get _header_masks(): boolean[] {
             if (this.header_masks.length > 0) {
@@ -84,6 +89,14 @@
 
         public created() {
             this.initialize_rows()
+        }
+
+        public _has_data(row): boolean {
+            const data = this._child_data.get(row[this._group_column]);
+            if (data === undefined) {
+                return false;
+            }
+            return data.length !> 0;
         }
 
         public initialize_rows() {

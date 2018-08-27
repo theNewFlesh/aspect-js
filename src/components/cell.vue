@@ -87,11 +87,11 @@
             if (this.column === "default_value") {
                 return this.row.widget;
             }
-            if (this.column === "options") {
+            if (this.column === "display") {
                 return "combobox";
             }
             if (this.column === "widget") {
-                return "dropdown";
+                return "widget_options";
             }
             if (this.column === "lock") {
                 return "lock_options";

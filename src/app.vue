@@ -86,16 +86,20 @@ const cols = [
 ]
 
 const acols = [
+    cols,
+];
+
+const bcols = [
     ["node_name"],
     ["inport_name", "value"]
 ];
 
-const bcols = [
+const ccols = [
     ["scene_id", "graph_id", "node_id", "node_name"],
     ["inport_name", "value", "default_value", "display", "widget", "lock"]
 ];
 
-const ccols = [
+const dcols = [
     ["scene_id"],
     ["graph_id"],
     ["node_id", "node_name"],
@@ -108,7 +112,7 @@ const masks = [false, true, true, false];
 
 @Component( {components: { Table } })
 export default class App extends Vue {
-    public columns = ccols;
+    public columns = bcols;
     public data = data;
     public masks = masks;
     public indent = true;
