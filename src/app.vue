@@ -53,7 +53,7 @@ const display = {
         tick_step: 10,
         values: [
             // "----------------------------------------------------------------------------------------------------",
-            "animal", "banaana", "cactus", "d", "e",
+            "alpha", "bravo", "charlie", "delta", "echo",
         ],
         default_color: "aspect_cyan_1",
     }

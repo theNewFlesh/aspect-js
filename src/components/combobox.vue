@@ -9,27 +9,42 @@
             :items="items"
             :search-input.sync="query"
             color="aspect_cyan_1"
-            label="search for an option"
+            label="select or type an option"
             multiLine
+            single-line
             hide-selected
             multiple
             small-chips
-            solo
+
             dark
         >
             <template
                 slot="selection"
-                slot-scope="row"
+                slot-scope="{ item, parent, selected }"
             >
                 <v-chip
                     class="combobox-chip"
                     id="v-chip"
-                    :color="`${row.item.color}`"
+                    :color="`${item.color}`"
                     :selected="selected"
                     label
                     small
                 >
-                    <span>{{ row.item.text }}</span>
+                    <span v-if="item.text"
+                        class="pr-2">
+                        {{ item.text }}
+                    </span>
+                    <span v-else
+                        class="pr-2">
+                        {{ item }}
+                    </span>
+                    <v-icon
+                        @click="parent.selectItem(item)"
+                        class="chip-x-icon"
+                        small
+                    >
+                        close
+                    </v-icon>
                 </v-chip>
             </template>
         </v-combobox>
@@ -59,6 +74,11 @@
         public query = null;
 
         public selection = [];
+
+        public log(item) {
+            console.log(item)
+            return item;
+        }
 
         public get items(): object[] {
             const output: object[] = [
@@ -116,7 +136,14 @@
             if (item.header !== undefined) {
                 return false;
             }
-            query = query.toString().toLowerCase();
+
+            if (item.text === undefined) {
+                item = {
+                    text: item,
+                    value: item,
+                    color: this.default_color,
+                }
+            }
             return item.text.indexOf(query) > -1;
         }
     }
@@ -127,5 +154,8 @@
     .application .theme--dark.v-chip {
         background: #7EC4CF;
         color: #242424;
+    }
+    .v-input {
+        margin-top: 0px;
     }
 </style>
