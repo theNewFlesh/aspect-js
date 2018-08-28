@@ -18,18 +18,34 @@ import * as _ from "lodash";
 import Vuetify from "vuetify";
 Vue.use(Vuetify, {
     theme: {
-        primary: "#A4A4A4",
-        secondary: "#242424",
-        accent: "#7EC4CF",
-        error: "#F77E70",
-        info: "#5F95DE",
-        success: "#8BD155",
-        warning: "#EB9E58"
+        aspect_dark_1:   "#040404",
+        aspect_dark_2:   "#141414",
+        aspect_bg:       "#242424",
+        aspect_grey_1:   "#343434",
+        aspect_grey_2:   "#444444",
+        aspect_light_1:  "#A4A4A4",
+        aspect_light_2:  "#F4F4F4",
+        aspect_dialog_1: "#444459",
+        aspect_dialog_2: "#5D5D7A",
+        aspect_red_1:    "#F77E70",
+        aspect_red_2:    "#DE958E",
+        aspect_orange_1: "#EB9E58",
+        aspect_orange_2: "#EBB483",
+        aspect_yellow_1: "#E8EA7E",
+        aspect_yellow_2: "#E9EABE",
+        aspect_green_1:  "#8BD155",
+        aspect_green_2:  "#A0D17B",
+        aspect_cyan_1:   "#7EC4CF",
+        aspect_cyan_2:   "#B6ECF3",
+        aspect_blue_1:   "#5F95DE",
+        aspect_blue_2:   "#93B6E6",
+        aspect_purple_1: "#C98FDE",
+        aspect_purple_2: "#AC92DE",
     }
 });
 
 const display = {
-    color: "#5F95DE",
+    color: "aspect_bg",
     options: {
         min: 10,
         max: 60,
@@ -37,20 +53,18 @@ const display = {
         tick_step: 10,
         values: [
             // "----------------------------------------------------------------------------------------------------",
-            "a", "b", "c", "d", "e",
+            "animal", "banaana", "cactus", "d", "e",
         ],
-        default_color: "success",
+        default_color: "aspect_cyan_1",
     }
 }
 
 const text = "texty mctest test";
 
 let rows = [
-    ["scene_001",  "graph_001", "node_001", "func1", "foo", 50,   50,   display, "none",        "absent"  ],
-    ["scene_001",  "graph_001", "node_001", "func1", "bar", 52,   52,   display, "float_input", "present" ],
     ["scene_002",  "graph_001", "node_001", "func1", "baz", 53,   99,   display, "combobox",    "override"],
-    ["scene_002",  "graph_001", "node_001", "func2", "boo", text, text, display, "textarea",    "unlocked"],
-    ["scene_002",  "graph_001", "node_002", "func2", "fuz", 55,   55,   display, "slider",      "present" ],
+    ["scene_002",  "graph_001", "node_001", "func1", "boo", text, text, display, "textarea",    "unlocked"],
+    ["scene_002",  "graph_001", "node_002", "func1", "fuz", 55,   55,   display, "slider",      "present" ],
     ["scene_002",  "graph_001", "node_003", "func3", "baz", 53,   99,   display, "combobox",    "override"],
     ["scene_002",  "graph_001", "node_003", "func3", "boo", text, text, display, "textarea",    "unlocked"],
     ["scene_002",  "graph_001", "node_003", "func3", "fuz", 55,   55,   display, "none",        "present" ],
@@ -113,7 +127,7 @@ const masks = [false, true, true, false];
 @Component( {components: { Table } })
 export default class App extends Vue {
     public columns = bcols;
-    public data = data;
+    public data = data.slice(0, 3);
     public masks = masks;
     public indent = true;
 }
@@ -142,6 +156,17 @@ export default class App extends Vue {
 
     button, input, optgroup, select, textarea {
         font-size: 13px;
+    }
+
+    ::-moz-selection {
+        background-color: rgba(126, 196, 207, 0.25);
+        color: #F4F4F4;
+        text-shadow: none;
+    }
+    ::selection {
+        background-color: rgba(126, 196, 207, 0.25);
+        color: #F4F4F4;
+        text-shadow: none;
     }
 
     @import "./static/css/style.css";

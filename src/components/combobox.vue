@@ -1,100 +1,39 @@
 <template>
     <!-- for item in items -->
-    <v-combobox
-        id="aspect-combobox"
-
-        :filter="filter"
-        :hide-no-data="!query"
-        :items="items"
-        :search-input.sync="query"
-        label="search for an option"
-        multiLine
-        hide-selected
-        multiple
-        small-chips
-        solo
-        dark
-    >
-        <!-- subheading appears when creating new item -->
-        <template slot="no-data">
-            <v-list-tile class="combox-subheading">
-                <span class="subheading">create</span>
-                <v-chip
-                    id="v-chip"
-                    :color="`${default_color} lighten-3`"
-                    label
-                    small
-                >
-                    {{ query }}
-                </v-chip>
-            </v-list-tile>
-        </template>
-
-        <template
-            v-if="item === Object(item)"
-            slot="selection"
-            slot-scope="{ item, parent, selected }"
+    <v-flex>
+        <v-combobox
+            id="aspect-combobox"
+            v-model="selection"
+            :filter="filter"
+            :hide-no-data="!query"
+            :items="items"
+            :search-input.sync="query"
+            color="aspect_cyan_1"
+            label="search for an option"
+            multiLine
+            hide-selected
+            multiple
+            small-chips
+            solo
+            dark
         >
-            <v-chip
-                class="combobox-chip"
-                id="v-chip"
-                :color="`${item.color} lighten-3`"
-                :selected="selected"
-                label
-                small
+            <template
+                slot="selection"
+                slot-scope="row"
             >
-                <span class="pr-2">
-                    {{ item.text }}
-                </span>
-                <v-icon
-                    @click="parent.selectItem(item)"
-                    class="chip-x-icon"
-                    small
-                >
-                    close
-                </v-icon>
-            </v-chip>
-        </template>
-
-        <template
-            slot="item"
-            slot-scope="{ index, item, parent }"
-        >
-            <v-list-tile-content class="search-list">
-                <v-text-field
-                    v-if="editing === item"
-                    @keyup.enter="edit(index, item)"
-                    v-model="editing.text"
-                    background-color="transparent"
-                    autofocus
-                    flat
-                    hide-details
-                    solo
-                ></v-text-field>
                 <v-chip
-                    v-else
+                    class="combobox-chip"
                     id="v-chip"
-                    :color="`${item.color} lighten-3`"
-                    dark
+                    :color="`${row.item.color}`"
+                    :selected="selected"
                     label
                     small
                 >
-                    {{ item.text }}
+                    <span>{{ row.item.text }}</span>
                 </v-chip>
-            </v-list-tile-content>
-            <!-- <v-spacer></v-spacer>  -->
-
-            <v-list-tile-action @click.stop>
-                <v-btn
-                    class="edit-button"
-                    icon
-                    @click.stop.prevent="edit(index, item)"
-                >
-                    <v-icon>{{ editing !== item ? "edit" : "check" }}</v-icon>
-                </v-btn>
-            </v-list-tile-action>
-        </template>
-    </v-combobox>
+            </template>
+        </v-combobox>
+    </v-flex>
 </template>
 
 <script lang="ts">
@@ -119,11 +58,11 @@
 
         public query = null;
 
-        public model = [];
+        public selection = [];
 
         public get items(): object[] {
             const output: object[] = [
-                { header: "select an option or create one" }
+                // { header: "select an option or create one" }
             ];
 
             for (const option of this.display.options.values) {
@@ -141,24 +80,24 @@
             if (this.display.options.default_color) {
                 return this.display.options.default_color;
             }
-            return "cyan"
+            return "aspect_cyan_1"
         }
 
         @Watch()
-        public model(items, previous_items) {
+        public selection(items, previous_items) {
             if (items.length !== previous_items.length) {
 
-                this.model = [];
+                this.selection = [];
                 for (let item of items) {
-                    // if (typeof item === "string") {
-                    //     const obj = {
-                    //         text: item,
-                    //         value: item,
-                    //         color: this.default_color,
-                    //     }
-                    // }
+                    if (typeof item === "string") {
+                        const obj = {
+                            text: item,
+                            value: item,
+                            color: this.default_color,
+                        }
+                    }
                     this.display.options.values.push(item)
-                    this.model.push(item);
+                    this.selection.push(item);
                 };
             }
         }
@@ -173,42 +112,15 @@
             }
         }
 
-        public filter(item, queryText, itemText) {
-            if (item.header) {
+        public filter(item, query): boolean {
+            if (item.header !== undefined) {
                 return false;
             }
-
-            const hasValue = val => val != null ? val : "";
-
-            const text = hasValue(itemText);
-            const query = hasValue(queryText);
-
-            const output = text.toString()
-            .toLowerCase()
-            .indexOf(query.toString().toLowerCase()) > -1;
-
-            return output
+            query = query.toString().toLowerCase();
+            return item.text.indexOf(query) > -1;
         }
     }
 </script>
 
 <style scoped lang="less">
-    .v-text-field.v-text-field--solo .v-input__control {
-        min-height: 0px;
-        padding: 0;
-    }
-
-    #aspect-combobox label .v-label.theme--dark {
-        padding-left: 6px !important;
-    }
-
-    .v-chip--small {
-        height: 15px;
-    }
-
-    .v-text-field.v-text-field--enclosed .v-text-field__details,
-    .v-text-field.v-text-field--enclosed .v-input__slot {
-        padding: 0 6px;
-        border-radius: 0px;
-    }
 </style>

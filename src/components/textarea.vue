@@ -2,8 +2,8 @@
     <v-textarea
         class="aspect-testarea"
         v-model="value"
-        color="accent"
-        background-color="secondary"
+        color="aspect_cyan_1"
+        background-color="aspect_bg"
         placeholder="placeholder text"
         :row-height="0.5"
         :hide-details="true"
@@ -36,7 +36,7 @@
 <style scoped lang="less">
     .aspect-testarea textarea {
         margin-top: 0px;
-        font-size: 12px;
+        font-size: 13px !important;
         padding-left: 6px !important;
         padding-bottom: 2px !important;
     }
