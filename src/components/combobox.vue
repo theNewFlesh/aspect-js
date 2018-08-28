@@ -123,4 +123,9 @@
 </script>
 
 <style scoped lang="less">
+    .theme--dark .v-chip,
+    .application .theme--dark.v-chip {
+        background: #7EC4CF;
+        color: #242424;
+    }
 </style>
