@@ -1,47 +1,47 @@
 <template>
-    <v-flex class="widget-container" v-if="widget === 'slider'">
+    <div class="widget-container" v-if="widget === 'slider'">
         <Slider class="widget"
             :value="value"
             :default_value="default_value"
             :display="display"
         />
-    </v-flex>
-    <!-- <v-flex class="widget-container" v-else-if="widget === 'float_input'">
+    </div>
+    <!-- <div class="widget-container" v-else-if="widget === 'float_input'">
         <FloatInput class="widget"
             :value="value"
             :default_value="default_value"
         />
-    </v-flex> -->
-    <v-flex class="widget-container-no-pad" v-else-if="widget === 'combobox'">
+    </div> -->
+    <div class="widget-container-no-pad" v-else-if="widget === 'combobox'">
         <ComboBox class="widget"
             :value="value"
             :default_value="default_value"
             :display="display"
         />
-    </v-flex>
-    <!-- <v-flex class="widget-container" v-else-if="widget === 'dropdown'">
+    </div>
+    <!-- <div class="widget-container" v-else-if="widget === 'dropdown'">
         <DropDown class="widget"
             :value="value"
             :default_value="default_value"
         />
-    </v-flex> -->
-    <v-flex class="widget-container-no-pad" v-else-if="widget === 'textarea'">
+    </div> -->
+    <div class="widget-container-no-pad" v-else-if="widget === 'textarea'">
         <TextArea class="widget"
             :value="value"
             :default_value="default_value"
             :display="display"
         />
-    </v-flex>
-    <!-- <v-flex class="widget-container" v-else-if="widget === 'lock_options'">
+    </div>
+    <!-- <div class="widget-container" v-else-if="widget === 'lock_options'">
         <DropDown class="widget"
             :value="value"
             :default_value="present"
             :options="['present', 'absent', 'unlocked', 'override']"
         />
-    </v-flex> -->
-    <v-flex class="widget-container" v-else>
+    </div> -->
+    <div class="widget-container" v-else>
         {{ value }}
-    </v-flex>
+    </div>
 </template>
 
 <script lang="ts">

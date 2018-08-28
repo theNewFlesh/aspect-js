@@ -1,53 +1,51 @@
 <template>
     <!-- for item in items -->
-    <v-flex>
-        <v-combobox
-            id="aspect-combobox"
-            v-model="selection"
-            :filter="filter"
-            :hide-no-data="!query"
-            :items="items"
-            :search-input.sync="query"
-            color="aspect_cyan_1"
-            label="select or type an option"
-            multiLine
-            single-line
-            hide-selected
-            multiple
-            small-chips
-            dark
+    <v-combobox
+        id="aspect-combobox"
+        v-model="selection"
+        :filter="filter"
+        :hide-no-data="!query"
+        :items="items"
+        :search-input.sync="query"
+        color="aspect_cyan_1"
+        label="select or type an option"
+        multiLine
+        single-line
+        hide-selected
+        multiple
+        small-chips
+        dark
+    >
+        <template
+            slot="selection"
+            slot-scope="{ item, parent, selected }"
         >
-            <template
-                slot="selection"
-                slot-scope="{ item, parent, selected }"
+            <v-chip
+                class="combobox-chip"
+                id="v-chip"
+                :color="`${item.color}`"
+                :selected="selected"
+                label
+                small
             >
-                <v-chip
-                    class="combobox-chip"
-                    id="v-chip"
-                    :color="`${item.color}`"
-                    :selected="selected"
-                    label
+                <span v-if="item.text"
+                    class="pr-2">
+                    {{ item.text }}
+                </span>
+                <span v-else
+                    class="pr-2">
+                    {{ item }}
+                </span>
+                <v-icon
+                    @click="parent.selectItem(item)"
+                    class="chip-x-icon"
                     small
                 >
-                    <span v-if="item.text"
-                        class="pr-2">
-                        {{ item.text }}
-                    </span>
-                    <span v-else
-                        class="pr-2">
-                        {{ item }}
-                    </span>
-                    <v-icon
-                        @click="parent.selectItem(item)"
-                        class="chip-x-icon"
-                        small
-                    >
-                        close
-                    </v-icon>
-                </v-chip>
-            </template>
-        </v-combobox>
-    </v-flex>
+                    close
+                </v-icon>
+            </v-chip>
+        </template>
+    </v-combobox>
 </template>
 
 <script lang="ts">
