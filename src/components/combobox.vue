@@ -66,6 +66,18 @@
 
         public selection = [];
 
+        public created() {
+            if (this.value !== undefined) {
+                if (this.value instanceof Array) {
+                    this.selection = this.value;
+                } else {
+                    this.selection.push(this.value);
+                }
+            } else {
+                this.selection.push(this.default_value);
+            }
+        }
+
         public get items(): object[] {
             const output: object[] = [];
 

@@ -9,7 +9,6 @@
         :search-input.sync="query"
         color="aspect_cyan_1"
         label="select or type an option"
-        multiLine
         single-line
         hide-selected
         small-chips
@@ -19,30 +18,14 @@
             slot="selection"
             slot-scope="{ item, parent, selected }"
         >
-            <v-chip
-                class="combobox-chip"
-                id="v-chip"
-                :color="`${item.color}`"
-                :selected="selected"
-                label
-                small
-            >
-                <span v-if="item.text"
-                    class="pr-2">
-                    {{ item.text }}
-                </span>
-                <span v-else
-                    class="pr-2">
-                    {{ item }}
-                </span>
-                <v-icon
-                    @click="parent.selectItem(item)"
-                    class="chip-x-icon"
-                    small
-                >
-                    close
-                </v-icon>
-            </v-chip>
+            <span v-if="item.text"
+                class="pr-2">
+                {{ item.text }}
+            </span>
+            <span v-else
+                class="pr-2">
+                {{ item }}
+            </span>
         </template>
     </v-combobox>
 </template>
@@ -63,7 +46,14 @@
 
         public query = null;
 
-        public selection = null;
+        public selection;
+
+        public created() {
+            if (this.value !== undefined) {
+                this.selection = this.value;
+            }
+            this.selection = this.default_value;
+        }
 
         public get items(): object[] {
             const output: object[] = [];
@@ -117,5 +107,6 @@
     }
     .v-input {
         margin-top: 0px;
+        font-size: 13px;
     }
 </style>

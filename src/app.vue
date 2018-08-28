@@ -60,43 +60,46 @@ const display = {
 }
 
 const text = "texty mctest test";
+const a = "alpha";
+const b = "bravo";
 
 let rows = [
-    ["scene_002",  "graph_001", "node_001", "func1", "baz", 53,   99,   display, "combobox",    "override"],
-    ["scene_002",  "graph_001", "node_001", "func1", "boo", text, text, display, "textarea",    "unlocked"],
-    ["scene_002",  "graph_001", "node_002", "func1", "fuz", 55,   55,   display, "slider",      "present" ],
-    ["scene_002",  "graph_001", "node_003", "func3", "baz", 53,   99,   display, "combobox",    "override"],
-    ["scene_002",  "graph_001", "node_003", "func3", "boo", text, text, display, "textarea",    "unlocked"],
-    ["scene_002",  "graph_001", "node_003", "func3", "fuz", 55,   55,   display, "none",        "present" ],
-    ["scene_001",  "graph_001", "node_004", "func4", "foo", 50,   50,   display, "none",        "absent"  ],
-    ["scene_001",  "graph_001", "node_004", "func4", "bar", 52,   52,   display, "float_input", "present" ],
-    ["scene_002",  "graph_001", "node_004", "func4", "baz", 53,   99,   display, "combobox",    "override"],
-    ["scene_002",  "graph_001", "node_004", "func4", "boo", text, text, display, "textarea",    "unlocked"],
-    ["scene_002",  "graph_001", "node_004", "func4", "fuz", 55,   55,   display, "slider",      "present" ],
-    ["scene_002",  "graph_001", "node_005", "func5", "baz", 53,   99,   display, "combobox",    "override"],
-    ["scene_002",  "graph_001", "node_005", "func5", "boo", text, text, display, "textarea",    "unlocked"],
-    ["scene_002",  "graph_001", "node_005", "func5", "fuz", 55,   55,   display, "none",        "present" ],
-    ["scene_001",  "graph_001", "node_005", "func5", "foo", 50,   50,   display, "none",        "absent"  ],
-    ["scene_001",  "graph_001", "node_005", "func5", "bar", 52,   52,   display, "float_input", "present" ],
-    ["scene_002",  "graph_001", "node_005", "func5", "baz", 53,   99,   display, "combobox",    "override"],
-    ["scene_002",  "graph_001", "node_005", "func5", "boo", text, text, display, "textarea",    "unlocked"],
-    ["scene_002",  "graph_001", "node_005", "func5", "fuz", 55,   55,   display, "slider",      "present" ],
-    ["scene_002",  "graph_001", "node_005", "func5", "baz", 53,   99,   display, "combobox",    "override"],
-    ["scene_002",  "graph_001", "node_006", "func6", "boo", text, text, display, "textarea",    "unlocked"],
-    ["scene_002",  "graph_001", "node_006", "func6", "fuz", 55,   55,   display, "none",        "present" ],
-    ["scene_001",  "graph_001", "node_006", "func6", "foo", 50,   50,   display, "none",        "absent"  ],
-    ["scene_001",  "graph_001", "node_006", "func6", "bar", 52,   52,   display, "float_input", "present" ],
-    ["scene_002",  "graph_001", "node_006", "func6", "baz", 53,   99,   display, "combobox",    "override"],
-    ["scene_002",  "graph_001", "node_006", "func6", "boo", text, text, display, "textarea",    "unlocked"],
-    ["scene_002",  "graph_001", "node_006", "func6", "fuz", 55,   55,   display, "slider",      "present" ],
-    ["scene_002",  "graph_001", "node_007", "func7", "baz", 53,   99,   display, "combobox",    "override"],
-    ["scene_002",  "graph_001", "node_007", "func7", "boo", text, text, display, "textarea",    "unlocked"],
-    ["scene_002",  "graph_001", "node_007", "func7", "fuz", 55,   55,   display, "none",        "present" ],
+    ["scene_002",  "graph_001", "node_001", "func1", "baz",  b,    b,   "dropdown",    "override", display],
+    ["scene_002",  "graph_001", "node_001", "func1", "bar",  a,    a,   "combobox",    "override", display],
+    ["scene_002",  "graph_001", "node_001", "func1", "boo", text, text, "textarea",    "unlocked", display],
+    ["scene_002",  "graph_001", "node_002", "func1", "fuz", 55,   55,   "slider",      "present" , display],
+    ["scene_002",  "graph_001", "node_003", "func3", "baz",  a,    a,   "combobox",    "override", display],
+    ["scene_002",  "graph_001", "node_003", "func3", "boo", text, text, "textarea",    "unlocked", display],
+    ["scene_002",  "graph_001", "node_003", "func3", "fuz", 55,   55,   "none",        "present" , display],
+    ["scene_001",  "graph_001", "node_004", "func4", "foo", 50,   50,   "none",        "absent"  , display],
+    ["scene_001",  "graph_001", "node_004", "func4", "bar", 52,   52,   "float_input", "present" , display],
+    ["scene_002",  "graph_001", "node_004", "func4", "baz",  a,    a,   "combobox",    "override", display],
+    ["scene_002",  "graph_001", "node_004", "func4", "boo", text, text, "textarea",    "unlocked", display],
+    ["scene_002",  "graph_001", "node_004", "func4", "fuz", 55,   55,   "slider",      "present" , display],
+    ["scene_002",  "graph_001", "node_005", "func5", "baz",  a,    a,   "combobox",    "override", display],
+    ["scene_002",  "graph_001", "node_005", "func5", "boo", text, text, "textarea",    "unlocked", display],
+    ["scene_002",  "graph_001", "node_005", "func5", "fuz", 55,   55,   "none",        "present" , display],
+    ["scene_001",  "graph_001", "node_005", "func5", "foo", 50,   50,   "none",        "absent"  , display],
+    ["scene_001",  "graph_001", "node_005", "func5", "bar", 52,   52,   "float_input", "present" , display],
+    ["scene_002",  "graph_001", "node_005", "func5", "baz",  a,    a,   "combobox",    "override", display],
+    ["scene_002",  "graph_001", "node_005", "func5", "boo", text, text, "textarea",    "unlocked", display],
+    ["scene_002",  "graph_001", "node_005", "func5", "fuz", 55,   55,   "slider",      "present" , display],
+    ["scene_002",  "graph_001", "node_005", "func5", "baz",  a,    a,   "combobox",    "override", display],
+    ["scene_002",  "graph_001", "node_006", "func6", "boo", text, text, "textarea",    "unlocked", display],
+    ["scene_002",  "graph_001", "node_006", "func6", "fuz", 55,   55,   "none",        "present" , display],
+    ["scene_001",  "graph_001", "node_006", "func6", "foo", 50,   50,   "none",        "absent"  , display],
+    ["scene_001",  "graph_001", "node_006", "func6", "bar", 52,   52,   "float_input", "present" , display],
+    ["scene_002",  "graph_001", "node_006", "func6", "baz",  a,    a,   "combobox",    "override", display],
+    ["scene_002",  "graph_001", "node_006", "func6", "boo", text, text, "textarea",    "unlocked", display],
+    ["scene_002",  "graph_001", "node_006", "func6", "fuz", 55,   55,   "slider",      "present" , display],
+    ["scene_002",  "graph_001", "node_007", "func7", "baz",  a,    a,   "combobox",    "override", display],
+    ["scene_002",  "graph_001", "node_007", "func7", "boo", text, text, "textarea",    "unlocked", display],
+    ["scene_002",  "graph_001", "node_007", "func7", "fuz", 55,   55,   "none",        "present" , display],
 ];
 
 const cols = [
     "scene_id", "graph_id", "node_id", "node_name",
-    "inport_name", "value", "default_value", "display", "widget", "lock"
+    "inport_name", "value", "default_value", "widget", "lock", "display"
 ]
 
 const acols = [
@@ -110,7 +113,7 @@ const bcols = [
 
 const ccols = [
     ["scene_id", "graph_id", "node_id", "node_name"],
-    ["inport_name", "value", "default_value", "display", "widget", "lock"]
+    ["inport_name", "value", "default_value", "widget", "lock", "display"]
 ];
 
 const dcols = [
@@ -122,11 +125,11 @@ const dcols = [
 
 const data = _.map(rows, (row) => (_.zipObject(cols, row)) );
 
-const masks = [false, true, true, false];
+const masks = [false, false, false, false];
 
 @Component( {components: { Table } })
 export default class App extends Vue {
-    public columns = bcols;
+    public columns = ccols;
     public data = data.slice(0, 3);
     public masks = masks;
     public indent = true;

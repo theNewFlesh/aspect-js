@@ -75,11 +75,6 @@
         public _rows: object[];
         public _child_data: object;
 
-        public log(item) {
-            console.log(item);
-            return item;
-        }
-
         public get _header_masks(): boolean[] {
             if (this.header_masks.length > 0) {
                 return this.header_masks;

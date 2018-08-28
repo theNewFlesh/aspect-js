@@ -1,45 +1,52 @@
 <template>
-    <div class="widget-container" v-if="widget === 'slider'">
+    <div class="widget-container" v-if="widget_type === 'slider'">
         <Slider class="widget"
             :value="value"
             :default_value="default_value"
             :display="display"
         />
     </div>
-    <!-- <div class="widget-container" v-else-if="widget === 'float_input'">
+    <!-- <div class="widget-container" v-else-if="widget_type === 'float_input'">
         <FloatInput class="widget"
             :value="value"
             :default_value="default_value"
         />
     </div> -->
-    <div class="widget-container-no-pad" v-else-if="widget === 'combobox'">
+    <div class="widget-container-no-pad" v-else-if="widget_type === 'combobox'">
         <ComboBox class="widget"
             :value="value"
             :default_value="default_value"
             :display="display"
         />
     </div>
-    <div class="widget-container" v-else-if="widget === 'dropdown'">
+    <div class="widget-container" v-else-if="widget_type === 'dropdown'">
         <DropDown class="widget"
             :value="value"
             :default_value="default_value"
             :display="display"
         />
     </div>
-    <div class="widget-container-no-pad" v-else-if="widget === 'textarea'">
+    <div class="widget-container-no-pad" v-else-if="widget_type === 'textarea'">
         <TextArea class="widget"
             :value="value"
             :default_value="default_value"
             :display="display"
         />
     </div>
-    <!-- <div class="widget-container" v-else-if="widget === 'lock_options'">
+    <div class="widget-container" v-else-if="widget_type === 'widget'">
         <DropDown class="widget"
-            :value="value"
-            :default_value="present"
-            :options="['present', 'absent', 'unlocked', 'override']"
+            :value="widget"
+            :default_value="widget"
+            :display="widget_options"
         />
-    </div> -->
+    </div>
+    <div class="widget-container" v-else-if="widget_type === 'lock'">
+        <DropDown class="widget"
+            :value="lock"
+            default_value="present"
+            :display="lock_options"
+        />
+    </div>
     <div class="widget-container" v-else>
         {{ value }}
     </div>
@@ -69,19 +76,15 @@
             return this.row.default_value;
         }
 
-        public get options(): object {
-            return this.row.options;
-        }
-
-        public get lock(): string {
-            return this.row.lock;
-        }
-
         public get display(): object {
             return this.row.display;
         }
 
         public get widget(): string {
+            return this.row.widget;
+        }
+
+        public get widget_type(): string {
             if (this.column === "value") {
                 return this.row.widget;
             }
@@ -92,12 +95,35 @@
                 return "combobox";
             }
             if (this.column === "widget") {
-                return "widget_options";
+                return "widget";
             }
             if (this.column === "lock") {
-                return "lock_options";
+                return "lock";
             }
             return "none";
+        }
+
+        public lock_options: object = {
+            options: {
+                values: [
+                    "absent",
+                    "present",
+                    "unlocked",
+                    "override",
+                ]
+            }
+        }
+
+        public widget_options: object = {
+            options: {
+                values: [
+                    "slider",
+                    "float_input",
+                    "combobox",
+                    "dropdown",
+                    "textarea",
+                ]
+            }
         }
     }
 </script>
