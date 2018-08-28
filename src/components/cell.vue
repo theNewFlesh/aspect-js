@@ -19,12 +19,13 @@
             :display="display"
         />
     </div>
-    <!-- <div class="widget-container" v-else-if="widget === 'dropdown'">
+    <div class="widget-container" v-else-if="widget === 'dropdown'">
         <DropDown class="widget"
             :value="value"
             :default_value="default_value"
+            :display="display"
         />
-    </div> -->
+    </div>
     <div class="widget-container-no-pad" v-else-if="widget === 'textarea'">
         <TextArea class="widget"
             :value="value"

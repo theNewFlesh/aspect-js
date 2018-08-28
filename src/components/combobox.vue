@@ -50,8 +50,6 @@
 
 <script lang="ts">
     import { Component, Prop, Watch, Vue } from "vue-property-decorator";
-    import * as _ from "lodash";
-    import { add_style_attribute } from "../tools";
 
     @Component({})
     export default class ComboBox extends Vue {
