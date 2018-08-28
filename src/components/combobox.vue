@@ -15,7 +15,6 @@
             hide-selected
             multiple
             small-chips
-
             dark
         >
             <template
@@ -67,23 +66,12 @@
         @Prop()
         public display: object;
 
-        public editing = null;
-
-        public index = -1;
-
         public query = null;
 
         public selection = [];
 
-        public log(item) {
-            console.log(item)
-            return item;
-        }
-
         public get items(): object[] {
-            const output: object[] = [
-                // { header: "select an option or create one" }
-            ];
+            const output: object[] = [];
 
             for (const option of this.display.options.values) {
                 output.push({
@@ -92,7 +80,6 @@
                     color: this.default_color,
                 });
             }
-
             return output;
         }
 
@@ -103,48 +90,29 @@
             return "aspect_cyan_1"
         }
 
-        @Watch()
-        public selection(items, previous_items) {
+        @Watch("selection")
+        public update_selection(items, previous_items) {
             if (items.length !== previous_items.length) {
-
                 this.selection = [];
                 for (let item of items) {
                     if (typeof item === "string") {
-                        const obj = {
+                        this.display.options.values.push(item)
+                        item = {
                             text: item,
                             value: item,
                             color: this.default_color,
                         }
                     }
-                    this.display.options.values.push(item)
                     this.selection.push(item);
                 };
             }
         }
 
-        public edit(index, item) {
-            if (!this.editing) {
-                this.editing = item
-                this.index = index
-            } else {
-                this.editing = null
-                this.index = -1
-            }
-        }
-
         public filter(item, query): boolean {
-            if (item.header !== undefined) {
-                return false;
-            }
-
             if (item.text === undefined) {
-                item = {
-                    text: item,
-                    value: item,
-                    color: this.default_color,
-                }
+                item = {text: item};
             }
-            return item.text.indexOf(query) > -1;
+            return item.text.match(query) !== null
         }
     }
 </script>
