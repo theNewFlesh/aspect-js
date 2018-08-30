@@ -20,7 +20,7 @@
                 small
                 color="aspect_cyan_1"
             >
-                <i class="material-icons aspect-up-arrow">arrow_upward</i>
+                <i class="material-icons aspect-up-arrow-icon">arrow_upward</i>
             </v-btn>
         </v-flex>
         <v-flex justify-end class="aspect-spinbox-button-down">
@@ -30,7 +30,7 @@
                 small
                 color="aspect_cyan_1"
             >
-                <i class="material-icons aspect-down-arrow">arrow_downward</i>
+                <i class="material-icons aspect-down-arrow-icon">arrow_downward</i>
             </v-btn>
         </v-flex>
     </v-layout>
@@ -102,17 +102,22 @@
         flex-shrink: 10;
     }
 
-    .aspect-up-arrow,
-    .aspect-down-arrow {
+    .aspect-up-arrow-icon,
+    .aspect-down-arrow-icon {
         color: #242424;
+        font-size: 20px;
     }
 
     .aspect-spinbox-button-up {
+        padding-top: 2px;
+        padding-bottom: 2px;
         padding-left: 6px;
         padding-right: 3px;
     }
 
-    .aspect-spinbox-button-up {
+    .aspect-spinbox-button-down {
+        padding-top: 2px;
+        padding-bottom: 2px;
         padding-left: 3px;
         padding-right: 6px;
     }
