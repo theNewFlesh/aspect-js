@@ -6,12 +6,13 @@
             :display="display"
         />
     </div>
-    <!-- <div class="widget-container" v-else-if="widget_type === 'float_input'">
-        <FloatInput class="widget"
+    <div class="widget-container" v-else-if="widget_type === 'spinbox'">
+        <SpinBox class="widget"
             :value="value"
             :default_value="default_value"
+            :display="display"
         />
-    </div> -->
+    </div>
     <div class="widget-container-no-pad" v-else-if="widget_type === 'combobox'">
         <ComboBox class="widget"
             :value="value"
@@ -55,12 +56,12 @@
 <script lang="ts">
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Slider from "./slider.vue";
-    import FloatInput from "./float_input.vue";
+    import SpinBox from "./spinbox.vue";
     import ComboBox from "./combobox.vue";
     import DropDown from "./dropdown.vue";
     import TextArea from "./textarea.vue";
 
-    @Component( {components: { Slider, FloatInput, ComboBox, DropDown, TextArea }} )
+    @Component( {components: { Slider, SpinBox, ComboBox, DropDown, TextArea }} )
     export default class Cell extends Vue {
         @Prop()
         public row: any;
@@ -82,6 +83,10 @@
 
         public get widget(): string {
             return this.row.widget;
+        }
+
+        public get lock(): string {
+            return this.row.lock;
         }
 
         public get widget_type(): string {

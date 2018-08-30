@@ -51,6 +51,7 @@ const display = {
         max: 60,
         step: 5,
         tick_step: 10,
+        round: 3,
         values: [
             // "----------------------------------------------------------------------------------------------------",
             "alpha", "bravo", "charlie", "delta", "echo",
@@ -68,7 +69,7 @@ let rows = [
     ["scene_002",  "graph_001", "node_001", "func1", "bar",  a,    a,   "combobox",    "override", display],
     ["scene_002",  "graph_001", "node_001", "func1", "boo", text, text, "textarea",    "unlocked", display],
     ["scene_002",  "graph_001", "node_002", "func1", "fuz", 55,   55,   "slider",      "present" , display],
-    ["scene_002",  "graph_001", "node_003", "func3", "baz",  a,    a,   "combobox",    "override", display],
+    ["scene_002",  "graph_001", "node_003", "func1", "zag",  5,    8,   "spinbox",     "override", display],
     ["scene_002",  "graph_001", "node_003", "func3", "boo", text, text, "textarea",    "unlocked", display],
     ["scene_002",  "graph_001", "node_003", "func3", "fuz", 55,   55,   "none",        "present" , display],
     ["scene_001",  "graph_001", "node_004", "func4", "foo", 50,   50,   "none",        "absent"  , display],
@@ -129,8 +130,8 @@ const masks = [false, false, false, false];
 
 @Component( {components: { Table } })
 export default class App extends Vue {
-    public columns = ccols;
-    public data = data.slice(0, 3);
+    public columns = bcols;
+    public data = data.slice(0, 5);
     public masks = masks;
     public indent = true;
 }
