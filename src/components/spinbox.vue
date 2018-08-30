@@ -1,6 +1,6 @@
 <template>
     <v-layout row>
-        <v-flex class="aspect-number-input" >
+        <v-flex class="aspect-spinbox" >
             <v-text-field
                 ref="input"
                 @keyup.enter.native="onSetValue"
@@ -86,7 +86,7 @@
         flex-grow: 10;
     }
 
-    .aspect-number-input {
+    .aspect-spinbox {
         flex-grow: 100;
         flex-shrink: 0;
     }

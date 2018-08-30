@@ -1,7 +1,7 @@
 <template>
     <v-flex
         v-if="widget_type === 'slider'"
-        class="widget-container pad"
+        class="widget-container pad-4"
     >
         <Slider class="widget"
             :value="value"
@@ -11,7 +11,7 @@
     </v-flex>
     <v-flex
         v-else-if="widget_type === 'spinbox'"
-        class="widget-container pad"
+        class="widget-container pad-2"
     >
         <SpinBox class="widget"
             :value="value"
@@ -31,7 +31,7 @@
     </v-flex>
     <v-flex
         v-else-if="widget_type === 'dropdown'"
-        class="widget-container pad"
+        class="widget-container pad-l"
     >
         <DropDown class="widget"
             :value="value"
@@ -41,7 +41,7 @@
     </v-flex>
     <v-flex
         v-else-if="widget_type === 'textarea'"
-        class="widget-container"
+        class="widget-container pad-l"
     >
         <TextArea class="widget"
             :value="value"
@@ -51,9 +51,9 @@
     </v-flex>
     <v-flex
         v-else-if="widget_type === 'widget'"
-        class="widget-container widget shrink"
+        class="widget-container widget"
     >
-        <DropDown class="widget"
+        <DropDown class="widget pad-l"
             :value="widget"
             :default_value="widget"
             :display="widget_options"
@@ -61,9 +61,9 @@
     </v-flex>
     <v-flex
         v-else-if="widget_type === 'lock'"
-        class="widget-container lock shrink"
+        class="widget-container lock"
     >
-        <DropDown class="widget"
+        <DropDown class="widget pad-l"
             :value="lock"
             default_value="present"
             :display="lock_options"
@@ -71,7 +71,7 @@
     </v-flex>
     <v-flex
         v-else-if="widget_type === 'display'"
-        class="widget-container display shrink"
+        class="widget-container display"
     >
         <TextArea class="widget"
             :value="JSON.stringify(display)"
@@ -80,7 +80,7 @@
     </v-flex>
     <v-flex
         v-else
-        class="widget-container inert shrink"
+        class="widget-container inert"
     >
         {{ value }}
     </v-flex>
@@ -167,17 +167,16 @@
 </script>
 
 <style lang="less">
-    .widget-container.pad, th {
+    .widget-container.pad-2, th {
         padding: 2px 6px 2px 6px;
     }
 
-    .widget-container {
-        flex-grow: 1 !important;
+    .widget-container.pad-4 {
+        padding: 4px 6px 4px 6px;
     }
 
-    .widget-container.shrink {
-        flex-grow: 0 !important;
-        flex-shrink: 10 !important;
+    .widget-container.pad-l {
+        padding: 0px 0px 0px 6px;
     }
 
     .value-cell,
@@ -185,11 +184,18 @@
         min-width: 250px;
     }
 
-    .display-cell {
-        max-width: 250px;
+    .widget-cell {
+        max-width: 90px;
+        padding: 0px 0px 0px 6px;
     }
 
-    .inport_name-cell {
-        // min-width: 50px;
+    .lock-cell {
+        max-width: 90px;
+        padding: 0px 0px 0px 6px;
+    }
+
+    .display-cell {
+        max-width: 250px;
+        padding: 0px 0px 0px 6px;
     }
 </style>

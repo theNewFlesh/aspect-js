@@ -1,7 +1,7 @@
 <template>
     <!-- for item in items -->
     <v-combobox
-        id="aspect-combobox"
+        id="aspect-dropdown"
         v-model="selection"
         :filter="filter"
         :hide-no-data="!query"
@@ -19,11 +19,11 @@
             slot-scope="{ item, parent, selected }"
         >
             <span v-if="item.text"
-                class="pr-2">
+                class="pr-1">
                 {{ item.text }}
             </span>
             <span v-else
-                class="pr-2">
+                class="pr-1">
                 {{ item }}
             </span>
         </template>

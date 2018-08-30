@@ -29,11 +29,11 @@
                 small
             >
                 <span v-if="item.text"
-                    class="pr-2">
+                    class="pr-1">
                     {{ item.text }}
                 </span>
                 <span v-else
-                    class="pr-2">
+                    class="pr-1">
                     {{ item }}
                 </span>
                 <v-icon

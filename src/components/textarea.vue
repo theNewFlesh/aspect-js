@@ -1,9 +1,9 @@
 <template>
     <v-textarea
-        class="aspect-testarea"
+        class="aspect-textarea"
         v-model="value"
         color="aspect_cyan_1"
-        background-color="aspect_bg"
+        background-color="transparent"
         placeholder="placeholder text"
         :row-height="0.5"
         :hide-details="true"
@@ -34,14 +34,15 @@
 </script>
 
 <style scoped lang="less">
-    .aspect-testarea textarea {
+    .aspect-textarea textarea {
         margin-top: 0px;
         font-size: 13px !important;
         padding-left: 6px !important;
         padding-bottom: 2px !important;
+        background-color: transparent;
     }
 
-    .aspect-testarea .v-input__slot {
+    .aspect-textarea .v-input__slot {
         min-height: 20px;
     }
 

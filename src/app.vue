@@ -42,7 +42,7 @@ Vue.use(Vuetify, {
         aspect_blue_2:   "#93B6E6",
         aspect_purple_1: "#C98FDE",
         aspect_purple_2: "#AC92DE",
-        // aspect_hover:    "rgba(126, 196, 207, 1)",
+        // aspect_hover:    "rgba(126, 196, 207, 0.25)",
     }
 });
 
