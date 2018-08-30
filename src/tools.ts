@@ -78,8 +78,14 @@ export function omit(items, trash) {
 }
 
 export function to_kebab_case(item: string) {
-    // return item.replace(/_/g, "-")
-    return item.replace(/_/g, " ")
+    return item.replace(/_/g, "-")
+}
+
+export function conform_name(name: string): string {
+    let output: string = name.replace(/_|-/g, " ");
+    // probably should remove this at some point
+    output = output.replace(/inport ?/, "");
+    return output;
 }
 
 export function add_attribute(

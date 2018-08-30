@@ -116,7 +116,7 @@ const bcols = [
 
 const ccols = [
     ["scene_id", "graph_id", "node_id", "node_name"],
-    ["inport_name", "value", "default_value", "widget", "lock", "display"]
+    ["inport_name", "value", "default_value", "widget", "lock"]//, "display"]
 ];
 
 const dcols = [
@@ -169,10 +169,16 @@ export default class App extends Vue {
         color: #F4F4F4;
         text-shadow: none;
     }
+
     ::selection {
         background-color: rgba(126, 196, 207, 0.25);
         color: #F4F4F4;
         text-shadow: none;
+    }
+
+    ::grammar-error,
+    ::spelling-error {
+        color: #F77E70;
     }
 
     @import "./static/css/style.css";

@@ -43,7 +43,7 @@
 <script lang="ts">
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Cell from "./cell.vue";
-    import { OrderedDict, omit, to_kebab_case } from "../tools";
+    import { OrderedDict, omit, conform_name } from "../tools";
     import * as _ from "lodash";
     import uuidv4 from "uuid/v4";
 
@@ -145,7 +145,7 @@
             let i: number = 0;
             for (const col of this.columns[0]) {
                 headers.push({
-                    text: to_kebab_case(col),
+                    text: conform_name(col),
                     value: col,
                     align: "left",
                     sortable: true,

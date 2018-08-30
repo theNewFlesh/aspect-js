@@ -1,56 +1,89 @@
 <template>
-    <div class="widget-container" v-if="widget_type === 'slider'">
+    <v-flex
+        v-if="widget_type === 'slider'"
+        class="widget-container pad"
+    >
         <Slider class="widget"
             :value="value"
             :default_value="default_value"
             :display="display"
         />
-    </div>
-    <div class="widget-container" v-else-if="widget_type === 'spinbox'">
+    </v-flex>
+    <v-flex
+        v-else-if="widget_type === 'spinbox'"
+        class="widget-container pad"
+    >
         <SpinBox class="widget"
             :value="value"
             :default_value="default_value"
             :display="display"
         />
-    </div>
-    <div class="widget-container-no-pad" v-else-if="widget_type === 'combobox'">
+    </v-flex>
+    <v-flex
+        v-else-if="widget_type === 'combobox'"
+        class="widget-container"
+    >
         <ComboBox class="widget"
             :value="value"
             :default_value="default_value"
             :display="display"
         />
-    </div>
-    <div class="widget-container" v-else-if="widget_type === 'dropdown'">
+    </v-flex>
+    <v-flex
+        v-else-if="widget_type === 'dropdown'"
+        class="widget-container pad"
+    >
         <DropDown class="widget"
             :value="value"
             :default_value="default_value"
             :display="display"
         />
-    </div>
-    <div class="widget-container-no-pad" v-else-if="widget_type === 'textarea'">
+    </v-flex>
+    <v-flex
+        v-else-if="widget_type === 'textarea'"
+        class="widget-container"
+    >
         <TextArea class="widget"
             :value="value"
             :default_value="default_value"
             :display="display"
         />
-    </div>
-    <div class="widget-container" v-else-if="widget_type === 'widget'">
+    </v-flex>
+    <v-flex
+        v-else-if="widget_type === 'widget'"
+        class="widget-container widget shrink"
+    >
         <DropDown class="widget"
             :value="widget"
             :default_value="widget"
             :display="widget_options"
         />
-    </div>
-    <div class="widget-container" v-else-if="widget_type === 'lock'">
+    </v-flex>
+    <v-flex
+        v-else-if="widget_type === 'lock'"
+        class="widget-container lock shrink"
+    >
         <DropDown class="widget"
             :value="lock"
             default_value="present"
             :display="lock_options"
         />
-    </div>
-    <div class="widget-container" v-else>
+    </v-flex>
+    <v-flex
+        v-else-if="widget_type === 'display'"
+        class="widget-container display shrink"
+    >
+        <TextArea class="widget"
+            :value="JSON.stringify(display)"
+            :default_value="default_value"
+        />
+    </v-flex>
+    <v-flex
+        v-else
+        class="widget-container inert shrink"
+    >
         {{ value }}
-    </div>
+    </v-flex>
 </template>
 
 <script lang="ts">
@@ -97,7 +130,7 @@
                 return this.row.widget;
             }
             if (this.column === "display") {
-                return "combobox";
+                return "display";
             }
             if (this.column === "widget") {
                 return "widget";
@@ -105,7 +138,7 @@
             if (this.column === "lock") {
                 return "lock";
             }
-            return "none";
+            return "inert";
         }
 
         public lock_options: object = {
@@ -134,8 +167,17 @@
 </script>
 
 <style lang="less">
-    .widget-container, th {
+    .widget-container.pad, th {
         padding: 2px 6px 2px 6px;
+    }
+
+    .widget-container {
+        flex-grow: 1 !important;
+    }
+
+    .widget-container.shrink {
+        flex-grow: 0 !important;
+        flex-shrink: 10 !important;
     }
 
     .value-cell,
@@ -143,7 +185,11 @@
         min-width: 250px;
     }
 
+    .display-cell {
+        max-width: 250px;
+    }
+
     .inport_name-cell {
-        min-width: 50px;
+        // min-width: 50px;
     }
 </style>

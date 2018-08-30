@@ -104,7 +104,7 @@
 
     .aspect-up-arrow-icon,
     .aspect-down-arrow-icon {
-        color: #242424;
+        color: #343434;
         font-size: 20px;
     }
 
