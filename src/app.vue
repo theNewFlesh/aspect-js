@@ -132,7 +132,7 @@ const masks = [false, false, false, false];
 
 @Component( {components: { Table } })
 export default class App extends Vue {
-    public columns = bcols;
+    public columns = ccols;
     public data = data.slice(0, 5);
     public masks = masks;
     public indent = true;

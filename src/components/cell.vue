@@ -122,10 +122,10 @@
         public widget_options: object = {
             options: {
                 values: [
-                    "slider",
-                    "float_input",
                     "combobox",
                     "dropdown",
+                    "slider",
+                    "spinbox",
                     "textarea",
                 ]
             }
@@ -138,7 +138,8 @@
         padding: 2px 6px 2px 6px;
     }
 
-    .value-cell {
+    .value-cell,
+    .default_value-cell {
         min-width: 250px;
     }
 
