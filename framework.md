@@ -13,7 +13,7 @@ values --> may not include dicts or lists that contain dicts
     display.translate: < gn  > [x,y,z]
     display.rotate:    < gn  > [x,y,z]
     display.scale:     < gn  > [x,y,z]
-    display.widget:    <    p> ["none", "textbox", "slider", "range_slider", "color_picker", "dropdown", "multi_dropdown", "integer_input", "float_input"]
+    display.widget:    <    p> ["inert", "textarea", "slider", "range_slider", "color_picker", "dropdown", "combobox", "spinbox"]
     display.options    <    p> various widget display options in a dict, such as {"min": 0, "max": 100, "step": 1}
 
 [scene_<id>]

@@ -79,8 +79,8 @@
         />
     </v-flex>
     <v-flex
-        v-else
-        class="widget-container inert"
+        v-else-if="widget_type === 'inert'"
+        class="widget-container pad-l inert"
     >
         {{ value }}
     </v-flex>
@@ -160,6 +160,7 @@
                     "slider",
                     "spinbox",
                     "textarea",
+                    "inert",
                 ]
             }
         }
