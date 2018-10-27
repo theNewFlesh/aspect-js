@@ -1,3 +1,5 @@
+import * as _ from "lodash";
+
 const display = {
     color: "aspect_bg",
     options: {
