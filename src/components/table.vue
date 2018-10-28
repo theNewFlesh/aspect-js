@@ -239,7 +239,7 @@
     }
 
     .aspect-table #indent {
-        padding: 0px 0px 0px 15px;
+        padding: 0px 0px 0px 8px;
         background-color: #141414;
     }
 </style>

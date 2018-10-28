@@ -65,7 +65,7 @@
 
     @Component( {components: { Table, Multipane, MultipaneResizer } })
     export default class Layout extends Vue {
-        public columns = tt.bcols;
+        public columns = tt.ccols;
         public data = tt.data.slice(0, 20);
         public masks = tt.masks;
         public indent = true;
@@ -135,6 +135,10 @@
     ::grammar-error,
     ::spelling-error {
         color: #F77E70;
+    }
+
+    .v-menu__content {
+        position: fixed;
     }
 
     @import "../static/css/style.css";
