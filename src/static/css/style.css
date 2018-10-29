@@ -4102,10 +4102,11 @@ p {
 .application .theme--light.v-icon.v-icon--disabled {
   color: rgba(0,0,0,0.38) !important;
 }
-.theme--dark .v-icon,
+/* edit */
+/* .theme--dark .v-icon,
 .application .theme--dark.v-icon {
   color: #F4F4F4;
-}
+} */
 .theme--dark .v-icon.v-icon--disabled,
 .application .theme--dark.v-icon.v-icon--disabled {
   color: rgba(255,255,255,0.5) !important;
@@ -10713,4 +10714,89 @@ table.v-table tfoot tr td {
 textarea {
     font-size: 13px !important;
 }
+
+.theme--light.v-treeview {
+  color: rgba(0,0,0,0.87);
+}
+.theme--light.v-treeview--hoverable .v-treeview-node__root:hover,
+.theme--light.v-treeview .v-treeview-node--active {
+  background: rgba(0,0,0,0.12);
+}
+.theme--dark.v-treeview {
+  color: #fff;
+}
+.theme--dark.v-treeview--hoverable .v-treeview-node__root:hover,
+.theme--dark.v-treeview .v-treeview-node--active {
+  background: rgba(255,255,255,0.12);
+}
+.v-treeview > .v-treeview-node {
+  margin-left: 0;
+}
+.v-treeview > .v-treeview-node--leaf {
+  margin-left: 15px;
+}
+.v-treeview-node {
+  margin-left: 15px;
+}
+.v-treeview-node--click > .v-treeview-node__root,
+.v-treeview-node--click > .v-treeview-node__root > .v-treeview-node__content > * {
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.v-treeview-node--leaf {
+  margin-left: 15px;
+}
+.v-treeview-node__root {
+  display: flex;
+  align-items: center;
+  /* height: 34px; */
+}
+.v-treeview-node__content {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+  align-items: center;
+}
+.v-treeview-node__content .v-btn {
+  flex-grow: 0 !important;
+  flex-shrink: 1 !important;
+}
+.v-treeview-node__label {
+  font-size: 13px;
+  margin-left: 6px;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+.v-treeview-node__label .v-icon {
+  padding-right: 8px;
+}
+.v-treeview-node__checkbox {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.v-treeview-node__toggle {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+}
+.v-treeview-node__toggle--open {
+  -webkit-transform: none;
+          transform: none;
+}
+.v-treeview-node__toggle--loading {
+  -webkit-animation: progress-circular-rotate 1s linear infinite;
+          animation: progress-circular-rotate 1s linear infinite;
+}
+.v-treeview-node__children {
+  transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
+}
+
 /*# sourceMappingURL=vuetify.css.map*/

@@ -18,7 +18,7 @@
         "vue": "^2.5.17",
         "vue-color": "^2.4.6",
         "vue-multipane": "^0.9.5",
-        "vuetify": "^1.1.13",
+        "vuetify": "^1.3.3",
         "vuex": "^3.0.1"
     },
     "devDependencies": {

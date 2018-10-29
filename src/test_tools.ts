@@ -26,6 +26,8 @@ let rows = [
     ["scene_002",  "graph_001", "node_001", "func1", "boo", text, text, "textarea",    "unlocked", display],
     ["scene_002",  "graph_001", "node_002", "func1", "fuz", 55,   55,   "slider",      "present" , display],
     ["scene_002",  "graph_001", "node_003", "func1", "zag",  5,    8,   "spinbox",     "override", display],
+    ["scene_002",  "graph_001", "node_003", "func2", "boo", text, text, "slider",      "unlocked", display],
+    ["scene_002",  "graph_001", "node_003", "func2", "fuz", text, text, "slider",      "present",  display],
     ["scene_002",  "graph_001", "node_003", "func3", "boo", text, text, "textarea",    "unlocked", display],
     ["scene_002",  "graph_001", "node_003", "func3", "fuz", 55,   55,   "none",        "present" , display],
     ["scene_001",  "graph_001", "node_004", "func4", "foo", 50,   50,   "none",        "absent"  , display],
@@ -60,7 +62,7 @@ const cols = [
 ]
 
 export const acols = [
-    cols,
+    cols.slice(0, 3),
 ];
 
 export const bcols = [
