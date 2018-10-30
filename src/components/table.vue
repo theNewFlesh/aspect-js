@@ -8,6 +8,7 @@
         :hide-headers="_header_masks[0]"
         item-key="__index"
         hide-actions
+        expand
     >
         <!-- for col in row -->
         <template slot="items" slot-scope="row" >
@@ -46,7 +47,7 @@
     import Cell from "./cell.vue";
     import { OrderedDict, omit, conform_name } from "../tools";
     import * as _ from "lodash";
-    import uuidv4 from "uuid/v4";
+    // import uuidv4 from "uuid/v4";
 
     interface IHeader {
         text: string;
@@ -110,7 +111,7 @@
                 for (const key of group.keys) {
                     const row = group.get(key)[0];
                     // needed by v-data-table
-                    row["__index"] = uuidv4();
+                    // row["__index"] = uuidv4();
                     rows.push(row);
                 }
                 this._rows = rows;

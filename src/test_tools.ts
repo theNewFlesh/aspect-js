@@ -56,6 +56,14 @@ let rows = [
     ["scene_002",  "graph_001", "node_007", "func7", "fuz", 55,   55,   "none",        "present" , display],
 ];
 
+function add_index(data) {
+    let i: number = 0;
+    for (const row of data) {
+        row.splice(0, 0, i);
+        i++;
+    }
+}
+
 const cols = [
     "scene_id", "graph_id", "node_id", "node_name",
     "inport_name", "value", "default_value", "widget", "lock", "display"
@@ -82,6 +90,8 @@ export const dcols = [
     ["inport_name", "value", "default_value", "options", "widget", "lock"]
 ];
 
+cols.splice(0, 0, "__index");
+add_index(rows);
 export const data = _.map(rows, (row) => (_.zipObject(cols, row)) );
 
 export const masks = [false, false, false, false];
