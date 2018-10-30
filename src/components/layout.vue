@@ -1,19 +1,22 @@
 <template>
     <multipane
+        ref="multipane"
         id="layout"
-        class="custom-resizer"
+        class="multipane"
         layout="vertical"
+        v-on:paneResizeStop="on_resize"
+        v-on:paneResize="on_resize"
     >
-        <div id="scene-panel" class="pane">
-            <div>
-                <h6>scene-panel</h6>
-            </div>
+        <div id="scene-pane" class="pane" ref="scene_pane">
+            SCENE-PANEL
         </div>
 
-        <multipane-resizer id="resize-bar"></multipane-resizer>
+        <multipane-resizer class="multipane-resizer">
+        </multipane-resizer>
 
-        <div id="node-panel" class="pane">
-            <v-app dark>
+        <div id="node-pane" class="pane" ref="node_pane">
+
+            <v-app dark class="pane-app">
                 <Table
                     :data="data"
                     :columns="columns"
@@ -22,6 +25,12 @@
                 />
             </v-app>
         </div>
+
+        <multipane-resizer
+            ref="resizer_right"
+            class="multipane-resizer"
+        >
+        </multipane-resizer>
     </multipane>
 </template>
 
@@ -65,28 +74,60 @@
 
     @Component( {components: { Table, Multipane, MultipaneResizer } })
     export default class Layout extends Vue {
-        public columns = tt.ccols;
-        public data = tt.data.slice(0, 20);
+        public columns = tt.bcols;
+        public data = tt.data;//.slice(0, 20);
         public masks = tt.masks;
         public indent = true;
+
+        public mounted() {
+            this._set_width(this.$refs.scene_pane, 70);
+            this._set_width(this.$refs.node_pane, 30);
+        }
+
+        public _get_width(element: any): number {
+            let width = element.style.width;
+
+            if (width.match("px")) {
+                width = width.replace("px", "");
+                width = Number(width);
+                width = (width / window.outerWidth) * 100;
+            }
+            else {
+                width = width.replace("vw", "");
+                width = Number(width);
+            }
+            return width;
+        }
+
+        public _set_width(element: any, width: number) {
+            element.style.width = width.toString() + "vw";
+        }
+
+        public on_resize(element: any) {
+            const scene: any = this.$refs.scene_pane;
+            const node: any = this.$refs.node_pane;
+
+            const sw: number = this._get_width(scene);
+            this._set_width(scene, sw);
+            this._set_width(node, 100 - sw);
+        }
     }
 </script>
 
 <style lang="less">
-    .layout-v > .multipane-resizer {
-        width: 4px;
-    }
-
-    .custom-resizer {
-        width: 100%;
+    .multipane {
         height: 100vh;
+        display: inline-flex;
     }
 
-    .custom-resizer > .pane {
-        overflow: hidden;
+    .pane {
+        // overflow: hidden;
+        flex-grow: 1;
+        width: 100%;
     }
 
-    .custom-resizer.layout-v > .multipane-resizer {
+    .multipane .multipane-resizer {
+        width: 4px;
         margin: 0;
         left: 0;
         position: relative;
@@ -96,7 +137,7 @@
         }
     }
 
-        .aspect-testarea textarea {
+    .aspect-testarea textarea {
         margin-top: 0px !important;
         font-size: 12px;
         padding-left: 6px !important;

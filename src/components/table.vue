@@ -2,6 +2,7 @@
     <!-- for row in rows -->
     <v-data-table
         class="aspect-table"
+        id="aspect-table"
         :headers="headers"
         :items="_rows"
         :hide-headers="_header_masks[0]"
@@ -168,6 +169,11 @@
 
     #child-table-container {
         flex-grow: 10;
+    }
+
+    #aspect-table th:first-child,
+    #cell:first-child {
+        border-left: 0px;
     }
 
     table.v-table thead td:not(:nth-child(1)),

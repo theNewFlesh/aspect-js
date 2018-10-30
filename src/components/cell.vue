@@ -182,7 +182,7 @@
 
     .value-cell,
     .default_value-cell {
-        min-width: 250px;
+        // min-width: 250px;
     }
 
     .widget-cell {
