@@ -80,7 +80,7 @@
         public masks = tt.masks;
         public indent = true;
         public _collapsed: boolean = false;
-        public _current_scene_width: number;
+        public _prev_scene_width: number;
 
         @Prop({default: 75})
         public scene_width: number;
@@ -91,6 +91,7 @@
         public mounted() {
             this._set_width(this.$refs.scene_pane, this.scene_width);
             this._set_width(this.$refs.node_pane, 100 - this.scene_width);
+            this._prev_scene_width = this._get_width(this.scene_width);
         }
 
         public _get_width(element: any): number {
@@ -109,11 +110,12 @@
         }
 
         public _set_width(element: any, width: number) {
-            element.style.width = width.toString() + "vw";
+            const num = Math.round(width * 10) / 10;
+            element.style.width = num.toString() + "vw";
         }
 
         public _on_resize_start(element: any) {
-            this._current_scene_width = this._get_width(element);
+            this._prev_scene_width = this._get_width(element);
         }
 
         public _on_resize(element: any) {
@@ -128,22 +130,25 @@
         public _on_resize_stop(element: any) {
             const scene: any = this.$refs.scene_pane;
             const node: any = this.$refs.node_pane;
-
             let sw: number = this._get_width(scene);
-            if (sw === this._current_scene_width) {
+
+            let autosize_event: boolean = false;
+            const delta: number = Math.abs(sw - this._prev_scene_width);
+            if (delta <= 0.1 || sw > 100 - this.collapse_width) {
+                autosize_event = true;
+            }
+
+            if (autosize_event) {
+                console.log("collapsed = true");
+                if (this._collapsed) {
+                    sw = 100 - this.collapse_width;
+                }
+                else {
+                    sw = 99.8;
+                }
                 this._collapsed = !this._collapsed;
             }
 
-            if (this._collapsed) {
-                sw = 100 - this.collapse_width;
-                this._collapsed = false;
-            }
-            else {
-                if (sw > 100 - this.collapse_width) {
-                    sw = 99.8;
-                    this._collapsed = true;
-                }
-            }
             this._set_width(scene, sw);
             this._set_width(node, 100 - sw);
         }
