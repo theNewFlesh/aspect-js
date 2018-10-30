@@ -91,7 +91,7 @@
         public mounted() {
             this._set_width(this.$refs.scene_pane, this.scene_width);
             this._set_width(this.$refs.node_pane, 100 - this.scene_width);
-            this._prev_scene_width = this._get_width(this.scene_width);
+            this._prev_scene_width = this._get_width(this.$refs.scene_pane);
         }
 
         public _get_width(element: any): number {
@@ -139,7 +139,6 @@
             }
 
             if (autosize_event) {
-                console.log("collapsed = true");
                 if (this._collapsed) {
                     sw = 100 - this.collapse_width;
                 }
