@@ -60,6 +60,10 @@
 </script>
 
 <style scoped lang="less">
+    .aspect-slider {
+        padding-right: 5px;
+    }
+
     .v-input {
         font-size: 12px;
     }
