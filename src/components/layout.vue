@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from "vue-property-decorator";
+    import { Prop, Component, Vue } from "vue-property-decorator";
     import Table from "./table.vue";
     import { Multipane, MultipaneResizer } from "vue-multipane";
     import * as _ from "lodash";
@@ -79,9 +79,12 @@
         public masks = tt.masks;
         public indent = true;
 
+        @Prop({default: 75})
+        public scene_width: number;
+
         public mounted() {
-            this._set_width(this.$refs.scene_pane, 70);
-            this._set_width(this.$refs.node_pane, 30);
+            this._set_width(this.$refs.scene_pane, this.scene_width);
+            this._set_width(this.$refs.node_pane, 100 - this.scene_width);
         }
 
         public _get_width(element: any): number {

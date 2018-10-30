@@ -4675,11 +4675,12 @@ p {
   display: inline-flex;
   margin: 7px 4px 7px 0;
 }
+/* edit */
 .v-select__slot {
   align-items: center;
   display: flex;
   height: 100%;
-  width: 100%;
+  width: 10000%;
 }
 .v-select:not(.v-text-field--single-line) .v-select__slot > input {
   align-self: flex-end;

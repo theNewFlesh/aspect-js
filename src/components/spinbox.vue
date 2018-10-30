@@ -83,12 +83,12 @@
 <style scoped lang="less">
     .v-input {
         margin-top: 0px;
-        flex-grow: 10;
+        flex-grow: 1;
     }
 
     .aspect-spinbox {
         flex-grow: 100;
-        flex-shrink: 0;
+        flex-shrink: 100;
     }
 
     .v-text-field {
