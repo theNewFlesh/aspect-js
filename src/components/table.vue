@@ -61,21 +61,33 @@
 
     @Component({components: { Cell }})
     export default class Table extends Vue {
+        /**
+         * array of dicts
+         */
         @Prop()
         public data: object[];
 
+        /**
+         * hierarchical array of columns
+         */
         @Prop()
         public columns: string[][];
 
+        /**
+         * masks for displaying headers. Default: []
+         */
         @Prop({default: []})
         public header_masks: boolean[];
 
+        /**
+         * whether to indent child tables. Default: true
+         */
         @Prop({default: true})
         public indent: boolean;
 
-        public _group_column: string;
         public _rows: object[];
         public _child_data: object;
+        public _group_column: string;
 
         public get _header_masks(): boolean[] {
             if (this.header_masks.length > 0) {
@@ -88,6 +100,10 @@
             this.initialize_rows()
         }
 
+        /**
+         * determines if a row has child data
+         * @returns boolean
+         */
         public _has_data(row): boolean {
             const data = this._child_data.get(row[this._group_column]);
             if (data === undefined) {
@@ -96,6 +112,9 @@
             return data.length !> 0;
         }
 
+        /**
+         * initialize _rows, which is used by v-data-table
+         */
         public initialize_rows() {
             if (this.columns === undefined) {
                 this.columns = this._generate_columns();
@@ -120,6 +139,10 @@
             }
         }
 
+        /**
+         * generates a list of unique keys across all rows
+         * @returns string[][] unique keys
+         */
         public _generate_columns(): string[][] {
             let cols: any = _.map(this.data, (row) => (Object.keys(row)));
             cols = _.reduce(cols, (a, b) => (_.concat(a, b)));
@@ -127,6 +150,10 @@
             return [ cols ];
         }
 
+        /**
+         * an array of the first item of each member of columns
+         * @returns string[]
+         */
         public get groups(): string[] {
             if (this.columns === undefined) {
                 return [];
@@ -134,6 +161,16 @@
             return _.map(this.columns, (col) => (col[0]));
         }
 
+        /**
+         * creates an OrderedDict of this structure:
+         * columns = ['a', 'b', 'c']
+         * {
+         *      a: [all values of a],
+         *      b: [all values of b],
+         *      c: [all values of c],
+         * }
+         * @returns OrderedDict groups
+         */
         public group_by(column: string): OrderedDict {
             const group = new OrderedDict({}, []);
             for (const row of this.data) {
@@ -142,6 +179,10 @@
             return group;
         }
 
+        /**
+         * creates a header array from the first row of columns, used by v-data-table
+         * @returns IHeader[] headers
+         */
         public get headers(): IHeader[] {
             let headers = [];
             let i: number = 0;
