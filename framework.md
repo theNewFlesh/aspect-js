@@ -22,7 +22,7 @@ values --> may not include dicts or lists that contain dicts
 
 [scene_<id>.graph_<id>]
     scene_<id>.graph_<id>.<display>
-    scene_<id>.graph_<id>.type: ["normal", "view"]
+    scene_<id>.graph_<id>.type: ["standard", "view"]
     scene_<id>.graph_<id>.input_node_<id>:
     scene_<id>.graph_<id>.output_node_<id>:
 
@@ -33,7 +33,7 @@ values --> may not include dicts or lists that contain dicts
 
 [scene_<id>.graph_<id>.node_<id>]
     scene_<id>.graph_<id>.node_<id>.<display>
-    scene_<id>.graph_<id>.node_<id>.type: [input, output, subgraph, ...]
+    scene_<id>.graph_<id>.node_<id>.type: [standard, input, output, subgraph, ...]
     scene_<id>.graph_<id>.node_<id>.operator.module: ["module_name"] (same as module)
     scene_<id>.graph_<id>.node_<id>.operator.function: ["function_name"] (same as function)
     scene_<id>.graph_<id>.node_<id>.subgraph.input_node: ["none", "scene_<id>.graph_<id>.node_<id>"] (if type == subgraph, node.type == "input")
@@ -55,6 +55,8 @@ absent   - unlock port when data is absent
 present  - unlock port when data is present
 unlocked - port remains unlocked
 override - unlock all ports when data is present
+
+nodes fire only when all of their ports are unlocked
 
 ---EVENTS-----------------------------------------------------------------------
 SearchBox
@@ -172,7 +174,7 @@ outport.name   outport.id
 | and & for chaining queries
 
 ---PLUGIN-----------------------------------------------------------------------
-    Same as appp but with the SceneViewer replaced
+    Same as app but with the SceneViewer replaced
     Viewer3D (subclass of SceneViewer)
     Viewer2D (like Nuke's viewer)
     ViewerTable (DataTable editor)
@@ -314,9 +316,9 @@ job_server
     |
     receive scene
     |
-    parse scene _ graph cache
+    parse scene - graph cache
     |
-    schedule jobs _ response cache
+    schedule jobs - response cache
     |
     emit jobs
 
@@ -351,7 +353,7 @@ event server
 
 widgets
     |- text box
-    |- slider _ ion.rangeSlider
+    |- slider - ion.rangeSlider
     |- checkbox
     |- dropdown
     |- multi dropdown
