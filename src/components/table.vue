@@ -67,80 +67,49 @@
         hide_headers?: boolean;
     }
 
-    class IndexRow {
-        public constructor(params: IIndexRow) {
-            if (params.group === undefined) {
-                params.group = null;
+    class TableIndex {
+        public constructor(data: IIndexRow[]) {
+            this.__data = new DataFrame( _.map(data, this._coerce) );
+        }
+
+        private __data: DataFrame;
+
+        public _coerce(row: IIndexRow): IIndexRow {
+            if (row.group === undefined) {
+                row.group = null;
             }
-            if (params.indent === undefined) {
-                params.indent = true;
+            if (row.indent === undefined) {
+                row.indent = true;
             }
-            if (params.hide_headers === undefined) {
-                params.hide_headers = false;
+            if (row.hide_headers === undefined) {
+                row.hide_headers = false;
             }
-            this._params["columns"] = params.columns;
-            this._params["group"] = params.group;
-            this._params["indent"] = params.indent;
-            this._params["hide_headers"] = params.hide_headers;
+
+            return row;
         }
 
-        public _params: object = {};
-
-        public to_object(): object {
-            return this._params;
-        }
-    }
-
-    interface IRow {
-        __index: number;
-    }
-    // -------------------------------------------------------------------------
-
-    @Component({components: { Cell }})
-    export default class Table extends Vue {
-        public _data: DataFrame;
-        public _index: DataFrame;
-
-        @Prop()
-        public index: IIndexRow[];
-
-        /**
-         * array of dicts
-         */
-        @Prop()
-        public data: IRow[];
-
-        public created() {
-            let index: any = _.map( this.index, x => new IndexRow(x).to_object() );
-            index = new DataFrame(index);
-            // index = new FancyFrame()
-            //     .from_dataframe(index)
-            //     .coerce()
-            //     .to_dataframe();
-            this._index = index;
-
-            const data: DataFrame = new DataFrame(this.data);
-            // const data: DataFrame = new FancyFrame()
-            //     .from_array(this.data)
-            //     .coerce()
-            //     .to_dataframe();
-            this._data = data;
+        public to_dataframe(): DataFrame {
+            return this.__data;
         }
 
-        public print() {
-            let output: any = [
-                "INDEX",
-                this._index.toString(),
-                "",
-                "DATA",
-                this._data.toString(),
-            ];
-            output = output.join("\n");
-            console.log(output);
+        public get hide_headers(): boolean {
+            return this.__data.getSeries("hide_headers").head(1).toArray()[0];
         }
 
-        public get headers(): IHeader[] {
-            let cols = this._index.at(0).columns;
+        public get indent(): boolean {
+            return this.__data.getSeries("indent").head(1).toArray()[0];
+        }
+
+        public get group_column(): string {
+            return this.__data.at(0).group;
+        }
+
+        public print(): void {
+            console.log(this.__data.toString());
+        }
+
+        public to_headers(): IHeader[] {
+            let cols = this.__data.at(0).columns;
             cols = _.filter(cols, (x) => (x !== "__index"));
 
             const headers = [];
@@ -158,30 +127,71 @@
             }
             return headers;
         }
+    }
+
+    interface IRow {
+        __index: number;
+    }
+    // -------------------------------------------------------------------------
+
+    @Component({components: { Cell }})
+    export default class Table extends Vue {
+        public _data: DataFrame;
+        public _index: TableIndex;
+
+        @Prop()
+        public index: IIndexRow[];
+
+        /**
+         * array of dicts
+         */
+        @Prop()
+        public data: IRow[];
+
+        public created() {
+            this._index = new TableIndex(this.index);
+            this._data = new DataFrame(this.data);
+        }
+
+        public print() {
+            let output: any = [
+                "INDEX",
+                this._index.to_dataframe().toString(),
+                "",
+                "DATA",
+                this._data.toString(),
+            ];
+            output = output.join("\n");
+            console.log(output);
+        }
+
+        public get headers(): IHeader[] {
+            return this._index.to_headers();
+        }
 
         public get rows() {
-            const column = this._index.at(0).group;
-            const group = this._data.groupBy(x => x[column]);
+            const col = this.group_column;
+            const group = this._data.groupBy(x => x[col]);
 
             // convert grouped DataFrame to list of dicts
             // with just the first row per group
             let rows = group.select( x => x.head(1).toArray()[0] ).toArray();
 
             // sort rows by column
-            rows = new DataFrame(rows).orderBy(x => x[column]).toArray();
+            rows = new DataFrame(rows).orderBy(x => x[col]).toArray();
             return rows;
         }
 
         public get hide_headers(): boolean {
-            return this._index.getSeries("hide_headers").head(1).toArray()[0];
+            return this._index.hide_headers;
         }
 
         public get indent(): boolean {
-            return this._index.getSeries("indent").head(1).toArray()[0];
+            return this._index.indent;
         }
 
         public get group_column(): string {
-            return this._index.at(0).group;
+            return this._index.group_column;
         }
 
         public get groups() {
