@@ -43,101 +43,20 @@
 <script lang="ts">
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Cell from "./cell.vue";
-    import { conform_name } from "../tools";
-    import FancyFrame from "./fancy_frame";
+    import { FancyFrame } from "./fancy_frame";
+    import { FancyIndex, IHeader, IIndexRow } from "./fancy_index";
     import * as _ from "lodash";
-    import { DataFrame, Series, Index } from "data-forge";
-    import * as dataforge from "data-forge";
+    import { DataFrame } from "data-forge";
     // -------------------------------------------------------------------------
 
-    interface IHeader {
-        text: string;
-        value: string;
-        align: string; // "left", "center", "right"
-        sortable: boolean;
-        class: string[];
-        width?: number;
-        index: number;
-    }
-
-    interface IIndexRow {
-        columns: string[];
-        group?: string;
-        indent?: boolean;
-        hide_headers?: boolean;
-    }
-
-    class TableIndex {
-        public constructor(data: IIndexRow[]) {
-            this.__data = new DataFrame( _.map(data, this._coerce) );
-        }
-
-        private __data: DataFrame;
-
-        public _coerce(row: IIndexRow): IIndexRow {
-            if (row.group === undefined) {
-                row.group = null;
-            }
-            if (row.indent === undefined) {
-                row.indent = true;
-            }
-            if (row.hide_headers === undefined) {
-                row.hide_headers = false;
-            }
-
-            return row;
-        }
-
-        public to_dataframe(): DataFrame {
-            return this.__data;
-        }
-
-        public get hide_headers(): boolean {
-            return this.__data.getSeries("hide_headers").head(1).toArray()[0];
-        }
-
-        public get indent(): boolean {
-            return this.__data.getSeries("indent").head(1).toArray()[0];
-        }
-
-        public get group_column(): string {
-            return this.__data.at(0).group;
-        }
-
-        public print(): void {
-            console.log(this.__data.toString());
-        }
-
-        public to_headers(): IHeader[] {
-            let cols = this.__data.at(0).columns;
-            cols = _.filter(cols, (x) => (x !== "__index"));
-
-            const headers = [];
-            for (const i in cols) {
-                const col = cols[i];
-                headers.push({
-                    text: conform_name(col),
-                    value: col,
-                    align: "left",
-                    sortable: true,
-                    class: [col + "-column"],
-                    // width: "100%",
-                    index: i,
-                });
-            }
-            return headers;
-        }
-    }
-
-    interface IRow {
+    export interface IRow {
         __index: number;
     }
-    // -------------------------------------------------------------------------
 
     @Component({components: { Cell }})
     export default class Table extends Vue {
-        public _data: DataFrame;
-        public _index: TableIndex;
+        public _data: FancyFrame;
+        public _index: FancyIndex;
 
         @Prop()
         public index: IIndexRow[];
@@ -149,8 +68,8 @@
         public data: IRow[];
 
         public created() {
-            this._index = new TableIndex(this.index);
-            this._data = new DataFrame(this.data);
+            this._index = new FancyIndex(this.index);
+            this._data = new FancyFrame().from_array(this.data);
         }
 
         public print() {
@@ -159,7 +78,7 @@
                 this._index.to_dataframe().toString(),
                 "",
                 "DATA",
-                this._data.toString(),
+                this._data.to_dataframe().toString(),
             ];
             output = output.join("\n");
             console.log(output);
@@ -170,16 +89,13 @@
         }
 
         public get rows() {
-            const col = this.group_column;
-            const group = this._data.groupBy(x => x[col]);
-
-            // convert grouped DataFrame to list of dicts
-            // with just the first row per group
-            let rows = group.select( x => x.head(1).toArray()[0] ).toArray();
-
-            // sort rows by column
-            rows = new DataFrame(rows).orderBy(x => x[col]).toArray();
-            return rows;
+            return this._data
+                .group_by(
+                    this.group_column,
+                    x => x.head(1).toArray()[0]
+                )
+                .to_dataframe()
+                .toArray();
         }
 
         public get hide_headers(): boolean {
@@ -195,9 +111,7 @@
         }
 
         public get groups() {
-            return new FancyFrame()
-                .from_dataframe(this._data)
-                .to_lut(this.group_column);
+            return this._data.to_lut(this.group_column);
         }
 
         public in_groups(key: string): boolean {

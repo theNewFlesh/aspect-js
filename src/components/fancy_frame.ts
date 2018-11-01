@@ -1,7 +1,7 @@
 import * as _ from "lodash";
-import { DataFrame, Index } from "data-forge";
+import { DataFrame } from "data-forge";
 
-export default class FancyFrame {
+export class FancyFrame {
     public constructor(data?: any) {
         if (data !== undefined) {
             this.__data = data;
@@ -128,5 +128,12 @@ export default class FancyFrame {
             output[key] = data.toArray();
         }
         return output;
+    }
+
+    public group_by(column: any, predicate): FancyFrame {
+        let data: any = this.__data.groupBy(x => x[column]);
+        data = data.select(predicate);
+        data = data.orderBy(x => x[column]);
+        return new FancyFrame(data);
     }
 }
