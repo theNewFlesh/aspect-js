@@ -43,9 +43,11 @@
 <script lang="ts">
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Cell from "./cell.vue";
-    import { OrderedDict, omit, conform_name } from "../tools";
+    import { conform_name } from "../tools";
+    import FancyFrame from "./fancy_frame";
     import * as _ from "lodash";
     import { DataFrame, Series, Index } from "data-forge";
+    import * as dataforge from "data-forge";
     // -------------------------------------------------------------------------
 
     interface IHeader {
@@ -94,46 +96,6 @@
     }
     // -------------------------------------------------------------------------
 
-    function to_data(dataframe: DataFrame): object[] {
-        return dataframe.forEach(x => [x]).toArray();
-    }
-
-    function apply(dataframe: DataFrame, predicate): any {
-        return dataframe.select(predicate);
-    }
-
-    function applymap(dataframe: DataFrame, predicate): DataFrame {
-        let data: any = dataframe;
-        for (const col of dataframe.getColumnNames()) {
-            data = data.select( x => x[col] = predicate(x[col]) );
-        }
-        return data;
-    }
-
-    function coerce(dataframe: DataFrame, from: any[] = [null, undefined], to: any = NaN): DataFrame {
-        function _coerce(item) {
-            if (from.includes(item)) {
-                return to;
-            }
-            return item;
-        }
-        return applymap(dataframe, _coerce);
-    }
-
-    function group_to_group_lut(group: any, column: string): object {
-        const temp = group.toArray();
-        const output = {};
-        for (const df of temp) {
-            const key = df.getSeries(column).head(1).toArray()[0];
-
-            // sort dataframe
-            // const data = df.orderBy(x => x[column]);
-            output[key] = to_data(df);
-        }
-        return output;
-    }
-    // -------------------------------------------------------------------------
-
     @Component({components: { Cell }})
     export default class Table extends Vue {
         public _data: DataFrame;
@@ -151,11 +113,17 @@
         public created() {
             let index: any = _.map( this.index, x => new IndexRow(x).to_object() );
             index = new DataFrame(index);
-            // index = coerce(index);
+            // index = new FancyFrame()
+            //     .from_dataframe(index)
+            //     .coerce()
+            //     .to_dataframe();
             this._index = index;
 
-            let data: DataFrame = new DataFrame(this.data);
-            // data = coerce(data);
+            const data: DataFrame = new DataFrame(this.data);
+            // const data: DataFrame = new FancyFrame()
+            //     .from_array(this.data)
+            //     .coerce()
+            //     .to_dataframe();
             this._data = data;
         }
 
@@ -217,10 +185,9 @@
         }
 
         public get groups() {
-            const col = this.group_column;
-            const groups = this._data.groupBy(x => x[col]);
-            const lut = group_to_group_lut(groups, col);
-            return lut;
+            return new FancyFrame()
+                .from_dataframe(this._data)
+                .to_lut(this.group_column);
         }
 
         public in_groups(key: string): boolean {

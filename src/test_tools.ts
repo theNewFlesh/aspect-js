@@ -22,6 +22,11 @@ const b = "bravo";
 
 let rows = [
     // [null, "graph_001", "node_001", "func1", "baz", b, b, "dropdown", "override", display],
+    ["scene_001",  "graph_001", "node_099", "func1", "baz",  b,    b,   "dropdown",    "override", display],
+    ["scene_001",  "graph_001", "node_099", "func1", "bar",  a,    a,   "combobox",    "override", display],
+    ["scene_001",  "graph_001", "node_099", "func1", "boo", text, text, "textarea",    "unlocked", display],
+    ["scene_001",  "graph_001", "node_099", "func1", "fuz", 55,   55,   "slider",      "present" , display],
+    ["scene_001",  "graph_001", "node_099", "func1", "zag",  5,    8,   "spinbox",     "override", display],
     ["scene_002",  "graph_001", "node_001", "func1", "baz",  b,    b,   "dropdown",    "override", display],
     ["scene_002",  "graph_001", "node_001", "func1", "bar",  a,    a,   "combobox",    "override", display],
     ["scene_002",  "graph_001", "node_001", "func1", "boo", text, text, "textarea",    "unlocked", display],
@@ -31,24 +36,18 @@ let rows = [
     ["scene_002",  "graph_001", "node_003", "func2", "fuz", text, text, "slider",      "present",  display],
     ["scene_002",  "graph_001", "node_003", "func3", "boo", text, text, "textarea",    "unlocked", display],
     ["scene_002",  "graph_001", "node_003", "func3", "fuz", 55,   55,   "none",        "present" , display],
-    ["scene_001",  "graph_001", "node_004", "func4", "foo", 50,   50,   "none",        "absent"  , display],
-    ["scene_001",  "graph_001", "node_004", "func4", "bar", 52,   52,   "float_input", "present" , display],
     ["scene_002",  "graph_001", "node_004", "func4", "baz",  a,    a,   "combobox",    "override", display],
     ["scene_002",  "graph_001", "node_004", "func4", "boo", text, text, "textarea",    "unlocked", display],
     ["scene_002",  "graph_001", "node_004", "func4", "fuz", 55,   55,   "slider",      "present" , display],
     ["scene_002",  "graph_001", "node_005", "func5", "baz",  a,    a,   "combobox",    "override", display],
     ["scene_002",  "graph_001", "node_005", "func5", "boo", text, text, "textarea",    "unlocked", display],
     ["scene_002",  "graph_001", "node_005", "func5", "fuz", 55,   55,   "none",        "present" , display],
-    ["scene_001",  "graph_001", "node_005", "func5", "foo", 50,   50,   "none",        "absent"  , display],
-    ["scene_001",  "graph_001", "node_005", "func5", "bar", 52,   52,   "float_input", "present" , display],
     ["scene_002",  "graph_001", "node_005", "func5", "baz",  a,    a,   "combobox",    "override", display],
     ["scene_002",  "graph_001", "node_005", "func5", "boo", text, text, "textarea",    "unlocked", display],
     ["scene_002",  "graph_001", "node_005", "func5", "fuz", 55,   55,   "slider",      "present" , display],
     ["scene_002",  "graph_001", "node_005", "func5", "baz",  a,    a,   "combobox",    "override", display],
     ["scene_002",  "graph_001", "node_006", "func6", "boo", text, text, "textarea",    "unlocked", display],
     ["scene_002",  "graph_001", "node_006", "func6", "fuz", 55,   55,   "none",        "present" , display],
-    ["scene_001",  "graph_001", "node_006", "func6", "foo", 50,   50,   "none",        "absent"  , display],
-    ["scene_001",  "graph_001", "node_006", "func6", "bar", 52,   52,   "float_input", "present" , display],
     ["scene_002",  "graph_001", "node_006", "func6", "baz",  a,    a,   "combobox",    "override", display],
     ["scene_002",  "graph_001", "node_006", "func6", "boo", text, text, "textarea",    "unlocked", display],
     ["scene_002",  "graph_001", "node_006", "func6", "fuz", 55,   55,   "slider",      "present" , display],
@@ -96,8 +95,8 @@ for (const cols of dcols) {
     _index.push({
         columns: cols,
         group: cols[0],
-        // indent: true,
-        // hide_headers: false,
+        // indent: false,
+        hide_headers: true,
     });
 }
 export const index = _index;
