@@ -9,7 +9,8 @@
         v-on:paneResizeStop="_on_resize_stop"
     >
         <div id="scene-pane" class="pane" ref="scene_pane">
-            SCENE-PANEL
+            <Scene>
+            </Scene>
         </div>
 
         <multipane-resizer class="multipane-resizer">
@@ -36,6 +37,7 @@
 <script lang="ts">
     import { Prop, Component, Vue } from "vue-property-decorator";
     import Table from "./table.vue";
+    import Scene from "./scene.vue";
     import { Multipane, MultipaneResizer } from "vue-multipane";
     import * as _ from "lodash";
     import * as tt from "../test_tools";
@@ -71,7 +73,7 @@
         }
     });
 
-    @Component( {components: { Table, Multipane, MultipaneResizer } })
+    @Component( {components: { Table, Scene, Multipane, MultipaneResizer } })
     export default class Layout extends Vue {
         public columns = tt.ccols;
         public data = tt.data;
