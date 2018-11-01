@@ -9,7 +9,10 @@
         v-on:paneResizeStop="_on_resize_stop"
     >
         <div id="scene-pane" class="pane" ref="scene_pane">
-            <Scene>
+            <Scene
+                :width="__scene_pane_width"
+                :height="__scene_pane_height"
+            >
             </Scene>
         </div>
 
@@ -83,16 +86,33 @@
         public _collapsed: boolean = false;
         public _prev_scene_width: number;
 
+        private __scene_pane_width: number;
+        private __scene_pane_height: number;
+
         @Prop({default: 75})
         public scene_width: number;
 
         @Prop({default: 16})
         public collapse_width: number;
 
+        public created() {
+            this.__update_scene_pane_shape();
+        }
+
         public mounted() {
             this._set_width(this.$refs.scene_pane, this.scene_width);
             this._set_width(this.$refs.node_pane, 100 - this.scene_width);
             this._prev_scene_width = this._get_width(this.$refs.scene_pane);
+        }
+
+        private __update_scene_pane_shape(): void {
+            let width: number = window.outerWidth * (this.scene_width / 100);
+            if (this.$refs.scene !== undefined) {
+                width = this._get_width(this.$refs.scene);
+                width = width * 100 * window.outerWidth
+            }
+            this.__scene_pane_width = width;
+            this.__scene_pane_height = window.outerHeight;
         }
 
         public _get_width(element: any): number {
@@ -120,18 +140,20 @@
         }
 
         public _on_resize(element: any) {
-            const scene: any = this.$refs.scene_pane;
-            const node: any = this.$refs.node_pane;
+            const scene_pane: any = this.$refs.scene_pane;
+            const node_pane: any = this.$refs.node_pane;
 
-            let sw: number = this._get_width(scene);
-            this._set_width(scene, sw);
-            this._set_width(node, 100 - sw);
+            let sw: number = this._get_width(scene_pane);
+            this._set_width(scene_pane, sw);
+            this._set_width(node_pane, 100 - sw);
+
+            this.__update_scene_pane_shape();
         }
 
         public _on_resize_stop(element: any) {
-            const scene: any = this.$refs.scene_pane;
-            const node: any = this.$refs.node_pane;
-            let sw: number = this._get_width(scene);
+            const scene_pane: any = this.$refs.scene_pane;
+            const node_pane: any = this.$refs.node_pane;
+            let sw: number = this._get_width(scene_pane);
 
             let autosize_event: boolean = false;
             const delta: number = Math.abs(sw - this._prev_scene_width);
@@ -149,8 +171,10 @@
                 this._collapsed = !this._collapsed;
             }
 
-            this._set_width(scene, sw);
-            this._set_width(node, 100 - sw);
+            this._set_width(scene_pane, sw);
+            this._set_width(node_pane, 100 - sw);
+
+            this.__update_scene_pane_shape();
         }
     }
 </script>
