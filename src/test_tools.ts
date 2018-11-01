@@ -21,6 +21,7 @@ const a = "alpha";
 const b = "bravo";
 
 let rows = [
+    // [null, "graph_001", "node_001", "func1", "baz", b, b, "dropdown", "override", display],
     ["scene_002",  "graph_001", "node_001", "func1", "baz",  b,    b,   "dropdown",    "override", display],
     ["scene_002",  "graph_001", "node_001", "func1", "bar",  a,    a,   "combobox",    "override", display],
     ["scene_002",  "graph_001", "node_001", "func1", "boo", text, text, "textarea",    "unlocked", display],
@@ -89,6 +90,17 @@ export const dcols = [
     ["node_id", "node_name"],
     ["inport_name", "value", "default_value", "options", "widget", "lock"]
 ];
+
+let _index = [];
+for (const cols of dcols) {
+    _index.push({
+        columns: cols,
+        group: cols[0],
+        // indent: true,
+        // hide_headers: false,
+    });
+}
+export const index = _index;
 
 cols.splice(0, 0, "__index");
 add_index(rows);

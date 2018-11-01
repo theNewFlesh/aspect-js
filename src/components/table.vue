@@ -4,8 +4,8 @@
         class="aspect-table"
         id="aspect-table"
         :headers="headers"
-        :items="_rows"
-        :hide-headers="_header_masks[0]"
+        :items="rows"
+        :hide-headers="hide_headers"
         item-key="__index"
         hide-actions
         expand
@@ -26,16 +26,14 @@
             </tr>
         </template>
         <!-- child data row -->
-        <template v-if="_has_data(row.item)"
+        <template v-if="in_groups(row.item[group_column])"
             slot="expand" slot-scope="row"
         >
             <td id="indent" v-if="indent"></td>
             <td id="child-table-container">
                 <Table
-                    :data="_child_data.get(row.item[_group_column])"
-                    :columns="columns.slice(1)"
-                    :header_masks="_header_masks.slice(1)"
-                    :indent="indent"
+                    :data="groups[row.item[group_column]]"
+                    :index="index.slice(1)"
                 />
             </td>
         </template>
@@ -47,7 +45,9 @@
     import Cell from "./cell.vue";
     import { OrderedDict, omit, conform_name } from "../tools";
     import * as _ from "lodash";
-    // import uuidv4 from "uuid/v4";
+    import * as dataforge from "data-forge";
+    import { DataFrame, Series, Index } from "data-forge";
+    // -------------------------------------------------------------------------
 
     interface IHeader {
         text: string;
@@ -59,134 +59,130 @@
         index: number;
     }
 
+    interface IIndexRow {
+        columns: string[];
+        group?: string;
+        indent?: boolean;
+        hide_headers?: boolean;
+    }
+
+    class IndexRow {
+        public constructor(params: IIndexRow) {
+            if (params.group === undefined) {
+                params.group = null;
+            }
+            if (params.indent === undefined) {
+                params.indent = true;
+            }
+            if (params.hide_headers === undefined) {
+                params.hide_headers = false;
+            }
+            this._params["columns"] = params.columns;
+            this._params["group"] = params.group;
+            this._params["indent"] = params.indent;
+            this._params["hide_headers"] = params.hide_headers;
+        }
+
+        public _params: object = {};
+
+        public to_object(): object {
+            return this._params;
+        }
+    }
+
+    interface IRow {
+        __index: number;
+    }
+    // -------------------------------------------------------------------------
+
+    function to_data(dataframe: DataFrame): object[] {
+        return dataframe.forEach(x => [x]).toArray();
+    }
+
+    function apply(dataframe: DataFrame, predicate): any {
+        return dataframe.select(predicate);
+    }
+
+    function applymap(dataframe: DataFrame, predicate): DataFrame {
+        let data: any = dataframe;
+        for (const col of dataframe.getColumnNames()) {
+            data = data.select( x => x[col] = predicate(x[col]) );
+        }
+        return data;
+    }
+
+    function coerce(dataframe: DataFrame, from: any[] = [null, undefined], to: any = NaN): DataFrame {
+        function _coerce(item) {
+            if (from.includes(item)) {
+                return to;
+            }
+            return item;
+        }
+        return applymap(dataframe, _coerce);
+    }
+
+    function group_to_group_lut(group: any, column: string): object {
+        const temp = group.toArray();
+        const output = {};
+        for (const df of temp) {
+            const key = df.getSeries(column).head(1).toArray()[0];
+
+            // sort dataframe
+            // const data = df.orderBy(x => x[column]);
+            output[key] = to_data(df);
+        }
+        return output;
+    }
+    // -------------------------------------------------------------------------
+
     @Component({components: { Cell }})
     export default class Table extends Vue {
+        public _data: DataFrame;
+        public _index: DataFrame;
+
+        @Prop()
+        public index: IIndexRow[];
+
         /**
          * array of dicts
          */
         @Prop()
-        public data: object[];
+        public data: IRow[];
 
-        /**
-         * hierarchical array of columns
-         */
-        @Prop()
-        public columns: string[][];
-
-        /**
-         * masks for displaying headers. Default: []
-         */
-        @Prop({default: []})
-        public header_masks: boolean[];
-
-        /**
-         * whether to indent child tables. Default: true
-         */
-        @Prop({default: true})
-        public indent: boolean;
-
-        public _rows: object[];
-        public _child_data: object;
-        public _group_column: string;
-
-        public get _header_masks(): boolean[] {
-            if (this.header_masks.length > 0) {
-                return this.header_masks;
-            }
-            return _.map(this.columns, (x) => (true));
+        public get df() {
+            return dataforge;
         }
 
         public created() {
-            this.initialize_rows()
+            let index: any = _.map( this.index, x => new IndexRow(x).to_object() );
+            index = new DataFrame(index);
+            // index = coerce(index);
+            this._index = index;
+
+            let data: DataFrame = new DataFrame(this.data);
+            // data = coerce(data);
+            this._data = data;
         }
 
-        /**
-         * determines if a row has child data
-         * @returns boolean
-         */
-        public _has_data(row): boolean {
-            const data = this._child_data.get(row[this._group_column]);
-            if (data === undefined) {
-                return false;
-            }
-            return data.length !> 0;
+        public print() {
+            let output: any = [
+                "INDEX",
+                this._index.toString(),
+                "",
+                "DATA",
+                this._data.toString(),
+            ];
+            output = output.join("\n");
+            console.log(output);
         }
 
-        /**
-         * initialize _rows, which is used by v-data-table
-         */
-        public initialize_rows() {
-            if (this.columns === undefined) {
-                this.columns = this._generate_columns();
-            }
-
-            if (this.groups.length > 0) {
-                const col = this.groups[0];
-                const group = this.group_by(col);
-                this._child_data = group;
-                this._group_column = col;
-
-                const rows = [];
-                for (const key of group.keys) {
-                    const row = group.get(key)[0];
-                    // needed by v-data-table
-                    // row["__index"] = uuidv4();
-                    rows.push(row);
-                }
-                this._rows = rows;
-            } else {
-                this._rows = this.data;
-            }
-        }
-
-        /**
-         * generates a list of unique keys across all rows
-         * @returns string[][] unique keys
-         */
-        public _generate_columns(): string[][] {
-            let cols: any = _.map(this.data, (row) => (Object.keys(row)));
-            cols = _.reduce(cols, (a, b) => (_.concat(a, b)));
-            cols = _.uniq(cols);
-            return [ cols ];
-        }
-
-        /**
-         * an array of the first item of each member of columns
-         * @returns string[]
-         */
-        public get groups(): string[] {
-            if (this.columns === undefined) {
-                return [];
-            }
-            return _.map(this.columns, (col) => (col[0]));
-        }
-
-        /**
-         * creates an OrderedDict of this structure:
-         * columns = ['a', 'b', 'c']
-         * {
-         *      a: [all values of a],
-         *      b: [all values of b],
-         *      c: [all values of c],
-         * }
-         * @returns OrderedDict groups
-         */
-        public group_by(column: string): OrderedDict {
-            const group = new OrderedDict({}, []);
-            for (const row of this.data) {
-                group.get( row[column] ).push(row);
-            }
-            return group;
-        }
-
-        /**
-         * creates a header array from the first row of columns, used by v-data-table
-         * @returns IHeader[] headers
-         */
         public get headers(): IHeader[] {
-            let headers = [];
-            let i: number = 0;
-            for (const col of this.columns[0]) {
+            let cols = this._index.at(0).columns;
+            cols = _.filter(cols, (x) => (x !== "__index"));
+
+            const headers = [];
+            for (const i in cols) {
+                const col = cols[i];
                 headers.push({
                     text: conform_name(col),
                     value: col,
@@ -194,12 +190,46 @@
                     sortable: true,
                     class: [col + "-column"],
                     // width: "100%",
-                    index: i++,
+                    index: i,
                 });
             }
-
-            headers = _.filter(headers, (item) => (item.value !== "__index"));
             return headers;
+        }
+
+        public get rows() {
+            const column = this._index.at(0).group;
+            const group = this._data.groupBy(x => x[column]);
+
+            // convert grouped DataFrame to list of dicts
+            // with just the first row per group
+            let rows = group.select( x => x.head(1).toArray()[0] ).toArray();
+
+            // sort rows by column
+            rows = new DataFrame(rows).orderBy(x => x[column]).toArray();
+            return rows;
+        }
+
+        public get hide_headers(): boolean {
+            return this._index.getSeries("hide_headers").head(1).toArray()[0];
+        }
+
+        public get indent(): boolean {
+            return this._index.getSeries("indent").head(1).toArray()[0];
+        }
+
+        public get group_column(): string {
+            return this._index.at(0).group;
+        }
+
+        public get groups() {
+            const col = this.group_column;
+            const groups = this._data.groupBy(x => x[col]);
+            const lut = group_to_group_lut(groups, col);
+            return lut;
+        }
+
+        public in_groups(key: string): boolean {
+            return this.groups.hasOwnProperty(key);
         }
     }
 </script>

@@ -20,9 +20,7 @@
             <v-app dark class="pane-app">
                 <Table
                     :data="data"
-                    :columns="columns"
-                    :header_masks="masks"
-                    :indent="indent"
+                    :index="index"
                 />
             </v-app>
         </div>
@@ -75,10 +73,11 @@
 
     @Component( {components: { Table, Multipane, MultipaneResizer } })
     export default class Layout extends Vue {
-        public columns = tt.bcols;
+        public columns = tt.ccols;
         public data = tt.data;
         public masks = tt.masks;
         public indent = true;
+        public index = tt.index;
         public _collapsed: boolean = false;
         public _prev_scene_width: number;
 
