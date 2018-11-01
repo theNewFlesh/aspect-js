@@ -27,32 +27,57 @@ export default class FancyFrame {
         console.log(this.__data.toString());
     }
 
-    // public loc(index: number[], columns: string[]): any {
-    //     this.__data.getSeries(columns)
-    // }
+    public loc(index: any = null, columns: any = null): FancyFrame {
+        let data: any = this.__data;
 
-    public transpose(): FancyFrame {
-        function _to_row(column: any) {
-            const output = column.series.toArray();
-            output.splice(0, 0, column.name);
-            return output;
+        // cull rows
+        if (index !== null) {
+            if (typeof index === "number") {
+                data = data.after(index - 1);
+                data = data.before(index + 1);
+            }
+            else {
+                if (index[0] !== undefined) {
+                data = data.after(index[0]);
+                }
+                if (index[1] !== undefined) {
+                    data = data.before(index[1]);
+                }
+            }
         }
 
+        // cull columns
+        if (columns !== null) {
+            if ( !(columns instanceof Array) ) {
+                data = data.subset([columns]);
+            }
+            else {
+                data = data.subset(columns);
+            }
+        }
+
+        return new FancyFrame(data);
+    }
+
+    public transpose(): FancyFrame {
         // transpose
-        let data: any = this.__data.getColumns().select(_to_row);
+        let data: any = this.__data.getColumns().select(
+            x => x.series.toArray()
+        );
         data = new DataFrame(data);
-        const first: string = data.getIndex().head(1).toArray()[0].toString();
-        data = data.setIndex(first).dropSeries(first);
+
+        // rename index
+        const cols: any = this.__data.getColumnNames();
+        data = data.withIndex(cols);
 
         // check to see if all original columns were numbers
-        let cols: any = this.__data.getColumnNames();
-        cols = _.map(cols, x => Number(x).toString());
-        const numcols = _.filter(
-            cols, x => x !== "NaN"
+        const orig = _.map(cols, x => Number(x).toString());
+        const trans = _.filter(
+            orig, x => x !== "NaN"
         );
 
         // rename columns
-        if (numcols.length != 0 && numcols.length == cols.length) {
+        if (trans.length != 0 && trans.length == orig.length) {
             const orig = this.__data.getIndex().toArray();
             const trans = data.getColumnNames();
             const renamer: object = _.zipObject(trans, orig);
@@ -82,14 +107,14 @@ export default class FancyFrame {
         return new FancyFrame(data);
     }
 
-    public coerce(from: any[] = [null, undefined], to: any = NaN): FancyFrame {
-        function _coerce(item) {
+    public fill_na(from: any[] = [null, undefined], to: any = NaN): FancyFrame {
+        function _fill_na(item) {
             if (from.includes(item)) {
                 return to;
             }
             return item;
         }
-        return this.applymap(_coerce);
+        return this.applymap(_fill_na);
     }
 
     public to_lut(column: string): object {
