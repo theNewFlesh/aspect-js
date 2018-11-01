@@ -45,7 +45,6 @@
     import Cell from "./cell.vue";
     import { OrderedDict, omit, conform_name } from "../tools";
     import * as _ from "lodash";
-    import * as dataforge from "data-forge";
     import { DataFrame, Series, Index } from "data-forge";
     // -------------------------------------------------------------------------
 
@@ -148,10 +147,6 @@
          */
         @Prop()
         public data: IRow[];
-
-        public get df() {
-            return dataforge;
-        }
 
         public created() {
             let index: any = _.map( this.index, x => new IndexRow(x).to_object() );
