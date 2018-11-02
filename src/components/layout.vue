@@ -78,10 +78,7 @@
 
     @Component( {components: { Table, Scene, Multipane, MultipaneResizer } })
     export default class Layout extends Vue {
-        public columns = tt.ccols;
         public data = tt.data;
-        public masks = tt.masks;
-        public indent = true;
         public index = tt.index;
         public _collapsed: boolean = false;
         public _prev_scene_width: number;

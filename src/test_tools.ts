@@ -91,12 +91,12 @@ export const dcols = [
 ];
 
 let _index = [];
-for (const cols of dcols) {
+for (const cols of bcols) {
     _index.push({
         columns: cols,
         group: cols[0],
-        // indent: false,
-        hide_headers: true,
+        indent: false,
+        hide_headers: false,
     });
 }
 export const index = _index;

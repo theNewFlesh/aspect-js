@@ -9,14 +9,12 @@
     import * as THREE from "three";
     import { MeshLine, MeshLineMaterial } from "three.meshline";
     import * as CreateOrbitControls from "three-orbit-controls";
+    import { SceneManager } from "./scene_manager";
+    // -------------------------------------------------------------------------
 
     @Component
     export default class Scene extends Vue {
-        public _camera: any = null;
-        public _scene: any = null;
-        public _renderer: any = null;
-        public _geometry: any = null;
-        public _controls: any = null;
+        public scene_manager;
 
         @Prop({ required: true })
         public width: number;
@@ -24,85 +22,46 @@
         @Prop({ required: true })
         public height: number;
 
-        private __init() {
-            // create scene
-            this._scene = new THREE.Scene();
-
-            // create camera
-            this._camera = new THREE.PerspectiveCamera(
-                // 60, this.aspect_ratio, 0.1, 1000
-                60, this.aspect_ratio, 0.1, 1000
-            );
-
-            // create view controls
-            const OrbitControls = new CreateOrbitControls(THREE);
-            this._controls = new OrbitControls(this._camera);
-
-            // set camera position
-            this._camera.position.x = 1;
-            this._camera.position.y = 1;
-            this._camera.position.z = 2;
-
-            // create light
-            const light = new THREE.DirectionalLight(0xffffff, 0.1);
-            this._scene.add(light);
-
-            // create cube
-            this._geometry = new THREE.BoxGeometry(1, 1, 0.1);
-            const material = new THREE.MeshBasicMaterial( { color: 0x444444 } );
-            const cube = new THREE.Mesh(this._geometry, material );
-            this._scene.add(cube);
-
-            // create line geometry
-            const line_geo = new THREE.Geometry();
-            line_geo.vertices.push(new THREE.Vector3(-10, 0, 0));
-            line_geo.vertices.push(new THREE.Vector3(10, 0, 0));
-
-            // create line
-            const line = new MeshLine();
-            const line_width: number = 10;
-            line.setGeometry(line_geo, function f(p) { return 0.1; });
-
-            // assign line material
-            const line_material = new MeshLineMaterial({
-                color: new THREE.Color(0xff0000),
-            });
-
-            // draw line
-            const line_mesh = new THREE.Mesh(line.geometry, line_material);
-            this._scene.add(line_mesh);
-
-            // render scene
-            this._renderer = new THREE.WebGLRenderer({antialias: true});
-            this._renderer.setSize(this.width, this.height);
-            this._renderer.setClearColor(0x141414);
-            this._renderer.setPixelRatio(window.devicePixelRatio);
-
-            // mount scene
-            const elem = document.getElementById("scene");
-            elem.appendChild(this._renderer.domElement);
-        }
-
-        public _animate() {
-            requestAnimationFrame(this._animate);
-            this._controls.update();
-            this._renderer.render(this._scene, this._camera);
-        }
-
-        public get aspect_ratio(): number {
-            return this.width / this.height;
+        public created() {
+            this.scene_manager = new SceneManager({
+                width: this.width,
+                height: this.height,
+            })
         }
 
         public mounted() {
-            this.__init();
-            this._animate();
+            const scn = this.scene_manager;
+            scn.create_scene();
+            const cam: string = scn.create_camera();
+            scn.update_camera(
+                cam,
+                {
+                    position: {
+                        x: 1,
+                        y: 1,
+                        z: 2,
+                    }
+                }
+            );
+            scn.create_light();
+            scn.create_node();
+            scn.create_edge();
+
+            const elem = document.getElementById("scene");
+            scn.render(elem);
+            this.animate();
+        }
+
+        public animate() {
+            requestAnimationFrame(this.animate);
+            this.scene_manager.render_update()
         }
     }
 </script>
 
 <style scoped>
-    canvas {
+    /* canvas {
         width: 75vw;
         height: 75vh;
-    }
+    } */
 </style>
