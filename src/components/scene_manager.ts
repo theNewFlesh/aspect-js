@@ -2,7 +2,6 @@ import * as _ from "lodash";
 import * as THREE from "three";
 import { MeshLine, MeshLineMaterial } from "three.meshline";
 import * as CreateOrbitControls from "three-orbit-controls";
-import * as uuidv4 from "uuid/v4";
 // -----------------------------------------------------------------------------
 
 export class SceneManager {
@@ -38,9 +37,8 @@ export class SceneManager {
 
     public create_scene(): string {
         const scene = new THREE.Scene();
-        const id: string = uuidv4();
-        this.scenes[id] = scene;
-        return id;
+        this.scenes[scene.uuid] = scene;
+        return scene.uuid;
     }
 
     public create_node(): string {
@@ -51,9 +49,8 @@ export class SceneManager {
         const node = new THREE.Mesh(geo, material);
         this.scene.add(node);
 
-        const id: string = uuidv4();
-        this.nodes[id] = node;
-        return id;
+        this.nodes[node.uuid] = node;
+        return node.uuid;
     }
 
     public create_edge(): string {
@@ -81,9 +78,8 @@ export class SceneManager {
         const edge = new THREE.Mesh(line.geometry, line_material);
         this.scene.add(edge);
 
-        const id: string = uuidv4();
-        this.edges[id] = edge;
-        return id;
+        this.edges[edge.uuid] = edge;
+        return edge.uuid;
     }
 
     public create_camera(): string {
@@ -95,9 +91,8 @@ export class SceneManager {
         const controls = new OrbitControls(camera);
         this.controls = controls;
 
-        const id: string = uuidv4();
-        this.cameras[id] = camera;
-        return id;
+        this.cameras[camera.uuid] = camera;
+        return camera.uuid;
     }
 
     public create_light(): string {
@@ -106,9 +101,8 @@ export class SceneManager {
         const light = new THREE.DirectionalLight(color, intensity);
         this.scene.add(light);
 
-        const id: string = uuidv4();
-        this.lights[id] = light;
-        return id;
+        this.lights[light.uuid] = light;
+        return light.uuid;
     }
 
     public update_camera(id: string, params: any) {
