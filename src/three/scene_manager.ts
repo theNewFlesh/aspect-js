@@ -3,7 +3,6 @@ import * as THREE from "three";
 import { MeshLine, MeshLineMaterial } from "three.meshline";
 import * as CreateOrbitControls from "three-orbit-controls";
 import MENLO_REGULAR from "../static/fonts/menlo_regular.json";
-import { Box } from "./box";
 
 const FONTS: object = {
     menlo_regular: MENLO_REGULAR,
