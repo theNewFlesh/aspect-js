@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { MeshLine, MeshLineMaterial } from "three.meshline";
 import * as CreateOrbitControls from "three-orbit-controls";
 import MENLO_REGULAR from "../static/fonts/menlo_regular.json";
+import { Box } from "./box";
 
 const FONTS: object = {
     menlo_regular: MENLO_REGULAR,
@@ -18,8 +19,8 @@ export class SceneManager {
     public scenes: object = {};
     public lights: object = {};
     public cameras: object = {};
-    public edges: object = {};
-    public nodes: object = {};
+    public cylinders: object = {};
+    public boxes: object = {};
     public texts: object = {};
 
     public renderer;
@@ -57,7 +58,7 @@ export class SceneManager {
         });
 
         const material = new THREE.MeshBasicMaterial({
-            color: 0xA4A4A4,
+            color: 0xa4a4a4,
             transparent: true
         });
         const text = new THREE.Mesh(geo, material);
@@ -67,69 +68,34 @@ export class SceneManager {
         return text.uuid;
     }
 
-    public create_node(): string {
+    public create_box(): string {
         const geo = new THREE.BoxGeometry(1, 1, 1);
         const material = new THREE.MeshBasicMaterial({
             color: 0x7ec4cf,
-            transparent: true,
+            transparent: true
         });
-        const node = new THREE.Mesh(geo, material);
-        this.scene.add(node);
+        const box = new THREE.Mesh(geo, material);
+        this.scene.add(box);
 
-        this.nodes[node.uuid] = node;
-        return node.uuid;
+        this.boxes[box.uuid] = box;
+        return box.uuid;
     }
 
-    public update_node(id: string, params: any) {
-        const node = this.nodes[id];
-        const geo = node.geometry;
-
-        // scale
-        geo.scale.x = params.scale.x;
-        geo.scale.x = params.scale.y;
-        geo.scale.x = params.scale.z;
-
-        // translate
-        geo.translateX(params.translate.x);
-        geo.translateY(params.translate.y);
-        geo.translateZ(params.translate.z);
-
-        // rotate
-        geo.rotateX(params.rotate.x);
-        geo.rotateY(params.rotate.y);
-        geo.rotateZ(params.rotate.z);
-
-        // color
-        node.material.color.set(params.color);
+    public get THREE() {
+        return THREE;
     }
 
-    public create_edge(): string {
-        // create line geometry
-        const geo = new THREE.Geometry();
-        geo.vertices.push(new THREE.Vector3(0, 0, 0));
-        geo.vertices.push(new THREE.Vector3(0, -10, 0));
-
-        // create line
-        const line = new MeshLine();
-        const line_width: number = 10;
-
-        function set_line_width(p) {
-            return 0.1;
-        }
-
-        line.setGeometry(geo, set_line_width);
-
-        // assign line material
-        const line_material = new MeshLineMaterial({
-            color: new THREE.Color(0x444444)
+    public create_cylinder(): string {
+        const geo = new THREE.CylinderGeometry(0.1, 0.1, 10, 6);
+        const material = new THREE.MeshBasicMaterial({
+            color: 0x444444,
+            transparent: true
         });
+        const cylinder = new THREE.Mesh(geo, material);
+        this.scene.add(cylinder);
 
-        // draw line
-        const edge = new THREE.Mesh(line.geometry, line_material);
-        this.scene.add(edge);
-
-        this.edges[edge.uuid] = edge;
-        return edge.uuid;
+        this.cylinders[cylinder.uuid] = cylinder;
+        return cylinder.uuid;
     }
 
     public create_camera(): string {
@@ -155,13 +121,43 @@ export class SceneManager {
         return light.uuid;
     }
 
+    public update_item(id: string, type: string, params: any) {
+        const item = this[type + "s"][id];
+        const geo = item.geometry;
+
+        // name
+        item.name = params.name;
+
+        // translate
+        geo.translateX(params.translate.x);
+        geo.translateY(params.translate.y);
+        geo.translateZ(params.translate.z);
+
+        // rotate
+        geo.rotateX(params.rotate.x);
+        geo.rotateY(params.rotate.y);
+        geo.rotateZ(params.rotate.z);
+
+        // scale
+        geo.scale.x = params.scale.x;
+        geo.scale.y = params.scale.y;
+        geo.scale.z = params.scale.z;
+
+        // color
+        item.material.color.set(params.color);
+        item.material.opacity = params.opacity;
+
+        // visibility
+        item.visible = params.visible;
+    }
+
     public update_camera(id: string, params: any) {
         // set camera position
         const camera = this.cameras[id];
         camera.position.x = params.position.x;
         camera.position.y = params.position.y;
         camera.position.z = params.position.z;
-        }
+    }
 
     public render(element: any) {
         this.renderer = new THREE.WebGLRenderer({ antialias: true });

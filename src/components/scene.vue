@@ -9,7 +9,7 @@
     import * as THREE from "three";
     import { MeshLine, MeshLineMaterial } from "three.meshline";
     import * as CreateOrbitControls from "three-orbit-controls";
-    import { SceneManager } from "./scene_manager";
+    import { SceneManager } from "../three/scene_manager";
     // -------------------------------------------------------------------------
 
     @Component
@@ -44,8 +44,8 @@
                 }
             );
             scn.create_light();
-            scn.create_node();
-            scn.create_edge();
+            scn.create_box();
+            scn.create_cylinder();
             scn.create_text({
                 text: "node",
                 font_family: "menlo",
