@@ -2,6 +2,11 @@ import * as _ from "lodash";
 import * as THREE from "three";
 import { MeshLine, MeshLineMaterial } from "three.meshline";
 import * as CreateOrbitControls from "three-orbit-controls";
+import MENLO_REGULAR from "../static/fonts/menlo_regular.json";
+
+const FONTS: object = {
+    menlo_regular: MENLO_REGULAR,
+}
 // -----------------------------------------------------------------------------
 
 export class SceneManager {
@@ -10,11 +15,12 @@ export class SceneManager {
         this.height = params.height;
     }
 
-    public scenes = {};
-    public lights = {};
-    public cameras = {};
-    public edges = {};
-    public nodes = {};
+    public scenes: object = {};
+    public lights: object = {};
+    public cameras: object = {};
+    public edges: object = {};
+    public nodes: object = {};
+    public texts: object = {};
 
     public renderer;
     public controls;
@@ -41,16 +47,60 @@ export class SceneManager {
         return scene.uuid;
     }
 
-    public create_node(): string {
-        const geo = new THREE.BoxGeometry(3, 1, 0.2);
+    public create_text(params: any) {
+        const key: string = params.font_family + "_" + params.font_weight;
+        const font = new THREE.Font(FONTS[key]);
+        const geo = new THREE.TextGeometry(params.text, {
+            font: font,
+            size: 1,
+            height: 0.01,
+        });
+
         const material = new THREE.MeshBasicMaterial({
-            color: 0x7ec4cf
+            color: 0xA4A4A4,
+            transparent: true
+        });
+        const text = new THREE.Mesh(geo, material);
+        this.scene.add(text);
+
+        this.texts[text.uuid] = text;
+        return text.uuid;
+    }
+
+    public create_node(): string {
+        const geo = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshBasicMaterial({
+            color: 0x7ec4cf,
+            transparent: true,
         });
         const node = new THREE.Mesh(geo, material);
         this.scene.add(node);
 
         this.nodes[node.uuid] = node;
         return node.uuid;
+    }
+
+    public update_node(id: string, params: any) {
+        const node = this.nodes[id];
+        const geo = node.geometry;
+
+        // scale
+        geo.scale.x = params.scale.x;
+        geo.scale.x = params.scale.y;
+        geo.scale.x = params.scale.z;
+
+        // translate
+        geo.translateX(params.translate.x);
+        geo.translateY(params.translate.y);
+        geo.translateZ(params.translate.z);
+
+        // rotate
+        geo.rotateX(params.rotate.x);
+        geo.rotateY(params.rotate.y);
+        geo.rotateZ(params.rotate.z);
+
+        // color
+        node.material.color.set(params.color);
     }
 
     public create_edge(): string {

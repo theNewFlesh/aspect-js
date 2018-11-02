@@ -46,6 +46,11 @@
             scn.create_light();
             scn.create_node();
             scn.create_edge();
+            scn.create_text({
+                text: "node",
+                font_family: "menlo",
+                font_weight: "regular"
+            });
 
             const elem = document.getElementById("scene");
             scn.render(elem);
