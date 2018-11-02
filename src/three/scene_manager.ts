@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { MeshLine, MeshLineMaterial } from "three.meshline";
 import * as CreateOrbitControls from "three-orbit-controls";
 import MENLO_REGULAR from "../static/fonts/menlo_regular.json";
+import { Primitive } from "./primitive";
 
 const FONTS: object = {
     menlo_regular: MENLO_REGULAR,
@@ -68,16 +69,19 @@ export class SceneManager {
     }
 
     public create_box(): string {
-        const geo = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshBasicMaterial({
-            color: 0x7ec4cf,
-            transparent: true
-        });
-        const box = new THREE.Mesh(geo, material);
-        this.scene.add(box);
+        // const geo = new THREE.BoxGeometry(1, 1, 1);
+        // const material = new THREE.MeshBasicMaterial({
+        //     color: 0x7ec4cf,
+        //     transparent: true
+        // });
+        // const box = new THREE.Mesh(geo, material);
+        // this.scene.add(box);
 
-        this.boxes[box.uuid] = box;
-        return box.uuid;
+        const prim = new Primitive(this.scene);
+        prim.create();
+
+        this.boxes['foo'] = prim;
+        return 'ajksds';
     }
 
     public get THREE() {

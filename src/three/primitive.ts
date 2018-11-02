@@ -79,20 +79,18 @@ function to_scale(item): IVector3 {
     return output;
 }
 
-function diff_params(a: object, b: object): object {
-    const output: object = {};
-    for (const key of _.keys(b)) {
-        if (a.hasOwnProperty(key)) {
-            if (a[key] === b[key]) {
-                output[key] = b[key];
-            }
+function diff_params(a: IParams, b: IParams): IParams {
+    const output: IParams = {};
+    for (const key of _.keys(a)) {
+        if (a[key] !== b[key]) {
+            output[key] = a[key];
         }
     }
     return output;
 }
 
-function resolve_params(params: any, old_params: any): any {
-    const diff = diff_params(params, old_params);
+function resolve_params(new_params: any, old_params: any): any {
+    const diff = diff_params(new_params, old_params);
     let keys: string[] = _.keys(diff);
 
     for (const key of keys) {
@@ -114,12 +112,12 @@ function resolve_params(params: any, old_params: any): any {
     }
     keys = _.uniq(keys);
 
-    const old_keys: string[] = _.keys(params);
+    const new_keys: string[] = _.keys(new_params);
 
-    const output: object = {};
+    const output: IParams = {};
     for (const key of keys) {
-        if (old_keys.includes(key)) {
-            output[key] = params[key];
+        if (new_keys.includes(key)) {
+            output[key] = new_params[key];
         }
         else {
             output[key] = old_params[key];
@@ -200,17 +198,17 @@ export class Primitive {
         this.__item = item;
     }
 
-    public read(): object {
+    public read(): IParams {
         const item = this.__item;
         const geo = this.__item.geometry;
-        const params: object = {
+        const params: IParams = {
             id: item.uuid,
             name: item.name,
             opacity: item.material.opacity,
             visible: item.visible,
-            "color/hue": item.material.color.getHSL().h,
-            "color/saturation": item.material.color.getHSL().s,
-            "color/luminance": item.material.color.getHSL().l,
+            "color/hue": item.material.color.getHSL({}).h,
+            "color/saturation": item.material.color.getHSL({}).s,
+            "color/luminance": item.material.color.getHSL({}).l,
             "translate/x": to_translate(item).x,
             "translate/y": to_translate(item).y,
             "translate/z": to_translate(item).z,
@@ -225,9 +223,9 @@ export class Primitive {
         return params;
     }
 
-    public update(params: object): void {
-        const old_params: object = this.read();
-        const new_params: object = resolve_params(params, old_params);
+    public update(params: IParams): void {
+        const old_params: IParams = this.read();
+        const new_params: IParams = resolve_params(params, old_params);
 
         const keys: string[] = _.keys(new_params);
         if (_.intersection(TRANSLATE_KEYS, keys).length > 0) {
