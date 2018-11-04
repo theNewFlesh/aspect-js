@@ -74,25 +74,6 @@ function to_angle(radian: number): number {
     return (radian / (Math.PI * 2)) * 360;
 }
 
-function to_translate(item): IVector3 {
-    const vect: number[] = item.position.toArray();
-    const output: IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
-    return output;
-}
-
-function to_rotate(item): IVector3 {
-    let vect: number[] = item.quaternion.toArray();
-    vect = vect.map(to_angle);
-    const output: IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
-    return output;
-}
-
-function to_scale(item): IVector3 {
-    const vect: number[] = item.scale.toArray();
-    const output: IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
-    return output;
-}
-
 function diff_params(a: IParams, b: IParams): IParams {
     const output: IParams = {};
     for (const key of _.keys(a)) {
@@ -160,6 +141,25 @@ export class Primitive {
         this.__id = uuidv4();
     }
     // -------------------------------------------------------------------------
+
+    private __get_translate(): IVector3 {
+        const vect: number[] = this._item.position.toArray();
+        const output: IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
+        return output;
+    }
+
+    private __get_rotate(): IVector3 {
+        let vect: number[] = this._item.quaternion.toArray();
+        vect = vect.map(to_angle);
+        const output: IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
+        return output;
+    }
+
+    private __get_scale(): IVector3 {
+        const vect: number[] = this._item.scale.toArray();
+        const output: IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
+        return output;
+    }
 
     private __get_color(): any {
         if (is_array(this._item.material)) {
@@ -252,15 +252,15 @@ export class Primitive {
             "color/hue": this.__get_color().h,
             "color/saturation": this.__get_color().s,
             "color/luminance": this.__get_color().l,
-            "translate/x": to_translate(item).x,
-            "translate/y": to_translate(item).y,
-            "translate/z": to_translate(item).z,
-            "rotate/x": to_rotate(item).x,
-            "rotate/y": to_rotate(item).y,
-            "rotate/z": to_rotate(item).z,
-            "scale/x": to_scale(item).x,
-            "scale/y": to_scale(item).y,
-            "scale/z": to_scale(item).z,
+            "translate/x": this.__get_translate().x,
+            "translate/y": this.__get_translate().y,
+            "translate/z": this.__get_translate().z,
+            "rotate/x": this.__get_rotate().x,
+            "rotate/y": this.__get_rotate().y,
+            "rotate/z": this.__get_rotate().z,
+            "scale/x": this.__get_scale().x,
+            "scale/y": this.__get_scale().y,
+            "scale/z": this.__get_scale().z,
         }
         return params;
     }
