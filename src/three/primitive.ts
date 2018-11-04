@@ -1,30 +1,38 @@
 import * as _ from "lodash";
 import * as THREE from "three";
+import { throws } from 'assert';
 // -----------------------------------------------------------------------------
 
-const TRANSLATE_KEYS: string[] = [
+export const TRANSLATE_KEYS: string[] = [
     "translate/x",
     "translate/y",
     "translate/z",
 ];
 
-const ROTATE_KEYS: string[] = [
+export const ROTATE_KEYS: string[] = [
     "rotate/x",
     "rotate/y",
     "rotate/z",
     "rotate/w",
 ];
 
-const SCALE_KEYS: string[] = [
+export const SCALE_KEYS: string[] = [
     "scale/x",
     "scale/y",
     "scale/z",
 ];
 
-const COLOR_KEYS: string[] = [
+export const COLOR_KEYS: string[] = [
     "color/hue",
     "color/saturation",
     "color/luminance",
+];
+
+export const FONT_KEYS: string[] = [
+    "font/text",
+    "font/family",
+    "font/style",
+    "font/size",
 ];
 // -----------------------------------------------------------------------------
 
@@ -46,18 +54,20 @@ export interface IParams {
     "scale/x"?: number;
     "scale/y"?: number;
     "scale/z"?: number;
+    "font/text"?: string;
     "font/family"?: string;
     "font/style"?: string;
-    "text"?: string;
+    "font/size"?: number;
+    "radius"?: number;
 }
 
-interface IVector3 {
+export interface IVector3 {
     x: number;
     y: number;
     z: number;
 }
 
-interface IVector4 {
+export interface IVector4 {
     x: number;
     y: number;
     z: number;
@@ -113,6 +123,10 @@ function resolve_params(new_params: any, old_params: any): any {
         if (COLOR_KEYS.includes(key)) {
             keys = _.concat(keys, COLOR_KEYS);
         }
+
+        if (FONT_KEYS.includes(key)) {
+            keys = _.concat(keys, FONT_KEYS);
+        }
     }
     keys = _.uniq(keys);
 
@@ -133,8 +147,7 @@ function resolve_params(new_params: any, old_params: any): any {
 
 export class Primitive {
     private __scene: THREE.Scene;
-    private __item;
-    public _destructive: boolean = false;
+    public _item;
 
     public constructor(scene: THREE.Scene) {
         this.__scene = scene;
@@ -142,23 +155,23 @@ export class Primitive {
     // -------------------------------------------------------------------------
 
     private __set_id(params: IParams): void {
-        this.__item.uuid = params["id"];
+        this._item.uuid = params["id"];
     }
 
     private __set_name(params: IParams): void {
-        this.__item.name = params["name"];
+        this._item.name = params["name"];
     }
 
     private __set_visible(params: IParams): void {
-        this.__item.visible = params["visible"];
+        this._item.visible = params["visible"];
     }
 
     private __set_opacity(params: IParams): void {
-        this.__item.opacity = params["opacity"];
+        this._item.opacity = params["opacity"];
     }
 
     private __set_translate(params: IParams): void {
-        this.__item.position.set(
+        this._item.position.set(
             params["translate/x"],
             params["translate/y"],
             params["translate/z"],
@@ -172,11 +185,11 @@ export class Primitive {
             params["rotate/z"],
             params["rotate/w"],
         );
-        this.__item.setRotationFromQuaternion(rot);
+        this._item.setRotationFromQuaternion(rot);
     }
 
     private __set_scale(params: IParams): void {
-        this.__item.scale.set(
+        this._item.scale.set(
             params["scale/x"],
             params["scale/y"],
             params["scale/z"],
@@ -184,7 +197,7 @@ export class Primitive {
     }
 
     private __set_color(params: IParams): void {
-        this.__item.material.color.setHSL(
+        this._item.material.color.setHSL(
             params["color/hue"],
             params["color/saturation"],
             params["color/luminance"],
@@ -192,20 +205,24 @@ export class Primitive {
     }
     // -------------------------------------------------------------------------
 
-    public _create_item(params: IParams): THREE.Mesh {
-        throw new Error("method needs to be defined in subclass");
+    public _create_item(params: IParams): any {
+        throw new Error("method must be defined in subclass");
     }
 
-    public create(params: IParams): void {
+    public _is_destructive(params: IParams): boolean {
+        throw new Error("method must be defined in subclass");
+    }
+
+    public create(params: IParams = {}): void {
         const item = this._create_item(params);
         this.__scene.add(item);
-        this.__item = item;
-        // this.update(params);
+        this._item = item;
+        this._non_destructive_update(params);
     }
 
     public read(): IParams {
-        const item = this.__item;
-        const geo = this.__item.geometry;
+        const item = this._item;
+        const geo = this._item.geometry;
         const params: IParams = {
             "id": item.uuid,
             "name": item.name,
@@ -229,54 +246,55 @@ export class Primitive {
     }
 
     public update(params: IParams): void {
-        // if (this._destructive) {
-        //     this.delete();
-        //     this.create(params);
-        // }
-        // else {
-            this._update(params);
-        // }
-    }
-
-    public _update(params: IParams): void {
         const old_params: IParams = this.read();
         const new_params: IParams = resolve_params(params, old_params);
 
-        const keys: string[] = _.keys(new_params);
+        if (this._is_destructive(new_params)) {
+            Object.assign(old_params, new_params);
+            this.delete();
+            this.create(old_params);
+        }
+        else {
+            this._non_destructive_update(new_params);
+        }
+    }
+
+    public _non_destructive_update(params: IParams): void {
+        const keys: string[] = _.keys(params);
         if (_.intersection(TRANSLATE_KEYS, keys).length > 0) {
-            this.__set_translate(new_params);
+            this.__set_translate(params);
         }
 
         if (_.intersection(ROTATE_KEYS, keys).length > 0) {
-            this.__set_rotate(new_params);
+            this.__set_rotate(params);
         }
 
         if (_.intersection(SCALE_KEYS, keys).length > 0) {
-            this.__set_scale(new_params);
+            this.__set_scale(params);
         }
 
         if (_.intersection(COLOR_KEYS, keys).length > 0) {
-            this.__set_color(new_params);
+            this.__set_color(params);
         }
 
         if (keys.includes("id")) {
-            this.__set_id(new_params);
+            this.__set_id(params);
         }
 
         if (keys.includes("name")) {
-            this.__set_name(new_params);
+            this.__set_name(params);
         }
 
         if (keys.includes("visible")) {
-            this.__set_visible(new_params);
+            this.__set_visible(params);
         }
 
         if (keys.includes("opacity")) {
-            this.__set_opacity(new_params);
+            this.__set_opacity(params);
         }
     }
 
     public delete(): void {
-        this.__scene.remove(this.__item);
+        this.__scene.remove(this._item);
     }
 }

@@ -1,32 +1,67 @@
+import * as _ from "lodash";
 import * as THREE from "three";
-import { Primitive, IParams } from "./primitive";
-import * as MENLO_REGULAR from "../fonts/helvetiker_regular.json";
-const FONTS: object = {
-    menlo_regular: MENLO_REGULAR,
+import { Primitive, FONT_KEYS } from "./primitive";
+import TextTexture from "three.texttexture";
+// -----------------------------------------------------------------------------
+
+export interface ITextParams {
+    "id"?: string;
+    "name"?: string;
+    "opacity"?: number;
+    "visible"?: boolean;
+    "color/hue"?: number;
+    "color/saturation"?: number;
+    "color/luminance"?: number;
+    "translate/x"?: number;
+    "translate/y"?: number;
+    "translate/z"?: number;
+    "rotate/x"?: number;
+    "rotate/y"?: number;
+    "rotate/z"?: number;
+    "rotate/w"?: number;
+    "scale/x"?: number;
+    "scale/y"?: number;
+    "scale/z"?: number;
+    "font/text"?: string;
+    "font/family"?: string;
+    "font/style"?: string;
+    "font/size"?: number;
 }
 // -----------------------------------------------------------------------------
 
 export class Text extends Primitive {
-    public _destructive: boolean = true;
-
-    public _create_item(params: IParams): THREE.Mesh {
-        const family: string = params["font/family"] || "menlo";
-        const style: string = params["font/style"] || "regular";
-        const text: string = params["text"] || "DEFAULT TEXT";
-
-        const key: string = family + "_" + style;
-        const font = new THREE.Font(FONTS[key]);
-        const geo = new THREE.TextGeometry(text, {
-            font: font,
-            size: 1,
-            height: 0.001,
+    public _create_item(params: ITextParams): THREE.Sprite {
+        const texture = new TextTexture({
+            text: params["font/text"],
+            fontFamily: `"${params["font/family"]}"`,
+            fontSize: params["font/size"],
+            fontStyle: params["font/style"],
         });
-
-        const material = new THREE.MeshBasicMaterial({
-            color: 0xa4a4a4,
-            transparent: true
+        const material = new THREE.SpriteMaterial({
+            map: texture,
+            color: 0xffffbb
         });
-        const item = new THREE.Mesh(geo, material);
-        return item;
+        const sprite = new THREE.Sprite(material);
+        sprite.scale.setX(texture.imageAspect);
+        return sprite;
+    }
+
+    public _is_destructive(params: ITextParams): boolean {
+        for (const key of _.keys(params)) {
+            if (FONT_KEYS.includes(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public read(): ITextParams {
+        const item = this._item;
+        const params: ITextParams = super.read();
+        params["font/text"] =  item.material.map.text;
+        params["font/family"] =item.material.map.fontFamily;
+        params["font/style"] = item.material.map.fontStyle;
+        params["font/size"] = item.material.map.fontSize;
+        return params;
     }
 }

@@ -9,12 +9,12 @@
     import * as THREE from "three";
     import { MeshLine, MeshLineMaterial } from "three.meshline";
     import * as CreateOrbitControls from "three-orbit-controls";
-    import { SceneManager } from "../three/scene_manager";
+    import { Scene as ThreeScene } from "../three/scene";
     // -------------------------------------------------------------------------
 
     @Component
     export default class Scene extends Vue {
-        public scene_manager;
+        public scene;
 
         @Prop({ required: true })
         public width: number;
@@ -23,35 +23,14 @@
         public height: number;
 
         public created() {
-            this.scene_manager = new SceneManager({
+            this.scene = new ThreeScene({
                 width: this.width,
                 height: this.height,
             });
         }
 
         public mounted() {
-            const scn = this.scene_manager;
-            scn.create_scene();
-            const cam: string = scn.create_camera();
-            scn.update_camera(
-                cam,
-                {
-                    position: {
-                        x: 1,
-                        y: 1,
-                        z: 2,
-                    }
-                }
-            );
-            scn.create_light();
-            scn.create_cube();
-            scn.create_cylinder();
-            scn.create_text({
-                text: "node",
-                font_family: "menlo",
-                font_weight: "regular"
-            });
-
+            const scn = this.scene;
             const elem = document.getElementById("scene");
             scn.render(elem);
             this.animate();
@@ -59,14 +38,10 @@
 
         public animate() {
             requestAnimationFrame(this.animate);
-            this.scene_manager.render_update();
+            this.scene.render_update();
         }
     }
 </script>
 
-<style scoped>
-    /* canvas {
-        width: 75vw;
-        height: 75vh;
-    } */
+<style lang="less">
 </style>

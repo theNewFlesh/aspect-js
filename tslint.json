@@ -15,6 +15,7 @@
         "no-duplicate-super": true,
         "one-line": false,
         "object-literal-sort-keys": false,
+        "object-literal-key-quotes": false,
         "ordered-imports": false,
         "prefer-const": true,
         "prefer-for-of": true,
