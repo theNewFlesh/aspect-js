@@ -43,8 +43,8 @@
 <script lang="ts">
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Cell from "./cell.vue";
-    import { FancyFrame } from "./fancy_frame";
-    import { FancyIndex, IHeader, IIndexRow } from "./fancy_index";
+    import { FancyFrame } from "../core/fancy_frame";
+    import { FancyIndex, IHeader, IIndexRow } from "../core/fancy_index";
     import * as _ from "lodash";
     import { DataFrame } from "data-forge";
     // -------------------------------------------------------------------------
