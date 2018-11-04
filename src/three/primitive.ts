@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 import * as THREE from "three";
+import * as uuidv4 from "uuid/v4";
 // -----------------------------------------------------------------------------
 
 export const TRANSLATE_KEYS: string[] = [
@@ -145,17 +146,20 @@ function resolve_params(new_params: any, old_params: any): any {
 // -----------------------------------------------------------------------------
 
 export class Primitive {
-    private __scene: THREE.Scene;
-    public _item;
+    private __id: string;
+    public _scene: THREE.Scene;
+    public _item: any;
+    public _three_id: string;
 
     public constructor(scene: THREE.Scene) {
-        this.__scene = scene;
+        this._scene = scene;
+        this.__id = uuidv4();
     }
     // -------------------------------------------------------------------------
 
-    private __set_id(params: IParams): void {
-        this._item.uuid = params["id"];
-    }
+    // private __set_id(params: IParams): void {
+    //     this._item.uuid = params["id"];
+    // }
 
     private __set_name(params: IParams): void {
         this._item.name = params["name"];
@@ -214,7 +218,8 @@ export class Primitive {
 
     public create(params: IParams = {}): void {
         const item = this._create_item(params);
-        this.__scene.add(item);
+        this._three_id = item.uuid;
+        this._scene.add(item);
         this._item = item;
         this._non_destructive_update(params);
     }
@@ -223,7 +228,8 @@ export class Primitive {
         const item = this._item;
         const geo = this._item.geometry;
         const params: IParams = {
-            "id": item.uuid,
+            // "id": item.uuid,
+            "id": this.__id,
             "name": item.name,
             "opacity": item.material.opacity,
             "visible": item.visible,
@@ -275,9 +281,9 @@ export class Primitive {
             this.__set_color(params);
         }
 
-        if (keys.includes("id")) {
-            this.__set_id(params);
-        }
+        // if (keys.includes("id")) {
+        //     this.__set_id(params);
+        // }
 
         if (keys.includes("name")) {
             this.__set_name(params);
@@ -293,6 +299,6 @@ export class Primitive {
     }
 
     public delete(): void {
-        this.__scene.remove(this._item);
+        this._scene.remove(this._item);
     }
 }
