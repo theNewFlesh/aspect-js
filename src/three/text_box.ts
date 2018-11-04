@@ -29,20 +29,26 @@ export interface ITextBoxParams {
 
 export class TextBox extends Primitive {
     public _create_item(params: ITextBoxParams): THREE.Mesh {
-        const geo: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 1);
         const texture = new TextTexture({
             text: params["font/text"] || "DEFAULT TEXT",
             fontFamily: `"${params["font/family"]}"` || "Tahoma",
             fontSize: params["font/size"] || 300,
             fontStyle: params["font/style"] || "normal",
         });
-        const material = new THREE.MeshBasicMaterial({
-            // color: 0x7ec4cf,
+        const bg = new THREE.MeshBasicMaterial({
+            opacity: 0,
+            transparent: true,
+        });
+        const text = new THREE.MeshBasicMaterial({
             map: texture,
             transparent: true,
         });
+        const materials: THREE.MeshBasicMaterial[] = [
+            bg, bg, bg, bg, text, text,
+        ];
 
-        const item = new THREE.Mesh(geo, material);
+        const geo: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 1);
+        const item = new THREE.Mesh(geo, materials);
         return item;
     }
 
