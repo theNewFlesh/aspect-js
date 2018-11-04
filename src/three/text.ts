@@ -31,10 +31,10 @@ export interface ITextParams {
 export class Text extends Primitive {
     public _create_item(params: ITextParams): THREE.Sprite {
         const texture = new TextTexture({
-            text: params["font/text"],
-            fontFamily: `"${params["font/family"]}"`,
-            fontSize: params["font/size"],
-            fontStyle: params["font/style"],
+            text: params["font/text"] || "DEFAULT TEXT",
+            fontFamily: `"${params["font/family"]}"` || "Tahoma",
+            fontSize: params["font/size"] || 100,
+            fontStyle: params["font/style"] || "normal",
         });
         const material = new THREE.SpriteMaterial({
             map: texture,

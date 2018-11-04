@@ -20,6 +20,7 @@ export interface ICylinderParams {
     "scale/x"?: number;
     "scale/y"?: number;
     "scale/z"?: number;
+    "height"?: number;
     "radius/top"?: number;
     "radius/bottom"?: number;
 }
@@ -27,10 +28,10 @@ export interface ICylinderParams {
 
 export class Cylinder extends Primitive {
     public _create_item(params: ICylinderParams): THREE.Mesh {
+        const height: number = params["height"] || 1;
         const top: number = params["radius/top"] || 1;
         const bottom: number = params["radius/bottom"] || 1;
-        const y: number = params["scale/y"] || 1;
-        const geo = new THREE.CylinderGeometry(top, bottom, 1, 6);
+        const geo = new THREE.CylinderGeometry(top, bottom, height, 6);
         const material = new THREE.MeshBasicMaterial({
             color: 0x444444,
             transparent: true
@@ -41,7 +42,7 @@ export class Cylinder extends Primitive {
 
     public _is_destructive(params: ICylinderParams): boolean {
         for (const key of _.keys(params)) {
-            if (["radius/top", "radius/bottom"].includes(key)) {
+            if (["height", "radius/top", "radius/bottom"].includes(key)) {
                 return true;
             }
         }
@@ -51,6 +52,7 @@ export class Cylinder extends Primitive {
     public read(): ICylinderParams {
         const item = this._item;
         const params: ICylinderParams = super.read();
+        params["height"] = item.geometry.parameters.height;
         params["radius/top"] = item.geometry.parameters.radiusTop;
         params["radius/bottom"] = item.geometry.parameters.radiusBottom;
         return params;

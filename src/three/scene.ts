@@ -15,14 +15,20 @@ export class Scene {
         this.create_camera();
         this.cylinder = new Cylinder(this.scene);
         this.cylinder.create({
-            "scale/y": 10,
-            "radius/top": 0.1,
-            "radius/bottom": 0.1,
+            "height": 10,
+            "radius/top": 0.05,
+            "radius/bottom": 0.05,
         });
         this.cube = new Cube(this.scene);
-        this.cube.create();
+        this.cube.create({
+            "scale/x": 3,
+            "scale/y": 1,
+            "scale/z": 0.1,
+        });
         this.text = new Text(this.scene);
-        this.text.create();
+        this.text.create({
+            // "translate/z": 0.1
+        });
     }
 
     public scene: any;
