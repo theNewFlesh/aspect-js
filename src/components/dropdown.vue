@@ -72,19 +72,19 @@
             if (this.display.options.default_color) {
                 return this.display.options.default_color;
             }
-            return "aspect_cyan_1"
+            return "aspect_cyan_1";
         }
 
         @Watch("selection")
         public update_selection(item, previous_item) {
             if (item !== previous_item) {
                 if (typeof item === "string") {
-                    this.display.options.values.push(item)
+                    this.display.options.values.push(item);
                     item = {
                         text: item,
                         value: item,
                         color: this.default_color,
-                    }
+                    };
                 }
                 this.selection = item;
             }
@@ -94,7 +94,7 @@
             if (item.text === undefined) {
                 item = {text: item};
             }
-            return item.text.match(query) !== null
+            return item.text.match(query) !== null;
         }
     }
 </script>

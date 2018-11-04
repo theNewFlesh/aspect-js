@@ -2,8 +2,10 @@ import * as _ from "lodash";
 import * as THREE from "three";
 import { MeshLine, MeshLineMaterial } from "three.meshline";
 import * as CreateOrbitControls from "three-orbit-controls";
-import MENLO_REGULAR from "../static/fonts/menlo_regular.json";
-import { Primitive } from "./primitive";
+import * as MENLO_REGULAR from "../fonts/helvetiker_regular.json";
+import { Cube } from "./cube";
+import { Cylinder } from "./cylinder";
+import { Text } from "./text";
 
 const FONTS: object = {
     menlo_regular: MENLO_REGULAR,
@@ -20,7 +22,7 @@ export class SceneManager {
     public lights: object = {};
     public cameras: object = {};
     public cylinders: object = {};
-    public boxes: object = {};
+    public cubes: object = {};
     public texts: object = {};
 
     public renderer;
@@ -49,38 +51,18 @@ export class SceneManager {
     }
 
     public create_text(params: any) {
-        const key: string = params.font_family + "_" + params.font_weight;
-        const font = new THREE.Font(FONTS[key]);
-        const geo = new THREE.TextGeometry(params.text, {
-            font: font,
-            size: 1,
-            height: 0.01,
-        });
+        const prim = new Text(this.scene);
+        prim.create(params);
 
-        const material = new THREE.MeshBasicMaterial({
-            color: 0xa4a4a4,
-            transparent: true
-        });
-        const text = new THREE.Mesh(geo, material);
-        this.scene.add(text);
-
-        this.texts[text.uuid] = text;
-        return text.uuid;
+        this.texts['foo'] = prim;
+        return 'ajksds';
     }
 
-    public create_box(): string {
-        // const geo = new THREE.BoxGeometry(1, 1, 1);
-        // const material = new THREE.MeshBasicMaterial({
-        //     color: 0x7ec4cf,
-        //     transparent: true
-        // });
-        // const box = new THREE.Mesh(geo, material);
-        // this.scene.add(box);
-
-        const prim = new Primitive(this.scene);
+    public create_cube(): string {
+        const prim = new Cube(this.scene);
         prim.create();
 
-        this.boxes['foo'] = prim;
+        this.cubes['foo'] = prim;
         return 'ajksds';
     }
 
@@ -89,16 +71,11 @@ export class SceneManager {
     }
 
     public create_cylinder(): string {
-        const geo = new THREE.CylinderGeometry(0.1, 0.1, 10, 6);
-        const material = new THREE.MeshBasicMaterial({
-            color: 0x444444,
-            transparent: true
-        });
-        const cylinder = new THREE.Mesh(geo, material);
-        this.scene.add(cylinder);
+        const prim = new Cylinder(this.scene);
+        prim.create();
 
-        this.cylinders[cylinder.uuid] = cylinder;
-        return cylinder.uuid;
+        this.cylinders['foo'] = prim;
+        return 'ajksds';
     }
 
     public create_camera(): string {

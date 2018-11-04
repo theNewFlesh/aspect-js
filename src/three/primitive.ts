@@ -28,11 +28,11 @@ const COLOR_KEYS: string[] = [
 ];
 // -----------------------------------------------------------------------------
 
-interface IParams {
-    id?: string;
-    name?: string;
-    opacity?: number;
-    visible?: boolean;
+export interface IParams {
+    "id"?: string;
+    "name"?: string;
+    "opacity"?: number;
+    "visible"?: boolean;
     "color/hue"?: number;
     "color/saturation"?: number;
     "color/luminance"?: number;
@@ -46,6 +46,9 @@ interface IParams {
     "scale/x"?: number;
     "scale/y"?: number;
     "scale/z"?: number;
+    "font/family"?: string;
+    "font/style"?: string;
+    "text"?: string;
 }
 
 interface IVector3 {
@@ -60,6 +63,7 @@ interface IVector4 {
     z: number;
     w: number;
 }
+// -----------------------------------------------------------------------------
 
 function to_translate(item): IVector3 {
     const vect: number[] = item.position.toArray();
@@ -130,6 +134,7 @@ function resolve_params(new_params: any, old_params: any): any {
 export class Primitive {
     private __scene: THREE.Scene;
     private __item;
+    public _destructive: boolean = false;
 
     public constructor(scene: THREE.Scene) {
         this.__scene = scene;
@@ -137,19 +142,19 @@ export class Primitive {
     // -------------------------------------------------------------------------
 
     private __set_id(params: IParams): void {
-        this.__item.uuid = params.id;
+        this.__item.uuid = params["id"];
     }
 
     private __set_name(params: IParams): void {
-        this.__item.name = params.name;
+        this.__item.name = params["name"];
     }
 
     private __set_visible(params: IParams): void {
-        this.__item.visible = params.visible;
+        this.__item.visible = params["visible"];
     }
 
     private __set_opacity(params: IParams): void {
-        this.__item.opacity = params.opacity;
+        this.__item.opacity = params["opacity"];
     }
 
     private __set_translate(params: IParams): void {
@@ -187,25 +192,25 @@ export class Primitive {
     }
     // -------------------------------------------------------------------------
 
-    public create(): void {
-        const geo = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshBasicMaterial({
-            color: 0x7ec4cf,
-            transparent: true
-        });
-        const item = new THREE.Mesh(geo, material);
+    public _create_item(params: IParams): THREE.Mesh {
+        throw new Error("method needs to be defined in subclass");
+    }
+
+    public create(params: IParams): void {
+        const item = this._create_item(params);
         this.__scene.add(item);
         this.__item = item;
+        // this.update(params);
     }
 
     public read(): IParams {
         const item = this.__item;
         const geo = this.__item.geometry;
         const params: IParams = {
-            id: item.uuid,
-            name: item.name,
-            opacity: item.material.opacity,
-            visible: item.visible,
+            "id": item.uuid,
+            "name": item.name,
+            "opacity": item.material.opacity,
+            "visible": item.visible,
             "color/hue": item.material.color.getHSL({}).h,
             "color/saturation": item.material.color.getHSL({}).s,
             "color/luminance": item.material.color.getHSL({}).l,
@@ -224,6 +229,16 @@ export class Primitive {
     }
 
     public update(params: IParams): void {
+        // if (this._destructive) {
+        //     this.delete();
+        //     this.create(params);
+        // }
+        // else {
+            this._update(params);
+        // }
+    }
+
+    public _update(params: IParams): void {
         const old_params: IParams = this.read();
         const new_params: IParams = resolve_params(params, old_params);
 

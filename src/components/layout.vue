@@ -106,7 +106,7 @@
             let width: number = window.outerWidth * (this.scene_width / 100);
             if (this.$refs.scene !== undefined) {
                 width = this._get_width(this.$refs.scene);
-                width = width * 100 * window.outerWidth
+                width = width * 100 * window.outerWidth;
             }
             this.__scene_pane_width = width;
             this.__scene_pane_height = window.outerHeight;
@@ -140,7 +140,7 @@
             const scene_pane: any = this.$refs.scene_pane;
             const node_pane: any = this.$refs.node_pane;
 
-            let sw: number = this._get_width(scene_pane);
+            const sw: number = this._get_width(scene_pane);
             this._set_width(scene_pane, sw);
             this._set_width(node_pane, 100 - sw);
 

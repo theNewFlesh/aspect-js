@@ -21,7 +21,7 @@ export class OrderedDict {
             }
         }
         return this._items[key];
-    };
+    }
 
     public set(key, value) {
         if (this._items[key] === undefined) {
@@ -55,7 +55,7 @@ export class OrderedDict {
 
     public get length(): number {
         return this._keys.length;
-    };
+    }
 
     public as_object(): object {
         return this._items;
@@ -69,7 +69,7 @@ export function omit(items, trash) {
     const keys = _.filter(
         Object.keys(items),
         (item) => (!trash.includes(item))
-    )
+    );
     const output = {};
     for (const key in keys) {
         output[key] = items[key];
@@ -78,7 +78,7 @@ export function omit(items, trash) {
 }
 
 export function to_kebab_case(item: string) {
-    return item.replace(/_/g, "-")
+    return item.replace(/_/g, "-");
 }
 
 export function conform_name(name: string): string {

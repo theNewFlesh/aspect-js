@@ -150,7 +150,7 @@
                     "override",
                 ]
             }
-        }
+        };
 
         public widget_options: object = {
             options: {
@@ -163,7 +163,7 @@
                     "inert",
                 ]
             }
-        }
+        };
     }
 </script>
 

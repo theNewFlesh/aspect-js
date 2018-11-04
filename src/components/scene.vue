@@ -26,7 +26,7 @@
             this.scene_manager = new SceneManager({
                 width: this.width,
                 height: this.height,
-            })
+            });
         }
 
         public mounted() {
@@ -44,7 +44,7 @@
                 }
             );
             scn.create_light();
-            scn.create_box();
+            scn.create_cube();
             scn.create_cylinder();
             scn.create_text({
                 text: "node",
@@ -59,7 +59,7 @@
 
         public animate() {
             requestAnimationFrame(this.animate);
-            this.scene_manager.render_update()
+            this.scene_manager.render_update();
         }
     }
 </script>

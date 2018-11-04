@@ -14,13 +14,13 @@ const display = {
         ],
         default_color: "aspect_cyan_1",
     }
-}
+};
 
 const text = "texty mctest test";
 const a = "alpha";
 const b = "bravo";
 
-let rows = [
+const rows = [
     // [null, "graph_001", "node_001", "func1", "baz", b, b, "dropdown", "override", display],
     ["scene_001",  "graph_001", "node_099", "func1", "baz",  b,    b,   "dropdown",    "override", display],
     ["scene_001",  "graph_001", "node_099", "func1", "bar",  a,    a,   "combobox",    "override", display],
@@ -67,7 +67,7 @@ function add_index(data) {
 const cols = [
     "scene_id", "graph_id", "node_id", "node_name",
     "inport_name", "value", "default_value", "widget", "lock", "display"
-]
+];
 
 export const acols = [
     cols.slice(0, 3),
@@ -80,7 +80,7 @@ export const bcols = [
 
 export const ccols = [
     ["scene_id", "graph_id", "node_id", "node_name"],
-    ["inport_name", "value", "default_value", "widget", "lock"]//, "display"]
+    ["inport_name", "value", "default_value", "widget", "lock"]// , "display"]
 ];
 
 export const dcols = [
@@ -90,7 +90,7 @@ export const dcols = [
     ["inport_name", "value", "default_value", "options", "widget", "lock"]
 ];
 
-let _index = [];
+const _index = [];
 for (const cols of bcols) {
     _index.push({
         columns: cols,

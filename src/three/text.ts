@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { Primitive, IParams } from "./primitive";
-import MENLO_REGULAR from "../static/fonts/menlo_regular.json";
+import * as MENLO_REGULAR from "../fonts/helvetiker_regular.json";
 const FONTS: object = {
     menlo_regular: MENLO_REGULAR,
 }

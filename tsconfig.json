@@ -7,8 +7,8 @@
         "experimentalDecorators": true,
         "importHelpers": true,
         "moduleResolution": "node",
-        "resolveJsonModule": true,
         "esModuleInterop": true,
+        "resolveJsonModule": true,
         "allowSyntheticDefaultImports": true,
         "sourceMap": true,
         "baseUrl": ".",
@@ -29,6 +29,7 @@
         ]
     },
     "include": [
+        "src/**/*.json",
         "src/**/*.ts",
         "src/**/*.tsx",
         "src/**/*.vue",

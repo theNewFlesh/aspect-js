@@ -59,6 +59,7 @@ export class FancyIndex {
     }
 
     public print(): void {
+        // tslint:disable-next-line:no-console
         console.log(this.__data.toString());
     }
 

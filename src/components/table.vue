@@ -81,6 +81,7 @@
                 this._data.to_dataframe().toString(),
             ];
             output = output.join("\n");
+            // tslint:disable-next-line:no-console
             console.log(output);
         }
 

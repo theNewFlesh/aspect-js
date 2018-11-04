@@ -24,6 +24,7 @@ export class FancyFrame {
     }
 
     public print() {
+        // tslint:disable-next-line:no-console
         console.log(this.__data.toString());
     }
 
@@ -71,15 +72,17 @@ export class FancyFrame {
         data = data.withIndex(cols);
 
         // check to see if all original columns were numbers
-        const orig = _.map(cols, x => Number(x).toString());
-        const trans = _.filter(
+        let orig: any;
+        orig = _.map(cols, x => Number(x).toString());
+        let trans: any;
+        trans = _.filter(
             orig, x => x !== "NaN"
         );
 
         // rename columns
-        if (trans.length != 0 && trans.length == orig.length) {
-            const orig = this.__data.getIndex().toArray();
-            const trans = data.getColumnNames();
+        if (trans.length !== 0 && trans.length === orig.length) {
+            orig = this.__data.getIndex().toArray();
+            trans = data.getColumnNames();
             const renamer: object = _.zipObject(trans, orig);
             data = data.renameSeries(renamer);
         }
@@ -89,14 +92,15 @@ export class FancyFrame {
 
     public apply(predicate, axis: number = 0): FancyFrame {
         // the predicate receives a Series object equivalent to a column
+        let data: any;
         if (axis === 1) {
-            const data: any = this.transpose()
+            data = this.transpose()
                 .to_dataframe()
-                .select(predicate)
+                .select(predicate);
             return new FancyFrame(data).transpose();
         }
 
-        const data: any = this.__data.select(predicate);
+        data = this.__data.select(predicate);
         return new FancyFrame(data);
     }
 

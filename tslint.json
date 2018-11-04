@@ -4,15 +4,20 @@
         "tslint:recommended"
     ],
     "rules": {
+        "arrow-parens": ["as-needed"],
         "class-name": true,
         "eofline": true,
+        "forin": false,
         "indent": [true, "spaces", 4],
         "interface-name": false,
+        "member-ordering": false,
         "no-consecutive-blank-lines": false,
         "no-duplicate-super": true,
+        "one-line": false,
         "object-literal-sort-keys": false,
         "ordered-imports": false,
         "prefer-const": true,
+        "prefer-for-of": true,
         "quotemark": [true, "double"],
         "semicolon": [true, "always"],
         "variable-name": [true, "allow-snake-case", "allow-leading-underscore"],
@@ -63,5 +68,10 @@
     ],
     "exclude": [
         "node_modules"
-    ]
+    ],
+    "linterOptions": {
+        "exclude": [
+            "src/**/*.json"
+        ]
+    }
 }
