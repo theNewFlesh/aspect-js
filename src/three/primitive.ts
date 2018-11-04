@@ -143,6 +143,10 @@ function resolve_params(new_params: any, old_params: any): any {
     }
     return output;
 }
+
+function is_array(item): boolean {
+    return item instanceof Array;
+}
 // -----------------------------------------------------------------------------
 
 export class Primitive {
@@ -157,9 +161,12 @@ export class Primitive {
     }
     // -------------------------------------------------------------------------
 
-    // private __set_id(params: IParams): void {
-    //     this._item.uuid = params["id"];
-    // }
+    private __get_color(): any {
+        if (is_array(this._item.material)) {
+            return this._item.material[5].color.getHSL({});
+        }
+        return this._item.material.color.getHSL({});
+    }
 
     private __set_name(params: IParams): void {
         this._item.name = params["name"];
@@ -199,12 +206,21 @@ export class Primitive {
         );
     }
 
-    private __set_color(params: IParams): void {
-        this._item.material.color.setHSL(
-            params["color/hue"],
-            params["color/saturation"],
-            params["color/luminance"],
-        );
+    public __set_color(params: IParams): void {
+        if (is_array(this._item.material)) {
+            this._item.material[5].color.setHSL(
+                params["color/hue"],
+                params["color/saturation"],
+                params["color/luminance"],
+            );
+        }
+        else {
+            this._item.material.color.setHSL(
+                params["color/hue"],
+                params["color/saturation"],
+                params["color/luminance"],
+            );
+        }
     }
     // -------------------------------------------------------------------------
 
@@ -233,9 +249,9 @@ export class Primitive {
             "name": item.name,
             "opacity": item.material.opacity,
             "visible": item.visible,
-            "color/hue": item.material.color.getHSL({}).h,
-            "color/saturation": item.material.color.getHSL({}).s,
-            "color/luminance": item.material.color.getHSL({}).l,
+            "color/hue": this.__get_color().h,
+            "color/saturation": this.__get_color().s,
+            "color/luminance": this.__get_color().l,
             "translate/x": to_translate(item).x,
             "translate/y": to_translate(item).y,
             "translate/z": to_translate(item).z,
@@ -280,10 +296,6 @@ export class Primitive {
         if (_.intersection(COLOR_KEYS, keys).length > 0) {
             this.__set_color(params);
         }
-
-        // if (keys.includes("id")) {
-        //     this.__set_id(params);
-        // }
 
         if (keys.includes("name")) {
             this.__set_name(params);

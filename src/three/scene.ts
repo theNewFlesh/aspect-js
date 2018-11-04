@@ -33,6 +33,9 @@ export class Scene {
             "scale/x": 5.25,
             "scale/y": 0.75,
             "scale/z": 0.1,
+            "color/hue": 0.5,
+            "color/saturation": 0.5,
+            "color/luminance": 0.5,
         });
         // this.text = new Text(this.scene);
         // this.text.create({
