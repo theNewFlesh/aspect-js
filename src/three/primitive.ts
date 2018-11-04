@@ -1,6 +1,5 @@
 import * as _ from "lodash";
 import * as THREE from "three";
-import { throws } from 'assert';
 // -----------------------------------------------------------------------------
 
 export const TRANSLATE_KEYS: string[] = [
@@ -13,7 +12,6 @@ export const ROTATE_KEYS: string[] = [
     "rotate/x",
     "rotate/y",
     "rotate/z",
-    "rotate/w",
 ];
 
 export const SCALE_KEYS: string[] = [
@@ -50,7 +48,6 @@ export interface IParams {
     "rotate/x"?: number;
     "rotate/y"?: number;
     "rotate/z"?: number;
-    "rotate/w"?: number;
     "scale/x"?: number;
     "scale/y"?: number;
     "scale/z"?: number;
@@ -66,14 +63,15 @@ export interface IVector3 {
     y: number;
     z: number;
 }
-
-export interface IVector4 {
-    x: number;
-    y: number;
-    z: number;
-    w: number;
-}
 // -----------------------------------------------------------------------------
+
+function to_radians(angle: number): number {
+    return (angle / 360) * Math.PI * 2;
+}
+
+function to_angle(radian: number): number {
+    return (radian / (Math.PI * 2)) * 360;
+}
 
 function to_translate(item): IVector3 {
     const vect: number[] = item.position.toArray();
@@ -81,9 +79,10 @@ function to_translate(item): IVector3 {
     return output;
 }
 
-function to_rotate(item): IVector4 {
-    const vect: number[] = item.quaternion.toArray();
-    const output: IVector4 = {x: vect[0], y: vect[1], z: vect[2], w: vect[3]};
+function to_rotate(item): IVector3 {
+    let vect: number[] = item.quaternion.toArray();
+    vect = vect.map(to_angle);
+    const output: IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
     return output;
 }
 
@@ -179,13 +178,13 @@ export class Primitive {
     }
 
     private __set_rotate(params: IParams): void {
-        const rot: THREE.Quaternion = new THREE.Quaternion(
-            params["rotate/x"],
-            params["rotate/y"],
-            params["rotate/z"],
-            params["rotate/w"],
+        const rot: THREE.Euler = new THREE.Euler(
+            to_radians(params["rotate/x"]),
+            to_radians(params["rotate/y"]),
+            to_radians(params["rotate/z"]),
+            "XYZ",
         );
-        this._item.setRotationFromQuaternion(rot);
+        this._item.setRotationFromEuler(rot);
     }
 
     private __set_scale(params: IParams): void {
@@ -237,7 +236,6 @@ export class Primitive {
             "rotate/x": to_rotate(item).x,
             "rotate/y": to_rotate(item).y,
             "rotate/z": to_rotate(item).z,
-            "rotate/w": to_rotate(item).w,
             "scale/x": to_scale(item).x,
             "scale/y": to_scale(item).y,
             "scale/z": to_scale(item).z,

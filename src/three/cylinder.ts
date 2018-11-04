@@ -17,7 +17,6 @@ export interface ICylinderParams {
     "rotate/x"?: number;
     "rotate/y"?: number;
     "rotate/z"?: number;
-    "rotate/w"?: number;
     "scale/x"?: number;
     "scale/y"?: number;
     "scale/z"?: number;
