@@ -4,6 +4,8 @@ import * as CreateOrbitControls from "three-orbit-controls";
 import { Cube } from "./cube";
 import { Cylinder } from "./cylinder";
 import { Text } from "./text";
+import { TextBox } from "./text_box";
+import { Sprite } from "./sprite";
 // -----------------------------------------------------------------------------
 
 export class Scene {
@@ -21,14 +23,25 @@ export class Scene {
         });
         this.cube = new Cube(this.scene);
         this.cube.create({
-            "scale/x": 3,
-            "scale/y": 1,
+            "scale/x": 5.25,
+            "scale/y": 0.75,
             "scale/z": 0.1,
         });
-        this.text = new Text(this.scene);
-        this.text.create({
-            // "translate/z": 0.1
+
+        this.textbox = new TextBox(this.scene);
+        this.textbox.create({
+            "scale/x": 5.25,
+            "scale/y": 0.75,
+            "scale/z": 0.1,
         });
+        // this.text = new Text(this.scene);
+        // this.text.create({
+        //     // "translate/z": 0.1
+        // });
+        // this.sprite = new Sprite(this.scene);
+        // this.sprite.create({
+        //     "color/hue": 0.5
+        // });
     }
 
     public scene: any;
@@ -39,7 +52,9 @@ export class Scene {
     public width: number;
     public height: number;
     public cylinder: any;
+    public sprite: any;
     public cube: any;
+    public textbox: any;
     public text: any;
 
     public get aspect_ratio(): number {
@@ -68,8 +83,8 @@ export class Scene {
         this.controls = controls;
         this.camera = camera;
 
-        camera.position.x = 1;
-        camera.position.y = 1;
+        camera.position.x = 0;
+        camera.position.y = 0;
         camera.position.z = 4;
     }
 

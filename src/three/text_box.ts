@@ -4,7 +4,7 @@ import { Primitive, FONT_KEYS } from "./primitive";
 import TextTexture from "three.texttexture";
 // -----------------------------------------------------------------------------
 
-export interface ITextParams {
+export interface ITextBoxParams {
     "id"?: string;
     "name"?: string;
     "opacity"?: number;
@@ -26,27 +26,27 @@ export interface ITextParams {
     "font/style"?: string;
     "font/size"?: number;
 }
-// -----------------------------------------------------------------------------
 
-export class Text extends Primitive {
-    public _create_item(params: ITextParams): THREE.Sprite {
+export class TextBox extends Primitive {
+    public _create_item(params: ITextBoxParams): THREE.Mesh {
+        const geo: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 1);
         const texture = new TextTexture({
             text: params["font/text"] || "DEFAULT TEXT",
             fontFamily: `"${params["font/family"]}"` || "Tahoma",
-            fontSize: params["font/size"] || 100,
+            fontSize: params["font/size"] || 300,
             fontStyle: params["font/style"] || "normal",
         });
-        const material = new THREE.SpriteMaterial({
-            map: texture
+        const material = new THREE.MeshBasicMaterial({
+            // color: 0x7ec4cf,
+            map: texture,
+            transparent: true,
         });
-        const sprite = new THREE.Sprite(material);
-        sprite.translateZ(0.01);
-        sprite.scale.setX(texture.imageAspect);
 
-        return sprite;
+        const item = new THREE.Mesh(geo, material);
+        return item;
     }
 
-    public _is_destructive(params: ITextParams): boolean {
+    public _is_destructive(params: ITextBoxParams): boolean {
         for (const key of _.keys(params)) {
             if (FONT_KEYS.includes(key)) {
                 return true;
@@ -55,9 +55,9 @@ export class Text extends Primitive {
         return false;
     }
 
-    public read(): ITextParams {
+    public read(): ITextBoxParams {
         const item = this._item;
-        const params: ITextParams = super.read();
+        const params: ITextBoxParams = super.read();
         params["font/text"] =  item.material.map.text;
         params["font/family"] =item.material.map.fontFamily;
         params["font/style"] = item.material.map.fontStyle;
