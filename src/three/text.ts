@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 import * as THREE from "three";
-import { Primitive, FONT_KEYS } from "./primitive";
+import { Primitive } from "./primitive";
+import { FONT_KEYS } from "./three_tools";
 import TextTexture from "three.texttexture";
 // -----------------------------------------------------------------------------
 
@@ -11,7 +12,7 @@ export interface ITextParams {
     "visible"?: boolean;
     "color/hue"?: number;
     "color/saturation"?: number;
-    "color/luminance"?: number;
+    "color/value"?: number;
     "translate/x"?: number;
     "translate/y"?: number;
     "translate/z"?: number;
@@ -55,6 +56,10 @@ export class Text extends Primitive {
         return false;
     }
 
+    public create(params: ITextParams): void {
+        super.create(params);
+    }
+
     public read(): ITextParams {
         const item = this._item;
         const params: ITextParams = super.read();
@@ -63,5 +68,9 @@ export class Text extends Primitive {
         params["font/style"] = item.material.map.fontStyle;
         params["font/size"] = item.material.map.fontSize;
         return params;
+    }
+
+    public update(params: ITextParams): void {
+        super.update(params);
     }
 }

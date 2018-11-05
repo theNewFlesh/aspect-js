@@ -10,7 +10,7 @@ export interface ICylinderParams {
     "visible"?: boolean;
     "color/hue"?: number;
     "color/saturation"?: number;
-    "color/luminance"?: number;
+    "color/value"?: number;
     "translate/x"?: number;
     "translate/y"?: number;
     "translate/z"?: number;
@@ -49,6 +49,10 @@ export class Cylinder extends Primitive {
         return false;
     }
 
+    public create(params: ICylinderParams): void {
+        super.create(params);
+    }
+
     public read(): ICylinderParams {
         const item = this._item;
         const params: ICylinderParams = super.read();
@@ -56,5 +60,9 @@ export class Cylinder extends Primitive {
         params["radius/top"] = item.geometry.parameters.radiusTop;
         params["radius/bottom"] = item.geometry.parameters.radiusBottom;
         return params;
+    }
+
+    public update(params: ICylinderParams): void {
+        super.update(params);
     }
 }

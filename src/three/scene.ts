@@ -6,6 +6,7 @@ import { Cylinder } from "./cylinder";
 import { Text } from "./text";
 import { TextBox } from "./text_box";
 import { Sprite } from "./sprite";
+import * as tools from "./three_tools";
 // -----------------------------------------------------------------------------
 
 export class Scene {
@@ -17,10 +18,21 @@ export class Scene {
         this.create_camera();
         this.cylinder = new Cylinder(this.scene);
         this.cylinder.create({
+            "height": 0.3,
+            "radius/top": 0.2,
+            "radius/bottom": 0.05,
+            "translate/y": 2,
+            "color/hue": 0.5,
+            "color/saturation": 1,
+            "color/value": 1,
+        });
+        const x = new Cylinder(this.scene);
+        x.create({
             "height": 10,
             "radius/top": 0.05,
             "radius/bottom": 0.05,
         });
+
         this.cube = new Cube(this.scene);
         this.cube.create({
             "scale/x": 5.25,
@@ -34,7 +46,7 @@ export class Scene {
             "scale/y": 0.75,
             "scale/z": 0.1,
             "color/saturation": 0,
-            "color/luminance": 0.3,
+            "color/value": 0.3,
         });
     }
 
@@ -100,5 +112,9 @@ export class Scene {
 
     public get THREE() {
         return THREE;
+    }
+
+    public get tools() {
+        return tools;
     }
 }

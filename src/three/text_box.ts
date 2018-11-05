@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 import * as THREE from "three";
-import { Primitive, FONT_KEYS } from "./primitive";
+import { Primitive } from "./primitive";
+import { FONT_KEYS } from "./three_tools";
 import TextTexture from "three.texttexture";
 // -----------------------------------------------------------------------------
 
@@ -11,7 +12,7 @@ export interface ITextBoxParams {
     "visible"?: boolean;
     "color/hue"?: number;
     "color/saturation"?: number;
-    "color/luminance"?: number;
+    "color/value"?: number;
     "translate/x"?: number;
     "translate/y"?: number;
     "translate/z"?: number;
@@ -61,6 +62,10 @@ export class TextBox extends Primitive {
         return false;
     }
 
+    public crate(params: ITextBoxParams): void {
+        super.create(params);
+    }
+
     public read(): ITextBoxParams {
         const item = this._item;
         const params: ITextBoxParams = super.read();
@@ -69,5 +74,9 @@ export class TextBox extends Primitive {
         params["font/style"] = item.material.map.fontStyle;
         params["font/size"] = item.material.map.fontSize;
         return params;
+    }
+
+    public update(params: ITextBoxParams): void {
+        super.update(params);
     }
 }

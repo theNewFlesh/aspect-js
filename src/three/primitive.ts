@@ -1,133 +1,7 @@
 import * as _ from "lodash";
 import * as THREE from "three";
 import * as uuidv4 from "uuid/v4";
-// -----------------------------------------------------------------------------
-
-export const TRANSLATE_KEYS: string[] = [
-    "translate/x",
-    "translate/y",
-    "translate/z",
-];
-
-export const ROTATE_KEYS: string[] = [
-    "rotate/x",
-    "rotate/y",
-    "rotate/z",
-];
-
-export const SCALE_KEYS: string[] = [
-    "scale/x",
-    "scale/y",
-    "scale/z",
-];
-
-export const COLOR_KEYS: string[] = [
-    "color/hue",
-    "color/saturation",
-    "color/luminance",
-];
-
-export const FONT_KEYS: string[] = [
-    "font/text",
-    "font/family",
-    "font/style",
-    "font/size",
-];
-// -----------------------------------------------------------------------------
-
-export interface IParams {
-    "id"?: string;
-    "name"?: string;
-    "opacity"?: number;
-    "visible"?: boolean;
-    "color/hue"?: number;
-    "color/saturation"?: number;
-    "color/luminance"?: number;
-    "translate/x"?: number;
-    "translate/y"?: number;
-    "translate/z"?: number;
-    "rotate/x"?: number;
-    "rotate/y"?: number;
-    "rotate/z"?: number;
-    "scale/x"?: number;
-    "scale/y"?: number;
-    "scale/z"?: number;
-    "font/text"?: string;
-    "font/family"?: string;
-    "font/style"?: string;
-    "font/size"?: number;
-    "radius"?: number;
-}
-
-export interface IVector3 {
-    x: number;
-    y: number;
-    z: number;
-}
-// -----------------------------------------------------------------------------
-
-function to_radians(angle: number): number {
-    return (angle / 360) * Math.PI * 2;
-}
-
-function to_angle(radian: number): number {
-    return (radian / (Math.PI * 2)) * 360;
-}
-
-function diff_params(a: IParams, b: IParams): IParams {
-    const output: IParams = {};
-    for (const key of _.keys(a)) {
-        if (a[key] !== b[key]) {
-            output[key] = a[key];
-        }
-    }
-    return output;
-}
-
-function resolve_params(new_params: any, old_params: any): any {
-    const diff = diff_params(new_params, old_params);
-    let keys: string[] = _.keys(diff);
-
-    for (const key of keys) {
-        if (TRANSLATE_KEYS.includes(key)) {
-            keys = _.concat(keys, TRANSLATE_KEYS);
-        }
-
-        if (ROTATE_KEYS.includes(key)) {
-            keys = _.concat(keys, ROTATE_KEYS);
-        }
-
-        if (SCALE_KEYS.includes(key)) {
-            keys = _.concat(keys, SCALE_KEYS);
-        }
-
-        if (COLOR_KEYS.includes(key)) {
-            keys = _.concat(keys, COLOR_KEYS);
-        }
-
-        if (FONT_KEYS.includes(key)) {
-            keys = _.concat(keys, FONT_KEYS);
-        }
-    }
-    keys = _.uniq(keys);
-
-    const new_keys: string[] = _.keys(new_params);
-
-    const output: IParams = {};
-    for (const key of keys) {
-        if (new_keys.includes(key)) {
-            output[key] = new_params[key];
-        }
-        else {
-            output[key] = old_params[key];
-        }
-    }
-    return output;
-}
-
-function is_array(item): boolean {
-    return item instanceof Array;
-}
+import * as tools from "./three_tools";
 // -----------------------------------------------------------------------------
 
 export class Primitive {
@@ -142,45 +16,58 @@ export class Primitive {
     }
     // -------------------------------------------------------------------------
 
-    private __get_translate(): IVector3 {
-        const vect: number[] = this._item.position.toArray();
-        const output: IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
+    private __get_translate(): tools.IVector3 {
+        let vect: number[] = this._item.position.toArray();
+        vect = vect.map(x => x === undefined ? 0 : x);
+        const output: tools.IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
         return output;
     }
 
-    private __get_rotate(): IVector3 {
-        let vect: number[] = this._item.quaternion.toArray();
-        vect = vect.map(to_angle);
-        const output: IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
+    private __get_rotate(): tools.IVector3 {
+        let vect: number[] = this._item.rotation.toArray();
+        vect.pop();
+        vect = vect.map(x => x === undefined ? 0 : x);
+        vect = vect.map(tools.to_angle);
+        const output: tools.IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
         return output;
     }
 
-    private __get_scale(): IVector3 {
-        const vect: number[] = this._item.scale.toArray();
-        const output: IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
+    private __get_scale(): tools.IVector3 {
+        let vect: number[] = this._item.scale.toArray();
+        vect = vect.map(x => x === undefined ? 1 : x);
+        const output: tools.IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
         return output;
     }
 
     private __get_color(): any {
-        if (is_array(this._item.material)) {
-            return this._item.material[5].color.getHSL({});
+        let rgb;
+        if (tools.is_array(this._item.material)) {
+            rgb = this._item.material[5].color.toArray();
         }
-        return this._item.material.color.getHSL({});
+        else {
+            rgb = this._item.material.color.toArray();
+        }
+        rgb = {
+            r: rgb[0],
+            g: rgb[1],
+            b: rgb[2],
+        };
+        return tools.rgb_to_hsv(rgb);
     }
 
-    private __set_name(params: IParams): void {
+    private __set_name(params: tools.IParams): void {
         this._item.name = params["name"];
     }
 
-    private __set_visible(params: IParams): void {
+    private __set_visible(params: tools.IParams): void {
         this._item.visible = params["visible"];
     }
 
-    private __set_opacity(params: IParams): void {
+    private __set_opacity(params: tools.IParams): void {
         this._item.opacity = params["opacity"];
     }
 
-    private __set_translate(params: IParams): void {
+    private __set_translate(params: tools.IParams): void {
         this._item.position.set(
             params["translate/x"],
             params["translate/y"],
@@ -188,17 +75,17 @@ export class Primitive {
         );
     }
 
-    private __set_rotate(params: IParams): void {
+    private __set_rotate(params: tools.IParams): void {
         const rot: THREE.Euler = new THREE.Euler(
-            to_radians(params["rotate/x"]),
-            to_radians(params["rotate/y"]),
-            to_radians(params["rotate/z"]),
+            tools.to_radians(params["rotate/x"]),
+            tools.to_radians(params["rotate/y"]),
+            tools.to_radians(params["rotate/z"]),
             "XYZ",
         );
         this._item.setRotationFromEuler(rot);
     }
 
-    private __set_scale(params: IParams): void {
+    private __set_scale(params: tools.IParams): void {
         this._item.scale.set(
             params["scale/x"],
             params["scale/y"],
@@ -206,52 +93,71 @@ export class Primitive {
         );
     }
 
-    public __set_color(params: IParams): void {
-        if (is_array(this._item.material)) {
-            this._item.material[5].color.setHSL(
-                params["color/hue"],
-                params["color/saturation"],
-                params["color/luminance"],
-            );
+    public __set_color(params: tools.IParams): void {
+        const hsv: tools.IHSV = {
+            h: params["color/hue"],
+            s: params["color/saturation"],
+            v: params["color/value"],
+        };
+        let rgb: any = tools.hsv_to_rgb(hsv);
+        rgb = [rgb.r, rgb.g, rgb.b];
+        if (tools.is_array(this._item.material)) {
+            this._item.material[5].color.setRGB(...rgb);
         }
         else {
-            this._item.material.color.setHSL(
-                params["color/hue"],
-                params["color/saturation"],
-                params["color/luminance"],
-            );
+            this._item.material.color.setRGB(...rgb);
         }
     }
     // -------------------------------------------------------------------------
 
-    public _create_item(params: IParams): any {
+    public _create_item(params: tools.IParams): any {
         throw new Error("method must be defined in subclass");
     }
 
-    public _is_destructive(params: IParams): boolean {
+    public _is_destructive(params: tools.IParams): boolean {
         throw new Error("method must be defined in subclass");
     }
 
-    public create(params: IParams = {}): void {
-        const item = this._create_item(params);
+    private __default_params = {
+        "name": "",
+        "opacity": 1,
+        "visible": true,
+        "color/hue": 0,
+        "color/saturation": 0,
+        "color/value": 1,
+        "translate/x": 0,
+        "translate/y": 0,
+        "translate/z": 0,
+        "rotate/x": 0,
+        "rotate/y": 0,
+        "rotate/z": 0,
+        "scale/x": 1,
+        "scale/y": 1,
+        "scale/z": 1,
+    };
+
+    public create(params: tools.IParams = {}): void {
+        const new_params: tools.IParams = tools.resolve_params(
+            params, this.__default_params
+        );
+        const item = this._create_item(new_params);
         this._three_id = item.uuid;
         this._scene.add(item);
         this._item = item;
-        this._non_destructive_update(params);
+        this._non_destructive_update(new_params);
     }
 
-    public read(): IParams {
+    public read(): tools.IParams {
         const item = this._item;
         const geo = this._item.geometry;
-        const params: IParams = {
-            // "id": item.uuid,
+        const params: tools.IParams = {
             "id": this.__id,
             "name": item.name,
             "opacity": item.material.opacity,
             "visible": item.visible,
             "color/hue": this.__get_color().h,
             "color/saturation": this.__get_color().s,
-            "color/luminance": this.__get_color().l,
+            "color/value": this.__get_color().v,
             "translate/x": this.__get_translate().x,
             "translate/y": this.__get_translate().y,
             "translate/z": this.__get_translate().z,
@@ -265,9 +171,9 @@ export class Primitive {
         return params;
     }
 
-    public update(params: IParams): void {
-        const old_params: IParams = this.read();
-        const new_params: IParams = resolve_params(params, old_params);
+    public update(params: tools.IParams): void {
+        const old_params: tools.IParams = this.read();
+        const new_params: tools.IParams = tools.resolve_params(params, old_params);
 
         if (this._is_destructive(new_params)) {
             Object.assign(old_params, new_params);
@@ -279,21 +185,21 @@ export class Primitive {
         }
     }
 
-    public _non_destructive_update(params: IParams): void {
+    public _non_destructive_update(params: tools.IParams): void {
         const keys: string[] = _.keys(params);
-        if (_.intersection(TRANSLATE_KEYS, keys).length > 0) {
+        if (_.intersection(tools.TRANSLATE_KEYS, keys).length > 0) {
             this.__set_translate(params);
         }
 
-        if (_.intersection(ROTATE_KEYS, keys).length > 0) {
+        if (_.intersection(tools.ROTATE_KEYS, keys).length > 0) {
             this.__set_rotate(params);
         }
 
-        if (_.intersection(SCALE_KEYS, keys).length > 0) {
+        if (_.intersection(tools.SCALE_KEYS, keys).length > 0) {
             this.__set_scale(params);
         }
 
-        if (_.intersection(COLOR_KEYS, keys).length > 0) {
+        if (_.intersection(tools.COLOR_KEYS, keys).length > 0) {
             this.__set_color(params);
         }
 
