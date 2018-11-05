@@ -1,6 +1,6 @@
 import { DataFrame } from "data-forge";
 import * as _ from "lodash";
-import { conform_name } from "../tools";
+import { conform_name } from "./tools";
 // -----------------------------------------------------------------------------
 
 export interface IHeader {

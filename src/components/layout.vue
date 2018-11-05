@@ -43,7 +43,7 @@
     import Scene from "./scene.vue";
     import { Multipane, MultipaneResizer } from "vue-multipane";
     import * as _ from "lodash";
-    import * as tt from "../test_tools";
+    import * as tt from "../../tests/test_tools";
 
     import Vuetify from "vuetify";
     Vue.use(Vuetify, {
