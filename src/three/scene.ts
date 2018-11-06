@@ -3,11 +3,16 @@ import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
 import { Cube } from "./cube";
 import { Cylinder } from "./cylinder";
-import { Text } from "./text";
 import { TextBox } from "./text_box";
-import { Sprite } from "./sprite";
 import * as tools from "./three_tools";
+import { HSV_COLORS } from "../core/tools";
+// import { Text } from "./text";
+// import { Sprite } from "./sprite";
 // -----------------------------------------------------------------------------
+
+const cyan1 = HSV_COLORS["aspect_cyan_1"];
+const cyan2 = HSV_COLORS["aspect_cyan_2"];
+const grey2 = HSV_COLORS["aspect_grey_2"];
 
 export class Scene {
     public constructor(params: any) {
@@ -22,15 +27,16 @@ export class Scene {
             "radius/top": 0.2,
             "radius/bottom": 0.05,
             "translate/y": 2,
-            "color/hue": 0.5,
-            "color/saturation": 1,
-            "color/value": 1,
+            "color/hue": cyan2.h,
+            "color/saturation": cyan2.s,
+            "color/value": cyan2.v,
         });
         const x = new Cylinder(this.scene);
         x.create({
-            "height": 10,
+            "height": 5,
             "radius/top": 0.05,
             "radius/bottom": 0.05,
+            "translate/y": 2.5,
         });
 
         this.cube = new Cube(this.scene);
@@ -38,6 +44,9 @@ export class Scene {
             "scale/x": 5.25,
             "scale/y": 0.75,
             "scale/z": 0.1,
+            "color/hue": cyan2.h,
+            "color/saturation": cyan2.s,
+            "color/value": cyan2.v,
         });
 
         this.textbox = new TextBox(this.scene);
@@ -45,8 +54,7 @@ export class Scene {
             "scale/x": 5.25,
             "scale/y": 0.75,
             "scale/z": 0.1,
-            "color/saturation": 0,
-            "color/value": 0.3,
+            "color/value": grey2.v,
         });
     }
 

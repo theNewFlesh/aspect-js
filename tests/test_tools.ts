@@ -95,7 +95,7 @@ for (const cols of bcols) {
     _index.push({
         columns: cols,
         group: cols[0],
-        indent: false,
+        indent: true,
         hide_headers: false,
     });
 }

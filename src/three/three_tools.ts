@@ -1,5 +1,4 @@
 import * as _ from "lodash";
-import * as tiny_color from "tinycolor2";
 // -----------------------------------------------------------------------------
 
 export const TRANSLATE_KEYS: string[] = [
@@ -126,35 +125,4 @@ export function resolve_params(new_params: any, old_params: any): any {
         }
     }
     return output;
-}
-// -----------------------------------------------------------------------------
-
-export interface IRGB {
-    r: number;
-    g: number;
-    b: number;
-}
-
-export interface IHSV {
-    h: number;
-    s: number;
-    v: number;
-}
-
-export function rgb_to_hsv(rgb: IRGB): IHSV {
-    const color = {
-        r: rgb.r * 255,
-        g: rgb.g * 255,
-        b: rgb.b * 255,
-    };
-    return tiny_color.fromRatio(color).toHsv();
-}
-
-export function hsv_to_rgb(hsv: IHSV): IRGB {
-    const color = tiny_color.fromRatio(hsv).toRgb();
-    return {
-        r: color.r / 255,
-        g: color.g / 255,
-        b: color.b / 255,
-    };
 }
