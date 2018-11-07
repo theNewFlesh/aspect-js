@@ -41,7 +41,7 @@ export class Primitive extends PrimitiveBase {
     }
     // -------------------------------------------------------------------------
 
-    private __default_params = {
+    public _default_params = {
         "name": "",
         "visible": true,
         "color/hue": 0,
@@ -64,7 +64,7 @@ export class Primitive extends PrimitiveBase {
         params["color/hue"] = this.__get_color().h;
         params["color/saturation"] = this.__get_color().s;
         params["color/value"] = this.__get_color().v;
-        params["color/alpha"] = item.material.opacity;
+        params["color/alpha"] = this._item.material.opacity;
         return params;
     }
 

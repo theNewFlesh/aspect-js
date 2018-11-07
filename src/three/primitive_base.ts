@@ -1,7 +1,6 @@
 import * as _ from "lodash";
-import * as THREE from "three";
 import * as uuidv4 from "uuid/v4";
-import * as tools from "../core/tools";
+import * as THREE from "three";
 import * as three_tools from "./three_tools";
 // -----------------------------------------------------------------------------
 
@@ -9,7 +8,6 @@ export class PrimitiveBase {
     private __id: string;
     public _container: any;
     public _item: any;
-    public _three_id: string;
 
     public constructor(container: any) {
         this._container = container;
@@ -38,22 +36,6 @@ export class PrimitiveBase {
         vect = vect.map(x => x === undefined ? 1 : x);
         const output: three_tools.IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
         return output;
-    }
-
-    private __get_color(): any {
-        let rgb;
-        if (three_tools.is_array(this._item.material)) {
-            rgb = this._item.material[5].color.toArray();
-        }
-        else {
-            rgb = this._item.material.color.toArray();
-        }
-        rgb = {
-            r: rgb[0],
-            g: rgb[1],
-            b: rgb[2],
-        };
-        return tools.rgba_to_hsva(rgb);
     }
 
     private __set_name(params: three_tools.IParams): void {
@@ -89,25 +71,6 @@ export class PrimitiveBase {
             params["scale/z"],
         );
     }
-
-    public __set_color(params: three_tools.IParams): void {
-        const hsva: tools.IHSVA = {
-            h: params["color/hue"],
-            s: params["color/saturation"],
-            v: params["color/value"],
-            a: params["color/alpha"],
-        };
-        const rgba: any = tools.hsva_to_rgba(hsva);
-        const rgb = [rgba.r, rgba.g, rgba.b];
-        if (three_tools.is_array(this._item.material)) {
-            this._item.material[5].color.setRGB(...rgb);
-            this._item.material[5].opacity = rgba.a;
-        }
-        else {
-            this._item.material.color.setRGB(...rgb);
-            this._item.material.opacity = rgba.a;
-        }
-    }
     // -------------------------------------------------------------------------
 
     public _create_item(params: three_tools.IParams): any {
@@ -118,13 +81,9 @@ export class PrimitiveBase {
         throw new Error("method must be defined in subclass");
     }
 
-    private __default_params = {
+    public _default_params = {
         "name": "",
         "visible": true,
-        "color/hue": 0,
-        "color/saturation": 0,
-        "color/value": 1,
-        "color/alpha": 1,
         "translate/x": 0,
         "translate/y": 0,
         "translate/z": 0,
@@ -138,10 +97,9 @@ export class PrimitiveBase {
 
     public create(params: three_tools.IParams = {}): void {
         const new_params: three_tools.IParams = three_tools.resolve_params(
-            params, this.__default_params
+            params, this._default_params
         );
         const item = this._create_item(new_params);
-        this._three_id = item.uuid;
         this._container.add(item);
         this._item = item;
         this._non_destructive_update(new_params);
@@ -154,10 +112,6 @@ export class PrimitiveBase {
             "id": this.__id,
             "name": item.name,
             "visible": item.visible,
-            "color/hue": this.__get_color().h,
-            "color/saturation": this.__get_color().s,
-            "color/value": this.__get_color().v,
-            "color/alpha": item.material.opacity,
             "translate/x": this.__get_translate().x,
             "translate/y": this.__get_translate().y,
             "translate/z": this.__get_translate().z,
@@ -200,10 +154,6 @@ export class PrimitiveBase {
 
         if (_.intersection(three_tools.SCALE_KEYS, keys).length > 0) {
             this.__set_scale(params);
-        }
-
-        if (_.intersection(three_tools.COLOR_KEYS, keys).length > 0) {
-            this.__set_color(params);
         }
 
         if (keys.includes("name")) {
