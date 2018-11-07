@@ -6,11 +6,11 @@ import { Primitive } from "./primitive";
 export interface ICylinderParams {
     "id"?: string;
     "name"?: string;
-    "opacity"?: number;
     "visible"?: boolean;
     "color/hue"?: number;
     "color/saturation"?: number;
     "color/value"?: number;
+    "color/alpha"?: number;
     "translate/x"?: number;
     "translate/y"?: number;
     "translate/z"?: number;

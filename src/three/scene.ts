@@ -6,6 +6,7 @@ import { Cylinder } from "./cylinder";
 import { TextBox } from "./text_box";
 import * as tools from "./three_tools";
 import { HSV_COLORS } from "../core/tools";
+import * as tiny_color from "tinycolor2";
 // -----------------------------------------------------------------------------
 
 const cyan1 = HSV_COLORS["aspect_cyan_1"];
@@ -122,5 +123,9 @@ export class Scene {
 
     public get tools() {
         return tools;
+    }
+
+    public get tiny_color() {
+        return tiny_color;
     }
 }

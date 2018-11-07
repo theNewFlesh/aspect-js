@@ -2,47 +2,52 @@ import * as _ from "lodash";
 import tiny_color from "tinycolor2";
 // -----------------------------------------------------------------------------
 
-export interface IRGB {
+export interface IRGBA {
     r: number;
     g: number;
     b: number;
+    a?: number;
 }
 
-export interface IHSV {
+export interface IHSVA {
     h: number;
     s: number;
     v: number;
+    a?: number;
 }
 
-export function rgb_to_hsv(rgb: IRGB): IHSV {
+export function rgba_to_hsva(rgba: IRGBA): IHSVA {
     const color = {
-        r: rgb.r * 255,
-        g: rgb.g * 255,
-        b: rgb.b * 255,
+        r: rgba.r * 255,
+        g: rgba.g * 255,
+        b: rgba.b * 255,
+        a: rgba.a,
     };
     return tiny_color.fromRatio(color).toHsv();
 }
 
-export function hsv_to_rgb(hsv: IHSV): IRGB {
-    const color = tiny_color.fromRatio(hsv).toRgb();
+export function hsva_to_rgba(hsva: IHSVA): IRGBA {
+    const color = tiny_color.fromRatio(hsva).toRgb();
     return {
         r: color.r / 255,
         g: color.g / 255,
         b: color.b / 255,
+        a: color.a,
     };
 }
 
-export function hex_to_rgb(hex: string): IRGB {
+export function hex_to_rgba(hex: string): IRGBA {
     const color = tiny_color(hex).toRgb();
     return {
         r: color.r / 255,
         g: color.g / 255,
         b: color.b / 255,
+        a: 1,
     };
 }
 
-export function hex_to_hsv(hex: string): IHSV {
-    return rgb_to_hsv(hex_to_rgb(hex));
+export function hex_to_hsva(hex: string): IHSVA {
+    return rgba_to_hsva(hex_to_rgba(hex));
 }
 // -----------------------------------------------------------------------------
 
@@ -74,17 +79,17 @@ export const HEX_COLORS: object = {
     // aspect_hover:    "rgba(126, 196, 207, 0.25)",
 };
 
-function __hex_colors_to_hsv(): object {
+function __hex_colors_to_hsva(): object {
     const output: object = {};
     for (const key of _.keys(HEX_COLORS)) {
-        output[key] = hex_to_hsv(HEX_COLORS[key]);
+        output[key] = hex_to_hsva(HEX_COLORS[key]);
     }
     return output;
 }
-export const HSV_COLORS: object = __hex_colors_to_hsv();
+export const HSV_COLORS: object = __hex_colors_to_hsva();
 
 export class OrderedDict {
-    constructor(items: object = undefined, default_value = undefined) {
+    constructor(items?: object, default_value?) {
         this.default = default_value;
         if (items !== undefined) {
             this._keys = Object.keys(items);

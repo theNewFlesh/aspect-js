@@ -64,10 +64,6 @@ export class Primitive {
         this._item.visible = params["visible"];
     }
 
-    private __set_opacity(params: three_tools.IParams): void {
-        this._item.opacity = params["opacity"];
-    }
-
     private __set_translate(params: three_tools.IParams): void {
         this._item.position.set(
             params["translate/x"],
@@ -95,18 +91,21 @@ export class Primitive {
     }
 
     public __set_color(params: three_tools.IParams): void {
-        const hsv: tools.IHSV = {
+        const hsva: tools.IHSVA = {
             h: params["color/hue"],
             s: params["color/saturation"],
             v: params["color/value"],
+            a: params["color/alpha"],
         };
-        let rgb: any = tools.hsv_to_rgb(hsv);
-        rgb = [rgb.r, rgb.g, rgb.b];
+        const rgba: any = tools.hsva_to_rgba(hsva);
+        const rgb = [rgba.r, rgba.g, rgba.b];
         if (three_tools.is_array(this._item.material)) {
             this._item.material[5].color.setRGB(...rgb);
+            this._item.material[5].opacity = rgba.a;
         }
         else {
             this._item.material.color.setRGB(...rgb);
+            this._item.material.opacity = rgba.a;
         }
     }
     // -------------------------------------------------------------------------
@@ -121,11 +120,11 @@ export class Primitive {
 
     private __default_params = {
         "name": "",
-        "opacity": 1,
         "visible": true,
         "color/hue": 0,
         "color/saturation": 0,
         "color/value": 1,
+        "color/alpha": 1,
         "translate/x": 0,
         "translate/y": 0,
         "translate/z": 0,
@@ -154,11 +153,11 @@ export class Primitive {
         const params: three_tools.IParams = {
             "id": this.__id,
             "name": item.name,
-            "opacity": item.material.opacity,
             "visible": item.visible,
             "color/hue": this.__get_color().h,
             "color/saturation": this.__get_color().s,
             "color/value": this.__get_color().v,
+            "color/alpha": item.material.opacity,
             "translate/x": this.__get_translate().x,
             "translate/y": this.__get_translate().y,
             "translate/z": this.__get_translate().z,
@@ -168,7 +167,7 @@ export class Primitive {
             "scale/x": this.__get_scale().x,
             "scale/y": this.__get_scale().y,
             "scale/z": this.__get_scale().z,
-        }
+        };
         return params;
     }
 
@@ -213,10 +212,6 @@ export class Primitive {
 
         if (keys.includes("visible")) {
             this.__set_visible(params);
-        }
-
-        if (keys.includes("opacity")) {
-            this.__set_opacity(params);
         }
     }
 

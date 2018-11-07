@@ -23,6 +23,7 @@ export const COLOR_KEYS: string[] = [
     "color/hue",
     "color/saturation",
     "color/value",
+    "color/alpha",
 ];
 
 export const FONT_KEYS: string[] = [
@@ -36,11 +37,11 @@ export const FONT_KEYS: string[] = [
 export interface IParams {
     "id"?: string;
     "name"?: string;
-    "opacity"?: number;
     "visible"?: boolean;
     "color/hue"?: number;
     "color/saturation"?: number;
     "color/value"?: number;
+    "color/alpha"?: number;
     "translate/x"?: number;
     "translate/y"?: number;
     "translate/z"?: number;
