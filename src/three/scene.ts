@@ -1,17 +1,17 @@
 import * as _ from "lodash";
+import * as tiny_color from "tinycolor2";
 import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
+import * as tools from "../core/tools";
+import * as three_tools from "./three_tools";
 import { Cube } from "./cube";
 import { Cylinder } from "./cylinder";
 import { TextBox } from "./text_box";
-import * as tools from "./three_tools";
-import { HSV_COLORS } from "../core/tools";
-import * as tiny_color from "tinycolor2";
+import { Edge } from "./edge";
 // -----------------------------------------------------------------------------
 
-const cyan1 = HSV_COLORS["aspect_cyan_1"];
-const cyan2 = HSV_COLORS["aspect_cyan_2"];
-const grey2 = HSV_COLORS["aspect_grey_2"];
+const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
+const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
 export class Scene {
     public constructor(params: any) {
@@ -20,40 +20,30 @@ export class Scene {
         this.create_scene();
         this.create_light();
         this.create_camera();
-        this.cylinder = new Cylinder(this.scene);
-        this.cylinder.create({
-            "height": 0.3,
-            "radius/top": 0.2,
-            "radius/bottom": 0.05,
-            "translate/y": 2,
-            "color/hue": cyan2.h,
-            "color/saturation": cyan2.s,
-            "color/value": cyan2.v,
-        });
-        const x = new Cylinder(this.scene);
-        x.create({
-            "height": 5,
-            "radius/top": 0.05,
-            "radius/bottom": 0.05,
-            "translate/y": 2.5,
-        });
 
         this.cube = new Cube(this.scene);
-        this.cube.create({
-            "scale/x": 5.25,
-            "scale/y": 0.75,
-            "scale/z": 0.1,
-            "color/hue": cyan2.h,
-            "color/saturation": cyan2.s,
-            "color/value": cyan2.v,
-        });
+        // this.cube.create({
+        //     "scale/x": 5.25,
+        //     "scale/y": 0.75,
+        //     "scale/z": 0.1,
+        //     "color/hue": cyan2.h,
+        //     "color/saturation": cyan2.s,
+        //     "color/value": cyan2.v,
+        // });
 
-        this.textbox = new TextBox(this.scene);
-        this.textbox.create({
-            "scale/x": 5.25,
-            "scale/y": 0.75,
-            "scale/z": 0.1,
-            "color/value": grey2.v,
+        // this.textbox = new TextBox(this.scene);
+        // this.textbox.create({
+        //     "scale/x": 5.25,
+        //     "scale/y": 0.75,
+        //     "scale/z": 0.1,
+        //     "color/value": grey2.v,
+        // });
+
+        this.edge = new Edge(this.scene);
+        this.edge.create();
+        this.edge.update({
+            "height": 5,
+            "translate/y": 1,
         });
     }
 
@@ -69,6 +59,7 @@ export class Scene {
     public cube: any;
     public textbox: any;
     public text: any;
+    public edge: any;
 
     public get aspect_ratio(): number {
         return this.width / this.height;
@@ -121,8 +112,8 @@ export class Scene {
         return THREE;
     }
 
-    public get tools() {
-        return tools;
+    public get three_tools() {
+        return three_tools;
     }
 
     public get tiny_color() {

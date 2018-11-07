@@ -2,6 +2,12 @@ import * as _ from "lodash";
 import tiny_color from "tinycolor2";
 // -----------------------------------------------------------------------------
 
+export function log(item: any): any {
+    // tslint:disable-next-line:no-console
+    console.log(item);
+    return item;
+}
+
 export interface IRGBA {
     r: number;
     g: number;
@@ -23,7 +29,13 @@ export function rgba_to_hsva(rgba: IRGBA): IHSVA {
         b: rgba.b * 255,
         a: rgba.a,
     };
-    return tiny_color.fromRatio(color).toHsv();
+    const hsva = tiny_color.fromRatio(color).toHsv();
+    return {
+        h: hsva.h / 360,
+        s: hsva.s,
+        v: hsva.v,
+        a: hsva.a,
+    };
 }
 
 export function hsva_to_rgba(hsva: IHSVA): IRGBA {

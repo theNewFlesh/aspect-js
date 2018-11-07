@@ -49,7 +49,7 @@ export class Cylinder extends Primitive {
         return false;
     }
 
-    public create(params: ICylinderParams): void {
+    public create(params: ICylinderParams = {}): void {
         super.create(params);
     }
 
