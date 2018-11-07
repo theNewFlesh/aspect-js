@@ -7,12 +7,12 @@ import * as three_tools from "./three_tools";
 
 export class Primitive {
     private __id: string;
-    public _scene: THREE.Scene;
+    public _container: any;
     public _item: any;
     public _three_id: string;
 
-    public constructor(scene: THREE.Scene) {
-        this._scene = scene;
+    public constructor(container: any) {
+        this._container = container;
         this.__id = uuidv4();
     }
     // -------------------------------------------------------------------------
@@ -143,7 +143,7 @@ export class Primitive {
         );
         const item = this._create_item(new_params);
         this._three_id = item.uuid;
-        this._scene.add(item);
+        this._container.add(item);
         this._item = item;
         this._non_destructive_update(new_params);
     }
@@ -175,6 +175,9 @@ export class Primitive {
     public update(params: three_tools.IParams): void {
         const old_params: three_tools.IParams = this.read();
         const new_params: three_tools.IParams = three_tools.resolve_params(params, old_params);
+        if (_.keys(new_params).length === 0) {
+            return;
+        }
 
         if (this._is_destructive(new_params)) {
             Object.assign(old_params, new_params);
@@ -218,6 +221,6 @@ export class Primitive {
     }
 
     public delete(): void {
-        this._scene.remove(this._item);
+        this._container.remove(this._item);
     }
 }
