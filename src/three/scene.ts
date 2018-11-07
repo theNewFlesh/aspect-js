@@ -6,8 +6,6 @@ import { Cylinder } from "./cylinder";
 import { TextBox } from "./text_box";
 import * as tools from "./three_tools";
 import { HSV_COLORS } from "../core/tools";
-// import { Text } from "./text";
-// import { Sprite } from "./sprite";
 // -----------------------------------------------------------------------------
 
 const cyan1 = HSV_COLORS["aspect_cyan_1"];

@@ -86,6 +86,39 @@ export function diff_params(a: IParams, b: IParams): IParams {
     return output;
 }
 
+export function update_params(partial_params: object, full_params: object): object {
+    const params: object = _.clone(full_params);
+    Object.assign(params, partial_params);
+    return params;
+}
+
+export function remove_group_keys(params: object): object {
+    const output: object = _.clone(params);
+    delete output["name"];
+    delete output["visible"];
+    delete output["translate/x"];
+    delete output["translate/y"];
+    delete output["translate/z"];
+    delete output["rotate/x"];
+    delete output["rotate/y"];
+    delete output["rotate/z"];
+    delete output["scale/x"];
+    delete output["scale/y"];
+    delete output["scale/z"];
+    return output;
+}
+
+export function remove_nongroup_keys(params: object): object {
+    const temp: object = remove_group_keys(params);
+    const output: object = {};
+    for (const key of _.keys(temp)) {
+        if (!_.keys(params).includes(key)) {
+            output[key] = params[key];
+        }
+    }
+    return output;
+}
+
 export function resolve_params(new_params: any, old_params: any): any {
     const diff = diff_params(new_params, old_params);
     let keys: string[] = _.keys(diff);
