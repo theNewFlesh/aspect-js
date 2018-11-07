@@ -53,7 +53,7 @@ export class Primitive {
             g: rgb[1],
             b: rgb[2],
         };
-        return tools.rgb_to_hsv(rgb);
+        return tools.rgba_to_hsva(rgb);
     }
 
     private __set_name(params: three_tools.IParams): void {
