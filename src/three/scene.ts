@@ -22,22 +22,22 @@ export class Scene {
         this.create_camera();
 
         this.cube = new Cube(this.scene);
-        // this.cube.create({
-        //     "scale/x": 5.25,
-        //     "scale/y": 0.75,
-        //     "scale/z": 0.1,
-        //     "color/hue": cyan2.h,
-        //     "color/saturation": cyan2.s,
-        //     "color/value": cyan2.v,
-        // });
+        this.cube.create({
+            "scale/x": 5.25,
+            "scale/y": 0.75,
+            "scale/z": 0.1,
+            "color/hue": cyan2.h,
+            "color/saturation": cyan2.s,
+            "color/value": cyan2.v,
+        });
 
-        // this.textbox = new TextBox(this.scene);
-        // this.textbox.create({
-        //     "scale/x": 5.25,
-        //     "scale/y": 0.75,
-        //     "scale/z": 0.1,
-        //     "color/value": grey2.v,
-        // });
+        this.textbox = new TextBox(this.scene);
+        this.textbox.create({
+            "scale/x": 5.25,
+            "scale/y": 0.75,
+            "scale/z": 0.1,
+            "color/value": grey2.v,
+        });
 
         this.edge = new Edge(this.scene);
         this.edge.create();
@@ -78,8 +78,17 @@ export class Scene {
     }
 
     public create_camera() {
+        const w = this.width;
+        const h = this.height;
         // create camera
-        const camera = new THREE.PerspectiveCamera(60, this.aspect_ratio, 0.1, 1000);
+        const camera = new THREE.OrthographicCamera(
+            -10 * this.aspect_ratio,
+            10 * this.aspect_ratio,
+            10,
+            -10,
+            0,
+            10
+        );
 
         // create view controls
         const orbit = new CreateOrbitControls(THREE);
@@ -88,7 +97,7 @@ export class Scene {
         this.camera = camera;
 
         camera.position.x = 0;
-        camera.position.y = 3;
+        camera.position.y = 0;
         camera.position.z = 6;
     }
 

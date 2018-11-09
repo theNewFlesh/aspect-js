@@ -27,7 +27,7 @@ export interface ISphereParams {
 export class Sphere extends Primitive {
     public _create_item(params: ISphereParams): THREE.Mesh {
         const radius: number = params["radius"] || 1;
-        const geo = new THREE.SphereGeometry(radius, 6, 6);
+        const geo = new THREE.SphereGeometry(radius, 24, 24);
         const material = new THREE.MeshBasicMaterial({
             color: 0x444444,
             transparent: true

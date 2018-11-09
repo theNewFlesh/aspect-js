@@ -138,7 +138,7 @@ export class Edge {
     private __to_stop_params(params: object): object {
         const output: object = {
             "name":             this.__get_name(params, "stop"),
-            "visible":          params["visible"]          || true,
+            "visible":          params["visible"]          || false,
             "translate/x":      params["translate/x"]      || 0,
             "translate/y":      params["hieght"]           || 0,
             "translate/z":      params["translate/z"]      || 0,
