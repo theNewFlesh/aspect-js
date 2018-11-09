@@ -43,7 +43,7 @@ export class Scene {
         this.edge.create();
         this.edge.update({
             "height": 5,
-            "translate/y": 1,
+            // "translate/y": 1,
         });
     }
 
@@ -88,8 +88,8 @@ export class Scene {
         this.camera = camera;
 
         camera.position.x = 0;
-        camera.position.y = 0;
-        camera.position.z = 4;
+        camera.position.y = 3;
+        camera.position.z = 6;
     }
 
     public render(element: any) {
