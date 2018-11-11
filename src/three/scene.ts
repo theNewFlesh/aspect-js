@@ -41,12 +41,12 @@ export class Scene {
 
         this.edge = new Edge(this.scene);
         this.edge.create({
-            "start/translate/x": -5,
+            // "start/translate/x": -5,
             "start/translate/y": 5,
-            "start/translate/z": 0,
-            "stop/translate/x": 0,
-            "stop/translate/y": 0,
-            "stop/translate/z": 0,
+            // "start/translate/z": 0,
+            // "stop/translate/x": 0,
+            // "stop/translate/y": 0,
+            // "stop/translate/z": 0,
         });
     }
 

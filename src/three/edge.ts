@@ -51,71 +51,76 @@ export class Edge {
         return suffix;
     }
 
+    private __get_start_stop(params: IEdgeParams): three_tools.IVector3[] {
+        const new_params: object = {};
+        if (this._primitives.hasOwnProperty("start")) {
+            let start = this._primitives["start"].read();
+            new_params["start/translate/x"] = start["translate/x"];
+            new_params["start/translate/y"] = start["translate/y"];
+            new_params["start/translate/z"] = start["translate/z"];
+        }
+
+        if (this._primitives.hasOwnProperty("stop")) {
+            let stop = this._primitives["stop"].read();
+            new_params["stop/translate/x"] = stop["translate/x"];
+            new_params["stop/translate/y"] = stop["translate/y"];
+            new_params["stop/translate/z"] = stop["translate/z"];
+        }
+
+        const temp: object = three_tools.remove_empty_keys(params);
+        Object.assign(new_params, temp);
+
+        let v0: three_tools.IVector3 = {
+            x: new_params["start/translate/x"],
+            y: new_params["start/translate/y"],
+            z: new_params["start/translate/z"],
+        };
+
+        let v1: three_tools.IVector3 = {
+            x: new_params["stop/translate/x"],
+            y: new_params["stop/translate/y"],
+            z: new_params["stop/translate/z"],
+        };
+
+        return [v0, v1];
+    }
+
     private __get_center(params: IEdgeParams): three_tools.IVector3 {
-        const v0: three_tools.IVector3 = {
-            x: params["start/translate/x"] || 0,
-            y: params["start/translate/y"] || 0,
-            z: params["start/translate/z"] || 0,
-        };
-
-        const v1: three_tools.IVector3 = {
-            x: params["stop/translate/x"] || 0,
-            y: params["stop/translate/y"] || 0,
-            z: params["stop/translate/z"] || 0,
-        };
-
-        return three_tools.get_center(v0, v1);
+        const v: three_tools.IVector3[] = this.__get_start_stop(params);
+        return three_tools.get_center(v[0], v[1]);
     }
 
     private __get_l2_distance(params: IEdgeParams): number {
-        const v0: three_tools.IVector3 = {
-            x: params["start/translate/x"] || 0,
-            y: params["start/translate/y"] || 0,
-            z: params["start/translate/z"] || 0,
-        };
-
-        const v1: three_tools.IVector3 = {
-            x: params["stop/translate/x"] || 0,
-            y: params["stop/translate/y"] || 0,
-            z: params["stop/translate/z"] || 0,
-        };
-
-        return three_tools.to_l2_distance(v0, v1);
+        const v: three_tools.IVector3[] = this.__get_start_stop(params);
+        return three_tools.to_l2_distance(v[0], v[1]);
     }
 
     private __get_rotate(params: IEdgeParams): three_tools.IVector3 {
-        const v0: any = {
-            x: params["start/translate/x"] || 0,
-            y: params["start/translate/y"] || 0,
-            z: params["start/translate/z"] || 0,
-        };
-
-        const v1: any = {
-            x: params["stop/translate/x"] || 0,
-            y: params["stop/translate/y"] || 0,
-            z: params["stop/translate/z"] || 0,
-        };
-
-        return three_tools.get_rotation(v0, v1);
+        const v: three_tools.IVector3[] = this.__get_start_stop(params);
+        return three_tools.get_rotation(v[0], v[1]);
     }
 
     private __to_group_params(params: object): object {
-        const output: object = {
+        let output: object = {
             "name":    this.__get_name(params, "group"),
             "visible": params["visible"],
+            "scale/x": params["scale/x"],
+            "scale/y": params["scale/y"],
+            "scale/z": params["scale/z"],
         };
+        output = three_tools.remove_empty_keys(output);
         return output;
     }
 
     private __to_arrow_params(params: object): object {
-        const output: object = {
+        let output: object = {
             "name":             this.__get_name(params, "arrow"),
-            "translate/x":      this.__get_center(params).x || 0,
-            "translate/y":      this.__get_center(params).y || 0,
-            "translate/z":      this.__get_center(params).z || 0,
-            "rotate/x":         this.__get_rotate(params).x || 0,
-            "rotate/y":         this.__get_rotate(params).y || 0,
-            "rotate/z":         this.__get_rotate(params).z || 0,
+            "translate/x":      this.__get_center(params).x,
+            "translate/y":      this.__get_center(params).y,
+            "translate/z":      this.__get_center(params).z,
+            "rotate/x":         this.__get_rotate(params).x,
+            "rotate/y":         this.__get_rotate(params).y,
+            "rotate/z":         this.__get_rotate(params).z,
             "radius/top":       params["radius"] * 2.5,
             "radius/bottom":    params["radius"],
             "height":           params["radius"] * 3.5,
@@ -124,11 +129,12 @@ export class Edge {
             "color/value":      params["color/value"],
             "color/alpha":      params["color/alpha"],
         };
+        output = three_tools.remove_empty_keys(output);
         return output;
     }
 
     private __to_body_params(params: object): object {
-        const output: object = {
+        let output: object = {
             "name":             this.__get_name(params, "body"),
             "translate/x":      this.__get_center(params).x,
             "translate/y":      this.__get_center(params).y,
@@ -144,11 +150,13 @@ export class Edge {
             "color/value":      params["color/value"] * 0.5,
             "color/alpha":      params["color/alpha"],
         };
+        console.log(output);
+        output = three_tools.remove_empty_keys(output);
         return output;
     }
 
     private __to_start_params(params: object): object {
-        const output: object = {
+        let output: object = {
             "name":             this.__get_name(params, "start"),
             "visible":          params["start/visible"],
             "translate/x":      params["start/translate/x"],
@@ -160,11 +168,12 @@ export class Edge {
             "color/value":      params["color/value"],
             "color/alpha":      params["color/alpha"],
         };
+        output = three_tools.remove_empty_keys(output);
         return output;
     }
 
     private __to_stop_params(params: object): object {
-        const output: object = {
+        let output: object = {
             "name":             this.__get_name(params, "stop"),
             "visible":          params["stop/visible"],
             "translate/x":      params["stop/translate/x"],
@@ -176,6 +185,7 @@ export class Edge {
             "color/value":      params["color/value"],
             "color/alpha":      params["color/alpha"],
         };
+        output = three_tools.remove_empty_keys(output);
         return output;
     }
      // -------------------------------------------------------------------------
@@ -207,8 +217,9 @@ export class Edge {
         const temp: three_tools.IParams = three_tools.resolve_params(
             params, this._default_params
         );
-        const new_params: object = this._default_params;
+        let new_params: object = this._default_params;
         Object.assign(new_params, temp);
+        new_params = three_tools.remove_empty_keys(new_params);
 
         const grp: Group = new Group(this._container);
         grp.create(this.__to_group_params(new_params));
@@ -237,7 +248,7 @@ export class Edge {
         const body = this._primitives["body"].read();
         const grp = this._primitives["group"].read();
 
-        const params: object = {
+        let params: IEdgeParams = {
             "name":              grp["name"],
             "visible":           grp["visible"],
             "start/translate/x": start["translate/x"],
@@ -252,17 +263,18 @@ export class Edge {
             "scale/y":           grp["scale/y"],
             "scale/z":           grp["scale/z"],
             "radius":            body["radius/top"],
-            "color/hue":         body["color/hue"],
-            "color/saturation":  body["color/saturation"],
-            "color/value":       body["color/value"],
-            "color/alpha":       body["color/alpha"],
+            "color/hue":         stop["color/hue"],
+            "color/saturation":  stop["color/saturation"],
+            "color/value":       stop["color/value"],
+            "color/alpha":       stop["color/alpha"],
         };
+        params = three_tools.remove_empty_keys(params);
         return params;
     }
 
     public update(params: IEdgeParams): void {
-        const old_params: three_tools.IParams = this.read();
-        const new_params: three_tools.IParams = three_tools.resolve_params(params, old_params);
+        const old_params: IEdgeParams = this.read();
+        const new_params: IEdgeParams = three_tools.resolve_params(params, old_params);
 
         this._primitives["group"].update(this.__to_group_params(new_params));
         this._primitives["start"].update(this.__to_start_params(new_params));

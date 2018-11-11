@@ -159,6 +159,16 @@ export function is_array(item): boolean {
     return item instanceof Array;
 }
 
+export function remove_empty_keys(params: object): object {
+    const output: object = {};
+    for (const key of _.keys(params)) {
+        if (![null, undefined, NaN].includes(params[key])) {
+            output[key] = params[key];
+        }
+    }
+    return output;
+}
+
 export function diff_params(a: IParams, b: IParams): IParams {
     const output: IParams = {};
     for (const key of _.keys(a)) {
@@ -239,7 +249,7 @@ export function resolve_params(new_params: any, old_params: any): any {
 
     const new_keys: string[] = _.keys(new_params);
 
-    const output: IParams = {};
+    let output: IParams = {};
     for (const key of keys) {
         if (new_keys.includes(key)) {
             output[key] = new_params[key];
@@ -248,5 +258,6 @@ export function resolve_params(new_params: any, old_params: any): any {
             output[key] = old_params[key];
         }
     }
+    output = remove_empty_keys(output);
     return output;
 }
