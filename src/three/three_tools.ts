@@ -130,10 +130,10 @@ export function get_rotation(v0: IVector3, v1: IVector3): IVector3 {
     const vertical: boolean = v0.y === v1.y;
 
     if (horizontal) {
-        angle = 90;
+        angle = 0;
     }
     else if (vertical) {
-        angle = 0;
+        angle = 90;
     }
     else if (q1) {
         angle = 90 + angle;
