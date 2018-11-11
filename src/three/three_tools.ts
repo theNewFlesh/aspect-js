@@ -117,41 +117,53 @@ export function get_center(v0: IVector3, v1: IVector3): IVector3 {
 }
 
 export function get_rotation(v0: IVector3, v1: IVector3): IVector3 {
-    const adj: number = Math.sqrt(Math.pow(v1.x - v0.x, 2));
-    const hyp: number = to_l2_distance(v0, v1);
-    let angle: number = Math.acos(adj / hyp);
-    angle = to_angle(angle);
+    function _get_rotation(p0: any, p1: any): number {
+        const adj: number = Math.sqrt(Math.pow(p1.x - p0.x, 2));
+        const hyp: number = to_l2_distance(p0, p1);
+        let angle: number = Math.acos(adj / hyp);
+        angle = to_angle(angle);
 
-    const q1: boolean = v0.x < v1.x && v0.y < v1.y;
-    const q2: boolean = v0.x < v1.x && v0.y > v1.y;
-    const q3: boolean = v0.x > v1.x && v0.y > v1.y;
-    const q4: boolean = v0.x > v1.x && v0.y < v1.y;
-    const horizontal: boolean = v0.x === v1.x;
-    const vertical: boolean = v0.y === v1.y;
+        const q1: boolean    = p0.x  <  p1.x && p0.y < p1.y;
+        const q2: boolean    = p0.x  <  p1.x && p0.y > p1.y;
+        const q3: boolean    = p0.x  >  p1.x && p0.y > p1.y;
+        const q4: boolean    = p0.x  >  p1.x && p0.y < p1.y;
+        const up: boolean    = p0.x === p1.x && p0.y < p1.y;
+        const down: boolean  = p0.x === p1.x && p0.y > p1.y;
+        const left: boolean  = p0.y === p1.y && p0.x < p1.x;
+        const right: boolean = p0.y === p1.y && p0.x > p1.x;
 
-    if (horizontal) {
-        angle = 0;
-    }
-    else if (vertical) {
-        angle = 90;
-    }
-    else if (q1) {
-        angle = 90 + angle;
-    }
-    else if (q2) {
-        angle = 90 - angle;
-    }
-    else if (q3) {
-        angle = 270 + angle;
-    }
-    else if (q4) {
-        angle = 270 - angle;
+        if (up) {
+            angle = 180;
+        }
+        else if (down) {
+            angle = 0;
+        }
+        else if (left) {
+            angle = 90;
+        }
+        else if (right) {
+            angle = 270;
+        }
+        else if (q1) {
+            angle = 90 + angle;
+        }
+        else if (q2) {
+            angle = 90 - angle;
+        }
+        else if (q3) {
+            angle = 270 + angle;
+        }
+        else if (q4) {
+            angle = 270 - angle;
+        }
+
+        return angle;
     }
 
     return {
-        x: 0,
-        y: 0,
-        z: angle,
+        x: 0, //90 + _get_rotation({x: v0.y, y: v0.z}, {x: v1.y, y: v1.z}),
+        y: 0,//180 + _get_rotation({x: v0.z, y: v0.x}, {x: v1.z, y: v1.x}),
+        z: _get_rotation({x: v0.x, y: v0.y}, {x: v1.x, y: v1.y}),
     };
 }
 
