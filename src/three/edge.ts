@@ -17,9 +17,11 @@ export interface IEdgeParams {
     "start/translate/x"?: number;
     "start/translate/y"?: number;
     "start/translate/z"?: number;
+    "start/visible"?: number;
     "stop/translate/x"?: number;
     "stop/translate/y"?: number;
     "stop/translate/z"?: number;
+    "stop/visible"?: number;
     "scale/x"?: number;
     "scale/y"?: number;
     "scale/z"?: number;
@@ -50,19 +52,19 @@ export class Edge {
     }
 
     private __get_center(params: IEdgeParams): three_tools.IVector3 {
-        const x0: number = params["start/translate/x"] || 0;
-        const y0: number = params["start/translate/y"] || 0;
-        const z0: number = params["start/translate/z"] || 0;
-
-        const x1: number = params["stop/translate/x"] || 0;
-        const y1: number = params["stop/translate/y"] || 0;
-        const z1: number = params["stop/translate/z"] || 0;
-
-        return {
-            x: (x0 + x1) / 2,
-            y: (y0 + y1) / 2,
-            z: (z0 + z1) / 2,
+        const v0: three_tools.IVector3 = {
+            x: params["start/translate/x"] || 0,
+            y: params["start/translate/y"] || 0,
+            z: params["start/translate/z"] || 0,
         };
+
+        const v1: three_tools.IVector3 = {
+            x: params["stop/translate/x"] || 0,
+            y: params["stop/translate/y"] || 0,
+            z: params["stop/translate/z"] || 0,
+        };
+
+        return three_tools.get_center(v0, v1);
     }
 
     private __get_l2_distance(params: IEdgeParams): number {
@@ -94,57 +96,13 @@ export class Edge {
             z: params["stop/translate/z"] || 0,
         };
 
-        const adj: number = Math.sqrt(Math.pow(v1.x - v0.x, 2));
-        const hyp: number = three_tools.to_l2_distance(v0, v1);
-        let angle: number = Math.acos(adj / hyp);
-        angle = three_tools.to_angle(angle);
-
-        const q1: boolean = v0.x < v1.x && v0.y < v1.y;
-        const q2: boolean = v0.x < v1.x && v0.y > v1.y;
-        const q3: boolean = v0.x > v1.x && v0.y > v1.y;
-        const q4: boolean = v0.x > v1.x && v0.y < v1.y;
-        const horizontal: boolean = v0.x === v1.x;
-        const vertical: boolean = v0.y === v1.y;
-
-        if (horizontal) {
-            angle = 90;
-        }
-        else if (vertical) {
-            angle = 0;
-        }
-        else if (q1) {
-            angle = 90 + angle;
-        }
-        else if (q2) {
-            angle = 90 - angle;
-        }
-        else if (q3) {
-            angle = 270 + angle;
-        }
-        else if (q4) {
-            angle = 270 - angle;
-        }
-
-        return {
-            x: 0,
-            y: 0,
-            z: angle,
-        };
+        return three_tools.get_rotation(v0, v1);
     }
 
     private __to_group_params(params: object): object {
         const output: object = {
-            "name":             this.__get_name(params, "group"),
-            "visible":          params["visible"]     || true,
-            "translate/x":      params["translate/x"] || 0,
-            "translate/y":      params["translate/y"] || 0,
-            "translate/z":      params["translate/z"] || 0,
-            "rotate/x":         params["rotate/x"]    || 0,
-            "rotate/y":         params["rotate/y"]    || 0,
-            "rotate/z":         params["rotate/z"]    || 0,
-            "scale/x":          params["scale/x"]     || 1,
-            "scale/y":          params["scale/y"]     || 1,
-            "scale/z":          params["scale/z"]     || 1,
+            "name":    this.__get_name(params, "group"),
+            "visible": params["visible"],
         };
         return output;
     }
@@ -152,70 +110,55 @@ export class Edge {
     private __to_arrow_params(params: object): object {
         const output: object = {
             "name":             this.__get_name(params, "arrow"),
-            "visible":                                        true,
-            "translate/x":     this.__get_center(params).x || 0,
-            "translate/y":     this.__get_center(params).y || 0,
-            "translate/z":     this.__get_center(params).z || 0,
-            "rotate/x":        this.__get_rotate(params).x || 0,
-            "rotate/y":        this.__get_rotate(params).y || 0,
-            "rotate/z":        this.__get_rotate(params).z || 0,
-            "scale/x":                                        1,
-            "scale/y":                                        1,
-            "scale/z":                                        1,
-            "radius/top":       params["radius"] * 2       || 0.2,
-            "radius/bottom":    params["radius"]           || 0.05,
-            "height":           params["radius"] * 3.5     || 0.35,
-            "color/hue":        params["color/hue"]        || cyan2.h,
-            "color/saturation": params["color/saturation"] || cyan2.s,
-            "color/value":      params["color/value"]      || cyan2.v,
-            "color/alpha":      params["color/alpha"]      || cyan2.a,
+            "translate/x":      this.__get_center(params).x || 0,
+            "translate/y":      this.__get_center(params).y || 0,
+            "translate/z":      this.__get_center(params).z || 0,
+            "rotate/x":         this.__get_rotate(params).x || 0,
+            "rotate/y":         this.__get_rotate(params).y || 0,
+            "rotate/z":         this.__get_rotate(params).z || 0,
+            "radius/top":       params["radius"] * 2.5,
+            "radius/bottom":    params["radius"],
+            "height":           params["radius"] * 3.5,
+            "color/hue":        params["color/hue"],
+            "color/saturation": params["color/saturation"],
+            "color/value":      params["color/value"],
+            "color/alpha":      params["color/alpha"],
         };
         return output;
     }
 
     private __to_body_params(params: object): object {
         const output: object = {
-            "name":            this.__get_name(params, "body"),
-            "visible":                                            true,
-            "translate/x":     this.__get_center(params).x     || 0,
-            "translate/y":     this.__get_center(params).y     || 0,
-            "translate/z":     this.__get_center(params).z     || 0,
-            "rotate/x":        this.__get_rotate(params).x     || 0,
-            "rotate/y":        this.__get_rotate(params).y     || 0,
-            "rotate/z":        this.__get_rotate(params).z     || 0,
-            "scale/x":                                            1,
-            "scale/y":                                            1,
-            "scale/z":                                            1,
-            "radius/top":       params["radius"]               || 0.05,
-            "radius/bottom":    params["radius"]               || 0.05,
-            "height":           this.__get_l2_distance(params) || 1,
-            "color/hue":        params["color/hue"]            || cyan2.h,
-            "color/saturation": params["color/saturation"]     || cyan2.s,
-            "color/value":      params["color/value"]          || cyan2.v * 0.5,
-            "color/alpha":      params["color/alpha"]          || cyan2.a,
+            "name":             this.__get_name(params, "body"),
+            "translate/x":      this.__get_center(params).x,
+            "translate/y":      this.__get_center(params).y,
+            "translate/z":      this.__get_center(params).z,
+            "rotate/x":         this.__get_rotate(params).x,
+            "rotate/y":         this.__get_rotate(params).y,
+            "rotate/z":         this.__get_rotate(params).z,
+            "radius/top":       params["radius"],
+            "radius/bottom":    params["radius"],
+            "height":           this.__get_l2_distance(params),
+            "color/hue":        params["color/hue"],
+            "color/saturation": params["color/saturation"],
+            "color/value":      params["color/value"] * 0.5,
+            "color/alpha":      params["color/alpha"],
         };
-        console.log(output);
         return output;
     }
 
     private __to_start_params(params: object): object {
         const output: object = {
             "name":             this.__get_name(params, "start"),
-            "visible":          params["visible"]           || true,
-            "translate/x":      params["start/translate/x"] || 0,
-            "translate/y":      params["start/translate/y"] || 0,
-            "translate/z":      params["start/translate/z"] || 0,
-            "rotate/x":         params["rotate/x"]          || 0,
-            "rotate/y":         params["rotate/y"]          || 0,
-            "rotate/z":         params["rotate/z"]          || 0,
-            "scale/x":          params["scale/x"]           || 1,
-            "scale/y":          params["scale/y"]           || 1,
-            "scale/z":          params["scale/z"]           || 1,
-            "radius":           params["radius"] * 1.5      || 0.15,
-            "color/hue":        params["color/hue"]         || cyan2.h,
-            "color/saturation": params["color/saturation"]  || cyan2.s,
-            "color/value":      params["color/value"]       || cyan2.v,
-            "color/alpha":      params["color/alpha"]       || cyan2.a,
+            "visible":          params["start/visible"],
+            "translate/x":      params["start/translate/x"],
+            "translate/y":      params["start/translate/y"],
+            "translate/z":      params["start/translate/z"],
+            "radius":           params["radius"] * 2,
+            "color/hue":        params["color/hue"],
+            "color/saturation": params["color/saturation"],
+            "color/value":      params["color/value"],
+            "color/alpha":      params["color/alpha"],
         };
         return output;
     }
@@ -223,52 +166,49 @@ export class Edge {
     private __to_stop_params(params: object): object {
         const output: object = {
             "name":             this.__get_name(params, "stop"),
-            "visible":          params["visible"]          || false,
-            "translate/x":      params["stop/translate/x"] || 0,
-            "translate/y":      params["stop/translate/y"] || 0,
-            "translate/z":      params["stop/translate/z"] || 0,
-            "rotate/x":         params["rotate/x"]         || 0,
-            "rotate/y":         params["rotate/y"]         || 0,
-            "rotate/z":         params["rotate/z"]         || 0,
-            "scale/x":          params["scale/x"]          || 1,
-            "scale/y":          params["scale/y"]          || 1,
-            "scale/z":          params["scale/z"]          || 1,
-            "radius":           params["radius"] * 1.5     || 0.15,
-            "color/hue":        params["color/hue"]        || cyan2.h,
-            "color/saturation": params["color/saturation"] || cyan2.s,
-            "color/value":      params["color/value"]      || cyan2.v,
-            "color/alpha":      params["color/alpha"]      || cyan2.a,
+            "visible":          params["stop/visible"],
+            "translate/x":      params["stop/translate/x"],
+            "translate/y":      params["stop/translate/y"],
+            "translate/z":      params["stop/translate/z"],
+            "radius":           params["radius"] * 2,
+            "color/hue":        params["color/hue"],
+            "color/saturation": params["color/saturation"],
+            "color/value":      params["color/value"],
+            "color/alpha":      params["color/alpha"],
         };
         return output;
     }
      // -------------------------------------------------------------------------
 
-    public _default_params = {
-        "name":              "edge",
-        "visible":             true,
-        "start/translate/x":      0,
-        "start/translate/y":      1,
-        "start/translate/z":      0,
-        "stop/translate/x":       0,
-        "stop/translate/y":       0,
-        "stop/translate/z":       0,
-        "rotate/x":               0,
-        "rotate/y":               0,
-        "rotate/z":               0,
-        "scale/x":                1,
-        "scale/y":                1,
-        "scale/z":                1,
-        "radius":              0.05,
-        "color/hue":        cyan2.h,
-        "color/saturation": cyan2.s,
-        "color/value":      cyan2.v,
-        "color/alpha":      cyan2.a,
-    };
+    public get _default_params(): object {
+        return {
+            "name":              "edge",
+            "visible":           true,
+            "start/translate/x": 0,
+            "start/translate/y": 1,
+            "start/translate/z": 0,
+            "start/visible":     true,
+            "stop/translate/x":  0,
+            "stop/translate/y":  0,
+            "stop/translate/z":  0,
+            "stop/visible":      false,
+            "scale/x":           1,
+            "scale/y":           1,
+            "scale/z":           1,
+            "radius":            0.05,
+            "color/hue":         cyan2.h,
+            "color/saturation":  cyan2.s,
+            "color/value":       cyan2.v,
+            "color/alpha":       cyan2.a,
+        };
+    }
 
     public create(params: IEdgeParams = {}): void {
-        const new_params: three_tools.IParams = three_tools.resolve_params(
+        const temp: three_tools.IParams = three_tools.resolve_params(
             params, this._default_params
         );
+        const new_params: object = this._default_params;
+        Object.assign(new_params, temp);
 
         const grp: Group = new Group(this._container);
         grp.create(this.__to_group_params(new_params));
@@ -303,9 +243,11 @@ export class Edge {
             "start/translate/x": start["translate/x"],
             "start/translate/y": start["translate/y"],
             "start/translate/z": start["translate/z"],
+            "start/visible":     start["visible"],
             "stop/translate/x":  stop["translate/x"],
             "stop/translate/y":  stop["translate/y"],
             "stop/translate/z":  stop["translate/z"],
+            "stop/visible":      stop["visible"],
             "scale/x":           grp["scale/x"],
             "scale/y":           grp["scale/y"],
             "scale/z":           grp["scale/z"],

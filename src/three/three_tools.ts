@@ -108,6 +108,53 @@ export function to_l2_distance(v0: IVector, v1: IVector): number {
     return distance;
 }
 
+export function get_center(v0: IVector3, v1: IVector3): IVector3 {
+    return {
+        x: (v0.x + v1.x) / 2,
+        y: (v0.y + v1.y) / 2,
+        z: (v0.z + v1.z) / 2,
+    };
+}
+
+export function get_rotation(v0: IVector3, v1: IVector3): IVector3 {
+    const adj: number = Math.sqrt(Math.pow(v1.x - v0.x, 2));
+    const hyp: number = to_l2_distance(v0, v1);
+    let angle: number = Math.acos(adj / hyp);
+    angle = to_angle(angle);
+
+    const q1: boolean = v0.x < v1.x && v0.y < v1.y;
+    const q2: boolean = v0.x < v1.x && v0.y > v1.y;
+    const q3: boolean = v0.x > v1.x && v0.y > v1.y;
+    const q4: boolean = v0.x > v1.x && v0.y < v1.y;
+    const horizontal: boolean = v0.x === v1.x;
+    const vertical: boolean = v0.y === v1.y;
+
+    if (horizontal) {
+        angle = 90;
+    }
+    else if (vertical) {
+        angle = 0;
+    }
+    else if (q1) {
+        angle = 90 + angle;
+    }
+    else if (q2) {
+        angle = 90 - angle;
+    }
+    else if (q3) {
+        angle = 270 + angle;
+    }
+    else if (q4) {
+        angle = 270 - angle;
+    }
+
+    return {
+        x: 0,
+        y: 0,
+        z: angle,
+    };
+}
+
 export function is_array(item): boolean {
     return item instanceof Array;
 }
