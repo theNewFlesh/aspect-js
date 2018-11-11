@@ -32,7 +32,7 @@ export class Cylinder extends Primitive {
         const top: number = params["radius/top"] || 1;
         const bottom: number = params["radius/bottom"] || 1;
         const geo = new THREE.CylinderGeometry(top, bottom, height, 24);
-        const material = new THREE.MeshBasicMaterial({
+        const material = new THREE.MeshLambertMaterial({
             color: 0x444444,
             transparent: true
         });

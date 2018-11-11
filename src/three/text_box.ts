@@ -36,15 +36,15 @@ export class TextBox extends Primitive {
             fontSize: params["font/size"] || 300,
             fontStyle: params["font/style"] || "normal",
         });
-        const bg = new THREE.MeshBasicMaterial({
+        const bg = new THREE.MeshLambertMaterial({
             opacity: 0,
             transparent: true,
         });
-        const text = new THREE.MeshBasicMaterial({
+        const text = new THREE.MeshLambertMaterial({
             map: texture,
             transparent: true,
         });
-        const materials: THREE.MeshBasicMaterial[] = [
+        const materials: THREE.MeshLambertMaterial[] = [
             bg, bg, bg, bg, text, text,
         ];
 

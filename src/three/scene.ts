@@ -23,8 +23,8 @@ export class Scene {
 
         this.cube = new Cube(this.scene);
         this.cube.create({
-            "scale/x": 5.25,
-            "scale/y": 0.75,
+            "scale/x": 1 * 5.25,
+            "scale/y": 1 * 0.75,
             "scale/z": 0.1,
             "color/hue": cyan2.h,
             "color/saturation": cyan2.s,
@@ -33,17 +33,20 @@ export class Scene {
 
         this.textbox = new TextBox(this.scene);
         this.textbox.create({
-            "scale/x": 5.25,
-            "scale/y": 0.75,
+            "scale/x": 1 * 5.25,
+            "scale/y": 1 * 0.75,
             "scale/z": 0.1,
             "color/value": grey2.v,
         });
 
         this.edge = new Edge(this.scene);
-        this.edge.create();
-        this.edge.update({
-            "height": 5,
-            // "translate/y": 1,
+        this.edge.create({
+            "start/translate/x": -5,
+            "start/translate/y": 5,
+            "start/translate/z": 0,
+            "stop/translate/x": 0,
+            "stop/translate/y": 0,
+            "stop/translate/z": 0,
         });
     }
 
@@ -73,6 +76,7 @@ export class Scene {
         const color = 0xffffff;
         const intensity: number = 1;
         const light = new THREE.DirectionalLight(color, intensity);
+        light.position.set(0, 0 , 6);
         this.scene.add(light);
         this.light = light;
     }

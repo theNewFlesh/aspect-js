@@ -19,6 +19,18 @@ export const SCALE_KEYS: string[] = [
     "scale/z",
 ];
 
+export const START_KEYS: string[] = [
+    "start/translate/x",
+    "start/translate/y",
+    "start/translate/z",
+];
+
+export const STOP_KEYS: string[] = [
+    "stop/translate/x",
+    "stop/translate/y",
+    "stop/translate/z",
+];
+
 export const COLOR_KEYS: string[] = [
     "color/hue",
     "color/saturation",
@@ -63,6 +75,12 @@ export interface IVector3 {
     y: number;
     z: number;
 }
+
+interface IVector {
+    x?: number;
+    y?: number;
+    z?: number;
+}
 // -----------------------------------------------------------------------------
 
 export function to_radians(angle: number): number {
@@ -70,7 +88,24 @@ export function to_radians(angle: number): number {
 }
 
 export function to_angle(radian: number): number {
-    return (radian / (Math.PI * 2)) * 360;
+    return radian * (180 / Math.PI);
+}
+
+export function to_l2_distance(v0: IVector, v1: IVector): number {
+    const x0: number = v0.x || 0;
+    const y0: number = v0.y || 0;
+    const z0: number = v0.z || 0;
+
+    const x1: number = v1.x || 0;
+    const y1: number = v1.y || 0;
+    const z1: number = v1.z || 0;
+
+    const dx: number = Math.pow(x0 - x1, 2);
+    const dy: number = Math.pow(y0 - y1, 2);
+    const dz: number = Math.pow(z0 - z1, 2);
+    const distance: number =  Math.sqrt(dx + dy + dz);
+
+    return distance;
 }
 
 export function is_array(item): boolean {
@@ -135,6 +170,14 @@ export function resolve_params(new_params: any, old_params: any): any {
 
         if (SCALE_KEYS.includes(key)) {
             keys = _.concat(keys, SCALE_KEYS);
+        }
+
+        if (START_KEYS.includes(key)) {
+            keys = _.concat(keys, START_KEYS);
+        }
+
+        if (STOP_KEYS.includes(key)) {
+            keys = _.concat(keys, STOP_KEYS);
         }
 
         if (COLOR_KEYS.includes(key)) {
