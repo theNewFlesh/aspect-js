@@ -1,6 +1,5 @@
 import * as _ from "lodash";
 import * as uuidv4 from "uuid/v4";
-import * as THREE from "three";
 import * as tools from "../core/tools";
 import * as three_tools from "../three/three_tools";
 import { Cylinder } from "./cylinder";
@@ -150,7 +149,6 @@ export class Edge {
             "color/value":      params["color/value"] * 0.5,
             "color/alpha":      params["color/alpha"],
         };
-        console.log(output);
         output = three_tools.remove_empty_keys(output);
         return output;
     }

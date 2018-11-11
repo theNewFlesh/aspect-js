@@ -5,7 +5,6 @@ import * as CreateOrbitControls from "three-orbit-controls";
 import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
 import { Cube } from "./cube";
-import { Cylinder } from "./cylinder";
 import { TextBox } from "./text_box";
 import { Edge } from "./edge";
 // -----------------------------------------------------------------------------
