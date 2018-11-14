@@ -161,8 +161,8 @@ export function get_rotation(v0: IVector3, v1: IVector3): IVector3 {
     }
 
     return {
-        x: 0, //90 + _get_rotation({x: v0.y, y: v0.z}, {x: v1.y, y: v1.z}),
-        y: 0,//180 + _get_rotation({x: v0.z, y: v0.x}, {x: v1.z, y: v1.x}),
+        x: 0, // 90 + _get_rotation({x: v0.y, y: v0.z}, {x: v1.y, y: v1.z}),
+        y: 0, // 180 + _get_rotation({x: v0.z, y: v0.x}, {x: v1.z, y: v1.x}),
         z: _get_rotation({x: v0.x, y: v0.y}, {x: v1.x, y: v1.y}),
     };
 }

@@ -53,14 +53,14 @@ export class Edge {
     private __get_start_stop(params: IEdgeParams): three_tools.IVector3[] {
         const new_params: object = {};
         if (this._primitives.hasOwnProperty("start")) {
-            let start = this._primitives["start"].read();
+            const start = this._primitives["start"].read();
             new_params["start/translate/x"] = start["translate/x"];
             new_params["start/translate/y"] = start["translate/y"];
             new_params["start/translate/z"] = start["translate/z"];
         }
 
         if (this._primitives.hasOwnProperty("stop")) {
-            let stop = this._primitives["stop"].read();
+            const stop = this._primitives["stop"].read();
             new_params["stop/translate/x"] = stop["translate/x"];
             new_params["stop/translate/y"] = stop["translate/y"];
             new_params["stop/translate/z"] = stop["translate/z"];
@@ -69,13 +69,13 @@ export class Edge {
         const temp: object = three_tools.remove_empty_keys(params);
         Object.assign(new_params, temp);
 
-        let v0: three_tools.IVector3 = {
+        const v0: three_tools.IVector3 = {
             x: new_params["start/translate/x"],
             y: new_params["start/translate/y"],
             z: new_params["start/translate/z"],
         };
 
-        let v1: three_tools.IVector3 = {
+        const v1: three_tools.IVector3 = {
             x: new_params["stop/translate/x"],
             y: new_params["stop/translate/y"],
             z: new_params["stop/translate/z"],
@@ -271,8 +271,8 @@ export class Edge {
     }
 
     public update(params: IEdgeParams): void {
-        const old_params: IEdgeParams = this.read();
-        const new_params: IEdgeParams = three_tools.resolve_params(params, old_params);
+        let new_params: IEdgeParams = this.read();
+        new_params = three_tools.resolve_params(params, new_params);
 
         this._primitives["group"].update(this.__to_group_params(new_params));
         this._primitives["start"].update(this.__to_start_params(new_params));
