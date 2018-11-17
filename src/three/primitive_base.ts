@@ -81,24 +81,29 @@ export class PrimitiveBase {
         throw new Error("method must be defined in subclass");
     }
 
-    public _default_params = {
-        "name": "",
-        "visible": true,
-        "translate/x": 0,
-        "translate/y": 0,
-        "translate/z": 0,
-        "rotate/x": 0,
-        "rotate/y": 0,
-        "rotate/z": 0,
-        "scale/x": 1,
-        "scale/y": 1,
-        "scale/z": 1,
-    };
+    public get _default_params(): object {
+        return {
+            "name": "",
+            "visible": true,
+            "translate/x": 0,
+            "translate/y": 0,
+            "translate/z": 0,
+            "rotate/x": 0,
+            "rotate/y": 0,
+            "rotate/z": 0,
+            "scale/x": 1,
+            "scale/y": 1,
+            "scale/z": 1,
+        };
+    }
 
     public create(params: three_tools.IParams = {}): void {
-        const new_params: three_tools.IParams = three_tools.resolve_params(
+        const temp: three_tools.IParams = three_tools.resolve_params(
             params, this._default_params
         );
+        const new_params = this._default_params;
+        Object.assign(new_params, temp);
+
         const item = this._create_item(new_params);
         this._container.add(item);
         this._item = item;

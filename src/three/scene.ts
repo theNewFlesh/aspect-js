@@ -4,9 +4,9 @@ import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
 import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
-import { Cube } from "./cube";
-import { TextBox } from "./text_box";
+import { Node } from "./node";
 import { Edge } from "./edge";
+import { TextBox } from "./text_box";
 // -----------------------------------------------------------------------------
 
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
@@ -20,23 +20,22 @@ export class Scene {
         this.create_light();
         this.create_camera();
 
-        this.cube = new Cube(this.scene);
-        this.cube.create({
-            "scale/x": 1 * 5.25,
-            "scale/y": 1 * 0.75,
-            "scale/z": 0.1,
-            "color/hue": cyan2.h,
-            "color/saturation": cyan2.s,
-            "color/value": cyan2.v,
+        this.node = new Node(this.scene);
+        this.node.create({
+            // "scale/x": 5.25,
+            // "scale/y": 0.75,
+            // "scale/z": 0.1,
         });
 
-        this.textbox = new TextBox(this.scene);
-        this.textbox.create({
-            "scale/x": 1 * 5.25,
-            "scale/y": 1 * 0.75,
-            "scale/z": 0.1,
-            "color/value": grey2.v,
-        });
+        // this.textbox = new TextBox(this.scene);
+        // this.textbox.create({
+        //     "scale/x": 6,
+        //     "scale/y": 1,
+        //     "scale/z": 0.1,
+        //     "color/hue": 0,
+        //     "color/value": 1,
+        //     "color/saturation": 0,
+        // });
 
         this.edge = new Edge(this.scene);
         this.edge.create({
@@ -56,13 +55,10 @@ export class Scene {
     public controls: any;
     public width: number;
     public height: number;
-    public cylinder: any;
-    public sprite: any;
-    public cube: any;
-    public textbox: any;
-    public text: any;
     public edge: any;
-
+    public node: any;
+    public textbox: any;
+    
     public get aspect_ratio(): number {
         return this.width / this.height;
     }

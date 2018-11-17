@@ -41,22 +41,24 @@ export class Primitive extends PrimitiveBase {
     }
     // -------------------------------------------------------------------------
 
-    public _default_params = {
-        "name": "",
-        "visible": true,
-        "color/hue": 0,
-        "color/saturation": 0,
-        "color/value": 1,
-        "color/alpha": 1,
-        "translate/x": 0,
-        "translate/y": 0,
-        "translate/z": 0,
-        "rotate/x": 0,
-        "rotate/y": 0,
-        "rotate/z": 0,
-        "scale/x": 1,
-        "scale/y": 1,
-        "scale/z": 1,
+    public get _default_params(): object {
+        return {
+            "name": "",
+            "visible": true,
+            "color/hue": 0,
+            "color/saturation": 0,
+            "color/value": 1,
+            "color/alpha": 1,
+            "translate/x": 0,
+            "translate/y": 0,
+            "translate/z": 0,
+            "rotate/x": 0,
+            "rotate/y": 0,
+            "rotate/z": 0,
+            "scale/x": 1,
+            "scale/y": 1,
+            "scale/z": 1,
+        }
     };
 
     public read(): three_tools.IParams {

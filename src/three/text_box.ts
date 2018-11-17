@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import * as THREE from "three";
 import { Primitive } from "./primitive";
-import { FONT_KEYS } from "./three_tools";
+import * as three_tools from "./three_tools";
 import TextTexture from "three.texttexture";
 // -----------------------------------------------------------------------------
 
@@ -29,12 +29,41 @@ export interface ITextBoxParams {
 }
 
 export class TextBox extends Primitive {
+    private __get_font_family(): string {
+        const family: string = this._item.material[5].map.fontFamily;
+        return family.replace(/"/g, "");
+    }
+
+    public get _default_params(): object {
+        return {
+            "name": "",
+            "visible": true,
+            "color/hue": 0,
+            "color/saturation": 0,
+            "color/value": 1,
+            "color/alpha": 1,
+            "translate/x": 0,
+            "translate/y": 0,
+            "translate/z": 0,
+            "rotate/x": 0,
+            "rotate/y": 0,
+            "rotate/z": 0,
+            "scale/x": 1,
+            "scale/y": 1,
+            "scale/z": 1,
+            "font/text": "DEFAULT TEXT",
+            "font/family": "Tahoma",
+            "font/style": "normal",
+            "font/size": 300,
+        }
+    };
+
     public _create_item(params: ITextBoxParams): THREE.Mesh {
         const texture = new TextTexture({
-            text: params["font/text"] || "DEFAULT TEXT",
-            fontFamily: `"${params["font/family"]}"` || "Tahoma",
-            fontSize: params["font/size"] || 300,
-            fontStyle: params["font/style"] || "normal",
+            text: params["font/text"],
+            fontFamily: `"${params["font/family"]}"`,
+            fontStyle: params["font/style"],
+            fontSize: params["font/size"],
         });
         const bg = new THREE.MeshLambertMaterial({
             opacity: 0,
@@ -55,24 +84,24 @@ export class TextBox extends Primitive {
 
     public _is_destructive(params: ITextBoxParams): boolean {
         for (const key of _.keys(params)) {
-            if (FONT_KEYS.includes(key)) {
+            if (three_tools.FONT_KEYS.includes(key)) {
                 return true;
             }
         }
         return false;
     }
 
-    public crate(params: ITextBoxParams): void {
+    public create(params: ITextBoxParams): void {
         super.create(params);
     }
 
     public read(): ITextBoxParams {
         const item = this._item;
         const params: ITextBoxParams = super.read();
-        params["font/text"] =  item.material.map.text;
-        params["font/family"] =item.material.map.fontFamily;
-        params["font/style"] = item.material.map.fontStyle;
-        params["font/size"] = item.material.map.fontSize;
+        params["font/text"] =  item.material[5].map.text;
+        params["font/family"] = this.__get_font_family();
+        params["font/style"] = item.material[5].map.fontStyle;
+        params["font/size"] = item.material[5].map.fontSize;
         return params;
     }
 
