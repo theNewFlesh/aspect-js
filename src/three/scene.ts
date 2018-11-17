@@ -96,6 +96,11 @@ export class Scene {
         // create view controls
         const orbit = new CreateOrbitControls(THREE);
         const controls = new orbit(camera);
+        controls.mouseButtons = { 
+            ORBIT: THREE.MOUSE.LEFT, 
+            ZOOM: THREE.MOUSE.RIGHT, 
+            PAN: THREE.MOUSE.MIDDLE
+        };
         this.controls = controls;
         this.camera = camera;
 
