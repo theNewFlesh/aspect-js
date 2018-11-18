@@ -326,3 +326,20 @@ export function aggregate(objects, aggregator, separator: string = "/") {
 
     return output;
 }
+
+export function filter(dict: object, predicate: any): object {
+    const pairs: any[][] = _.toPairs(dict);
+    let output: any = _.filter(pairs, x => predicate(x[0], x[1]));
+    const keys: any[] = output.map(x => x[0]);
+    const values: any[] = output.map(x => x[1]);
+    output = _.zipObject(keys, values);
+    return output;
+}
+
+export function filter_keys(dict: object, regex: any): object {
+    return filter( dict, (k, v) => (k.search(regex) > -1) );
+}
+
+export function filter_values(dict: object, predicate: any): object {
+    return filter( dict, (k, v) => (predicate(v)) );
+}
