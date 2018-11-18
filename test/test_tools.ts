@@ -1,4 +1,7 @@
 import * as _ from "lodash";
+import * as uuidv4 from "uuid/v4";
+import * as tools from "../src/core/tools";
+// -----------------------------------------------------------------------------
 
 const display = {
     color: "aspect_bg",
@@ -9,7 +12,6 @@ const display = {
         tick_step: 10,
         round: 3,
         values: [
-            // "----------------------------------------------------------------------------------------------------",
             "alpha", "bravo", "charlie", "delta", "echo",
         ],
         default_color: "aspect_cyan_1",
@@ -106,3 +108,55 @@ add_index(rows);
 export const data = _.map(rows, (row) => (_.zipObject(cols, row)) );
 
 export const masks = [false, false, false, false];
+
+const temp: object = {
+    "scene_0": {
+        id: "0",
+
+        "graph_0": {
+            id: "0",
+
+            "node_0": {
+                id: "0",
+                type: "standard",
+                "operator/module": "foo_module",
+                "operator/function": "bar_func",
+                "inport_0": {
+                    id: "0"
+                },
+                "outport_0": {
+                    id: "0"
+                },
+            },
+            "node_1": {
+                id: "1",
+                "inport_0": {
+                    id: "0"
+                },
+                "outport_0": {
+                    id: "0"
+                },
+            },
+            "node_2": {
+                id: "2",
+                "inport_0": {
+                    id: "0"
+                },
+                "outport_0": {
+                    id: "0"
+                },
+            },
+        },
+        "edge_0": {
+            id: "0",
+            start: "scene_0/graph_0/node_0/outport_0",
+            stop: "scene_0/graph_0/node_1/inport_0",
+        },
+        "edge_1": {
+            id: "1",
+            start: "scene_0/graph_0/node_1/outport_0",
+            stop: "scene_0/graph_0/node_2/inport_0",
+        }
+    }
+};
+export const scene = tools.flatten(temp);
