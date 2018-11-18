@@ -19,7 +19,7 @@ module.exports = {
         'jest-serializer-vue'
     ],
     testMatch: [
-        '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
+        '**/test/unit/**/*.spec.(js|jsx|ts|tsx)|**/__test__/*.(js|jsx|ts|tsx)'
     ],
     testURL: 'http://localhost/'
 }
