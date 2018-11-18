@@ -1,10 +1,10 @@
 import * as _ from "lodash";
 import * as uuidv4 from "uuid/v4";
 import * as tools from "../core/tools";
-import * as three_tools from "../three/three_tools";
+import * as three_tools from "./three_tools";
 import { Group } from "./group";
 import { Cube } from "./cube";
-import { TextBox } from "./text_box";
+import { TextBox } from "./textbox";
 // -----------------------------------------------------------------------------
 
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
@@ -55,11 +55,14 @@ export class Node {
 
     private __to_group_params(params: object): object {
         let output: object = {
-            "name":    this.__get_name(params, "group"),
-            "visible": params["visible"],
-            "scale/x": params["scale/x"],
-            "scale/y": params["scale/y"],
-            "scale/z": params["scale/z"],
+            "name":        this.__get_name(params, "group"),
+            "visible":     params["visible"],
+            "translate/x": params["translate/x"],
+            "translate/y": params["translate/y"],
+            "translate/z": params["translate/z"],
+            "scale/x":     params["scale/x"],
+            "scale/y":     params["scale/y"],
+            "scale/z":     params["scale/z"],
         };
         output = three_tools.remove_empty_keys(output);
         return output;
@@ -69,9 +72,6 @@ export class Node {
         let output: object = {
             "name":             this.__get_name(params, "cube"),
             "visible":          params["visible"],
-            "translate/x":      params["translate/x"],
-            "translate/y":      params["translate/y"],
-            "translate/z":      params["translate/z"],
             "color/hue":        params["color/hue"],
             "color/saturation": params["color/saturation"],
             "color/value":      params["color/value"],
@@ -81,9 +81,9 @@ export class Node {
         return output;
     }
 
-    private __to_text_box_params(params: object): object {
+    private __to_textbox_params(params: object): object {
         let output: object = {
-            "name":             this.__get_name(params, "text_box"),
+            "name":             this.__get_name(params, "textbox"),
             "color/hue":        params["font/color/hue"],
             "color/saturation": params["font/color/saturation"],
             "color/value":      params["font/color/value"],
@@ -139,15 +139,15 @@ export class Node {
         cube.create(this.__to_cube_params(new_params));
         this._primitives["cube"] = cube;
 
-        const text_box: TextBox = new TextBox(grp._item);
-        text_box.create(this.__to_text_box_params(new_params));
-        this._primitives["text_box"] = text_box;
+        const textbox: TextBox = new TextBox(grp._item);
+        textbox.create(this.__to_textbox_params(new_params));
+        this._primitives["textbox"] = textbox;
     }
 
     public read(): INodeParams {
         const grp = this._primitives["group"].read();
         const cube = this._primitives["cube"].read();
-        const text_box = this._primitives["text_box"].read();
+        const textbox = this._primitives["textbox"].read();
 
         let params: INodeParams = {
             "name":                  grp["name"],
@@ -162,14 +162,14 @@ export class Node {
             "color/saturation":      cube["color/saturation"],
             "color/value":           cube["color/value"],
             "color/alpha":           cube["color/alpha"],
-            "font/color/hue":        text_box["color/hue"],
-            "font/color/saturation": text_box["color/saturation"],
-            "font/color/value":      text_box["color/value"],
-            "font/color/alpha":      text_box["color/alpha"],
-            "font/text":             text_box["font/text"],
-            "font/family":           text_box["font/family"],
-            "font/style":            text_box["font/style"],
-            "font/size":             text_box["font/size"],
+            "font/color/hue":        textbox["color/hue"],
+            "font/color/saturation": textbox["color/saturation"],
+            "font/color/value":      textbox["color/value"],
+            "font/color/alpha":      textbox["color/alpha"],
+            "font/text":             textbox["font/text"],
+            "font/family":           textbox["font/family"],
+            "font/style":            textbox["font/style"],
+            "font/size":             textbox["font/size"],
         };
         params = three_tools.remove_empty_keys(params);
         return params;
@@ -181,7 +181,7 @@ export class Node {
 
         this._primitives["group"].update(this.__to_group_params(new_params));
         this._primitives["cube"].update(this.__to_cube_params(new_params));
-        this._primitives["text_box"].update(this.__to_text_box_params(new_params));
+        this._primitives["textbox"].update(this.__to_textbox_params(new_params));
     }
 
     public delete(): void {

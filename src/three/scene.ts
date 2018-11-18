@@ -6,7 +6,6 @@ import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
 import { Node } from "./node";
 import { Edge } from "./edge";
-import { TextBox } from "./text_box";
 // -----------------------------------------------------------------------------
 
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
@@ -58,7 +57,7 @@ export class Scene {
     public edge: any;
     public node: any;
     public textbox: any;
-    
+
     public get aspect_ratio(): number {
         return this.width / this.height;
     }
@@ -92,11 +91,11 @@ export class Scene {
         // create view controls
         const orbit = new CreateOrbitControls(THREE);
         const controls = new orbit(camera);
-        controls.mouseButtons = { 
-            ORBIT: THREE.MOUSE.LEFT, 
-            ZOOM: THREE.MOUSE.RIGHT, 
-            PAN: THREE.MOUSE.MIDDLE
-        };
+        // controls.mouseButtons = {
+        //     ORBIT: THREE.MOUSE.LEFT,
+        //     ZOOM: THREE.MOUSE.RIGHT,
+        //     PAN: THREE.MOUSE.MIDDLE
+        // };
         this.controls = controls;
         this.camera = camera;
 

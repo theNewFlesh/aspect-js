@@ -7,7 +7,7 @@ import * as three_tools from "./three_tools";
 export class PrimitiveBase {
     private __id: string;
     public _container: any;
-    public _item: any;
+    public _item: any = null;
 
     public constructor(container: any) {
         this._container = container;
@@ -172,5 +172,6 @@ export class PrimitiveBase {
 
     public delete(): void {
         this._container.remove(this._item);
+        this._item = null;
     }
 }
