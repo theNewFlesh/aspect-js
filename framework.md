@@ -4,51 +4,51 @@ keys   --> fields separated by single periods only
 values --> may not include dicts or lists that contain dicts
 
 [<display>]
-    display.name:      <sgnep> ["function name", "function param name", "node name", "graph name", "scene name"]
-    display.info:      <sgnep> ["description", "doc string", "tooltip"]
-    display.version:   <sgn  > ["0.1"..."n.n"] major is controled by explicit saves, minor is through scene state change
-    display.order:     < gnep> [int]
-    display.selected:  < gne > [true, false]
-    display.color:     < gnep> [r, g, b, a]
-    display.translate: < gn  > [x,y,z]
-    display.rotate:    < gn  > [x,y,z]
-    display.scale:     < gn  > [x,y,z]
-    display.widget:    <    p> ["inert", "textarea", "slider", "range_slider", "color_picker", "dropdown", "combobox", "spinbox"]
-    display.options    <    p> various widget display options in a dict, such as {"min": 0, "max": 100, "step": 1}
+    display/name:      <sgnep> ["function name", "function param name", "node name", "graph name", "scene name"]
+    display/info:      <sgnep> ["description", "doc string", "tooltip"]
+    display/version:   <sgn  > ["0.1"..."n.n"] major is controled by explicit saves, minor is through scene state change
+    display/order:     < gnep> [int]
+    display/selected:  < gne > [true, false]
+    display/color:     < gnep> [r, g, b, a]
+    display/translate: < gn  > [x,y,z]
+    display/rotate:    < gn  > [x,y,z]
+    display/scale:     < gn  > [x,y,z]
+    display/widget:    <    p> ["inert", "textarea", "slider", "range_slider", "color_picker", "dropdown", "combobox", "spinbox"]
+    display/options    <    p> various widget display options in a dict, such as {"min": 0, "max": 100, "step": 1}
 
 [scene_<id>]
-    scene_<id>.<display>
-    scene_<id>.resource_<id>:
+    scene_<id>/<display>
+    scene_<id>/resource_<id>:
 
-[scene_<id>.graph_<id>]
-    scene_<id>.graph_<id>.<display>
-    scene_<id>.graph_<id>.type: ["standard", "view"]
-    scene_<id>.graph_<id>.input_node_<id>:
-    scene_<id>.graph_<id>.output_node_<id>:
+[scene_<id>/graph_<id>]
+    scene_<id>/graph_<id>/<display>
+    scene_<id>/graph_<id>/type: ["standard", "view"]
+    scene_<id>/graph_<id>/input_node_<id>:
+    scene_<id>/graph_<id>/output_node_<id>:
 
-[scene_<id>.edge_<id>]
-    scene_<id>.edge_<id>.<display>
-    scene_<id>.edge_<id>.outport: scene_<id>.graph_<id>.node_<id>.outport_<id>
-    scene_<id>.edge_<id>.inport: scene_<id>.graph_<id>.node_<id>.inport_<id>
+[scene_<id>/edge_<id>]
+    scene_<id>/edge_<id>/<display>
+    scene_<id>/edge_<id>/outport: scene_<id>/graph_<id>/node_<id>/outport_<id>
+    scene_<id>/edge_<id>/inport: scene_<id>/graph_<id>/node_<id>/inport_<id>
 
-[scene_<id>.graph_<id>.node_<id>]
-    scene_<id>.graph_<id>.node_<id>.<display>
-    scene_<id>.graph_<id>.node_<id>.type: [standard, input, output, subgraph, ...]
-    scene_<id>.graph_<id>.node_<id>.operator.module: ["module_name"] (same as module)
-    scene_<id>.graph_<id>.node_<id>.operator.function: ["function_name"] (same as function)
-    scene_<id>.graph_<id>.node_<id>.subgraph.input_node: ["none", "scene_<id>.graph_<id>.node_<id>"] (if type == subgraph, node.type == "input")
-    scene_<id>.graph_<id>.node_<id>.subgraph.output_node: ["none", "scene_<id>.graph_<id>.node_<id>"] (if type == subgraph, node.type == "output")
+[scene_<id>/graph_<id>/node_<id>]
+    scene_<id>/graph_<id>/node_<id>/<display>
+    scene_<id>/graph_<id>/node_<id>/type: [standard, input, output, subgraph, ...]
+    scene_<id>/graph_<id>/node_<id>/operator/module: ["module_name"] (same as module)
+    scene_<id>/graph_<id>/node_<id>/operator/function: ["function_name"] (same as function)
+    scene_<id>/graph_<id>/node_<id>/subgraph/input_node: ["none", "scene_<id>/graph_<id>/node_<id>"] (if type == subgraph, node/type == "input")
+    scene_<id>/graph_<id>/node_<id>/subgraph/output_node: ["none", "scene_<id>/graph_<id>/node_<id>"] (if type == subgraph, node/type == "output")
 
-[scene_<id>.graph_<id>.node_<id>.inport_<id>]
-    scene_<id>.graph_<id>.node_<id>.inport_<id>.value:
-    scene_<id>.graph_<id>.node_<id>.inport_<id>.default_value:
-    scene_<id>.graph_<id>.node_<id>.inport_<id>.type: ["node", "widget", "both", "none"]
-    scene_<id>.graph_<id>.node_<id>.inport_<id>.lock: ["absent", "present", "unlocked", "override"]
-    scene_<id>.graph_<id>.node_<id>.inport_<id>.<display>
+[scene_<id>/graph_<id>/node_<id>/inport_<id>]
+    scene_<id>/graph_<id>/node_<id>/inport_<id>/value:
+    scene_<id>/graph_<id>/node_<id>/inport_<id>/default_value:
+    scene_<id>/graph_<id>/node_<id>/inport_<id>/type: ["node", "widget", "both", "none"]
+    scene_<id>/graph_<id>/node_<id>/inport_<id>/lock: ["absent", "present", "unlocked", "override"]
+    scene_<id>/graph_<id>/node_<id>/inport_<id>/<display>
 
-[scene_<id>.graph_<id>.node_<id>.outport_<id>]
-    scene_<id>.graph_<id>.node_<id>.outport_<id>.value:
-    scene_<id>.graph_<id>.node_<id>.outport_<id>.<display>
+[scene_<id>/graph_<id>/node_<id>/outport_<id>]
+    scene_<id>/graph_<id>/node_<id>/outport_<id>/value:
+    scene_<id>/graph_<id>/node_<id>/outport_<id>/<display>
 
 ---PORT-LOCKS-------------------------------------------------------------------
 absent   - unlock port when data is absent
@@ -161,7 +161,7 @@ n= expands to node=
 i= expands to inport=
 o= expands to outport=
 
-Field type is specified with <field>.<field_type>
+Field type is specified with <field>/<field_type>
 Name is default field type
 all.name       all.id
 scene.name     scene.id
@@ -186,7 +186,7 @@ outport.name   outport.id
             Viewer component
 
 ---FUNCTIONS--------------------------------------------------------------------
-dotsplit( scene, scene_<id>.graph_<id>.node_<id>.inport_<id> ) => {
+dotsplit( scene, scene_<id>/graph_<id>/node_<id>/inport_<id> ) => {
     scene: scene_<id>,
     graph: graph_<id>,
     node: node_<id>,
@@ -212,78 +212,78 @@ to_dict(scene, key) => {
 }
 
 resolve
-    ( scene, graph_<id>    ) => scene_<id>.graph_<id>
-    ( scene, edge_<id>     ) => scene_<id>.edge_<id>
-    ( scene, node_<id>     ) => scene_<id>.graph_<id>.node_<id>
-    ( scene, inport_<id>   ) => scene_<id>.graph_<id>.node_<id>.inport_<id>
-    ( scene, outport_<id>  ) => scene_<id>.graph_<id>.node_<id>.outport_<id>
+    ( scene, graph_<id>    ) => scene_<id>/graph_<id>
+    ( scene, edge_<id>     ) => scene_<id>/edge_<id>
+    ( scene, node_<id>     ) => scene_<id>/graph_<id>/node_<id>
+    ( scene, inport_<id>   ) => scene_<id>/graph_<id>/node_<id>/inport_<id>
+    ( scene, outport_<id>  ) => scene_<id>/graph_<id>/node_<id>/outport_<id>
 
 unresolve
     unresolve_to_id
-        ( scene, scene_<id>.graph_<id>                        ) => graph_<id>
-        ( scene, scene_<id>.edge_<id>                         ) => edge_<id>
-        ( scene, scene_<id>.graph_<id>.node_<id>              ) => node_<id>
-        ( scene, scene_<id>.graph_<id>.node_<id>.inport_<id>  ) => inport_<id>
-        ( scene, scene_<id>.graph_<id>.node_<id>.outport_<id> ) => outport_<id>
+        ( scene, scene_<id>/graph_<id>                        ) => graph_<id>
+        ( scene, scene_<id>/edge_<id>                         ) => edge_<id>
+        ( scene, scene_<id>/graph_<id>/node_<id>              ) => node_<id>
+        ( scene, scene_<id>/graph_<id>/node_<id>/inport_<id>  ) => inport_<id>
+        ( scene, scene_<id>/graph_<id>/node_<id>/outport_<id> ) => outport_<id>
 
     unresolve_to_name
-        ( scene, scene_<id>                                   ) => scene_<id>.display.name
-        ( scene, scene_<id>.graph_<id>                        ) => graph_<id>.display.name
-        ( scene, scene_<id>.edge_<id>                         ) => edge_<id>.display.name
-        ( scene, scene_<id>.graph_<id>.node_<id>              ) => node_<id>.display.name
-        ( scene, scene_<id>.graph_<id>.node_<id>.inport_<id>  ) => inport_<id>.display.name
-        ( scene, scene_<id>.graph_<id>.node_<id>.outport_<id> ) => outport_<id>.display.name
+        ( scene, scene_<id>                                   ) => scene_<id>/display/name
+        ( scene, scene_<id>/graph_<id>                        ) => graph_<id>/display/name
+        ( scene, scene_<id>/edge_<id>                         ) => edge_<id>/display/name
+        ( scene, scene_<id>/graph_<id>/node_<id>              ) => node_<id>/display/name
+        ( scene, scene_<id>/graph_<id>/node_<id>/inport_<id>  ) => inport_<id>/display/name
+        ( scene, scene_<id>/graph_<id>/node_<id>/outport_<id> ) => outport_<id>/display/name
 
 filter
     filter_by_value
-        ( scene, value         ) => [ scene_<id>.graph_<id>.node_<id>.port_<id>...    ]
+        ( scene, value         ) => [ scene_<id>/graph_<id>/node_<id>/port_<id>...    ]
 
     filter_by_id
-        ( scene, graph_<id>    ) => [ scene_<id>.graph_<id>...                        ]
-        ( scene, edge_<id>     ) => [ scene_<id>.edge_<id>...                         ]
-        ( scene, node_<id>     ) => [ scene_<id>.graph_<id>.node_<id>...              ]
-        ( scene, inport_<id>   ) => [ scene_<id>.graph_<id>.node_<id>.inport_<id>...  ]
-        ( scene, outport_<id>  ) => [ scene_<id>.graph_<id>.node_<id>.outport_<id>... ]
+        ( scene, graph_<id>    ) => [ scene_<id>/graph_<id>...                        ]
+        ( scene, edge_<id>     ) => [ scene_<id>/edge_<id>...                         ]
+        ( scene, node_<id>     ) => [ scene_<id>/graph_<id>/node_<id>...              ]
+        ( scene, inport_<id>   ) => [ scene_<id>/graph_<id>/node_<id>/inport_<id>...  ]
+        ( scene, outport_<id>  ) => [ scene_<id>/graph_<id>/node_<id>/outport_<id>... ]
 
     filter_by_name
-        ( scene, graph_name    ) => [ scene_<id>.graph_<id>...                        ]
-        ( scene, node_name     ) => [ scene_<id>.graph_<id>.node_<id>...              ]
-        ( scene, inport_name   ) => [ scene_<id>.graph_<id>.node_<id>.inport_<id>...  ]
-        ( scene, outport_name  ) => [ scene_<id>.graph_<id>.node_<id>.outport_<id>... ]
-        ( scene, module_name   ) => [ scene_<id>.graph_<id>.node_<id>...              ]
-        ( scene, function_name ) => [ scene_<id>.graph_<id>.node_<id>...              ]
-        ( scene, node_type     ) => [ scene_<id>.graph_<id>.node_<id>...              ]
+        ( scene, graph_name    ) => [ scene_<id>/graph_<id>...                        ]
+        ( scene, node_name     ) => [ scene_<id>/graph_<id>/node_<id>...              ]
+        ( scene, inport_name   ) => [ scene_<id>/graph_<id>/node_<id>/inport_<id>...  ]
+        ( scene, outport_name  ) => [ scene_<id>/graph_<id>/node_<id>/outport_<id>... ]
+        ( scene, module_name   ) => [ scene_<id>/graph_<id>/node_<id>...              ]
+        ( scene, function_name ) => [ scene_<id>/graph_<id>/node_<id>...              ]
+        ( scene, node_type     ) => [ scene_<id>/graph_<id>/node_<id>...              ]
 
     filter_by_component
-        ( scene, "graph"       ) => [ scene_<id>.graph_<id>...                        ]
-        ( scene, "edge"        ) => [ scene_<id>.edge_<id>...                         ]
-        ( scene, "node"        ) => [ scene_<id>.graph_<id>.node_<id>...              ]
-        ( scene, "inport"      ) => [ scene_<id>.graph_<id>.node_<id>.inport_<id>...  ]
-        ( scene, "outport"     ) => [ scene_<id>.graph_<id>.node_<id>.outport_<id>... ]
+        ( scene, "graph"       ) => [ scene_<id>/graph_<id>...                        ]
+        ( scene, "edge"        ) => [ scene_<id>/edge_<id>...                         ]
+        ( scene, "node"        ) => [ scene_<id>/graph_<id>/node_<id>...              ]
+        ( scene, "inport"      ) => [ scene_<id>/graph_<id>/node_<id>/inport_<id>...  ]
+        ( scene, "outport"     ) => [ scene_<id>/graph_<id>/node_<id>/outport_<id>... ]
 
 ---CACHE------------------------------------------------------------------------
 luts
-    graph_lut = { graph_<id>: scene_<id>.graph_<id> }
-    graph_ilut = { <graph.name>: [graph_<id>] }
+    graph_lut = { graph_<id>: scene_<id>/graph_<id> }
+    graph_ilut = { <graph/name>: [graph_<id>] }
 
-    node_lut = { node_<id>: scene_<id>.graph_<id>.node_<id> }
-    node_ilut = { <node.name>: [node_<id>...] }
+    node_lut = { node_<id>: scene_<id>/graph_<id>/node_<id> }
+    node_ilut = { <node/>name>: [node_<id>...] }
 
-    edge_lut = { edge_<id>: scene_<id>.edge_<id> }
+    edge_lut = { edge_<id>: scene_<id>/edge_<id> }
     edge_ilut = { inport_<id>: edge_<id> } (one edge per inport)
 
     inport_lut = {
-        inport_<id>: scene_<id>.graph_<id>.node_<id>.inport_<id>
+        inport_<id>: scene_<id>/graph_<id>/node_<id>/inport_<id>
     }
     inport_ilut = {
-        <inport.name>: [scene_<id>.graph_<id>.node_<id>.inport_<id>...]
+        <inport.name>: [scene_<id>/graph_<id>/node_<id>/inport_<id>...]
     }
 
     outport_lut = {
-        outport_<id>: scene_<id>.graph_<id>.node_<id>.outport_<id>
+        outport_<id>: scene_<id>/graph_<id>/node_<id>/outport_<id>
     }
     outport_ilut = {
-        <outport.name>: [scene_<id>.graph_<id>.node_<id>.outport_<id>...]
+        <outport.name>: [scene_<id>/graph_<id>/node_<id>/outport_<id>...]
     }
 
 Scene DataFrame
