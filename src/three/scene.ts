@@ -2,8 +2,10 @@ import * as _ from "lodash";
 import * as tiny_color from "tinycolor2";
 import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
+import * as fancy_frame from "../core/fancy_frame";
 import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
+import * as test_tools from "../../test/test_tools";
 import { Node } from "./node";
 import { Edge } from "./edge";
 // -----------------------------------------------------------------------------
@@ -38,12 +40,12 @@ export class Scene {
 
         this.edge = new Edge(this.scene);
         this.edge.create({
-            // "start/translate/x": -5,
-            "start/translate/y": 5,
-            // "start/translate/z": 0,
-            // "stop/translate/x": 0,
-            // "stop/translate/y": 0,
-            // "stop/translate/z": 0,
+            // "from/translate/x": -5,
+            "from/translate/y": 5,
+            // "from/translate/z": 0,
+            // "to/translate/x": 0,
+            // "to/translate/y": 0,
+            // "to/translate/z": 0,
         });
     }
 
@@ -126,6 +128,18 @@ export class Scene {
 
     public get three_tools() {
         return three_tools;
+    }
+
+    public get test_tools() {
+        return test_tools;
+    }
+
+    public get tools() {
+        return tools;
+    }
+
+    public get fancy_frame() {
+        return fancy_frame;
     }
 
     public get tiny_color() {

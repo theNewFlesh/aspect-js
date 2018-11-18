@@ -19,16 +19,16 @@ export const SCALE_KEYS: string[] = [
     "scale/z",
 ];
 
-export const START_KEYS: string[] = [
-    "start/translate/x",
-    "start/translate/y",
-    "start/translate/z",
+export const FROM_KEYS: string[] = [
+    "from/translate/x",
+    "from/translate/y",
+    "from/translate/z",
 ];
 
-export const STOP_KEYS: string[] = [
-    "stop/translate/x",
-    "stop/translate/y",
-    "stop/translate/z",
+export const TO_KEYS: string[] = [
+    "to/translate/x",
+    "to/translate/y",
+    "to/translate/z",
 ];
 
 export const COLOR_KEYS: string[] = [
@@ -243,12 +243,12 @@ export function resolve_params(new_params: any, old_params: any): any {
             keys = _.concat(keys, SCALE_KEYS);
         }
 
-        if (START_KEYS.includes(key)) {
-            keys = _.concat(keys, START_KEYS);
+        if (FROM_KEYS.includes(key)) {
+            keys = _.concat(keys, FROM_KEYS);
         }
 
-        if (STOP_KEYS.includes(key)) {
-            keys = _.concat(keys, STOP_KEYS);
+        if (TO_KEYS.includes(key)) {
+            keys = _.concat(keys, TO_KEYS);
         }
 
         if (COLOR_KEYS.includes(key)) {

@@ -13,14 +13,14 @@ export interface IEdgeParams {
     "id"?: string;
     "name"?: string;
     "visible"?: boolean;
-    "start/translate/x"?: number;
-    "start/translate/y"?: number;
-    "start/translate/z"?: number;
-    "start/visible"?: number;
-    "stop/translate/x"?: number;
-    "stop/translate/y"?: number;
-    "stop/translate/z"?: number;
-    "stop/visible"?: number;
+    "from/translate/x"?: number;
+    "from/translate/y"?: number;
+    "from/translate/z"?: number;
+    "from/visible"?: number;
+    "to/translate/x"?: number;
+    "to/translate/y"?: number;
+    "to/translate/z"?: number;
+    "to/visible"?: number;
     "scale/x"?: number;
     "scale/y"?: number;
     "scale/z"?: number;
@@ -43,52 +43,52 @@ export class Edge {
     }
     // -------------------------------------------------------------------------
 
-    private __get_start_stop(params: IEdgeParams): three_tools.IVector3[] {
+    private __get_from_to(params: IEdgeParams): three_tools.IVector3[] {
         const new_params: object = {};
-        if (this._primitives.hasOwnProperty("start")) {
-            const start = this._primitives["start"].read();
-            new_params["start/translate/x"] = start["translate/x"];
-            new_params["start/translate/y"] = start["translate/y"];
-            new_params["start/translate/z"] = start["translate/z"];
+        if (this._primitives.hasOwnProperty("from")) {
+            const from = this._primitives["from"].read();
+            new_params["from/translate/x"] = from["translate/x"];
+            new_params["from/translate/y"] = from["translate/y"];
+            new_params["from/translate/z"] = from["translate/z"];
         }
 
-        if (this._primitives.hasOwnProperty("stop")) {
-            const stop = this._primitives["stop"].read();
-            new_params["stop/translate/x"] = stop["translate/x"];
-            new_params["stop/translate/y"] = stop["translate/y"];
-            new_params["stop/translate/z"] = stop["translate/z"];
+        if (this._primitives.hasOwnProperty("to")) {
+            const to = this._primitives["to"].read();
+            new_params["to/translate/x"] = to["translate/x"];
+            new_params["to/translate/y"] = to["translate/y"];
+            new_params["to/translate/z"] = to["translate/z"];
         }
 
         const temp: object = three_tools.remove_empty_keys(params);
         Object.assign(new_params, temp);
 
         const v0: three_tools.IVector3 = {
-            x: new_params["start/translate/x"],
-            y: new_params["start/translate/y"],
-            z: new_params["start/translate/z"],
+            x: new_params["from/translate/x"],
+            y: new_params["from/translate/y"],
+            z: new_params["from/translate/z"],
         };
 
         const v1: three_tools.IVector3 = {
-            x: new_params["stop/translate/x"],
-            y: new_params["stop/translate/y"],
-            z: new_params["stop/translate/z"],
+            x: new_params["to/translate/x"],
+            y: new_params["to/translate/y"],
+            z: new_params["to/translate/z"],
         };
 
         return [v0, v1];
     }
 
     private __get_center(params: IEdgeParams): three_tools.IVector3 {
-        const v: three_tools.IVector3[] = this.__get_start_stop(params);
+        const v: three_tools.IVector3[] = this.__get_from_to(params);
         return three_tools.get_center(v[0], v[1]);
     }
 
     private __get_l2_distance(params: IEdgeParams): number {
-        const v: three_tools.IVector3[] = this.__get_start_stop(params);
+        const v: three_tools.IVector3[] = this.__get_from_to(params);
         return three_tools.to_l2_distance(v[0], v[1]);
     }
 
     private __get_rotate(params: IEdgeParams): three_tools.IVector3 {
-        const v: three_tools.IVector3[] = this.__get_start_stop(params);
+        const v: three_tools.IVector3[] = this.__get_from_to(params);
         return three_tools.get_rotation(v[0], v[1]);
     }
 
@@ -146,13 +146,13 @@ export class Edge {
         return output;
     }
 
-    private __to_start_params(params: object): object {
+    private __to_from_params(params: object): object {
         let output: object = {
-            "name":             three_tools.get_name(params, "start"),
-            "visible":          params["start/visible"],
-            "translate/x":      params["start/translate/x"],
-            "translate/y":      params["start/translate/y"],
-            "translate/z":      params["start/translate/z"],
+            "name":             three_tools.get_name(params, "from"),
+            "visible":          params["from/visible"],
+            "translate/x":      params["from/translate/x"],
+            "translate/y":      params["from/translate/y"],
+            "translate/z":      params["from/translate/z"],
             "radius":           params["radius"] * 2,
             "color/hue":        params["color/hue"],
             "color/saturation": params["color/saturation"],
@@ -163,13 +163,13 @@ export class Edge {
         return output;
     }
 
-    private __to_stop_params(params: object): object {
+    private __to_to_params(params: object): object {
         let output: object = {
-            "name":             three_tools.get_name(params, "stop"),
-            "visible":          params["stop/visible"],
-            "translate/x":      params["stop/translate/x"],
-            "translate/y":      params["stop/translate/y"],
-            "translate/z":      params["stop/translate/z"],
+            "name":             three_tools.get_name(params, "to"),
+            "visible":          params["to/visible"],
+            "translate/x":      params["to/translate/x"],
+            "translate/y":      params["to/translate/y"],
+            "translate/z":      params["to/translate/z"],
             "radius":           params["radius"] * 2,
             "color/hue":        params["color/hue"],
             "color/saturation": params["color/saturation"],
@@ -185,14 +185,14 @@ export class Edge {
         return {
             "name":              "edge",
             "visible":           true,
-            "start/translate/x": 0,
-            "start/translate/y": 1,
-            "start/translate/z": 0,
-            "start/visible":     true,
-            "stop/translate/x":  0,
-            "stop/translate/y":  0,
-            "stop/translate/z":  0,
-            "stop/visible":      false,
+            "from/translate/x": 0,
+            "from/translate/y": 1,
+            "from/translate/z": 0,
+            "from/visible":     true,
+            "to/translate/x":  0,
+            "to/translate/y":  0,
+            "to/translate/z":  0,
+            "to/visible":      false,
             "scale/x":           1,
             "scale/y":           1,
             "scale/z":           1,
@@ -224,40 +224,40 @@ export class Edge {
         arrow.create(this.__to_arrow_params(new_params));
         this._primitives["arrow"] = arrow;
 
-        const start: Sphere = new Sphere(grp._item);
-        start.create(this.__to_start_params(new_params));
-        this._primitives["start"] = start;
+        const from: Sphere = new Sphere(grp._item);
+        from.create(this.__to_from_params(new_params));
+        this._primitives["from"] = from;
 
-        const stop: Sphere = new Sphere(grp._item);
-        stop.create(this.__to_stop_params(new_params));
-        this._primitives["stop"] = stop;
+        const to: Sphere = new Sphere(grp._item);
+        to.create(this.__to_to_params(new_params));
+        this._primitives["to"] = to;
     }
 
     public read(): IEdgeParams {
-        const start = this._primitives["start"].read();
-        const stop = this._primitives["stop"].read();
+        const from = this._primitives["from"].read();
+        const to = this._primitives["to"].read();
         const body = this._primitives["body"].read();
         const grp = this._primitives["group"].read();
 
         let params: IEdgeParams = {
             "name":              grp["name"],
             "visible":           grp["visible"],
-            "start/translate/x": start["translate/x"],
-            "start/translate/y": start["translate/y"],
-            "start/translate/z": start["translate/z"],
-            "start/visible":     start["visible"],
-            "stop/translate/x":  stop["translate/x"],
-            "stop/translate/y":  stop["translate/y"],
-            "stop/translate/z":  stop["translate/z"],
-            "stop/visible":      stop["visible"],
+            "from/translate/x": from["translate/x"],
+            "from/translate/y": from["translate/y"],
+            "from/translate/z": from["translate/z"],
+            "from/visible":     from["visible"],
+            "to/translate/x":  to["translate/x"],
+            "to/translate/y":  to["translate/y"],
+            "to/translate/z":  to["translate/z"],
+            "to/visible":      to["visible"],
             "scale/x":           grp["scale/x"],
             "scale/y":           grp["scale/y"],
             "scale/z":           grp["scale/z"],
             "radius":            body["radius/top"],
-            "color/hue":         stop["color/hue"],
-            "color/saturation":  stop["color/saturation"],
-            "color/value":       stop["color/value"],
-            "color/alpha":       stop["color/alpha"],
+            "color/hue":         to["color/hue"],
+            "color/saturation":  to["color/saturation"],
+            "color/value":       to["color/value"],
+            "color/alpha":       to["color/alpha"],
         };
         params = three_tools.remove_empty_keys(params);
         return params;
@@ -268,8 +268,8 @@ export class Edge {
         new_params = three_tools.resolve_params(params, new_params);
 
         this._primitives["group"].update(this.__to_group_params(new_params));
-        this._primitives["start"].update(this.__to_start_params(new_params));
-        this._primitives["stop"].update(this.__to_stop_params(new_params));
+        this._primitives["from"].update(this.__to_from_params(new_params));
+        this._primitives["to"].update(this.__to_to_params(new_params));
         this._primitives["body"].update(this.__to_body_params(new_params));
         this._primitives["arrow"].update(this.__to_arrow_params(new_params));
     }
