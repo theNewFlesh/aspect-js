@@ -275,3 +275,10 @@ export function resolve_params(new_params: any, old_params: any): any {
     output = remove_empty_keys(output);
     return output;
 }
+
+export function get_name(params: object, suffix: string): string {
+    if (params["name"]) {
+        return params["name"] + "_" + suffix;
+    }
+    return suffix;
+}

@@ -46,16 +46,9 @@ export class Node {
     }
     // -------------------------------------------------------------------------
 
-    private __get_name(params: object, suffix: string): string {
-        if (params["name"]) {
-            return params["name"] + "_" + suffix;
-        }
-        return suffix;
-    }
-
     private __to_group_params(params: object): object {
         let output: object = {
-            "name":        this.__get_name(params, "group"),
+            "name":        three_tools.get_name(params, "group"),
             "visible":     params["visible"],
             "translate/x": params["translate/x"],
             "translate/y": params["translate/y"],
@@ -70,7 +63,7 @@ export class Node {
 
     private __to_cube_params(params: object): object {
         let output: object = {
-            "name":             this.__get_name(params, "cube"),
+            "name":             three_tools.get_name(params, "cube"),
             "visible":          params["visible"],
             "color/hue":        params["color/hue"],
             "color/saturation": params["color/saturation"],
@@ -83,7 +76,7 @@ export class Node {
 
     private __to_textbox_params(params: object): object {
         let output: object = {
-            "name":             this.__get_name(params, "textbox"),
+            "name":             three_tools.get_name(params, "textbox"),
             "color/hue":        params["font/color/hue"],
             "color/saturation": params["font/color/saturation"],
             "color/value":      params["font/color/value"],

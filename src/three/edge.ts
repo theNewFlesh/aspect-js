@@ -43,13 +43,6 @@ export class Edge {
     }
     // -------------------------------------------------------------------------
 
-    private __get_name(params: object, suffix: string): string {
-        if (params["name"]) {
-            return params["name"] + "_" + suffix;
-        }
-        return suffix;
-    }
-
     private __get_start_stop(params: IEdgeParams): three_tools.IVector3[] {
         const new_params: object = {};
         if (this._primitives.hasOwnProperty("start")) {
@@ -101,7 +94,7 @@ export class Edge {
 
     private __to_group_params(params: object): object {
         let output: object = {
-            "name":    this.__get_name(params, "group"),
+            "name":    three_tools.get_name(params, "group"),
             "visible": params["visible"],
             "scale/x": params["scale/x"],
             "scale/y": params["scale/y"],
@@ -113,7 +106,7 @@ export class Edge {
 
     private __to_arrow_params(params: object): object {
         let output: object = {
-            "name":             this.__get_name(params, "arrow"),
+            "name":             three_tools.get_name(params, "arrow"),
             "translate/x":      this.__get_center(params).x,
             "translate/y":      this.__get_center(params).y,
             "translate/z":      this.__get_center(params).z,
@@ -134,7 +127,7 @@ export class Edge {
 
     private __to_body_params(params: object): object {
         let output: object = {
-            "name":             this.__get_name(params, "body"),
+            "name":             three_tools.get_name(params, "body"),
             "translate/x":      this.__get_center(params).x,
             "translate/y":      this.__get_center(params).y,
             "translate/z":      this.__get_center(params).z,
@@ -155,7 +148,7 @@ export class Edge {
 
     private __to_start_params(params: object): object {
         let output: object = {
-            "name":             this.__get_name(params, "start"),
+            "name":             three_tools.get_name(params, "start"),
             "visible":          params["start/visible"],
             "translate/x":      params["start/translate/x"],
             "translate/y":      params["start/translate/y"],
@@ -172,7 +165,7 @@ export class Edge {
 
     private __to_stop_params(params: object): object {
         let output: object = {
-            "name":             this.__get_name(params, "stop"),
+            "name":             three_tools.get_name(params, "stop"),
             "visible":          params["stop/visible"],
             "translate/x":      params["stop/translate/x"],
             "translate/y":      params["stop/translate/y"],
