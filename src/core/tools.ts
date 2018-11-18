@@ -193,7 +193,7 @@ export function add_attribute(
     attribute: string,
     value: any
 ) {
-    const elems = document.querySelectorAll(selector);
+    const elems: any = document.querySelectorAll(selector);
     for (const elem of elems) {
         elem.setAttribute(attribute, value);
     }
@@ -202,7 +202,7 @@ export function add_attribute(
 export function add_style_attribute(
     selector: string, attribute: string, value: any
 ) {
-    const elems = document.querySelectorAll(selector);
+    const elems: any = document.querySelectorAll(selector);
     for (const elem of elems) {
         let style = elem.getAttribute("style");
         if (style === null) {
@@ -211,4 +211,118 @@ export function add_style_attribute(
         style = style + ` ${attribute}: ${value};`;
         elem.setAttribute("style", style);
     }
+}
+
+/**
+ * flattens nested objects into objects with character seperated keys
+ * @param object object to be flattened
+ * @param separator string separator used in keys. Default: "."
+ * @param skipArrays don't recurse into Array objects. Default: true
+ * example:
+ *     >>> const nested = {
+ *             "a": {
+ *                 "b": 1,
+ *                 "c": {
+ *                     "d": 2,
+ *                 }
+ *             }
+ *         };
+ *     >>> flatten(nested);
+ *     {
+ *         "a/b": 1,
+ *         "a/c/d": 2,
+ *     }
+ */
+export function flatten(
+    object: object,
+    separator: string = "/",
+    skipArrays: boolean = true
+): object {
+    const output = {};
+    for ( const key of _.keys(object) ) {
+        if (!object.hasOwnProperty(key)) {
+            continue;
+        }
+
+        // do not recurse Array keys
+        if ( skipArrays && object[key] instanceof Array) {
+            output[key] = object[key];
+        }
+        else if ( (typeof object[key]) === "object" ) {
+            const flatObject = flatten(object[key]);
+            for (const flatKey in flatObject) {
+                if (!flatObject.hasOwnProperty(flatKey)) {
+                    continue;
+                }
+                output[key + separator + flatKey] = flatObject[flatKey];
+            }
+        }
+        else {
+            output[key] = object[key];
+        }
+    }
+    return output;
+}
+
+    /**
+     * transforms flattend objects into nested objects by splitting apart keys
+     * @param object object to be flattened
+     * @param separator string separator used in keys. Default: "."
+     * @param skipArrays don't recurse into Array objects. Default: true
+     * example:
+     *     >>> const flat = {
+     *             "a/b": 1,
+     *             "a/c/d": 2,
+     *         };
+     *     >>> unflatten(flat);
+     *     {
+     *         "a": {
+     *             "b": 1,
+     *             "c": {
+     *                 "d": 2,
+     *             }
+     *         }
+     *     }
+     */
+export function unflatten(object, separator: string = "/") {
+    const output = {};
+    for (const flatKey of _.keys(object)) {
+        let cursor = output;
+        const keys = _.split(flatKey, separator);
+        const lastKey = keys.pop();
+        for (const key of keys) {
+            if ( !cursor.hasOwnProperty(key) ) {
+                cursor[key] = {};
+            }
+            cursor = cursor[key];
+        }
+        cursor[lastKey] = object[flatKey];
+    }
+    return output;
+}
+
+export function aggregate(objects, aggregator, separator: string = "/") {
+    // flatten all objects
+    const flatObjs = _.map( objects, (obj) => (flatten(obj, separator)) );
+
+    // create aggregate objects with arrays as values
+    let output = {};
+    for (const obj of flatObjs) {
+        for ( const key of _.keys(obj) ) {
+            if (!output.hasOwnProperty(key)) {
+                output[key] = [];
+            }
+            output[key].push(obj[key]);
+        }
+    }
+
+    // aggregate each value into scalar
+    for ( const key of _.keys(output) ) {
+        output[key] = aggregator(output[key]);
+    }
+
+    // unflatten object
+    output = unflatten(output, separator);
+
+    return output;
 }
