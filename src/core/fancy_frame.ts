@@ -140,4 +140,15 @@ export class FancyFrame {
         data = data.orderBy(x => x[column]);
         return new FancyFrame(data);
     }
+
+    public get columns(): any[] {
+        return this.__data.getColumnNames();
+    }
+
+    public rename_columns(columns: string[]): FancyFrame {
+        const data = this.__data.renameSeries(
+            _.zipObject(this.columns, columns)
+        );
+        return new FancyFrame(data);
+    }
 }
