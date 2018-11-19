@@ -92,8 +92,8 @@
         public get rows() {
             return this._data
                 .group_by(
+                    x => x.head(1).toArray()[0],
                     this.group_column,
-                    x => x.head(1).toArray()[0]
                 )
                 .to_dataframe()
                 .toArray();

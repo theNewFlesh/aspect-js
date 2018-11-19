@@ -343,3 +343,25 @@ export function filter_keys(dict: object, regex: any): object {
 export function filter_values(dict: object, predicate: any): object {
     return filter( dict, (k, v) => (predicate(v)) );
 }
+
+const components: string[] = [
+    "scene_.*/graph_.*/node_.*/ouport_.*/",
+    "scene_.*/graph_.*/node_.*/inport_.*/",
+    "scene_.*/graph_.*/node_.*/",
+    "scene_.*/graph_.*/edge_.*/",
+    "scene_.*/graph_.*/",
+    "scene_.*/edge_.*/",
+    "scene_.*/",
+];
+const component_re = components.join("|");
+
+export function to_graphs(dict: object): object {
+    const temp = unflatten(dict);
+    const scene: string = _.keys(temp)[0];
+    const graphs = filter_keys(temp[scene], "^graph_.*$");
+    const output = {};
+    for (const name of _.keys(graphs)) {
+        output[name] = flatten(graphs[name]);
+    }
+    return output;
+}

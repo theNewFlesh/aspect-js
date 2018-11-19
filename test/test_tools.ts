@@ -147,6 +147,41 @@ const temp: object = {
                 },
             },
         },
+
+        "graph_1": {
+            id: "1",
+
+            "node_10": {
+                id: "10",
+                type: "standard",
+                "module": "foo_module",
+                "function": "bar_func",
+                "inport_0": {
+                    id: "0"
+                },
+                "outport_0": {
+                    id: "0"
+                },
+            },
+            "node_11": {
+                id: "11",
+                "inport_0": {
+                    id: "0"
+                },
+                "outport_0": {
+                    id: "0"
+                },
+            },
+            "node_12": {
+                id: "12",
+                "inport_0": {
+                    id: "0"
+                },
+                "outport_0": {
+                    id: "0"
+                },
+            },
+        },
         "edge_0": {
             id: "0",
             start: "scene_0/graph_0/node_0/outport_0",

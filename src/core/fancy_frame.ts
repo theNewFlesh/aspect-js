@@ -169,9 +169,9 @@ export class FancyFrame {
         return output;
     }
 
-    public group_by(column: any, predicate): FancyFrame {
+    public group_by(aggregator: any, column: any): FancyFrame {
         let data: any = this.__data.groupBy(x => x[column]);
-        data = data.select(predicate);
+        data = data.select(aggregator);
         data = data.orderBy(x => x[column]);
         return new FancyFrame(data);
     }
@@ -187,7 +187,7 @@ export class FancyFrame {
         return new FancyFrame(data);
     }
 
-    public append(frame: FancyFrame, axis: number): FancyFrame {
+    public append(frame: FancyFrame, axis: number = 0): FancyFrame {
         if (axis === 1) {
             const data: any = this.__data.zip(
                 frame.__data,
@@ -199,5 +199,28 @@ export class FancyFrame {
         const b0: any[] = frame.to_array();
         const data0: any = a0.concat(b0);
         return new FancyFrame().from_array(data0);
+    }
+
+    public filter(predicate: any, columns: any[], how: string = "any"): FancyFrame {
+        if (columns === undefined) {
+            columns = this.columns;
+        }
+        else if (!(columns instanceof Array)) {
+            columns = [columns];
+        }
+
+        const data = this.__data.where(row => {
+            let keys = _.keys(row);
+            keys = _.filter(keys, x => columns.includes(x));
+
+            const results: boolean[] = _.map(
+                keys, x => Boolean(predicate(row[x]))
+            );
+            if (how === "all") {
+                return _.sum(results) === results.length;
+            }
+            return _.filter(results, x => x).length > 0;
+        });
+        return new FancyFrame(data);
     }
 }
