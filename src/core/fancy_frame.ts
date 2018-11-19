@@ -11,7 +11,27 @@ export class FancyFrame {
     private __data: DataFrame;
 
     public from_array(arr: object[]): FancyFrame {
-        const data: DataFrame = new DataFrame(arr);
+        const temp_arr: object[] = [];
+        for (const items of arr) {
+            let temp = items;
+            if (items instanceof Array) {
+                temp = _.zipObject(_.range(items.length), items)
+            }
+            temp_arr.push(temp);
+        }
+        const data: DataFrame = new DataFrame(temp_arr);
+        return new FancyFrame(data);
+    }
+
+    public from_object(obj: object): FancyFrame {
+        let data: any = [];
+        for (const key of _.keys(obj)) {
+            data.push({
+                "key": key,
+                "value": obj[key],
+            });
+        }
+        data = new DataFrame(data);
         return new FancyFrame(data);
     }
 
@@ -21,6 +41,19 @@ export class FancyFrame {
 
     public to_array(): any[] {
         return this.__data.toArray();
+    }
+
+    public to_object(key: string, value: string): object {
+        if (key === undefined || key === null) {
+            key = "key";
+        }
+        if (value === undefined || value === null) {
+            value = "value";
+        }
+
+        const keys: any[] = this.loc(null, key).apply(x => x[key]).to_array();
+        const values: any[] = this.loc(null, value).apply(x => x[value]).to_array();
+        return _.zipObject(keys, values);
     }
 
     public to_dataframe(): DataFrame {
