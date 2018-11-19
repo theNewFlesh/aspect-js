@@ -19,6 +19,10 @@ export class FancyFrame {
         return new FancyFrame(data);
     }
 
+    public to_array(): any[] {
+        return this.__data.toArray();
+    }
+
     public to_dataframe(): DataFrame {
         return this.__data;
     }
@@ -50,11 +54,9 @@ export class FancyFrame {
         // cull columns
         if (columns !== null) {
             if ( !(columns instanceof Array) ) {
-                data = data.subset([columns]);
+                columns = [columns];
             }
-            else {
-                data = data.subset(columns);
-            }
+            data = data.subset(columns);
         }
 
         return new FancyFrame(data);
@@ -150,5 +152,19 @@ export class FancyFrame {
             _.zipObject(this.columns, columns)
         );
         return new FancyFrame(data);
+    }
+
+    public append(frame: FancyFrame, axis: number): FancyFrame {
+        if (axis === 1) {
+            const data: any = this.__data.zip(
+                frame.__data,
+                (a, b) => (Object.assign(a, b))
+            );
+            return new FancyFrame(data);
+        }
+        const a0: any[] = this.to_array();
+        const b0: any[] = frame.to_array();
+        const data0: any = a0.concat(b0);
+        return new FancyFrame().from_array(data0);
     }
 }
