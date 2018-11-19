@@ -119,8 +119,8 @@ const temp: object = {
             "node_0": {
                 id: "0",
                 type: "standard",
-                "operator/module": "foo_module",
-                "operator/function": "bar_func",
+                "module": "foo_module",
+                "function": "bar_func",
                 "inport_0": {
                     id: "0"
                 },
