@@ -45,14 +45,7 @@ export class FancyFrame {
         return this.__data.toArray();
     }
 
-    public to_object(key: string, value: string): object {
-        if (key === undefined || key === null) {
-            key = "key";
-        }
-        if (value === undefined || value === null) {
-            value = "value";
-        }
-
+    public to_object(key: string = "key", value: string = "value"): object {
         const keys: any[] = this.loc(null, key).apply(x => x[key]).to_array();
         const values: any[] = this.loc(null, value).apply(x => x[value]).to_array();
         return _.zipObject(keys, values);

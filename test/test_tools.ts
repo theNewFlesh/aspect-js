@@ -115,6 +115,17 @@ const temp: object = {
 
         "graph_0": {
             id: "0",
+            "display/name": "bob_the_graph",
+            "display/visible": true,
+            "display/translate/x": 0,
+            "display/translate/y": 0,
+            "display/translate/z": 0,
+            "display/rotate/x": 0,
+            "display/rotate/y": 0,
+            "display/rotate/z": 0,
+            "display/scale/x": 1,
+            "display/scale/y": 1,
+            "display/scale/z": 1,
 
             "node_0": {
                 id: "0",
@@ -150,6 +161,17 @@ const temp: object = {
 
         "graph_1": {
             id: "1",
+            "display/name": "graphey_mc_graph_face",
+            "display/visible": true,
+            "display/translate/x": 0,
+            "display/translate/y": 0,
+            "display/translate/z": 0,
+            "display/rotate/x": 0,
+            "display/rotate/y": 0,
+            "display/rotate/z": 0,
+            "display/scale/x": 1,
+            "display/scale/y": 1,
+            "display/scale/z": 1,
 
             "node_10": {
                 id: "10",

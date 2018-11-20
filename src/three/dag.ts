@@ -22,18 +22,20 @@ export class DAG {
     // -------------------------------------------------------------------------
 
     private __to_group_params(params: object): object {
+        // const new_params: object = tools.strip_id_keys(params);
+        const new_params: object = params;
         let output: object = {
-            "name":        three_tools.get_name(params, "graph"),
-            "visible":     params["visible"],
-            "translate/x": params["translate/x"],
-            "translate/y": params["translate/y"],
-            "translate/z": params["translate/z"],
-            "rotate/x":    params["rotate/x"],
-            "rotate/y":    params["rotate/y"],
-            "rotate/z":    params["rotate/z"],
-            "scale/x":     params["scale/x"],
-            "scale/y":     params["scale/y"],
-            "scale/z":     params["scale/z"],
+            "name":        three_tools.get_name(new_params, "graph"),
+            "visible":     new_params["display/visible"],
+            "translate/x": new_params["display/translate/x"],
+            "translate/y": new_params["display/translate/y"],
+            "translate/z": new_params["display/translate/z"],
+            "rotate/x":    new_params["display/rotate/x"],
+            "rotate/y":    new_params["display/rotate/y"],
+            "rotate/z":    new_params["display/rotate/z"],
+            "scale/x":     new_params["display/scale/x"],
+            "scale/y":     new_params["display/scale/y"],
+            "scale/z":     new_params["display/scale/z"],
         };
         output = three_tools.remove_empty_keys(output);
         return output;
@@ -42,25 +44,25 @@ export class DAG {
     private __to_node_params(params: object): object {
         let output: object = {
             "name":                  three_tools.get_name(params, "node"),
-            "visible":               params["visible"],
-            "translate/x":           params["translate/x"],
-            "translate/y":           params["translate/y"],
-            "translate/z":           params["translate/z"],
-            "scale/x":               params["scale/x"],
-            "scale/y":               params["scale/y"],
-            "scale/z":               params["scale/z"],
-            "color/hue":             params["color/hue"],
-            "color/saturation":      params["color/saturation"],
-            "color/value":           params["color/value"],
-            "color/alpha":           params["color/alpha"],
-            "font/color/hue":        params["font/color/hue"],
-            "font/color/saturation": params["font/color/saturation"],
-            "font/color/value":      params["font/color/value"],
-            "font/color/alpha":      params["font/color/alpha"],
-            "font/text":             params["font/text"],
-            "font/family":           params["font/family"],
-            "font/style":            params["font/style"],
-            "font/size":             params["font/size"],
+            "visible":               params["display/visible"],
+            "translate/x":           params["display/translate/x"],
+            "translate/y":           params["display/translate/y"],
+            "translate/z":           params["display/translate/z"],
+            "scale/x":               params["display/scale/x"],
+            "scale/y":               params["display/scale/y"],
+            "scale/z":               params["display/scale/z"],
+            "color/hue":             params["display/color/hue"],
+            "color/saturation":      params["display/color/saturation"],
+            "color/value":           params["display/color/value"],
+            "color/alpha":           params["display/color/alpha"],
+            "font/color/hue":        params["display/font/color/hue"],
+            "font/color/saturation": params["display/font/color/saturation"],
+            "font/color/value":      params["display/font/color/value"],
+            "font/color/alpha":      params["display/font/color/alpha"],
+            "font/text":             params["display/font/text"],
+            "font/family":           params["display/font/family"],
+            "font/style":            params["display/font/style"],
+            "font/size":             params["display/font/size"],
         };
         output = three_tools.remove_empty_keys(output);
         return output;
@@ -69,23 +71,23 @@ export class DAG {
     private __to_edge_params(params: object): object {
         let output: object = {
             "name":             three_tools.get_name(params, "edge"),
-            "visible":          params["visible"],
-            "from/translate/x": params["from/translate/x"],
-            "from/translate/y": params["from/translate/y"],
-            "from/translate/z": params["from/translate/z"],
-            "from/visible":     params["from/visible"],
-            "to/translate/x":   params["to/translate/x"],
-            "to/translate/y":   params["to/translate/y"],
-            "to/translate/z":   params["to/translate/z"],
-            "to/visible":       params["to/visible"],
-            "scale/x":          params["scale/x"],
-            "scale/y":          params["scale/y"],
-            "scale/z":          params["scale/z"],
-            "radius":           params["radius"],
-            "color/hue":        params["color/hue"],
-            "color/saturation": params["color/saturation"],
-            "color/value":      params["color/value"],
-            "color/alpha":      params["color/alpha"],
+            "visible":          params["display/visible"],
+            "from/translate/x": params["display/from/translate/x"],
+            "from/translate/y": params["display/from/translate/y"],
+            "from/translate/z": params["display/from/translate/z"],
+            "from/visible":     params["display/from/visible"],
+            "to/translate/x":   params["display/to/translate/x"],
+            "to/translate/y":   params["display/to/translate/y"],
+            "to/translate/z":   params["display/to/translate/z"],
+            "to/visible":       params["display/to/visible"],
+            "scale/x":          params["display/scale/x"],
+            "scale/y":          params["display/scale/y"],
+            "scale/z":          params["display/scale/z"],
+            "radius":           params["display/radius"],
+            "color/hue":        params["display/color/hue"],
+            "color/saturation": params["display/color/saturation"],
+            "color/value":      params["display/color/value"],
+            "color/alpha":      params["display/color/alpha"],
         };
         output = three_tools.remove_empty_keys(output);
         return output;
@@ -93,24 +95,24 @@ export class DAG {
      // -------------------------------------------------------------------------
 
     public _create_group(params: object, container: any): Group {
-        const output = new Group(container);
+        const group = new Group(container);
         const group_params = this.__to_group_params(params);
-        output.create(group_params);
-        return output;
+        group.create(group_params);
+        return group;
     }
 
     public _create_node(params: object, container: any): Node {
-        const output = new Node(container);
+        const node = new Node(container);
         const node_params = this.__to_node_params(params);
-        output.create(node_params);
-        return output;
+        node.create(node_params);
+        return node;
     }
 
     public _create_edge(params: object, container: any): Edge {
-        const output = new Edge(container);
+        const edge = new Edge(container);
         const edge_params = this.__to_edge_params(params);
-        output.create(edge_params);
-        return output;
+        edge.create(edge_params);
+        return edge;
     }
 
     public _resolve_container(id: string): any {
@@ -122,33 +124,20 @@ export class DAG {
     }
     // -------------------------------------------------------------------------
 
-    // public get _default_params(): object {
-    //     return {
-    //         "name":                  "node",
-    //         "visible":               true,
-    //         "translate/x":           0,
-    //         "translate/y":           0,
-    //         "translate/z":           0,
-    //         "rotate/x":              0,
-    //         "rotate/y":              0,
-    //         "rotate/z":              0,
-    //         "scale/x":               6,
-    //         "scale/y":               1,
-    //         "scale/z":               0.1,
-    //         "color/hue":             cyan2.h,
-    //         "color/saturation":      cyan2.s,
-    //         "color/value":           cyan2.v,
-    //         "color/alpha":           cyan2.a,
-    //     };
-    // }
+    public get _default_params(): object {
+        return {
+            "name":    "dag",
+            "visible": true,
+        };
+    }
 
     public create(params: object): void {
-        // const temp: three_tools.IParams = three_tools.resolve_params(
-        //     params, this._default_params
-        // );
-        // let new_params: object = this._default_params;
-        // Object.assign(new_params, temp);
-        // new_params = three_tools.remove_empty_keys(new_params);
+        const temp: three_tools.IParams = three_tools.resolve_params(
+            params, this._default_params
+        );
+        let new_params: object = this._default_params;
+        Object.assign(new_params, temp);
+        new_params = three_tools.remove_empty_keys(new_params);
 
         const g_lut = tools.to_graph_lut(params);
         for (const id of _.keys(g_lut)) {
