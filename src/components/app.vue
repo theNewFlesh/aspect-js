@@ -12,6 +12,10 @@
 </script>
 
 <style lang="less">
+    html {
+        overflow-y: hidden;
+    }
+
     body {
         background: #141414;
     }
