@@ -92,7 +92,7 @@
         public get rows() {
             return this._data
                 .group_by(
-                    x => x.head(1).toArray()[0],
+                    x => x.head(1).to_array()[0],
                     this.group_column,
                 )
                 .to_dataframe()

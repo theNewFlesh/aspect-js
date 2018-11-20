@@ -1,9 +1,11 @@
 import * as _ from "lodash";
+import { expect } from "chai";
 import { DataFrame } from "data-forge";
 
 export class FancyFrame {
-    public constructor(data?: any) {
+    public constructor(data?: DataFrame) {
         if (data !== undefined) {
+            expect(data).instanceof(DataFrame);
             this.__data = data;
         }
     }
@@ -63,6 +65,28 @@ export class FancyFrame {
     public print() {
         // tslint:disable-next-line:no-console
         console.log(this.__data.toString());
+    }
+
+    public head(value: number): FancyFrame {
+        const data: DataFrame = this.__data.head(value);
+        return new FancyFrame(data);
+    }
+
+    public tail(value: number): FancyFrame {
+        const data: DataFrame = this.__data.tail(value);
+        return new FancyFrame(data);
+    }
+
+    public ix(start: number, stop: number = null): FancyFrame {
+        let index: any = start;
+        if (stop !== null) {
+            index = [start, stop];
+        }
+        return this.loc(index);
+    }
+
+    public cx(columns: any): FancyFrame {
+        return this.loc(null, columns);
     }
 
     public loc(index: any = null, columns: any = null): FancyFrame {
@@ -146,6 +170,11 @@ export class FancyFrame {
         return new FancyFrame(data);
     }
 
+    public assign(predicate: any, column: string): FancyFrame {
+        const col: FancyFrame = this.apply(x => [predicate(x)]).rename_columns([column]);
+        return this.append(col, 1);
+    }
+
     public fill_na(from: any[] = [null, undefined], to: any = NaN): FancyFrame {
         function _fill_na(item) {
             if (from.includes(item)) {
@@ -171,8 +200,10 @@ export class FancyFrame {
 
     public group_by(aggregator: any, column: any): FancyFrame {
         let data: any = this.__data.groupBy(x => x[column]);
+        data = data.select(x => new FancyFrame(x));
         data = data.select(aggregator);
         data = data.orderBy(x => x[column]);
+        data = new DataFrame(data);
         return new FancyFrame(data);
     }
 
@@ -181,9 +212,10 @@ export class FancyFrame {
     }
 
     public rename_columns(columns: string[]): FancyFrame {
-        const data = this.__data.renameSeries(
+        let data: any = this.__data.renameSeries(
             _.zipObject(this.columns, columns)
         );
+        data = new DataFrame(data);
         return new FancyFrame(data);
     }
 
@@ -201,7 +233,7 @@ export class FancyFrame {
         return new FancyFrame().from_array(data0);
     }
 
-    public filter(predicate: any, columns: any[], how: string = "any"): FancyFrame {
+    public filter(predicate: any, columns: any, how: string = "any"): FancyFrame {
         if (columns === undefined) {
             columns = this.columns;
         }
@@ -209,8 +241,8 @@ export class FancyFrame {
             columns = [columns];
         }
 
-        const data = this.__data.where(row => {
-            let keys = _.keys(row);
+        const data: any = this.__data.where(row => {
+            let keys: any = _.keys(row);
             keys = _.filter(keys, x => columns.includes(x));
 
             const results: boolean[] = _.map(
