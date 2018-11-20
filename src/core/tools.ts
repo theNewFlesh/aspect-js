@@ -371,3 +371,11 @@ export function to_edge_lut(dict: object): object {
 export function to_node_lut(dict: object): object {
     return to_lut(dict, "node");
 }
+
+export function strip_id_keys(dict: object): object {
+    const regex: RegExp = new RegExp(".*(inport|outport|node|edge|graph|scene)_.*?\/");
+    return new FancyFrame()
+        .from_object(dict)
+        .assign(x => x.key.replace(regex, ""), "key")
+        .to_object();
+}

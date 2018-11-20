@@ -22,8 +22,7 @@ export class DAG {
     // -------------------------------------------------------------------------
 
     private __to_group_params(params: object): object {
-        // const new_params: object = tools.strip_id_keys(params);
-        const new_params: object = params;
+        const new_params: object = tools.strip_id_keys(params);
         let output: object = {
             "name":        three_tools.get_name(new_params, "graph"),
             "visible":     new_params["display/visible"],
