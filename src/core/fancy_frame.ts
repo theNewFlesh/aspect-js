@@ -1,27 +1,33 @@
 import * as _ from "lodash";
 import { expect } from "chai";
 import { DataFrame } from "data-forge";
+// -----------------------------------------------------------------------------
 
 export class FancyFrame {
     public constructor(data?: DataFrame) {
         if (data !== undefined) {
             expect(data).instanceof(DataFrame);
-            this.__data = data;
+            this.__data = this._from_array(data.toArray());
         }
     }
 
     private __data: DataFrame;
 
-    public from_array(arr: object[]): FancyFrame {
+    public _from_array(arr: object[]): DataFrame {
         const temp_arr: object[] = [];
         for (const items of arr) {
             let temp = items;
             if (items instanceof Array) {
-                temp = _.zipObject(_.range(items.length), items)
+                temp = _.zipObject(_.range(items.length), items);
             }
             temp_arr.push(temp);
         }
-        const data: DataFrame = new DataFrame(temp_arr);
+        return new DataFrame(temp_arr);
+    }
+    // -------------------------------------------------------------------------
+
+    public from_array(arr: object[]): FancyFrame {
+        const data: DataFrame = this._from_array(arr);
         return new FancyFrame(data);
     }
 
@@ -59,14 +65,19 @@ export class FancyFrame {
         // tslint:disable-next-line:no-console
         console.log(this.__data.toString());
     }
+    // -------------------------------------------------------------------------
+
+    public get shape(): number[] {
+        return [this.to_array().length, this.columns.length];
+    }
 
     public head(value: number): FancyFrame {
-        const data: DataFrame = this.__data.head(value);
+        const data: any = this.__data.head(value);
         return new FancyFrame(data);
     }
 
     public tail(value: number): FancyFrame {
-        const data: DataFrame = this.__data.tail(value);
+        const data: any = this.__data.tail(value);
         return new FancyFrame(data);
     }
 
@@ -112,35 +123,18 @@ export class FancyFrame {
         return new FancyFrame(data);
     }
 
-    public transpose(): FancyFrame {
-        // transpose
-        let data: any = this.__data.getColumns().select(
-            x => x.series.toArray()
+    public get columns(): any[] {
+        return this.__data.getColumnNames();
+    }
+
+    public rename_columns(columns: string[]): FancyFrame {
+        let data: any = this.__data.renameSeries(
+            _.zipObject(this.columns, columns)
         );
         data = new DataFrame(data);
-
-        // rename index
-        const cols: any = this.__data.getColumnNames();
-        data = data.withIndex(cols);
-
-        // check to see if all original columns were numbers
-        let orig: any;
-        orig = _.map(cols, x => Number(x).toString());
-        let trans: any;
-        trans = _.filter(
-            orig, x => x !== "NaN"
-        );
-
-        // rename columns
-        if (trans.length !== 0 && trans.length === orig.length) {
-            orig = this.__data.getIndex().toArray();
-            trans = data.getColumnNames();
-            const renamer: object = _.zipObject(trans, orig);
-            data = data.renameSeries(renamer);
-        }
-
         return new FancyFrame(data);
     }
+    // -------------------------------------------------------------------------
 
     public apply(predicate, axis: number = 0): FancyFrame {
         // the predicate receives a Series object equivalent to a column
@@ -167,50 +161,7 @@ export class FancyFrame {
         const col: FancyFrame = this.apply(x => [predicate(x)]).rename_columns([column]);
         return this.append(col, 1);
     }
-
-    public fill_na(from: any[] = [null, undefined], to: any = NaN): FancyFrame {
-        function _fill_na(item) {
-            if (from.includes(item)) {
-                return to;
-            }
-            return item;
-        }
-        return this.applymap(_fill_na);
-    }
-
-    public to_lut(column: string): object {
-        const group = this.__data.groupBy(x => x[column]).toArray();
-        const output = {};
-        for (const df of group) {
-            const key = df.getSeries(column).head(1).toArray()[0];
-
-            // sort dataframe
-            const data = df.orderBy(x => x[column]);
-            output[key] = data.toArray();
-        }
-        return output;
-    }
-
-    public group_by(aggregator: any, column: any): FancyFrame {
-        let data: any = this.__data.groupBy(x => x[column]);
-        data = data.select(x => new FancyFrame(x));
-        data = data.select(aggregator);
-        data = data.orderBy(x => x[column]);
-        data = new DataFrame(data);
-        return new FancyFrame(data);
-    }
-
-    public get columns(): any[] {
-        return this.__data.getColumnNames();
-    }
-
-    public rename_columns(columns: string[]): FancyFrame {
-        let data: any = this.__data.renameSeries(
-            _.zipObject(this.columns, columns)
-        );
-        data = new DataFrame(data);
-        return new FancyFrame(data);
-    }
+    // -------------------------------------------------------------------------
 
     public append(frame: FancyFrame, axis: number = 0): FancyFrame {
         if (axis === 1) {
@@ -246,6 +197,70 @@ export class FancyFrame {
             }
             return _.filter(results, x => x).length > 0;
         });
+        return new FancyFrame(data);
+    }
+
+    public fill_na(from: any[] = [null, undefined], to: any = NaN): FancyFrame {
+        function _fill_na(item) {
+            if (from.includes(item)) {
+                return to;
+            }
+            return item;
+        }
+        return this.applymap(_fill_na);
+    }
+    // -------------------------------------------------------------------------
+
+    public to_lut(column: string): object {
+        const group = this.__data.groupBy(x => x[column]).toArray();
+        const output = {};
+        for (const df of group) {
+            const key = df.getSeries(column).head(1).toArray()[0];
+
+            // sort dataframe
+            const data = df.orderBy(x => x[column]);
+            output[key] = data.toArray();
+        }
+        return output;
+    }
+
+    public group_by(aggregator: any, column: any): FancyFrame {
+        let data: any = this.__data.groupBy(x => x[column]);
+        data = data.select(x => new FancyFrame(x));
+        data = data.select(aggregator);
+        data = data.orderBy(x => x[column]);
+        data = new DataFrame(data);
+        return new FancyFrame(data);
+    }
+    // -------------------------------------------------------------------------
+
+    public transpose(): FancyFrame {
+        // transpose
+        let data: any = this.__data.getColumns().select(
+            x => x.series.toArray()
+        );
+        data = new DataFrame(data);
+
+        // rename index
+        const cols: any = this.__data.getColumnNames();
+        data = data.withIndex(cols);
+
+        // check to see if all original columns were numbers
+        let orig: any;
+        orig = _.map(cols, x => Number(x).toString());
+        let trans: any;
+        trans = _.filter(
+            orig, x => x !== "NaN"
+        );
+
+        // rename columns
+        if (trans.length !== 0 && trans.length === orig.length) {
+            orig = this.__data.getIndex().toArray();
+            trans = data.getColumnNames();
+            const renamer: object = _.zipObject(trans, orig);
+            data = data.renameSeries(renamer);
+        }
+
         return new FancyFrame(data);
     }
 }
