@@ -9,9 +9,11 @@
         "test:unit": "vue-cli-service test:unit"
     },
     "dependencies": {
+        "@types/chai": "^4.1.7",
         "@types/lodash": "^4.14.116",
         "@types/three": "^0.93.5",
         "@types/tinycolor2": "^1.4.1",
+        "chai": "^4.2.0",
         "data-forge": "^1.2.6",
         "lodash": "^4.17.10",
         "three": "^0.98.0",

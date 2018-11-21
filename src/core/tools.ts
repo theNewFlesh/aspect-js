@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 import tiny_color from "tinycolor2";
+import { FancyFrame } from "./fancy_frame";
 // -----------------------------------------------------------------------------
 
 export function log(item: any): any {
@@ -344,24 +345,37 @@ export function filter_values(dict: object, predicate: any): object {
     return filter( dict, (k, v) => (predicate(v)) );
 }
 
-const components: string[] = [
-    "scene_.*/graph_.*/node_.*/ouport_.*/",
-    "scene_.*/graph_.*/node_.*/inport_.*/",
-    "scene_.*/graph_.*/node_.*/",
-    "scene_.*/graph_.*/edge_.*/",
-    "scene_.*/graph_.*/",
-    "scene_.*/edge_.*/",
-    "scene_.*/",
-];
-const component_re = components.join("|");
-
-export function to_graphs(dict: object): object {
-    const temp = unflatten(dict);
-    const scene: string = _.keys(temp)[0];
-    const graphs = filter_keys(temp[scene], "^graph_.*$");
-    const output = {};
-    for (const name of _.keys(graphs)) {
-        output[name] = flatten(graphs[name]);
-    }
+function to_lut(dict: object, component: string): object {
+    const regex = new RegExp(`(.*\/${component}.*?\/)`);
+    const values: any = new FancyFrame()
+        .from_object(dict)
+        .filter(x => x.match(regex), "key")
+        .assign(x => x.key.match(regex)[1], "parent")
+        .group_by(x => x.to_object(), "parent")
+        .to_array();
+    const keys: string[] = _.map(values, x => {
+        return _.keys(x)[0].match(regex)[1];
+    });
+    const output = _.zipObject(keys, values);
     return output;
+}
+
+export function to_graph_lut(dict: object): object {
+    return to_lut(dict, "graph");
+}
+
+export function to_edge_lut(dict: object): object {
+    return to_lut(dict, "edge");
+}
+
+export function to_node_lut(dict: object): object {
+    return to_lut(dict, "node");
+}
+
+export function strip_id_keys(dict: object): object {
+    const regex: RegExp = new RegExp(".*(inport|outport|node|edge|graph|scene)_.*?\/");
+    return new FancyFrame()
+        .from_object(dict)
+        .assign(x => x.key.replace(regex, ""), "key")
+        .to_object();
 }

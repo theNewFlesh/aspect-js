@@ -280,5 +280,8 @@ export function get_name(params: object, suffix: string): string {
     if (params["name"]) {
         return params["name"] + "_" + suffix;
     }
+    else if (params["display/name"]) {
+        return params["display/name"] + "_" + suffix;
+    }
     return suffix;
 }

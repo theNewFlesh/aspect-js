@@ -6,8 +6,7 @@ import * as fancy_frame from "../core/fancy_frame";
 import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
 import * as test_tools from "../../test/test_tools";
-import { Node } from "./node";
-import { Edge } from "./edge";
+import { DAG } from "./dag";
 // -----------------------------------------------------------------------------
 
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
@@ -17,36 +16,12 @@ export class Scene {
     public constructor(params: any) {
         this.width = params.width;
         this.height = params.height;
-        this.create_scene();
+        this.scene = new THREE.Scene();
         this.create_light();
         this.create_camera();
 
-        this.node = new Node(this.scene);
-        this.node.create({
-            // "scale/x": 5.25,
-            // "scale/y": 0.75,
-            // "scale/z": 0.1,
-        });
-
-        // this.textbox = new TextBox(this.scene);
-        // this.textbox.create({
-        //     "scale/x": 6,
-        //     "scale/y": 1,
-        //     "scale/z": 0.1,
-        //     "color/hue": 0,
-        //     "color/value": 1,
-        //     "color/saturation": 0,
-        // });
-
-        this.edge = new Edge(this.scene);
-        this.edge.create({
-            // "from/translate/x": -5,
-            "from/translate/y": 5,
-            // "from/translate/z": 0,
-            // "to/translate/x": 0,
-            // "to/translate/y": 0,
-            // "to/translate/z": 0,
-        });
+        this.dag = new DAG(this.scene);
+        this.dag.create(test_tools.scene);
     }
 
     public scene: any;
@@ -56,16 +31,10 @@ export class Scene {
     public controls: any;
     public width: number;
     public height: number;
-    public edge: any;
-    public node: any;
-    public textbox: any;
+    public dag: any;
 
     public get aspect_ratio(): number {
         return this.width / this.height;
-    }
-
-    public create_scene() {
-        this.scene = new THREE.Scene();
     }
 
     public create_light() {
