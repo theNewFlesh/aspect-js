@@ -345,37 +345,6 @@ export function filter_values(dict: object, predicate: any): object {
     return filter( dict, (k, v) => (predicate(v)) );
 }
 
-function to_lut(dict: object, component: string): object {
-    const regex = new RegExp(`(.*\/${component}.*?\/)`);
-    const values: any = new FancyFrame()
-        .from_object(dict)
-        .filter(x => x.match(regex), "key")
-        .assign(x => x.key.match(regex)[1], "parent")
-        .group_by(x => x.to_object(), "parent")
-        .to_array();
-    const keys: string[] = _.map(values, x => {
-        return _.keys(x)[0].match(regex)[1];
-    });
-    const output = _.zipObject(keys, values);
-    return output;
-}
-
-export function to_graph_lut(dict: object): object {
-    return to_lut(dict, "graph");
-}
-
-export function to_edge_lut(dict: object): object {
-    return to_lut(dict, "edge");
-}
-
-export function to_node_lut(dict: object): object {
-    return to_lut(dict, "node");
-}
-
-export function strip_id_keys(dict: object): object {
-    const regex: RegExp = new RegExp(".*(inport|outport|node|edge|graph|scene)_.*?\/");
-    return new FancyFrame()
-        .from_object(dict)
-        .assign(x => x.key.replace(regex, ""), "key")
-        .to_object();
+export function is_array(item): boolean {
+    return item instanceof Array;
 }

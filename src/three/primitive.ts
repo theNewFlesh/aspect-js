@@ -7,7 +7,7 @@ import { PrimitiveBase } from "./primitive_base";
 export class Primitive extends PrimitiveBase {
     private __get_color(): any {
         let rgb;
-        if (three_tools.is_array(this._item.material)) {
+        if (tools.is_array(this._item.material)) {
             rgb = this._item.material[5].color.toArray();
         }
         else {
@@ -30,7 +30,7 @@ export class Primitive extends PrimitiveBase {
         };
         const rgba: any = tools.hsva_to_rgba(hsva);
         const rgb = [rgba.r, rgba.g, rgba.b];
-        if (three_tools.is_array(this._item.material)) {
+        if (tools.is_array(this._item.material)) {
             this._item.material[5].color.setRGB(...rgb);
             this._item.material[5].opacity = rgba.a;
         }
