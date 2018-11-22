@@ -10,7 +10,7 @@ import { TextBox } from "./textbox";
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
-export interface INodeParams {
+export interface ISubNodeParams {
     "id"?: string;
     "name"?: string;
     "visible"?: boolean;
@@ -35,10 +35,10 @@ export interface INodeParams {
 }
 // -----------------------------------------------------------------------------
 
-export class Node {
+export class SubNode {
     private __id: string;
     public _container: any;
-    public _primitives: object = {};
+    public _components: object = {};
 
     public constructor(container: any) {
         this._container = container;
@@ -93,7 +93,7 @@ export class Node {
 
     public get _default_params(): object {
         return {
-            "name":                  "node",
+            "name":                  "subnode",
             "visible":               true,
             "translate/x":           0,
             "translate/y":           0,
@@ -109,14 +109,14 @@ export class Node {
             "font/color/saturation": grey2.s,
             "font/color/value":      grey2.v,
             "font/color/alpha":      grey2.a,
-            "font/text":             "DEFAULT TEXT",
+            "font/text":             "subnode",
             "font/family":           "mono",
             "font/style":            "normal",
             "font/size":             300,
         };
     }
 
-    public create(params: INodeParams = {}): void {
+    public create(params: ISubNodeParams = {}): void {
         const temp: three_tools.IParams = three_tools.resolve_params(
             params, this._default_params
         );
@@ -126,23 +126,23 @@ export class Node {
 
         const grp: Group = new Group(this._container);
         grp.create(this.__to_group_params(new_params));
-        this._primitives["group"] = grp;
+        this._components["group"] = grp;
 
         const cube: Cube = new Cube(grp._item);
         cube.create(this.__to_cube_params(new_params));
-        this._primitives["cube"] = cube;
+        this._components["cube"] = cube;
 
         const textbox: TextBox = new TextBox(grp._item);
         textbox.create(this.__to_textbox_params(new_params));
-        this._primitives["textbox"] = textbox;
+        this._components["textbox"] = textbox;
     }
 
-    public read(): INodeParams {
-        const grp = this._primitives["group"].read();
-        const cube = this._primitives["cube"].read();
-        const textbox = this._primitives["textbox"].read();
+    public read(): ISubNodeParams {
+        const grp = this._components["group"].read();
+        const cube = this._components["cube"].read();
+        const textbox = this._components["textbox"].read();
 
-        let params: INodeParams = {
+        let params: ISubNodeParams = {
             "name":                  grp["name"],
             "visible":               grp["visible"],
             "translate/x":           grp["translate/x"],
@@ -168,19 +168,19 @@ export class Node {
         return params;
     }
 
-    public update(params: INodeParams): void {
-        let new_params: INodeParams = this.read();
+    public update(params: ISubNodeParams): void {
+        let new_params: ISubNodeParams = this.read();
         new_params = three_tools.resolve_params(params, new_params);
 
-        this._primitives["group"].update(this.__to_group_params(new_params));
-        this._primitives["cube"].update(this.__to_cube_params(new_params));
-        this._primitives["textbox"].update(this.__to_textbox_params(new_params));
+        this._components["group"].update(this.__to_group_params(new_params));
+        this._components["cube"].update(this.__to_cube_params(new_params));
+        this._components["textbox"].update(this.__to_textbox_params(new_params));
     }
 
     public delete(): void {
-        const prims = this._primitives;
+        const prims = this._components;
         let keys = _.keys(prims);
-        const grp = this._primitives["group"];
+        const grp = this._components["group"];
         keys = _.filter(keys, key => key !== "group");
         keys.map(key => prims[key].delete());
         this._container.remove(grp._item);
