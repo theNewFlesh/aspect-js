@@ -12,6 +12,8 @@ const eid1: string  = "uuid3";
 const nid0: string  = "uuid4";
 const ipid0: string = "uuid5";
 const opid0: string = "uuid6";
+const ipid1: string = "uuid7";
+const opid1: string = "uuid8";
 
 const proto_scene: object = {
     "id":              sid0,
@@ -71,8 +73,8 @@ const proto_graph: object = {
     "display/scale/z":     1,
 };
 
-const edge2 = _.clone(proto_edge);
-edge2["id"] = eid1;
+const edge1 = _.clone(proto_edge);
+edge1["id"] = eid1;
 
 const proto_node: object = {
     "id":                            nid0,
@@ -139,6 +141,9 @@ const proto_inport: object = {
     "display/font/size":             300,
 };
 
+const inport1 = _.clone(proto_inport);
+inport1["id"] = ipid1;
+
 const proto_outport: object = {
     "id":                            opid0,
     "display/name":                  "outport",
@@ -172,8 +177,9 @@ const temp: object = {};
 temp[`scene_${sid0}`] = proto_scene;
 temp[`scene_${sid0}`][`edge_${eid0}`] = proto_edge;
 temp[`scene_${sid0}`][`graph_${gid0}`] = proto_graph;
-temp[`scene_${sid0}`][`graph_${gid0}`][`edge_${eid1}`] = edge2;
+temp[`scene_${sid0}`][`graph_${gid0}`][`edge_${eid1}`] = edge1;
 temp[`scene_${sid0}`][`graph_${gid0}`][`node_${nid0}`] = proto_node;
 temp[`scene_${sid0}`][`graph_${gid0}`][`node_${nid0}`][`inport_${ipid0}`] = proto_inport;
+temp[`scene_${sid0}`][`graph_${gid0}`][`node_${nid0}`][`inport_${ipid1}`] = inport1;
 temp[`scene_${sid0}`][`graph_${gid0}`][`node_${nid0}`][`outport_${opid0}`] = proto_outport;
 export const scene: object = tools.flatten(temp);
