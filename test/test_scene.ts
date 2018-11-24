@@ -5,18 +5,15 @@ import * as tools from "../src/core/tools";
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
-const sid0: string  = "uuid0";
-const gid0: string  = "uuid1";
-const eid0: string  = "uuid2";
-const eid1: string  = "uuid3";
-const nid0: string  = "uuid4";
-const ipid0: string = "uuid5";
-const opid0: string = "uuid6";
-const ipid1: string = "uuid7";
-const opid1: string = "uuid8";
+const s0: string  = "s0";
+const g0: string  = "g0";
+const e0: string  = "e0";
+const n0: string  = "n0";
+const ip0: string = "ip0";
+const op0: string = "op0";
 
 const proto_scene: object = {
-    "id":              sid0,
+    "id":              s0,
     "resource_<id>":   "",
     "display/name":    "",
     "display/info":    "",
@@ -24,9 +21,9 @@ const proto_scene: object = {
 };
 
 const proto_edge: object = {
-    "id":                       eid0,
+    "id":                       e0,
     "source":                   "",
-    "destination":              ipid0,
+    "destination":              ip0,
     "type":                     "",
     "display/name":             "edge",
     "display/info":             "",
@@ -52,7 +49,7 @@ const proto_edge: object = {
 };
 
 const proto_graph: object = {
-    "id":                  gid0,
+    "id":                  g0,
     "type":                "",
     "innode":              "",
     "outnode":             "",
@@ -73,11 +70,8 @@ const proto_graph: object = {
     "display/scale/z":     1,
 };
 
-const edge1 = _.clone(proto_edge);
-edge1["id"] = eid1;
-
 const proto_node: object = {
-    "id":                            nid0,
+    "id":                            n0,
     "type":                          "",
     "module":                        "",
     "function":                      "",
@@ -109,7 +103,7 @@ const proto_node: object = {
 };
 
 const proto_inport: object = {
-    "id":                            ipid0,
+    "id":                            ip0,
     "value":                         "",
     "default_value":                 "",
     "type":                          "",
@@ -124,9 +118,9 @@ const proto_inport: object = {
     "display/translate/x":           0,
     "display/translate/y":           0,
     "display/translate/z":           0,
-    "display/scale/x":               1,
-    "display/scale/y":               1,
-    "display/scale/z":               1,
+    "display/scale/x":               0.15,
+    "display/scale/y":               0.15,
+    "display/scale/z":               0.15,
     "display/color/hue":             cyan2.h,
     "display/color/saturation":      cyan2.s,
     "display/color/value":           cyan2.v,
@@ -141,11 +135,8 @@ const proto_inport: object = {
     "display/font/size":             300,
 };
 
-const inport1 = _.clone(proto_inport);
-inport1["id"] = ipid1;
-
 const proto_outport: object = {
-    "id":                            opid0,
+    "id":                            op0,
     "display/name":                  "outport",
     "display/widget":                "",
     "display/options":               "",
@@ -173,13 +164,19 @@ const proto_outport: object = {
     "display/font/size":             300,
 };
 
+const ip1 = _.clone(proto_inport);
+ip1["id"] = "ip1";
+const ip2 = _.clone(proto_inport);
+ip2["id"] = "ip2";
+
 const temp: object = {};
-temp[`scene_${sid0}`] = proto_scene;
-temp[`scene_${sid0}`][`edge_${eid0}`] = proto_edge;
-temp[`scene_${sid0}`][`graph_${gid0}`] = proto_graph;
-temp[`scene_${sid0}`][`graph_${gid0}`][`edge_${eid1}`] = edge1;
-temp[`scene_${sid0}`][`graph_${gid0}`][`node_${nid0}`] = proto_node;
-temp[`scene_${sid0}`][`graph_${gid0}`][`node_${nid0}`][`inport_${ipid0}`] = proto_inport;
-temp[`scene_${sid0}`][`graph_${gid0}`][`node_${nid0}`][`inport_${ipid1}`] = inport1;
-temp[`scene_${sid0}`][`graph_${gid0}`][`node_${nid0}`][`outport_${opid0}`] = proto_outport;
+temp[`scene_${s0}`] = proto_scene;
+temp[`scene_${s0}`][`edge_${e0}`] = proto_edge;
+temp[`scene_${s0}`][`graph_${g0}`] = proto_graph;
+temp[`scene_${s0}`][`graph_${g0}`][`edge_${e0}`] = e0;
+temp[`scene_${s0}`][`graph_${g0}`][`node_${n0}`] = proto_node;
+temp[`scene_${s0}`][`graph_${g0}`][`node_${n0}`][`inport_${ip0}`] = proto_inport;
+temp[`scene_${s0}`][`graph_${g0}`][`node_${n0}`][`inport_ip1`] = ip1;
+temp[`scene_${s0}`][`graph_${g0}`][`node_${n0}`][`inport_ip2`] = ip2;
+temp[`scene_${s0}`][`graph_${g0}`][`node_${n0}`][`outport_${op0}`] = proto_outport;
 export const scene: object = tools.flatten(temp);

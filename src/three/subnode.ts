@@ -98,7 +98,7 @@ export class SubNode {
             "translate/x":           0,
             "translate/y":           0,
             "translate/z":           0,
-            "scale/x":               6,
+            "scale/x":               4,
             "scale/y":               1,
             "scale/z":               0.1,
             "color/hue":             cyan2.h,

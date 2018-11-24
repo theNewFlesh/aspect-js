@@ -81,7 +81,8 @@ export const bcols = [
 ];
 
 export const ccols = [
-    ["scene_id", "graph_id", "node_id", "node_name"],
+    // ["scene_id", "graph_id", "node_id", "node_name"],
+    ["node_name"],
     ["inport_name", "value", "default_value", "widget", "lock"]// , "display"]
 ];
 
@@ -93,7 +94,7 @@ export const dcols = [
 ];
 
 const _index = [];
-for (const cols of bcols) {
+for (const cols of ccols) {
     _index.push({
         columns: cols,
         group: cols[0],
