@@ -169,10 +169,6 @@ export function get_rotation(v0: IVector3, v1: IVector3): IVector3 {
     };
 }
 
-export function is_array(item): boolean {
-    return item instanceof Array;
-}
-
 export function remove_empty_keys(params: object): object {
     const output: object = {};
     for (const key of _.keys(params)) {

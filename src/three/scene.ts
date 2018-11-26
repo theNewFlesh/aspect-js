@@ -3,10 +3,13 @@ import * as tiny_color from "tinycolor2";
 import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
 import * as fancy_frame from "../core/fancy_frame";
+import { Params } from "../core/params";
 import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
 import * as test_tools from "../../test/test_tools";
+import * as test_scene from "../../test/test_scene";
 import { DAG } from "./dag";
+import { Node } from "./node";
 // -----------------------------------------------------------------------------
 
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
@@ -20,8 +23,11 @@ export class Scene {
         this.create_light();
         this.create_camera();
 
-        this.dag = new DAG(this.scene);
-        this.dag.create(test_tools.scene);
+        this.node  = new Node(this.scene);
+        this.node.create(test_scene.scene, "n0");
+
+        // this.dag = new DAG(this.scene);
+        // this.dag.create(test_scene.scene);
     }
 
     public scene: any;
@@ -32,6 +38,7 @@ export class Scene {
     public width: number;
     public height: number;
     public dag: any;
+    public node: any;
 
     public get aspect_ratio(): number {
         return this.width / this.height;
@@ -51,7 +58,7 @@ export class Scene {
         const h = this.height;
         // create camera
         const camera = new THREE.OrthographicCamera(
-            -10 * this.aspect_ratio,
+            -5 * this.aspect_ratio,
             10 * this.aspect_ratio,
             10,
             -10,
@@ -103,12 +110,20 @@ export class Scene {
         return test_tools;
     }
 
+    public get test_scene() {
+        return test_scene.scene;
+    }
+
     public get tools() {
         return tools;
     }
 
     public get fancy_frame() {
         return fancy_frame;
+    }
+
+    public get params() {
+        return Params;
     }
 
     public get tiny_color() {

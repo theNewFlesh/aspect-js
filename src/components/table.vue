@@ -95,8 +95,7 @@
                     x => x.head(1).to_array()[0],
                     this.group_column,
                 )
-                .to_dataframe()
-                .toArray();
+                .to_array();
         }
 
         public get hide_headers(): boolean {

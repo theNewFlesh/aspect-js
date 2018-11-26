@@ -1,10 +1,12 @@
 import * as _ from "lodash";
 import * as uuidv4 from "uuid/v4";
 import * as tools from "../core/tools";
+import { Params } from "../core/params";
 import * as three_tools from "./three_tools";
 import { Group } from "./group";
-import { Cube } from "./cube";
-import { TextBox } from "./textbox";
+import { SubNode } from "./subnode";
+import { Port } from "./port";
+import { Edge } from "./edge";
 // -----------------------------------------------------------------------------
 
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
@@ -38,11 +40,11 @@ export interface INodeParams {
 export class Node {
     private __id: string;
     public _container: any;
-    public _primitives: object = {};
+    public _components: object = {};
 
     public constructor(container: any) {
         this._container = container;
-        this.__id = uuidv4();
+        this.__id = null;
     }
     // -------------------------------------------------------------------------
 
@@ -61,10 +63,45 @@ export class Node {
         return output;
     }
 
-    private __to_cube_params(params: object): object {
+    private __to_subnode_params(params: object): object {
         let output: object = {
-            "name":             three_tools.get_name(params, "cube"),
+            "name":                  three_tools.get_name(params, "subnode"),
+            "id":                    params["id"],
+            "visible":               params["visible"],
+            "translate/x":           params["translate/x"],
+            "translate/y":           params["translate/y"],
+            "translate/z":           params["translate/z"],
+            "scale/x":               params["scale/x"],
+            "scale/y":               params["scale/y"],
+            "scale/z":               params["scale/z"],
+            "color/hue":             params["color/hue"],
+            "color/saturation":      params["color/saturation"],
+            "color/value":           params["color/value"],
+            "color/alpha":           params["color/alpha"],
+            "font/color/hue":        params["font/color/hue"],
+            "font/color/saturation": params["font/color/saturation"],
+            "font/color/value":      params["font/color/value"],
+            "font/color/alpha":      params["font/color/alpha"],
+            "font/text":             params["font/text"],
+            "font/family":           params["font/family"],
+            "font/style":            params["font/style"],
+            "font/size":             params["font/size"],
+        };
+        output = three_tools.remove_empty_keys(output);
+        return output;
+    }
+
+    private __to_port_params(params: object): object {
+        let output: object = {
+            "name":             three_tools.get_name(params, "port"),
+            "id":               params["id"],
             "visible":          params["visible"],
+            "translate/x":      params["translate/x"],
+            "translate/y":      params["translate/y"],
+            "translate/z":      params["translate/z"],
+            "scale/x":          params["scale/x"],
+            "scale/y":          params["scale/y"],
+            "scale/z":          params["scale/z"],
             "color/hue":        params["color/hue"],
             "color/saturation": params["color/saturation"],
             "color/value":      params["color/value"],
@@ -74,115 +111,146 @@ export class Node {
         return output;
     }
 
-    private __to_textbox_params(params: object): object {
+    private __to_inport_edge_params(subnode: object, inport: object): object {
         let output: object = {
-            "name":             three_tools.get_name(params, "textbox"),
-            "color/hue":        params["font/color/hue"],
-            "color/saturation": params["font/color/saturation"],
-            "color/value":      params["font/color/value"],
-            "color/alpha":      params["font/color/alpha"],
-            "font/text":        params["font/text"],
-            "font/family":      params["font/family"],
-            "font/style":       params["font/style"],
-            "font/size":        params["font/size"],
+            "name":                    three_tools.get_name(subnode, "inport_edge"),
+            "id":                      uuidv4(),
+            "visible":                 subnode["visible"],
+            "source/translate/x":      inport["translate/x"],
+            "source/translate/y":      inport["translate/y"],
+            "source/translate/z":      inport["translate/z"],
+            "source/visible":          false,
+            "destination/translate/x": subnode["translate/x"],
+            "destination/translate/y": subnode["translate/y"],
+            "destination/translate/z": subnode["translate/z"],
+            "destination/visible":     false,
+            // "scale/x":                 subnode["scale/x"],
+            // "scale/y":                 subnode["scale/y"],
+            // "scale/z":                 subnode["scale/z"],
+            "radius":                  subnode["radius"],
+            "color/hue":               subnode["color/hue"],
+            "color/saturation":        subnode["color/saturation"],
+            "color/value":             subnode["color/value"],
+            "color/alpha":             subnode["color/alpha"],
         };
         output = three_tools.remove_empty_keys(output);
         return output;
     }
-     // -------------------------------------------------------------------------
 
-    public get _default_params(): object {
-        return {
-            "name":                  "node",
-            "visible":               true,
-            "translate/x":           0,
-            "translate/y":           0,
-            "translate/z":           0,
-            "scale/x":               6,
-            "scale/y":               1,
-            "scale/z":               0.1,
-            "color/hue":             cyan2.h,
-            "color/saturation":      cyan2.s,
-            "color/value":           cyan2.v,
-            "color/alpha":           cyan2.a,
-            "font/color/hue":        grey2.h,
-            "font/color/saturation": grey2.s,
-            "font/color/value":      grey2.v,
-            "font/color/alpha":      grey2.a,
-            "font/text":             "DEFAULT TEXT",
-            "font/family":           "mono",
-            "font/style":            "normal",
-            "font/size":             300,
+    private __to_outport_edge_params(subnode: object, outport: object): object {
+        let output: object = {
+            "name":                    three_tools.get_name(subnode, "outport_edge"),
+            "id":                      uuidv4(),
+            "visible":                 subnode["visible"],
+            "source/translate/x":      subnode["translate/x"],
+            "source/translate/y":      subnode["translate/y"],
+            "source/translate/z":      subnode["translate/z"],
+            "source/visible":          false,
+            "destination/translate/x": outport["translate/x"],
+            "destination/translate/y": outport["translate/y"],
+            "destination/translate/z": outport["translate/z"],
+            "destination/visible":     false,
+            // "scale/x":                 subnode["scale/x"],
+            // "scale/y":                 subnode["scale/y"],
+            // "scale/z":                 subnode["scale/z"],
+            "radius":                  subnode["radius"],
+            "color/hue":               subnode["color/hue"],
+            "color/saturation":        subnode["color/saturation"],
+            "color/value":             subnode["color/value"],
+            "color/alpha":             subnode["color/alpha"],
         };
+        output = three_tools.remove_empty_keys(output);
+        return output;
+    }
+    // -------------------------------------------------------------------------
+
+    public _create_group(node_params: object, container: any): Group {
+        const grp: Group = new Group(container);
+        grp.create(this.__to_group_params(node_params));
+        return grp;
     }
 
-    public create(params: INodeParams = {}): void {
-        const temp: three_tools.IParams = three_tools.resolve_params(
-            params, this._default_params
-        );
-        let new_params: object = this._default_params;
-        Object.assign(new_params, temp);
-        new_params = three_tools.remove_empty_keys(new_params);
-
-        const grp: Group = new Group(this._container);
-        grp.create(this.__to_group_params(new_params));
-        this._primitives["group"] = grp;
-
-        const cube: Cube = new Cube(grp._item);
-        cube.create(this.__to_cube_params(new_params));
-        this._primitives["cube"] = cube;
-
-        const textbox: TextBox = new TextBox(grp._item);
-        textbox.create(this.__to_textbox_params(new_params));
-        this._primitives["textbox"] = textbox;
+    public _create_subnode(node_params, container): SubNode {
+        const subnode: SubNode = new SubNode(container);
+        subnode.create(this.__to_subnode_params(node_params));
+        return subnode;
     }
 
-    public read(): INodeParams {
-        const grp = this._primitives["group"].read();
-        const cube = this._primitives["cube"].read();
-        const textbox = this._primitives["textbox"].read();
+    public _create_ports(
+        ports: object[],
+        subnode: SubNode,
+        type: string,
+        container: Group
+    ): Port[] {
 
-        let params: INodeParams = {
-            "name":                  grp["name"],
-            "visible":               grp["visible"],
-            "translate/x":           grp["translate/x"],
-            "translate/y":           grp["translate/y"],
-            "translate/z":           grp["translate/z"],
-            "scale/x":               grp["scale/x"],
-            "scale/y":               grp["scale/y"],
-            "scale/z":               grp["scale/z"],
-            "color/hue":             cube["color/hue"],
-            "color/saturation":      cube["color/saturation"],
-            "color/value":           cube["color/value"],
-            "color/alpha":           cube["color/alpha"],
-            "font/color/hue":        textbox["color/hue"],
-            "font/color/saturation": textbox["color/saturation"],
-            "font/color/value":      textbox["color/value"],
-            "font/color/alpha":      textbox["color/alpha"],
-            "font/text":             textbox["font/text"],
-            "font/family":           textbox["font/family"],
-            "font/style":            textbox["font/style"],
-            "font/size":             textbox["font/size"],
-        };
-        params = three_tools.remove_empty_keys(params);
-        return params;
+        const x: number = subnode.read()["translate/x"];
+        const y: number = subnode.read()["translate/y"];
+        const z: number = subnode.read()["translate/z"];
+
+        let start: number = Math.ceil(x - (ports.length / 2));
+        let height: number = y + 4;
+        if (type === "outport") {
+            height = y - 4;
+        }
+
+        const output: Port[] = [];
+        for (const ip of ports) {
+            const port: Port = new Port(container);
+            const params: object = this.__to_port_params(ip);
+            params["translate/x"] = start;
+            params["translate/y"] = height;
+            params["translate/z"] = z;
+
+            port.create(params);
+            output.push(port);
+            start++;
+        }
+        return output;
     }
 
-    public update(params: INodeParams): void {
-        let new_params: INodeParams = this.read();
-        new_params = three_tools.resolve_params(params, new_params);
+    public _create_port_edges(
+        ports: Port[],
+        subnode: SubNode,
+        port_type: string,
+        container: Group
+    ): Edge[] {
 
-        this._primitives["group"].update(this.__to_group_params(new_params));
-        this._primitives["cube"].update(this.__to_cube_params(new_params));
-        this._primitives["textbox"].update(this.__to_textbox_params(new_params));
+        let func: any = null;
+        if (port_type === "inport") {
+            func = this.__to_inport_edge_params;
+        }
+        else if (port_type === "outport") {
+            func = this.__to_outport_edge_params;
+        }
+
+        const sub: object = subnode.read();
+        const output: Edge[] = [];
+        for (const port of ports) {
+            const edge: Edge = new Edge(container);
+            edge.create( func(sub, port.read()) );
+            output.push(edge);
+        }
+        return output;
     }
 
-    public delete(): void {
-        const prims = this._primitives;
-        let keys = _.keys(prims);
-        const grp = this._primitives["group"];
-        keys = _.filter(keys, key => key !== "group");
-        keys.map(key => prims[key].delete());
-        this._container.remove(grp._item);
+    public create(dict: object, id: string): void {
+        this.__id = id;
+
+        const params: Params     = new Params(dict);
+        const node: object       = params.to_node(id);
+        const inports: object[]  = params.to_inports(id);
+        const outports: object[] = params.to_outports(id);
+
+        const grp: Group       = this._create_group(node, this._container);
+        const subnode: SubNode = this._create_subnode(node, grp._item);
+        const ips: Port[]      = this._create_ports(inports, subnode, "inport", grp._item);
+        const ops: Port[]      = this._create_ports(outports, subnode, "outport", grp._item);
+
+        this._components["group"]         = grp;
+        this._components["subnode"]       = subnode;
+        this._components["inports"]       = ips;
+        this._components["outports"]      = ops;
+        this._components["inport_edges"]  = this._create_port_edges(ips, subnode, "inport", grp._item);
+        this._components["outport_edges"] = this._create_port_edges(ops, subnode, "outport", grp._item);
     }
 }
