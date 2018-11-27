@@ -1,16 +1,16 @@
 import * as _ from "lodash";
-import { FancyFrame } from "./fancy_frame";
+import { Scaffold } from "./scaffold";
 // -----------------------------------------------------------------------------
 
 export class Params {
     public constructor(data: object) {
-        this.__data = new FancyFrame().from_object(data);
+        this.__data = new Scaffold().from_object(data);
     }
 
-    private __data: FancyFrame;
+    private __data: Scaffold;
 
     public _to_components(type: string): object[] {
-        let temp: FancyFrame;
+        let temp: Scaffold;
         if (type === "graph") {
             temp = this.filter_graph(".*?").__data;
         }

@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { DataFrame } from "data-forge";
 // -----------------------------------------------------------------------------
 
-export class FancyFrame {
+export class Scaffold {
     public constructor(data?: DataFrame) {
         if (data !== undefined) {
             expect(data).instanceof(DataFrame);
@@ -26,12 +26,12 @@ export class FancyFrame {
     }
     // -------------------------------------------------------------------------
 
-    public from_array(arr: object[]): FancyFrame {
+    public from_array(arr: object[]): Scaffold {
         const data: DataFrame = this._from_array(arr);
-        return new FancyFrame(data);
+        return new Scaffold(data);
     }
 
-    public from_object(obj: object): FancyFrame {
+    public from_object(obj: object): Scaffold {
         let data: any = [];
         for (const key of _.keys(obj)) {
             data.push({
@@ -40,11 +40,11 @@ export class FancyFrame {
             });
         }
         data = new DataFrame(data);
-        return new FancyFrame(data);
+        return new Scaffold(data);
     }
 
-    public from_dataframe(data: DataFrame): FancyFrame {
-        return new FancyFrame(data);
+    public from_dataframe(data: DataFrame): Scaffold {
+        return new Scaffold(data);
     }
 
     public to_array(): any[] {
@@ -71,17 +71,17 @@ export class FancyFrame {
         return [this.to_array().length, this.columns.length];
     }
 
-    public head(value: number): FancyFrame {
+    public head(value: number): Scaffold {
         const data: any = this.__data.head(value);
-        return new FancyFrame(data);
+        return new Scaffold(data);
     }
 
-    public tail(value: number): FancyFrame {
+    public tail(value: number): Scaffold {
         const data: any = this.__data.tail(value);
-        return new FancyFrame(data);
+        return new Scaffold(data);
     }
 
-    public ix(start: number, stop: number = null): FancyFrame {
+    public ix(start: number, stop: number = null): Scaffold {
         let index: any = start;
         if (stop !== null) {
             index = [start, stop];
@@ -89,11 +89,11 @@ export class FancyFrame {
         return this.loc(index);
     }
 
-    public cx(columns: any): FancyFrame {
+    public cx(columns: any): Scaffold {
         return this.loc(null, columns);
     }
 
-    public loc(index: any = null, columns: any = null): FancyFrame {
+    public loc(index: any = null, columns: any = null): Scaffold {
         let data: any = this.__data;
 
         // cull rows
@@ -120,64 +120,64 @@ export class FancyFrame {
             data = data.subset(columns);
         }
 
-        return new FancyFrame(data);
+        return new Scaffold(data);
     }
 
     public get columns(): any[] {
         return this.__data.getColumnNames();
     }
 
-    public rename_columns(columns: string[]): FancyFrame {
+    public rename_columns(columns: string[]): Scaffold {
         let data: any = this.__data.renameSeries(
             _.zipObject(this.columns, columns)
         );
         data = new DataFrame(data);
-        return new FancyFrame(data);
+        return new Scaffold(data);
     }
     // -------------------------------------------------------------------------
 
-    public apply(predicate, axis: number = 0): FancyFrame {
+    public apply(predicate, axis: number = 0): Scaffold {
         // the predicate receives a Series object equivalent to a column
         let data: any;
         if (axis === 1) {
             data = this.transpose()
                 .to_dataframe()
                 .select(predicate);
-            return new FancyFrame(data).transpose();
+            return new Scaffold(data).transpose();
         }
 
         data = this.__data.select(predicate);
-        return new FancyFrame(data);
+        return new Scaffold(data);
     }
 
-    public applymap(predicate): FancyFrame {
+    public applymap(predicate): Scaffold {
         const data: any = this.__data.select(
             x => _.map(_.values(x), predicate)
         );
-        return new FancyFrame(data);
+        return new Scaffold(data);
     }
 
-    public assign(predicate: any, column: string): FancyFrame {
-        const col: FancyFrame = this.apply(x => [predicate(x)]).rename_columns([column]);
+    public assign(predicate: any, column: string): Scaffold {
+        const col: Scaffold = this.apply(x => [predicate(x)]).rename_columns([column]);
         return this.append(col, 1);
     }
     // -------------------------------------------------------------------------
 
-    public append(frame: FancyFrame, axis: number = 0): FancyFrame {
+    public append(frame: Scaffold, axis: number = 0): Scaffold {
         if (axis === 1) {
             const data: any = this.__data.zip(
                 frame.__data,
                 (a, b) => (Object.assign(a, b))
             );
-            return new FancyFrame(data);
+            return new Scaffold(data);
         }
         const a0: any[] = this.to_array();
         const b0: any[] = frame.to_array();
         const data0: any = a0.concat(b0);
-        return new FancyFrame().from_array(data0);
+        return new Scaffold().from_array(data0);
     }
 
-    public filter(predicate: any, columns: any, how: string = "any"): FancyFrame {
+    public filter(predicate: any, columns: any, how: string = "any"): Scaffold {
         if (columns === undefined) {
             columns = this.columns;
         }
@@ -197,10 +197,10 @@ export class FancyFrame {
             }
             return _.filter(results, x => x).length > 0;
         });
-        return new FancyFrame(data);
+        return new Scaffold(data);
     }
 
-    public fill_na(from: any[] = [null, undefined], to: any = NaN): FancyFrame {
+    public fill_na(from: any[] = [null, undefined], to: any = NaN): Scaffold {
         function _fill_na(item) {
             if (from.includes(item)) {
                 return to;
@@ -224,17 +224,17 @@ export class FancyFrame {
         return output;
     }
 
-    public group_by(aggregator: any, column: any): FancyFrame {
+    public group_by(aggregator: any, column: any): Scaffold {
         let data: any = this.__data.groupBy(x => x[column]);
-        data = data.select(x => new FancyFrame(x));
+        data = data.select(x => new Scaffold(x));
         data = data.select(aggregator);
         data = data.orderBy(x => x[column]);
         data = new DataFrame(data);
-        return new FancyFrame(data);
+        return new Scaffold(data);
     }
     // -------------------------------------------------------------------------
 
-    public transpose(): FancyFrame {
+    public transpose(): Scaffold {
         // transpose
         let data: any = this.__data.getColumns().select(
             x => x.series.toArray()
@@ -261,6 +261,6 @@ export class FancyFrame {
             data = data.renameSeries(renamer);
         }
 
-        return new FancyFrame(data);
+        return new Scaffold(data);
     }
 }
