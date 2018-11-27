@@ -233,13 +233,14 @@ export class Node {
         return output;
     }
 
-    public create(dict: object, id: string): void {
+    public create(dict: object): void {
+        const id: string = dict["id"];
         this.__id = id;
 
         const params: Params     = new Params(dict);
         const node: object       = params.to_node(id);
-        const inports: object[]  = params.to_inports(id);
-        const outports: object[] = params.to_outports(id);
+        const inports: object[]  = params.to_inports();
+        const outports: object[] = params.to_outports();
 
         const grp: Group       = this._create_group(node, this._container);
         const subnode: SubNode = this._create_subnode(node, grp._item);

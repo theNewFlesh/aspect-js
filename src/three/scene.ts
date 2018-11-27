@@ -23,11 +23,11 @@ export class Scene {
         this.create_light();
         this.create_camera();
 
-        this.node  = new Node(this.scene);
-        this.node.create(test_scene.scene, "n0");
+        // this.node  = new Node(this.scene);
+        // this.node.create(test_scene.scene, "n0");
 
-        // this.dag = new DAG(this.scene);
-        // this.dag.create(test_scene.scene);
+        this.dag = new DAG(this.scene);
+        this.dag.create(test_scene.scene);
     }
 
     public scene: any;
