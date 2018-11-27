@@ -12,11 +12,13 @@ export class DAG {
     private __id: string;
     private __state: Params = new Params({});
     public _container: any;
-    public _graphs: object = {};
-    public _nodes: object = {};
-    public _edges: object = {};
-    public _inports: object = {};
-    public _outports: object = {};
+    public _components: object = {
+        graphs: {},
+        nodes: {},
+        edges: {},
+        inports: {},
+        outports: {},
+    };
 
     public constructor(container: any) {
         this._container = container;
@@ -142,35 +144,35 @@ export class DAG {
         for (const g of params.to_graphs()) {
             const gp: object = this.__to_group_params(g);
             const graph: Group = new Group(this._container);
-            this._graphs[gp["id"]] = graph;
+            this._components["graphs"][gp["id"]] = graph;
             graph.create(params.to_graph(gp["id"]));
         }
 
         for (const n of params.to_nodes()) {
             const np: object = this.__to_node_params(n);
             const node: Node = new Node(this._container);
-            this._nodes[np["id"]] = node;
+            this._components["nodes"][np["id"]] = node;
             node.create(params.to_node(np["id"], true));
         }
 
         for (const ip of params.to_inports()) {
             const ipp: object = this.__to_inport_params(ip);
             const inport: Port = new Port(this._container);
-            this._inports[ipp["id"]] = inport;
+            this._components["inports"][ipp["id"]] = inport;
             inport.create(params.to_inport(ipp["id"]));
         }
 
         for (const op of params.to_outports()) {
             const opp: object = this.__to_outport_params(op);
             const outport: Port = new Port(this._container);
-            this._outports[opp["id"]] = outport;
+            this._components["outports"][opp["id"]] = outport;
             outport.create(params.to_outport(opp["id"]));
         }
 
         for (const e of params.to_edges()) {
             const ep: object = this.__to_edge_params(e);
             const edge: Edge = new Edge(this._container);
-            this._edges[ep["id"]] = edge;
+            this._components["edges"][ep["id"]] = edge;
             edge.create(params.to_edge(ep["id"]));
         }
 
@@ -180,7 +182,7 @@ export class DAG {
     public _resolve_container(id: string): any {
         const graph: any = id.match("(.*/graph_.*?/)");
         if (graph !== null) {
-            return this._graphs[graph[1]]._item;
+            return this._components["graphs"][graph[1]]._item;
         }
         return this._container;
     }
