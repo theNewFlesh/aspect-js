@@ -43,7 +43,7 @@
 <script lang="ts">
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Cell from "./cell.vue";
-    import { FancyFrame } from "../core/fancy_frame";
+    import { Scaffold } from "../core/scaffold";
     import { FancyIndex, IHeader, IIndexRow } from "../core/fancy_index";
     import * as _ from "lodash";
     import { DataFrame } from "data-forge";
@@ -55,7 +55,7 @@
 
     @Component({components: { Cell }})
     export default class Table extends Vue {
-        public _data: FancyFrame;
+        public _data: Scaffold;
         public _index: FancyIndex;
 
         @Prop()
@@ -69,7 +69,7 @@
 
         public created() {
             this._index = new FancyIndex(this.index);
-            this._data = new FancyFrame().from_array(this.data);
+            this._data = new Scaffold().from_array(this.data);
         }
 
         public print() {

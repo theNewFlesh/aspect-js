@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import * as tiny_color from "tinycolor2";
 import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
-import * as fancy_frame from "../core/fancy_frame";
+import { Scaffold } from "../core/scaffold";
 import { Params } from "../core/params";
 import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
@@ -23,11 +23,11 @@ export class Scene {
         this.create_light();
         this.create_camera();
 
-        this.node  = new Node(this.scene);
-        this.node.create(test_scene.scene, "n0");
+        // this.node  = new Node(this.scene);
+        // this.node.create(test_scene.scene, "n0");
 
-        // this.dag = new DAG(this.scene);
-        // this.dag.create(test_scene.scene);
+        this.dag = new DAG(this.scene);
+        this.dag.create(test_scene.scene);
     }
 
     public scene: any;
@@ -118,8 +118,8 @@ export class Scene {
         return tools;
     }
 
-    public get fancy_frame() {
-        return fancy_frame;
+    public get scaffold() {
+        return Scaffold;
     }
 
     public get params() {

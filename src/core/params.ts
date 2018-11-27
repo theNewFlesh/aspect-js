@@ -1,13 +1,44 @@
 import * as _ from "lodash";
-import { FancyFrame } from "./fancy_frame";
+import { Scaffold } from "./scaffold";
 // -----------------------------------------------------------------------------
 
 export class Params {
     public constructor(data: object) {
-        this.__data = new FancyFrame().from_object(data);
+        this.__data = new Scaffold().from_object(data);
     }
 
-    private __data: FancyFrame;
+    private __data: Scaffold;
+
+    public _to_components(type: string): object[] {
+        let temp: Scaffold;
+        if (type === "graph") {
+            temp = this.filter_graph(".*?").__data;
+        }
+        else if (type === "node") {
+            temp = this.filter_node(".*?").__data;
+        }
+        else if (type === "edge") {
+            temp = this.filter_edge(".*?").__data;
+        }
+        else if (type === "inport") {
+            temp = this.filter_inport(".*?").__data;
+        }
+        else if (type === "outport") {
+            temp = this.filter_outport(".*?").__data;
+        }
+        const regex: RegExp = new RegExp(type + "_(.*?)\/");
+        const data: object[] = temp
+            .filter(x => x.match(regex), "key")
+            .assign(x => x.key.match(regex)[1], "id")
+            .group_by(x => x.to_object(), "id")
+            .to_array();
+        const output: object[] = [];
+        for (const port of data) {
+            output.push( new Params(port).strip_id().to_object() );
+        }
+        return output;
+    }
+    // -------------------------------------------------------------------------
 
     public to_object(): object {
         return this.__data.to_object();
@@ -36,95 +67,102 @@ export class Params {
         return new Params(data);
     }
 
-    public get_full_graph(graph_id: string): Params {
-        const data: object = this.__data
-            .filter(x => x.match("graph_" + graph_id + "\/"), "key")
-            .to_object();
+    public diff(params: Params): Params {
+        const a: object = this.to_object();
+        const b: object = params.to_object();
+
+        const data: object = {};
+        for (const key of _.keys(a)) {
+            if (a[key] !== b[key]) {
+                data[key] = a[key];
+            }
+        }
+        return new Params(data);
+    }
+    // -------------------------------------------------------------------------
+
+    public filter_graph(graph_id: string, full: boolean = false): Params {
+        let data: any = this.__data
+            .filter(x => x.match("graph_" + graph_id + "\/"), "key");
+        if (!full) {
+            data = data.filter(x => !x.match("node|edge|inport|outport"), "key");
+        }
+        data = data.to_object();
         return new Params(data);
     }
 
-    public get_full_node(node_id: string): Params {
-        const data: object = this.__data
-            .filter(x => x.match("node_" + node_id + "\/"), "key")
-            .to_object();
+    public to_graph(graph_id: string, full: boolean = false): object {
+        return this.filter_graph(graph_id, full).to_object();
+    }
+
+    public to_graphs(): object[] {
+        return this._to_components("graph");
+    }
+    // -------------------------------------------------------------------------
+
+    public filter_node(node_id: string, full: boolean = false): Params {
+        let data: any = this.__data
+            .filter(x => x.match("node_" + node_id + "\/"), "key");
+        if (!full) {
+            data = data.filter(x => !x.match("inport|outport"), "key");
+        }
+        data = data.to_object();
         return new Params(data);
     }
 
-    public get_graph(graph_id: string): Params {
-        const data: object = this.__data
-            .filter(x => x.match("graph_" + graph_id + "\/"), "key")
-            .filter(x => !x.match("node|edge|inport|outport"), "key")
-            .to_object();
-        return new Params(data).strip_id();
+    public to_node(node_id: string, full: boolean = false): object {
+        return this.filter_node(node_id, full).to_object();
     }
 
-    public get_node(node_id: string): Params {
-        const data: object = this.__data
-            .filter(x => x.match("node_" + node_id + "\/"), "key")
-            .filter(x => !x.match("inport|outport"), "key")
-            .to_object();
-        return new Params(data).strip_id();
+    public to_nodes(): object[] {
+        return this._to_components("node");
     }
+    // -------------------------------------------------------------------------
 
-    public get_edge(edge_id: string): Params {
+    public filter_edge(edge_id: string): Params {
         const data: object = this.__data
             .filter(x => x.match("edge_" + edge_id + "\/"), "key")
             .to_object();
-        return new Params(data).strip_id();
-    }
-
-    public get_inport(inport_id: string): Params {
-        const data: object = this.__data
-            .filter(x => x.match("inport_" + inport_id + "\/"), "key")
-            .to_object();
-        return new Params(data).strip_id();
-    }
-
-    public get_outport(outport_id: string): Params {
-        const data: object = this.__data
-            .filter(x => x.match("outport_" + outport_id + "\/"), "key")
-            .to_object();
-        return new Params(data).strip_id();
-    }
-
-    public to_graph(graph_id: string): object {
-        return this.get_graph(graph_id).to_object();
-    }
-
-    public to_node(node_id: string): object {
-        return this.get_node(node_id).to_object();
+        return new Params(data);
     }
 
     public to_edge(edge_id: string): object {
-        return this.get_edge(edge_id).to_object();
+        return this.filter_edge(edge_id).to_object();
+    }
+
+    public to_edges(): object[] {
+        return this._to_components("edge");
+    }
+    // -------------------------------------------------------------------------
+
+    public filter_inport(inport_id: string): Params {
+        const data: object = this.__data
+            .filter(x => x.match("inport_" + inport_id + "\/"), "key")
+            .to_object();
+        return new Params(data);
     }
 
     public to_inport(inport_id: string): object {
-        return this.get_inport(inport_id).to_object();
+        return this.filter_inport(inport_id).to_object();
+    }
+
+    public to_inports(): object[] {
+        return this._to_components("inport");
+    }
+    // -------------------------------------------------------------------------
+
+    public filter_outport(outport_id: string): Params {
+        const data: object = this.__data
+            .filter(x => x.match("outport_" + outport_id + "\/"), "key")
+            .to_object();
+        return new Params(data);
     }
 
     public to_outport(outport_id: string): object {
-        return this.get_outport(outport_id).to_object();
+        return this.filter_outport(outport_id).to_object();
     }
 
-    public _to_ports(node_id: string, port_type: string): object[] {
-        const data: object[] = this.get_full_node(node_id).__data
-            .filter(x => x.match(port_type + "_.*?\/"), "key")
-            .assign(x => x.key.match("(" + port_type + "_.*?)\/")[1], "id")
-            .group_by(x => x.to_object(), "id")
-            .to_array();
-        const output: object[] = [];
-        for (const port of data) {
-            output.push( new Params(port).strip_id().to_object() );
-        }
-        return output;
-    }
-
-    public to_inports(node_id: string): object[] {
-        return this._to_ports(node_id, "inport");
-    }
-
-    public to_outports(node_id: string): object[] {
-        return this._to_ports(node_id, "outport");
+    public to_outports(): object[] {
+        return this._to_components("outport");
     }
 }

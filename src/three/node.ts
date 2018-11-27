@@ -233,13 +233,14 @@ export class Node {
         return output;
     }
 
-    public create(dict: object, id: string): void {
+    public create(dict: object): void {
+        const id: string = dict["id"];
         this.__id = id;
 
         const params: Params     = new Params(dict);
         const node: object       = params.to_node(id);
-        const inports: object[]  = params.to_inports(id);
-        const outports: object[] = params.to_outports(id);
+        const inports: object[]  = params.to_inports();
+        const outports: object[] = params.to_outports();
 
         const grp: Group       = this._create_group(node, this._container);
         const subnode: SubNode = this._create_subnode(node, grp._item);
@@ -252,5 +253,31 @@ export class Node {
         this._components["outports"]      = ops;
         this._components["inport_edges"]  = this._create_port_edges(ips, subnode, "inport", grp._item);
         this._components["outport_edges"] = this._create_port_edges(ops, subnode, "outport", grp._item);
+    }
+
+    public update(dict: object, id: string): void {
+        if (id !== this.__id) {
+            throw new Error("id does not match node id. ${id} !== ${this.__id}");
+        }
+
+        const params: Params      = new Params(dict);
+        const node_params: object = params.to_node(id);
+        const group: Group        = this._components["group"];
+        const subnode: SubNode    = this._components["subnode"];
+        const inports: Port[]     = this._components["inports"];
+        const outports: Port[]    = this._components["outports"];
+
+        group.update(this.__to_group_params(node_params));
+        subnode.update(this.__to_subnode_params(node_params));
+        for (const port of inports) {
+            let temp: object = params.to_inport(port.read()["id"]);
+            temp = this.__to_port_params(temp);
+            port.update(temp);
+        }
+        for (const port of outports) {
+            let temp: object = params.to_outport(port.read()["id"]);
+            temp = this.__to_port_params(temp);
+            port.update(temp);
+        }
     }
 }
