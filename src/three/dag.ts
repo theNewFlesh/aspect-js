@@ -138,52 +138,65 @@ export class DAG {
     }
      // -------------------------------------------------------------------------
 
-    public create(state: object): void {
-        const params: Params = new Params(state).diff(this.__state);
-
-        for (const g of params.to_graphs()) {
-            const gp: object = this.__to_group_params(g);
-            const graph: Group = new Group(this._container);
-            this._components["graphs"][gp["id"]] = graph;
-            graph.create(params.to_graph(gp["id"]));
-        }
-
-        for (const n of params.to_nodes()) {
-            const np: object = this.__to_node_params(n);
-            const node: Node = new Node(this._container);
-            this._components["nodes"][np["id"]] = node;
-            node.create(params.to_node(np["id"], true));
-        }
-
-        for (const ip of params.to_inports()) {
-            const ipp: object = this.__to_inport_params(ip);
-            const inport: Port = new Port(this._container);
-            this._components["inports"][ipp["id"]] = inport;
-            inport.create(params.to_inport(ipp["id"]));
-        }
-
-        for (const op of params.to_outports()) {
-            const opp: object = this.__to_outport_params(op);
-            const outport: Port = new Port(this._container);
-            this._components["outports"][opp["id"]] = outport;
-            outport.create(params.to_outport(opp["id"]));
-        }
-
-        for (const e of params.to_edges()) {
-            const ep: object = this.__to_edge_params(e);
-            const edge: Edge = new Edge(this._container);
-            this._components["edges"][ep["id"]] = edge;
-            edge.create(params.to_edge(ep["id"]));
-        }
-
-        this.__state = new Params(state);
+    public _create_graph(params: Params, id: string): void {
+        let temp: object = params.to_graph(id);
+        temp = this.__to_group_params(temp);
+        const graph: Group = new Group(this._container);
+        this._components["graphs"][id] = graph;
+        graph.create(temp);
     }
 
-    public _resolve_container(id: string): any {
-        const graph: any = id.match("(.*/graph_.*?/)");
-        if (graph !== null) {
-            return this._components["graphs"][graph[1]]._item;
+    public _link_graph(params: Params, id: string): void {
+        const graph: Group = this._components["graphs"][id];
+        const pid: string = params.get_parent_id(id);
+        let parent: any = this._container;
+        if (this._components["graphs"].hasOwnProperty(pid)) {
+            parent = this._components["graphs"][pid]._components["group"]._item;
         }
-        return this._container;
+        graph.link(parent);
+    }
+
+    public _create_node(params: Params, id: string): void {
+        const pid: string = params.get_parent_id(id);
+        let parent: any = this._container;
+        const graphs: object = this._components["graphs"];
+        if (_.keys(graphs).includes(pid)) {
+            parent = graphs[pid]._item;
+        }
+
+        let temp: object = params.to_node(id);
+        temp = this.__to_node_params(temp);
+        const node: Node = new Node(parent);
+        this._components["nodes"][id] = node;
+        node.create(params, id);
+    }
+
+    public create(state: object): void {
+        const params: Params = new Params(state).diff(this.__state);
+        for (const graph of params.to_graphs()) {
+            this._create_graph(params, graph["id"]);
+        }
+
+        for (const id of _.keys(this._components["graphs"])) {
+            this._link_graph(params, id);
+        }
+
+        for (const node of params.to_nodes()) {
+            this._create_node(params, node["id"]);
+        }
+
+        // for (const inport of params.to_inports()) {
+        //     this._create_inport(inport);
+        // }
+
+        // for (const outport of params.to_outports()) {
+        //     this._create_outport(outport);
+        // }
+
+        // for (const edge of params.to_edges()) {
+        //     this._create_edge(edge);
+        // }
+
+        this.__state = new Params(state);
     }
 }

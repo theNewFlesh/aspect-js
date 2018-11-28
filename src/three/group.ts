@@ -4,6 +4,11 @@ import { PrimitiveBase } from "./primitive_base";
 // -----------------------------------------------------------------------------
 
 export class Group extends PrimitiveBase {
+    public link(container: any): void {
+        container.add(this._item);
+        this._container = container;
+    }
+
     public _create_item(params: three_tools.IParams): THREE.Group {
         const item = new THREE.Group();
         return item;
