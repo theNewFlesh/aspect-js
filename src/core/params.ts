@@ -60,7 +60,7 @@ export class Params {
         return new Params(data);
     }
 
-    public strip_display(): Params {
+    public drop_display(): Params {
         const data: object = this.__data
             .filter(x => !x.match("display\/"), "key")
             .to_object();

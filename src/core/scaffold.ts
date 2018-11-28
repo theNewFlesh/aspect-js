@@ -177,8 +177,8 @@ export class Scaffold {
         return new Scaffold().from_array(data0);
     }
 
-    public filter(predicate: any, columns: any, how: string = "any"): Scaffold {
-        if (columns === undefined) {
+    public filter(predicate: any, columns: any = null, how: string = "any"): Scaffold {
+        if (columns === null) {
             columns = this.columns;
         }
         else if (!(columns instanceof Array)) {
@@ -198,6 +198,14 @@ export class Scaffold {
             return _.filter(results, x => x).length > 0;
         });
         return new Scaffold(data);
+    }
+
+    public drop(predicate: any, columns: any = null, how: string = "any"): Scaffold {
+        return this.filter(x => !predicate(x), columns, how);
+    }
+
+    public dropna(columns: any = null, how: string = "any"): Scaffold {
+        return this.drop(x => [undefined, null, NaN, ""].includes(x), columns, how);
     }
 
     public fill_na(from: any[] = [null, undefined], to: any = NaN): Scaffold {
