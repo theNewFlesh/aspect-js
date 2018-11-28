@@ -5,12 +5,12 @@ import * as tools from "../src/core/tools";
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
-const s0: string  = "s0";
-const g0: string  = "g0";
-const e0: string  = "e0";
-const n0: string  = "n0";
-const ip0: string = "ip0";
-const op0: string = "op0";
+const s0: string  = "scene_0";
+const g0: string  = "graph_0";
+const e0: string  = "edge_0";
+const n0: string  = "node_0";
+const ip0: string = "inport_0";
+const op0: string = "outport_0";
 
 const proto_scene: object = {
     "id":              s0,
@@ -165,18 +165,18 @@ const proto_outport: object = {
 };
 
 const ip1 = _.clone(proto_inport);
-ip1["id"] = "ip1";
+ip1["id"] = "inport_1";
 const ip2 = _.clone(proto_inport);
-ip2["id"] = "ip2";
+ip2["id"] = "inport_2";
 
 const temp: object = {};
-temp[`scene_${s0}`] = proto_scene;
-temp[`scene_${s0}`][`edge_${e0}`] = proto_edge;
-temp[`scene_${s0}`][`graph_${g0}`] = proto_graph;
-temp[`scene_${s0}`][`graph_${g0}`][`edge_${e0}`] = e0;
-temp[`scene_${s0}`][`graph_${g0}`][`node_${n0}`] = proto_node;
-temp[`scene_${s0}`][`graph_${g0}`][`node_${n0}`][`inport_${ip0}`] = proto_inport;
-temp[`scene_${s0}`][`graph_${g0}`][`node_${n0}`][`inport_ip1`] = ip1;
-temp[`scene_${s0}`][`graph_${g0}`][`node_${n0}`][`inport_ip2`] = ip2;
-temp[`scene_${s0}`][`graph_${g0}`][`node_${n0}`][`outport_${op0}`] = proto_outport;
+temp[`${s0}`] = proto_scene;
+temp[`${s0}`][`${e0}`] = proto_edge;
+temp[`${s0}`][`${g0}`] = proto_graph;
+temp[`${s0}`][`${g0}`][`${e0}`] = e0;
+temp[`${s0}`][`${g0}`][`${n0}`] = proto_node;
+temp[`${s0}`][`${g0}`][`${n0}`][`${ip0}`] = proto_inport;
+temp[`${s0}`][`${g0}`][`${n0}`][`inport_1`] = ip1;
+temp[`${s0}`][`${g0}`][`${n0}`][`inport_2`] = ip2;
+temp[`${s0}`][`${g0}`][`${n0}`][`${op0}`] = proto_outport;
 export const scene: object = tools.flatten(temp);
