@@ -1,15 +1,14 @@
 import * as _ from "lodash";
-import * as tiny_color from "tinycolor2";
 import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
-import { Scaffold } from "../core/scaffold";
-import { Params } from "../core/params";
+
 import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
 import * as test_tools from "../../test/test_tools";
 import * as test_scene from "../../test/test_scene";
+import { Scaffold } from "../core/scaffold";
+import { Params } from "../core/params";
 import { DAG } from "./dag";
-import { Node } from "./node";
 // -----------------------------------------------------------------------------
 
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
@@ -22,9 +21,6 @@ export class Scene {
         this.scene = new THREE.Scene();
         this.create_light();
         this.create_camera();
-
-        // this.node  = new Node(this.scene);
-        // this.node.create(test_scene.scene, "n0");
 
         this.dag = new DAG(this.scene);
         this.dag.create(test_scene.scene);
@@ -124,9 +120,5 @@ export class Scene {
 
     public get params() {
         return Params;
-    }
-
-    public get tiny_color() {
-        return tiny_color;
     }
 }

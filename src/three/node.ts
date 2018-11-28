@@ -233,11 +233,9 @@ export class Node {
         return output;
     }
 
-    public create(dict: object): void {
-        const id: string = dict["id"];
+    public create(params: Params, id: string): void {
         this.__id = id;
 
-        const params: Params     = new Params(dict);
         const node: object       = params.to_node(id);
         const inports: object[]  = params.to_inports();
         const outports: object[] = params.to_outports();
