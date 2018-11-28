@@ -64,19 +64,35 @@ export class DAG {
         }
     }
 
+    public _get_parent(params: Params, id: string, parent_type: string): any {
+        const pid: string = params.get_parent_id(id);
+        let parent: any = this._container;
+        const comps: object = this._components[parent_type + "s"];
+        if (_.keys(comps).includes(pid)) {
+            parent = comps[pid]._item;
+        }
+        return parent;
+    }
+
     public _create_nodes(params: Params): void {
         for (const n of params.to_nodes()) {
             const id: string = n["id"];
-            const pid: string = params.get_parent_id(id);
-            let parent: any = this._container;
-            const graphs: object = this._components["graphs"];
-            if (_.keys(graphs).includes(pid)) {
-                parent = graphs[pid]._item;
-            }
+            const parent: any = this._get_parent(params, id, "graph");
 
             const node: Node = new Node(parent);
             this._components["nodes"][id] = node;
             node.create(params, id);
+        }
+    }
+
+    public _create_edges(params: Params): void {
+        for (const e of params.to_edges()) {
+            const id: string = e["id"];
+            const parent: any = this._get_parent(params, id, "graph");
+
+            const edge: Edge = new Edge(parent);
+            this._components["edges"][id] = edge;
+            // edge.create(params, id);
         }
     }
 
