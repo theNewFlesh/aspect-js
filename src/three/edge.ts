@@ -5,6 +5,7 @@ import * as three_tools from "../three/three_tools";
 import { Cylinder } from "./cylinder";
 import { Sphere } from "./sphere";
 import { Group } from "./group";
+import { Params } from '@/core/params';
 // -----------------------------------------------------------------------------
 
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
@@ -39,58 +40,36 @@ export class Edge {
 
     public constructor(container: any) {
         this._container = container;
-        this.__id = uuidv4();
+        this.__id = null;
     }
     // -------------------------------------------------------------------------
 
-    private __get_source(params: IEdgeParams): three_tools.IVector3[] {
-        const new_params: object = {};
-        if (this._components.hasOwnProperty("source")) {
-            const src = this._components["source"].read();
-            new_params["source/translate/x"] = src["translate/x"];
-            new_params["source/translate/y"] = src["translate/y"];
-            new_params["source/translate/z"] = src["translate/z"];
-        }
-
-        if (this._components.hasOwnProperty("destination")) {
-            const dst = this._components["destination"].read();
-            new_params["destination/translate/x"] = dst["translate/x"];
-            new_params["destination/translate/y"] = dst["translate/y"];
-            new_params["destination/translate/z"] = dst["translate/z"];
-        }
-
-        const temp: object = three_tools.remove_empty_keys(params);
-        Object.assign(new_params, temp);
-
-        const v0: three_tools.IVector3 = {
-            x: new_params["source/translate/x"],
-            y: new_params["source/translate/y"],
-            z: new_params["source/translate/z"],
+    private __to_vector(params: object): three_tools.IVector3 {
+        return {
+            x: params["display/translate/x"],
+            y: params["display/translate/y"],
+            z: params["display/translate/z"],
         };
-
-        const v1: three_tools.IVector3 = {
-            x: new_params["destination/translate/x"],
-            y: new_params["destination/translate/y"],
-            z: new_params["destination/translate/z"],
-        };
-
-        return [v0, v1];
     }
 
-    private __get_center(params: IEdgeParams): three_tools.IVector3 {
-        const v: three_tools.IVector3[] = this.__get_source(params);
-        return three_tools.get_center(v[0], v[1]);
+    private __get_center(src: object, dst: object): three_tools.IVector3 {
+        const a: three_tools.IVector3 = this.__to_vector(src);
+        const b: three_tools.IVector3 = this.__to_vector(dst);
+        return three_tools.get_center(a, b);
     }
 
-    private __get_l2_distance(params: IEdgeParams): number {
-        const v: three_tools.IVector3[] = this.__get_source(params);
-        return three_tools.to_l2_distance(v[0], v[1]);
+    private __get_l2_distance(src: object, dst: object): number {
+        const a: three_tools.IVector3 = this.__to_vector(src);
+        const b: three_tools.IVector3 = this.__to_vector(dst);
+        return three_tools.to_l2_distance(a, b);
     }
 
-    private __get_rotate(params: IEdgeParams): three_tools.IVector3 {
-        const v: three_tools.IVector3[] = this.__get_source(params);
-        return three_tools.get_rotation(v[0], v[1]);
+    private __get_rotate(src: object, dst: object): three_tools.IVector3 {
+        const a: three_tools.IVector3 = this.__to_vector(src);
+        const b: three_tools.IVector3 = this.__to_vector(dst);
+        return three_tools.get_rotation(a, b);
     }
+    // -------------------------------------------------------------------------
 
     private __to_group_params(params: object): object {
         let output: object = {
@@ -104,133 +83,67 @@ export class Edge {
         return output;
     }
 
-    private __to_arrow_params(params: object): object {
+    private __to_arrow_params(edge: object, src: object, dst: object): object {
         let output: object = {
-            "name":             three_tools.get_name(params, "arrow"),
-            "translate/x":      this.__get_center(params).x,
-            "translate/y":      this.__get_center(params).y,
-            "translate/z":      this.__get_center(params).z,
-            "rotate/x":         this.__get_rotate(params).x,
-            "rotate/y":         this.__get_rotate(params).y,
-            "rotate/z":         this.__get_rotate(params).z,
-            "radius/top":       params["radius"] * 4,
-            "radius/bottom":    params["radius"],
-            "height":           params["radius"] * 6,
-            "color/hue":        params["color/hue"],
-            "color/saturation": params["color/saturation"],
-            "color/value":      params["color/value"],
-            "color/alpha":      params["color/alpha"],
+            "name":             three_tools.get_name(edge, "arrow"),
+            "translate/x":      this.__get_center(src, dst).x,
+            "translate/y":      this.__get_center(src, dst).y,
+            "translate/z":      this.__get_center(src, dst).z,
+            "rotate/x":         this.__get_rotate(src, dst).x,
+            "rotate/y":         this.__get_rotate(src, dst).y,
+            "rotate/z":         this.__get_rotate(src, dst).z,
+            "radius/top":       edge["radius"] * 4,
+            "radius/bottom":    edge["radius"],
+            "height":           edge["radius"] * 6,
+            "color/hue":        edge["color/hue"],
+            "color/saturation": edge["color/saturation"],
+            "color/value":      edge["color/value"],
+            "color/alpha":      edge["color/alpha"],
         };
         output = three_tools.remove_empty_keys(output);
         return output;
     }
 
-    private __to_body_params(params: object): object {
+    private __to_body_params(edge: object, src: object, dst: object): object {
         let output: object = {
-            "name":             three_tools.get_name(params, "body"),
-            "translate/x":      this.__get_center(params).x,
-            "translate/y":      this.__get_center(params).y,
-            "translate/z":      this.__get_center(params).z,
-            "rotate/x":         this.__get_rotate(params).x,
-            "rotate/y":         this.__get_rotate(params).y,
-            "rotate/z":         this.__get_rotate(params).z,
-            "radius/top":       params["radius"],
-            "radius/bottom":    params["radius"],
-            "height":           this.__get_l2_distance(params),
-            "color/hue":        params["color/hue"],
-            "color/saturation": params["color/saturation"],
-            "color/value":      params["color/value"] * 0.5,
-            "color/alpha":      params["color/alpha"],
-        };
-        output = three_tools.remove_empty_keys(output);
-        return output;
-    }
-
-    private __to_source_params(params: object): object {
-        let output: object = {
-            "name":             three_tools.get_name(params, "source"),
-            "visible":          params["source/visible"],
-            "translate/x":      params["source/translate/x"],
-            "translate/y":      params["source/translate/y"],
-            "translate/z":      params["source/translate/z"],
-            "radius":           params["radius"] * 2,
-            "color/hue":        params["color/hue"],
-            "color/saturation": params["color/saturation"],
-            "color/value":      params["color/value"],
-            "color/alpha":      params["color/alpha"],
-        };
-        output = three_tools.remove_empty_keys(output);
-        return output;
-    }
-
-    private __to_destination_params(params: object): object {
-        let output: object = {
-            "name":             three_tools.get_name(params, "destination"),
-            "visible":          params["destination/visible"],
-            "translate/x":      params["destination/translate/x"],
-            "translate/y":      params["destination/translate/y"],
-            "translate/z":      params["destination/translate/z"],
-            "radius":           params["radius"] * 2,
-            "color/hue":        params["color/hue"],
-            "color/saturation": params["color/saturation"],
-            "color/value":      params["color/value"],
-            "color/alpha":      params["color/alpha"],
+            "name":             three_tools.get_name(edge, "body"),
+            "translate/x":      this.__get_center(src, dst).x,
+            "translate/y":      this.__get_center(src, dst).y,
+            "translate/z":      this.__get_center(src, dst).z,
+            "rotate/x":         this.__get_rotate(src, dst).x,
+            "rotate/y":         this.__get_rotate(src, dst).y,
+            "rotate/z":         this.__get_rotate(src, dst).z,
+            "radius/top":       edge["radius"],
+            "radius/bottom":    edge["radius"],
+            "height":           this.__get_l2_distance(src, dst),
+            "color/hue":        edge["color/hue"],
+            "color/saturation": edge["color/saturation"],
+            "color/value":      edge["color/value"] * 0.5,
+            "color/alpha":      edge["color/alpha"],
         };
         output = three_tools.remove_empty_keys(output);
         return output;
     }
      // -------------------------------------------------------------------------
 
-    public get _default_params(): object {
-        return {
-            "name":              "edge",
-            "visible":           true,
-            "source/translate/x": 0,
-            "source/translate/y": 1,
-            "source/translate/z": 0,
-            "source/visible":     true,
-            "destination/translate/x":  0,
-            "destination/translate/y":  0,
-            "destination/translate/z":  0,
-            "destination/visible":      false,
-            "scale/x":           1,
-            "scale/y":           1,
-            "scale/z":           1,
-            "radius":            0.05,
-            "color/hue":         cyan2.h,
-            "color/saturation":  cyan2.s,
-            "color/value":       cyan2.v,
-            "color/alpha":       cyan2.a,
-        };
-    }
+    public create(params: Params, id: string): void {
+        this.__id = id;
 
-    public create(params: IEdgeParams = {}): void {
-        const temp: three_tools.IParams = three_tools.resolve_params(
-            params, this._default_params
-        );
-        let new_params: object = this._default_params;
-        Object.assign(new_params, temp);
-        new_params = three_tools.remove_empty_keys(new_params);
+        const edge: object = params.to_edge(id);
+        const src: object = params.to_component(edge["source"]);
+        const dst: object = params.to_component(edge["destination"]);
 
         const grp: Group = new Group(this._container);
-        grp.create(this.__to_group_params(new_params));
+        grp.create(this.__to_group_params(edge));
         this._components["group"] = grp;
 
         const body: Cylinder = new Cylinder(grp._item);
-        body.create(this.__to_body_params(new_params));
+        body.create(this.__to_body_params(edge, src, dst));
         this._components["body"] = body;
 
         const arrow: Cylinder = new Cylinder(grp._item);
-        arrow.create(this.__to_arrow_params(new_params));
+        arrow.create(this.__to_arrow_params(edge, src, dst));
         this._components["arrow"] = arrow;
-
-        const src: Sphere = new Sphere(grp._item);
-        src.create(this.__to_source_params(new_params));
-        this._components["source"] = src;
-
-        const dst: Sphere = new Sphere(grp._item);
-        dst.create(this.__to_destination_params(new_params));
-        this._components["destination"] = dst;
     }
 
     public read(): IEdgeParams {
@@ -263,15 +176,14 @@ export class Edge {
         return params;
     }
 
-    public update(params: IEdgeParams): void {
-        let new_params: IEdgeParams = this.read();
-        new_params = three_tools.resolve_params(params, new_params);
+    public update(params: Params): void {
+        const edge: object = params.to_edge(this.__id);
+        const src: object = params.to_component(edge["source"]);
+        const dst: object = params.to_component(edge["destination"]);
 
-        this._components["group"].update(this.__to_group_params(new_params));
-        this._components["source"].update(this.__to_source_params(new_params));
-        this._components["destination"].update(this.__to_destination_params(new_params));
-        this._components["body"].update(this.__to_body_params(new_params));
-        this._components["arrow"].update(this.__to_arrow_params(new_params));
+        this._components["group"].update(this.__to_group_params(edge));
+        this._components["body"].update(this.__to_body_params(edge, src, dst));
+        this._components["arrow"].update(this.__to_arrow_params(edge, src, dst));
     }
 
     public delete(): void {

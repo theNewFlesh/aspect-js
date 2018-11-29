@@ -92,7 +92,7 @@ export class DAG {
 
             const edge: Edge = new Edge(parent);
             this._components["edges"][id] = edge;
-            // edge.create(params, id);
+            edge.create(params, id);
         }
     }
 
@@ -101,6 +101,7 @@ export class DAG {
         this._create_graphs(params);
         this._link_graphs(params);
         this._create_nodes(params);
+        this._create_edges(params);
         this._params = new Params(state);
     }
 }

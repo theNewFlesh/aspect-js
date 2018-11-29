@@ -22,7 +22,7 @@ const proto_scene: object = {
 
 const proto_edge: object = {
     "id":                       e0,
-    "source":                   "",
+    "source":                   op0,
     "destination":              ip0,
     "type":                     "",
     "display/name":             "edge",
@@ -30,13 +30,7 @@ const proto_edge: object = {
     "display/order":            "",
     "display/selected":         "",
     "display/visible":          true,
-    // "display/source/translate/x":      0,
-    // "display/source/translate/y":      4,
-    // "display/source/translate/z":      0,
-    "display/source/visible":     true,
-    // "display/destination/translate/x": 0,
-    // "display/destination/translate/y": 0,
-    // "display/destination/translate/z": 0,
+    "display/source/visible":   true,
     "display/to/visible":       false,
     "display/scale/x":          1,
     "display/scale/y":          1,

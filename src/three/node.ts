@@ -208,30 +208,30 @@ export class Node {
         return output;
     }
 
-    public _create_port_edges(
-        ports: Port[],
-        subnode: SubNode,
-        port_type: string,
-        container: Group
-    ): Edge[] {
+    // public _create_port_edges(
+    //     ports: Port[],
+    //     subnode: SubNode,
+    //     port_type: string,
+    //     container: Group
+    // ): Edge[] {
 
-        let func: any = null;
-        if (port_type === "inport") {
-            func = this.__to_inport_edge_params;
-        }
-        else if (port_type === "outport") {
-            func = this.__to_outport_edge_params;
-        }
+    //     let func: any = null;
+    //     if (port_type === "inport") {
+    //         func = this.__to_inport_edge_params;
+    //     }
+    //     else if (port_type === "outport") {
+    //         func = this.__to_outport_edge_params;
+    //     }
 
-        const sub: object = subnode.read();
-        const output: Edge[] = [];
-        for (const port of ports) {
-            const edge: Edge = new Edge(container);
-            edge.create( func(sub, port.read()) );
-            output.push(edge);
-        }
-        return output;
-    }
+    //     const sub: object = subnode.read();
+    //     const output: Edge[] = [];
+    //     for (const port of ports) {
+    //         const edge: Edge = new Edge(container);
+    //         edge.create( func(sub, port.read()) );
+    //         output.push(edge);
+    //     }
+    //     return output;
+    // }
 
     public create(params: Params, id: string): void {
         this.__id = id;
@@ -249,16 +249,11 @@ export class Node {
         this._components["subnode"]       = subnode;
         this._components["inports"]       = ips;
         this._components["outports"]      = ops;
-        this._components["inport_edges"]  = this._create_port_edges(ips, subnode, "inport", grp._item);
-        this._components["outport_edges"] = this._create_port_edges(ops, subnode, "outport", grp._item);
+        // this._components["inport_edges"]  = this._create_port_edges(ips, subnode, "inport", grp._item);
+        // this._components["outport_edges"] = this._create_port_edges(ops, subnode, "outport", grp._item);
     }
 
-    public update(dict: object, id: string): void {
-        if (id !== this.__id) {
-            throw new Error("id does not match node id. ${id} !== ${this.__id}");
-        }
-
-        const params: Params      = new Params(dict);
+    public update(params: Params): void {
         const node_params: object = params.to_node(id);
         const group: Group        = this._components["group"];
         const subnode: SubNode    = this._components["subnode"];

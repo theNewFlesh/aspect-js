@@ -86,11 +86,34 @@ export class Params {
             .filter(x => x.match(id), "value")
             .to_array()[0]["parent"];
     }
+
+    public to_component(id: string): object {
+        const type: string = id.split("_")[0];
+
+        if (type == "graph"){
+            return this.to_graph(id);
+        }
+        else if (type == "node") {
+            return this.to_node(id);
+        }
+        else if (type == "edge") {
+            return this.to_edge(id);
+        }
+        else if (type == "inport") {
+            return this.to_inport(id);
+        }
+        else if (type == "outport") {
+            return this.to_outport(id);
+        }
+        else {
+            throw new Error(`invalid id: ${id}`);
+        }        
+    }
     // -------------------------------------------------------------------------
 
     public filter_graph(graph_id: string, full: boolean = false): Params {
         let data: any = this.__data
-            .filter(x => x.match("graph_" + graph_id + "\/"), "key");
+            .filter(x => x.match(graph_id + "\/"), "key");
         if (!full) {
             data = data.filter(x => !x.match("node|edge|inport|outport"), "key");
         }
@@ -99,7 +122,7 @@ export class Params {
     }
 
     public to_graph(graph_id: string, full: boolean = false): object {
-        return this.filter_graph(graph_id, full).to_object();
+        return this.filter_graph(graph_id, full).strip_id().to_object();
     }
 
     public to_graphs(): object[] {
@@ -109,7 +132,7 @@ export class Params {
 
     public filter_node(node_id: string, full: boolean = false): Params {
         let data: any = this.__data
-            .filter(x => x.match("node_" + node_id + "\/"), "key");
+            .filter(x => x.match(node_id + "\/"), "key");
         if (!full) {
             data = data.filter(x => !x.match("inport|outport"), "key");
         }
@@ -118,7 +141,7 @@ export class Params {
     }
 
     public to_node(node_id: string, full: boolean = false): object {
-        return this.filter_node(node_id, full).to_object();
+        return this.filter_node(node_id, full).strip_id().to_object();
     }
 
     public to_nodes(): object[] {
@@ -128,13 +151,13 @@ export class Params {
 
     public filter_edge(edge_id: string): Params {
         const data: object = this.__data
-            .filter(x => x.match("edge_" + edge_id + "\/"), "key")
+            .filter(x => x.match(edge_id + "\/"), "key")
             .to_object();
         return new Params(data);
     }
 
     public to_edge(edge_id: string): object {
-        return this.filter_edge(edge_id).to_object();
+        return this.filter_edge(edge_id).strip_id().to_object();
     }
 
     public to_edges(): object[] {
@@ -144,13 +167,13 @@ export class Params {
 
     public filter_inport(inport_id: string): Params {
         const data: object = this.__data
-            .filter(x => x.match("inport_" + inport_id + "\/"), "key")
+            .filter(x => x.match(inport_id + "\/"), "key")
             .to_object();
         return new Params(data);
     }
 
     public to_inport(inport_id: string): object {
-        return this.filter_inport(inport_id).to_object();
+        return this.filter_inport(inport_id).strip_id().to_object();
     }
 
     public to_inports(): object[] {
@@ -160,13 +183,13 @@ export class Params {
 
     public filter_outport(outport_id: string): Params {
         const data: object = this.__data
-            .filter(x => x.match("outport_" + outport_id + "\/"), "key")
+            .filter(x => x.match(outport_id + "\/"), "key")
             .to_object();
         return new Params(data);
     }
 
     public to_outport(outport_id: string): object {
-        return this.filter_outport(outport_id).to_object();
+        return this.filter_outport(outport_id).strip_id().to_object();
     }
 
     public to_outports(): object[] {
