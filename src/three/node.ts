@@ -254,7 +254,7 @@ export class Node {
     }
 
     public update(params: Params): void {
-        const node_params: object = params.to_node(id);
+        const node_params: object = params.to_node(this.__id);
         const group: Group        = this._components["group"];
         const subnode: SubNode    = this._components["subnode"];
         const inports: Port[]     = this._components["inports"];

@@ -139,7 +139,7 @@ const proto_outport: object = {
     "display/selected":              "",
     "display/visible":               true,
     "display/translate/x":           0,
-    "display/translate/y":           0,
+    "display/translate/y":           3,
     "display/translate/z":           0,
     "display/scale/x":               1,
     "display/scale/y":               1,
