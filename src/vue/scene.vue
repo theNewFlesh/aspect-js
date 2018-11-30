@@ -9,12 +9,14 @@
     import * as THREE from "three";
     import { MeshLine, MeshLineMaterial } from "three.meshline";
     import * as CreateOrbitControls from "three-orbit-controls";
-    import { Temp as ThreeScene } from "../three/temp";
+    import { DAG } from "../three/dag";
+    import { scene as test_scene } from "../../test/test_scene";
     // -------------------------------------------------------------------------
 
     @Component
     export default class Scene extends Vue {
         public scene;
+        public dag;
 
         @Prop({ required: true })
         public width: number;
@@ -23,16 +25,17 @@
         public height: number;
 
         public created() {
-            this.scene = new ThreeScene({
-                width: this.width,
-                height: this.height,
-            });
+            this.dag = new DAG();
+            test_scene["width"] = this.width;
+            test_scene["height"] = this.height;
+            this.dag.create(test_scene);
+            this.scene = this.dag._scene;
         }
 
         public mounted() {
             const scn = this.scene;
             const elem = document.getElementById("scene");
-            scn.render(elem);
+            scn.render(elem, window);
             this.animate();
         }
 

@@ -28,6 +28,7 @@ export class DAG {
     public _parent: THREE.Scene;
     public _params: Params = new Params({});
     public _children: object = {};
+    public _scene: Scene;
     // -------------------------------------------------------------------------
 
     public _create_component(
@@ -79,6 +80,7 @@ export class DAG {
         const id: string = params.to_scene()["id"];
         this._children[id] = scene;
         this._parent = scene._item;
+        this._scene = scene;
     }
 
     public _link_graphs(params: Params): void {
@@ -136,7 +138,7 @@ export class DAG {
         this._create_nodes(params);
         // this._create_inports(params);
         // this._create_outports(params);
-        // this._create_edges(params);
+        this._create_edges(params);
         this._params = new Params(state);
     }
 }

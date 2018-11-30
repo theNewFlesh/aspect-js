@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
 import { Group } from "./group";
+import { Cube } from "./cube";
 // -----------------------------------------------------------------------------
 
 export class Scene extends Group {
@@ -10,10 +11,6 @@ export class Scene extends Group {
     public _renderer: any;
     public _width: number;
     public _height: number;
-
-    public get aspect_ratio(): number {
-        return this._width / this._height;
-    }
 
     public create_light() {
         const color = 0xffffff;
@@ -25,9 +22,10 @@ export class Scene extends Group {
     }
 
     public create_camera() {
+        const aspect: number =  this._width / this._height;
         const camera = new THREE.OrthographicCamera(
-            -5 * this.aspect_ratio,
-            10 * this.aspect_ratio,
+            -5 * aspect,
+            10 * aspect,
             10,
             -10,
             0,
@@ -50,7 +48,7 @@ export class Scene extends Group {
         camera.position.z = 6;
     }
 
-    public render(element: any) {
+    public render(element: any, window: any) {
         this._renderer = new THREE.WebGLRenderer({ antialias: true });
         this._renderer.setSize(this._width, this._height);
         this._renderer.setClearColor(0x141414);
@@ -67,10 +65,11 @@ export class Scene extends Group {
     }
 
     public create(params: object): void {
-        super.create(params);
+        this._parent = new THREE.Scene();
         this._width = params["width"];
         this._height = params["height"];
         this.create_light();
         this.create_camera();
+        super.create(params);
     }
 }
