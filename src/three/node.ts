@@ -1,11 +1,9 @@
 import * as _ from "lodash";
 import * as tools from "../core/tools";
-import { Params } from "../core/params";
 import * as three_tools from "./three_tools";
 import { Group } from "./group";
-import { SubNode } from "./subnode";
-import { Port } from "./port";
-import { Edge } from "./edge";
+import { Cube } from "./cube";
+import { TextBox } from "./textbox";
 // -----------------------------------------------------------------------------
 
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
@@ -39,7 +37,7 @@ export interface INodeParams {
 export class Node {
     private __id: string = null;
     public _parent: any;
-    public _components: object = {};
+    public _children: object = {};
 
     public constructor(container: any) {
         this._parent = container;
@@ -61,45 +59,10 @@ export class Node {
         return output;
     }
 
-    private __to_subnode_params(params: object): object {
+    private __to_cube_params(params: object): object {
         let output: object = {
-            "name":                  three_tools.get_name(params, "subnode"),
-            "id":                    params["id"],
-            "visible":               params["visible"],
-            "translate/x":           params["translate/x"],
-            "translate/y":           params["translate/y"],
-            "translate/z":           params["translate/z"],
-            "scale/x":               params["scale/x"],
-            "scale/y":               params["scale/y"],
-            "scale/z":               params["scale/z"],
-            "color/hue":             params["color/hue"],
-            "color/saturation":      params["color/saturation"],
-            "color/value":           params["color/value"],
-            "color/alpha":           params["color/alpha"],
-            "font/color/hue":        params["font/color/hue"],
-            "font/color/saturation": params["font/color/saturation"],
-            "font/color/value":      params["font/color/value"],
-            "font/color/alpha":      params["font/color/alpha"],
-            "font/text":             params["font/text"],
-            "font/family":           params["font/family"],
-            "font/style":            params["font/style"],
-            "font/size":             params["font/size"],
-        };
-        output = three_tools.remove_empty_keys(output);
-        return output;
-    }
-
-    private __to_port_params(params: object): object {
-        let output: object = {
-            "name":             three_tools.get_name(params, "port"),
-            "id":               params["id"],
+            "name":             three_tools.get_name(params, "cube"),
             "visible":          params["visible"],
-            "translate/x":      params["translate/x"],
-            "translate/y":      params["translate/y"],
-            "translate/z":      params["translate/z"],
-            "scale/x":          params["scale/x"],
-            "scale/y":          params["scale/y"],
-            "scale/z":          params["scale/z"],
             "color/hue":        params["color/hue"],
             "color/saturation": params["color/saturation"],
             "color/value":      params["color/value"],
@@ -109,158 +72,115 @@ export class Node {
         return output;
     }
 
-    private __to_inport_edge_params(subnode: object, inport: object): object {
+    private __to_textbox_params(params: object): object {
         let output: object = {
-            "name":                    three_tools.get_name(subnode, "inport_edge"),
-            "visible":                 subnode["visible"],
-            "source/translate/x":      inport["translate/x"],
-            "source/translate/y":      inport["translate/y"],
-            "source/translate/z":      inport["translate/z"],
-            "source/visible":          false,
-            "destination/translate/x": subnode["translate/x"],
-            "destination/translate/y": subnode["translate/y"],
-            "destination/translate/z": subnode["translate/z"],
-            "destination/visible":     false,
-            "radius":                  subnode["radius"],
-            "color/hue":               subnode["color/hue"],
-            "color/saturation":        subnode["color/saturation"],
-            "color/value":             subnode["color/value"],
-            "color/alpha":             subnode["color/alpha"],
+            "name":             three_tools.get_name(params, "textbox"),
+            "color/hue":        params["font/color/hue"],
+            "color/saturation": params["font/color/saturation"],
+            "color/value":      params["font/color/value"],
+            "color/alpha":      params["font/color/alpha"],
+            "font/text":        params["font/text"],
+            "font/family":      params["font/family"],
+            "font/style":       params["font/style"],
+            "font/size":        params["font/size"],
         };
         output = three_tools.remove_empty_keys(output);
         return output;
     }
+     // -------------------------------------------------------------------------
 
-    private __to_outport_edge_params(subnode: object, outport: object): object {
-        let output: object = {
-            "name":                    three_tools.get_name(subnode, "outport_edge"),
-            "visible":                 subnode["visible"],
-            "source/translate/x":      subnode["translate/x"],
-            "source/translate/y":      subnode["translate/y"],
-            "source/translate/z":      subnode["translate/z"],
-            "source/visible":          false,
-            "destination/translate/x": outport["translate/x"],
-            "destination/translate/y": outport["translate/y"],
-            "destination/translate/z": outport["translate/z"],
-            "destination/visible":     false,
-            "radius":                  subnode["radius"],
-            "color/hue":               subnode["color/hue"],
-            "color/saturation":        subnode["color/saturation"],
-            "color/value":             subnode["color/value"],
-            "color/alpha":             subnode["color/alpha"],
+    public get _default_params(): object {
+        return {
+            "name":                  "subnode",
+            "visible":               true,
+            "translate/x":           0,
+            "translate/y":           0,
+            "translate/z":           0,
+            "scale/x":               4,
+            "scale/y":               1,
+            "scale/z":               0.1,
+            "color/hue":             cyan2.h,
+            "color/saturation":      cyan2.s,
+            "color/value":           cyan2.v,
+            "color/alpha":           cyan2.a,
+            "font/color/hue":        grey2.h,
+            "font/color/saturation": grey2.s,
+            "font/color/value":      grey2.v,
+            "font/color/alpha":      grey2.a,
+            "font/text":             "subnode",
+            "font/family":           "mono",
+            "font/style":            "normal",
+            "font/size":             300,
         };
-        output = three_tools.remove_empty_keys(output);
-        return output;
-    }
-    // -------------------------------------------------------------------------
-
-    public _create_group(node_params: object, container: any): Group {
-        const grp: Group = new Group(container);
-        grp.create(this.__to_group_params(node_params));
-        return grp;
     }
 
-    public _create_subnode(node_params, container): SubNode {
-        const subnode: SubNode = new SubNode(container);
-        subnode.create(this.__to_subnode_params(node_params));
-        return subnode;
+    public create(params: INodeParams = {}): void {
+        const temp: three_tools.IParams = three_tools.resolve_params(
+            params, this._default_params
+        );
+        let new_params: object = this._default_params;
+        Object.assign(new_params, temp);
+        new_params = three_tools.remove_empty_keys(new_params);
+
+        const grp: Group = new Group(this._parent);
+        grp.create(this.__to_group_params(new_params));
+        this._children["group"] = grp;
+
+        const cube: Cube = new Cube(grp._item);
+        cube.create(this.__to_cube_params(new_params));
+        this._children["cube"] = cube;
+
+        const textbox: TextBox = new TextBox(grp._item);
+        textbox.create(this.__to_textbox_params(new_params));
+        this._children["textbox"] = textbox;
     }
 
-    public _create_ports(
-        ports: object[],
-        subnode: SubNode,
-        type: string,
-        container: Group
-    ): Port[] {
+    public read(): INodeParams {
+        const grp = this._children["group"].read();
+        const cube = this._children["cube"].read();
+        const textbox = this._children["textbox"].read();
 
-        const x: number = subnode.read()["translate/x"];
-        const y: number = subnode.read()["translate/y"];
-        const z: number = subnode.read()["translate/z"];
-
-        let start: number = Math.ceil(x - (ports.length / 2));
-        let height: number = y + 4;
-        if (type === "outport") {
-            height = y - 4;
-        }
-
-        const output: Port[] = [];
-        for (const ip of ports) {
-            const port: Port = new Port(container);
-            const params: object = this.__to_port_params(ip);
-            params["translate/x"] = start;
-            params["translate/y"] = height;
-            params["translate/z"] = z;
-
-            port.create(params);
-            output.push(port);
-            start++;
-        }
-        return output;
+        let params: INodeParams = {
+            "name":                  grp["name"],
+            "visible":               grp["visible"],
+            "translate/x":           grp["translate/x"],
+            "translate/y":           grp["translate/y"],
+            "translate/z":           grp["translate/z"],
+            "scale/x":               grp["scale/x"],
+            "scale/y":               grp["scale/y"],
+            "scale/z":               grp["scale/z"],
+            "color/hue":             cube["color/hue"],
+            "color/saturation":      cube["color/saturation"],
+            "color/value":           cube["color/value"],
+            "color/alpha":           cube["color/alpha"],
+            "font/color/hue":        textbox["color/hue"],
+            "font/color/saturation": textbox["color/saturation"],
+            "font/color/value":      textbox["color/value"],
+            "font/color/alpha":      textbox["color/alpha"],
+            "font/text":             textbox["font/text"],
+            "font/family":           textbox["font/family"],
+            "font/style":            textbox["font/style"],
+            "font/size":             textbox["font/size"],
+        };
+        params = three_tools.remove_empty_keys(params);
+        return params;
     }
 
-    public _create_port_edges(
-        ports: Port[],
-        subnode: SubNode,
-        port_type: string,
-        container: Group
-    ): Edge[] {
+    public update(params: INodeParams): void {
+        let new_params: INodeParams = this.read();
+        new_params = three_tools.resolve_params(params, new_params);
 
-        let func: any = null;
-        if (port_type === "inport") {
-            func = this.__to_inport_edge_params;
-        }
-        else if (port_type === "outport") {
-            func = this.__to_outport_edge_params;
-        }
-
-        const sub: object = subnode.read();
-        const output: Edge[] = [];
-        for (const port of ports) {
-            const edge: Edge = new Edge(container);
-            edge.create( func(sub, port.read()) );
-            output.push(edge);
-        }
-        return output;
+        this._children["group"].update(this.__to_group_params(new_params));
+        this._children["cube"].update(this.__to_cube_params(new_params));
+        this._children["textbox"].update(this.__to_textbox_params(new_params));
     }
 
-    public create(params: INodeParams): void {
-        this.__id = params["id"];
-
-        const node: object       = params.to_node(id);
-        const inports: object[]  = params.to_inports();
-        const outports: object[] = params.to_outports();
-
-        const grp: Group       = this._create_group(params, this._parent);
-        const subnode: SubNode = this._create_subnode(params, grp._item);
-        const ips: Port[]      = this._create_ports(inports, subnode, "inport", grp._item);
-        const ops: Port[]      = this._create_ports(outports, subnode, "outport", grp._item);
-
-        this._components["group"]         = grp;
-        this._components["subnode"]       = subnode;
-        this._components["inports"]       = ips;
-        this._components["outports"]      = ops;
-        this._components["inport_edges"]  = this._create_port_edges(ips, subnode, "inport", grp._item);
-        this._components["outport_edges"] = this._create_port_edges(ops, subnode, "outport", grp._item);
-    }
-
-    public update(params: Params): void {
-        const node_params: object = params.to_node(this.__id);
-        const group: Group        = this._components["group"];
-        const subnode: SubNode    = this._components["subnode"];
-        const inports: Port[]     = this._components["inports"];
-        const outports: Port[]    = this._components["outports"];
-
-        group.update(this.__to_group_params(node_params));
-        subnode.update(this.__to_subnode_params(node_params));
-        for (const port of inports) {
-            let temp: object = params.to_inport(port.read()["id"]);
-            temp = this.__to_port_params(temp);
-            port.update(temp);
-        }
-        for (const port of outports) {
-            let temp: object = params.to_outport(port.read()["id"]);
-            temp = this.__to_port_params(temp);
-            port.update(temp);
-        }
+    public delete(): void {
+        const prims = this._children;
+        let keys = _.keys(prims);
+        const grp = this._children["group"];
+        keys = _.filter(keys, key => key !== "group");
+        keys.map(key => prims[key].delete());
+        this._parent.remove(grp._item);
     }
 }

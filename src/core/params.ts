@@ -9,7 +9,7 @@ export class Params {
 
     private __data: Scaffold;
 
-    public _to_components(type: string): object[] {
+    public _to_children(type: string): object[] {
         let temp: Scaffold;
         if (type === "graph") {
             temp = this.filter_graph(".*?").__data;
@@ -149,7 +149,7 @@ export class Params {
     }
 
     public to_graphs(): object[] {
-        return this._to_components("graph");
+        return this._to_children("graph");
     }
     // -------------------------------------------------------------------------
 
@@ -171,7 +171,7 @@ export class Params {
     }
 
     public to_nodes(): object[] {
-        return this._to_components("node");
+        return this._to_children("node");
     }
     // -------------------------------------------------------------------------
 
@@ -187,7 +187,7 @@ export class Params {
     }
 
     public to_edges(): object[] {
-        return this._to_components("edge");
+        return this._to_children("edge");
     }
     // -------------------------------------------------------------------------
 
@@ -206,7 +206,7 @@ export class Params {
     }
 
     public to_inports(): object[] {
-        return this._to_components("inport");
+        return this._to_children("inport");
     }
     // -------------------------------------------------------------------------
 
@@ -225,6 +225,6 @@ export class Params {
     }
 
     public to_outports(): object[] {
-        return this._to_components("outport");
+        return this._to_children("outport");
     }
 }

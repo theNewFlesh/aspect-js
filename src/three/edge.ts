@@ -33,7 +33,7 @@ export interface IEdgeParams {
 export class Edge {
     private __id: string = null;
     public _parent: any;
-    public _components: object = {};
+    public _children: object = {};
 
     public constructor(container: any) {
         this._parent = container;
@@ -185,30 +185,30 @@ export class Edge {
 
         const grp: Group = new Group(this._parent);
         grp.create(this.__to_group_params(edge));
-        this._components["group"] = grp;
+        this._children["group"] = grp;
 
         const body: Cylinder = new Cylinder(grp._item);
         body.create(this.__to_body_params(edge));
-        this._components["body"] = body;
+        this._children["body"] = body;
 
         const arrow: Cylinder = new Cylinder(grp._item);
         arrow.create(this.__to_arrow_params(edge));
-        this._components["arrow"] = arrow;
+        this._children["arrow"] = arrow;
 
         const source: Sphere = new Sphere(grp._item);
         source.create(this.__to_source_params(edge));
-        this._components["source"] = source;
+        this._children["source"] = source;
 
         const destination: Sphere = new Sphere(grp._item);
         destination.create(this.__to_destination_params(edge));
-        this._components["destination"] = destination;
+        this._children["destination"] = destination;
     }
 
     public read(): IEdgeParams {
-        const src = this._components["source"].read();
-        const dst = this._components["destination"].read();
-        const body = this._components["body"].read();
-        const grp = this._components["group"].read();
+        const src = this._children["source"].read();
+        const dst = this._children["destination"].read();
+        const body = this._children["body"].read();
+        const grp = this._children["group"].read();
 
         let params: IEdgeParams = {
             "name":                    grp["name"],
@@ -236,17 +236,17 @@ export class Edge {
         let edge: object = this.read();
         edge = three_tools.resolve_params(params, edge);
 
-        this._components["group"].update(this.__to_group_params(edge));
-        this._components["body"].update(this.__to_body_params(edge));
-        this._components["arrow"].update(this.__to_arrow_params(edge));
-        this._components["source"].update(this.__to_source_params(edge));
-        this._components["destination"].update(this.__to_destination_params(edge));
+        this._children["group"].update(this.__to_group_params(edge));
+        this._children["body"].update(this.__to_body_params(edge));
+        this._children["arrow"].update(this.__to_arrow_params(edge));
+        this._children["source"].update(this.__to_source_params(edge));
+        this._children["destination"].update(this.__to_destination_params(edge));
     }
 
     public delete(): void {
-        const prims = this._components;
+        const prims = this._children;
         let keys = _.keys(prims);
-        const grp = this._components["group"];
+        const grp = this._children["group"];
         keys = _.filter(keys, key => key !== "group");
         keys.map(key => prims[key].delete());
         this._parent.remove(grp._item);

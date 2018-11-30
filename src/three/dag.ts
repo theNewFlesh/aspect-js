@@ -1,99 +1,94 @@
 import * as _ from "lodash";
-import * as THREE from "three";
 import * as three_tools from "./three_tools";
+import * as tools from "../core/tools";
+import * as test_tools from "../../test/test_tools";
+import * as test_scene from "../../test/test_scene";
+import * as THREE from "three";
 import { Scene } from "./scene";
 import { Graph } from "./graph";
 import { Edge } from "./edge";
 import { Node } from "./node";
 import { Port } from "./port";
 import { Params } from "../core/params";
+import { Scaffold } from "../core/scaffold";
 // -----------------------------------------------------------------------------
 
+const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
+const grey2 = tools.HSV_COLORS["aspect_grey_2"];
+
 export class DAG {
+    public get THREE() { return THREE; }
+    public get three_tools() { return three_tools; }
+    public get test_tools() { return test_tools; }
+    public get test_scene() { return test_scene.scene; }
+    public get tools() { return tools; }
+    public get scaffold() { return Scaffold; }
+    public get params() { return Params; }
+
     public _parent: THREE.Scene;
     public _params: Params = new Params({});
-    public _components: object = {};
-
-    public constructor() {
-        // pass
-    }
-    // -------------------------------------------------------------------------
-
-    private __to_graph_params(params: object): object {
-        let output: object = {
-            "name":        three_tools.get_name(params, "graph"),
-            "visible":     params["visible"],
-            "translate/x": params["translate/x"],
-            "translate/y": params["translate/y"],
-            "translate/z": params["translate/z"],
-            "scale/x":     params["scale/x"],
-            "scale/y":     params["scale/y"],
-            "scale/z":     params["scale/z"],
-        };
-        output = three_tools.remove_empty_keys(output);
-        return output;
-    }
+    public _children: object = {};
     // -------------------------------------------------------------------------
 
     public _create_component(
         type: string,
         params: Params,
         id: string = null,
-        container: any,
+        parent: any,
     ): void {
-        let Component: any;
+        let child: any;
         let data: object;
         if (type === "scene") {
-            Component = Scene;
+            child = Scene;
             data = params.to_scene();
         }
         else if (type === "graph") {
-            Component = Graph;
+            child = Graph;
             data = params.to_graph(id);
         }
         else if (type === "node") {
-            Component = Node;
+            child = Node;
             data = params.to_node(id);
         }
         else if (type === "edge") {
-            Component = Edge;
+            child = Edge;
             data = params.to_edge(id);
         }
         else if (type === "inport") {
-            Component = Port;
+            child = Port;
             data = params.to_inport(id);
         }
         else if (type === "outport") {
-            Component = Port;
+            child = Port;
             data = params.to_outport(id);
         }
 
-        const item: any = new Component(container);
-        this._components[id] = item;
+        const item: any = new child(parent);
+        this._children[id] = item;
         item.create(data);
     }
 
     public _get_parent(params: Params, id: string): any {
         const pid: string = params.get_parent_id(id);
-        return this._components[pid];
+        return this._children[pid];
     }
 
     public _create_scene(params: Params): void {
         const scene: Scene = new Scene(new THREE.Scene());
         scene.create(params.to_scene());
         const id: string = params.to_scene()["id"];
-        this._components[id] = scene;
+        this._children[id] = scene;
         this._parent = scene._item;
     }
 
     public _link_graphs(params: Params): void {
         for (const item of params.to_graphs()) {
             const id: string = item["id"];
-            const graph: Graph = this._components[id];
+            const graph: Graph = this._children[id];
             const pid: string = params.get_parent_id(id);
             let parent: any = this._parent;
-            if (this._components.hasOwnProperty(pid)) {
-                parent = this._components[pid];
+            if (this._children.hasOwnProperty(pid)) {
+                parent = this._children[pid];
             }
             graph.link(parent);
         }
@@ -138,7 +133,9 @@ export class DAG {
         this._create_scene(params);
         this._create_graphs(params);
         this._link_graphs(params);
-        // this._create_nodes(params);
+        this._create_nodes(params);
+        // this._create_inports(params);
+        // this._create_outports(params);
         // this._create_edges(params);
         this._params = new Params(state);
     }

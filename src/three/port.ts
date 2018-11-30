@@ -28,7 +28,7 @@ export interface IPortParams {
 export class Port {
     private __id: string = null;
     public _parent: any;
-    public _components: object = {};
+    public _children: object = {};
 
     public constructor(container: any) {
         this._parent = container;
@@ -91,16 +91,16 @@ export class Port {
 
         const grp: Group = new Group(this._parent);
         grp.create(this.__to_group_params(new_params));
-        this._components["group"] = grp;
+        this._children["group"] = grp;
 
         const sphere: Sphere = new Sphere(grp._item);
         sphere.create(this.__to_sphere_params(new_params));
-        this._components["sphere"] = sphere;
+        this._children["sphere"] = sphere;
     }
 
     public read(): IPortParams {
-        const grp = this._components["group"].read();
-        const sphere = this._components["sphere"].read();
+        const grp = this._children["group"].read();
+        const sphere = this._children["sphere"].read();
 
         let params: IPortParams = {
             "name":                  grp["name"],
@@ -124,14 +124,14 @@ export class Port {
         let new_params: IPortParams = this.read();
         new_params = three_tools.resolve_params(params, new_params);
 
-        this._components["group"].update(this.__to_group_params(new_params));
-        this._components["sphere"].update(this.__to_sphere_params(new_params));
+        this._children["group"].update(this.__to_group_params(new_params));
+        this._children["sphere"].update(this.__to_sphere_params(new_params));
     }
 
     public delete(): void {
-        const prims = this._components;
+        const prims = this._children;
         let keys = _.keys(prims);
-        const grp = this._components["group"];
+        const grp = this._children["group"];
         keys = _.filter(keys, key => key !== "group");
         keys.map(key => prims[key].delete());
         this._parent.remove(grp._item);
