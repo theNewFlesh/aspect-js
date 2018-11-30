@@ -91,7 +91,7 @@ export class Node {
 
     public get _default_params(): object {
         return {
-            "name":                  "subnode",
+            "name":                  "node",
             "visible":               true,
             "translate/x":           0,
             "translate/y":           0,
@@ -107,7 +107,7 @@ export class Node {
             "font/color/saturation": grey2.s,
             "font/color/value":      grey2.v,
             "font/color/alpha":      grey2.a,
-            "font/text":             "subnode",
+            "font/text":             "node",
             "font/family":           "mono",
             "font/style":            "normal",
             "font/size":             300,
