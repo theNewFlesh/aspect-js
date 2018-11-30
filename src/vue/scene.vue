@@ -9,7 +9,7 @@
     import * as THREE from "three";
     import { MeshLine, MeshLineMaterial } from "three.meshline";
     import * as CreateOrbitControls from "three-orbit-controls";
-    import { Scene as ThreeScene } from "../three/scene";
+    import { Temp as ThreeScene } from "../three/temp";
     // -------------------------------------------------------------------------
 
     @Component

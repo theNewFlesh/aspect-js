@@ -1,5 +1,4 @@
 import * as _ from "lodash";
-import * as uuidv4 from "uuid/v4";
 import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
 import { Group } from "./group";
@@ -10,7 +9,7 @@ import { TextBox } from "./textbox";
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
-export interface ISubNodeParams {
+export interface INodeParams {
     "id"?: string;
     "name"?: string;
     "visible"?: boolean;
@@ -35,14 +34,13 @@ export interface ISubNodeParams {
 }
 // -----------------------------------------------------------------------------
 
-export class SubNode {
-    private __id: string;
-    public _container: any;
+export class Node {
+    private __id: string = null;
+    public _parent: any;
     public _components: object = {};
 
     public constructor(container: any) {
-        this._container = container;
-        this.__id = uuidv4();
+        this._parent = container;
     }
     // -------------------------------------------------------------------------
 
@@ -116,7 +114,7 @@ export class SubNode {
         };
     }
 
-    public create(params: ISubNodeParams = {}): void {
+    public create(params: INodeParams = {}): void {
         const temp: three_tools.IParams = three_tools.resolve_params(
             params, this._default_params
         );
@@ -124,7 +122,7 @@ export class SubNode {
         Object.assign(new_params, temp);
         new_params = three_tools.remove_empty_keys(new_params);
 
-        const grp: Group = new Group(this._container);
+        const grp: Group = new Group(this._parent);
         grp.create(this.__to_group_params(new_params));
         this._components["group"] = grp;
 
@@ -137,12 +135,12 @@ export class SubNode {
         this._components["textbox"] = textbox;
     }
 
-    public read(): ISubNodeParams {
+    public read(): INodeParams {
         const grp = this._components["group"].read();
         const cube = this._components["cube"].read();
         const textbox = this._components["textbox"].read();
 
-        let params: ISubNodeParams = {
+        let params: INodeParams = {
             "name":                  grp["name"],
             "visible":               grp["visible"],
             "translate/x":           grp["translate/x"],
@@ -168,8 +166,8 @@ export class SubNode {
         return params;
     }
 
-    public update(params: ISubNodeParams): void {
-        let new_params: ISubNodeParams = this.read();
+    public update(params: INodeParams): void {
+        let new_params: INodeParams = this.read();
         new_params = three_tools.resolve_params(params, new_params);
 
         this._components["group"].update(this.__to_group_params(new_params));
@@ -183,6 +181,6 @@ export class SubNode {
         const grp = this._components["group"];
         keys = _.filter(keys, key => key !== "group");
         keys.map(key => prims[key].delete());
-        this._container.remove(grp._item);
+        this._parent.remove(grp._item);
     }
 }

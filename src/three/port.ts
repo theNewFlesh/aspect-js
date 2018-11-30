@@ -1,5 +1,4 @@
 import * as _ from "lodash";
-import * as uuidv4 from "uuid/v4";
 import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
 import { Group } from "./group";
@@ -27,13 +26,12 @@ export interface IPortParams {
 // -----------------------------------------------------------------------------
 
 export class Port {
-    private __id: string;
-    public _container: any;
+    private __id: string = null;
+    public _parent: any;
     public _components: object = {};
 
     public constructor(container: any) {
-        this._container = container;
-        this.__id = uuidv4();
+        this._parent = container;
     }
     // -------------------------------------------------------------------------
 
@@ -91,7 +89,7 @@ export class Port {
         Object.assign(new_params, temp);
         new_params = three_tools.remove_empty_keys(new_params);
 
-        const grp: Group = new Group(this._container);
+        const grp: Group = new Group(this._parent);
         grp.create(this.__to_group_params(new_params));
         this._components["group"] = grp;
 
@@ -136,6 +134,6 @@ export class Port {
         const grp = this._components["group"];
         keys = _.filter(keys, key => key !== "group");
         keys.map(key => prims[key].delete());
-        this._container.remove(grp._item);
+        this._parent.remove(grp._item);
     }
 }

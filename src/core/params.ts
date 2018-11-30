@@ -34,7 +34,7 @@ export class Params {
             .to_array();
         const output: object[] = [];
         for (const port of data) {
-            output.push( new Params(port).strip_id().to_object() );
+            output.push( new Params(port).strip_id().strip_display().to_object() );
         }
         return output;
     }
@@ -54,6 +54,14 @@ export class Params {
 
     public strip_id(): Params {
         const regex: RegExp = new RegExp(".*(inport|outport|node|edge|graph|scene)_.*?\/");
+        const data: object = this.__data
+            .assign(x => x.key.replace(regex, ""), "key")
+            .to_object();
+        return new Params(data);
+    }
+
+    public strip_display(): Params {
+        const regex: RegExp = new RegExp(".*display\/");
         const data: object = this.__data
             .assign(x => x.key.replace(regex, ""), "key")
             .to_object();
@@ -90,24 +98,36 @@ export class Params {
     public to_component(id: string): object {
         const type: string = id.split("_")[0];
 
-        if (type == "graph"){
+        if (type === "graph"){
             return this.to_graph(id);
         }
-        else if (type == "node") {
+        else if (type === "node") {
             return this.to_node(id);
         }
-        else if (type == "edge") {
+        else if (type === "edge") {
             return this.to_edge(id);
         }
-        else if (type == "inport") {
+        else if (type === "inport") {
             return this.to_inport(id);
         }
-        else if (type == "outport") {
+        else if (type === "outport") {
             return this.to_outport(id);
         }
         else {
             throw new Error(`invalid id: ${id}`);
-        }        
+        }
+    }
+    // -------------------------------------------------------------------------
+
+    public filter_scene(): Params {
+        const data: any = this.__data
+            .filter(x => !x.match("graph|node|edge|inport|outport"), "key")
+            .to_object();
+        return new Params(data);
+    }
+
+    public to_scene(): object {
+        return this.filter_scene().strip_id().to_object();
     }
     // -------------------------------------------------------------------------
 
@@ -122,7 +142,10 @@ export class Params {
     }
 
     public to_graph(graph_id: string, full: boolean = false): object {
-        return this.filter_graph(graph_id, full).strip_id().to_object();
+        return this.filter_graph(graph_id, full)
+            .strip_id()
+            .strip_display()
+            .to_object();
     }
 
     public to_graphs(): object[] {
@@ -141,7 +164,10 @@ export class Params {
     }
 
     public to_node(node_id: string, full: boolean = false): object {
-        return this.filter_node(node_id, full).strip_id().to_object();
+        return this.filter_node(node_id, full)
+            .strip_id()
+            .strip_display()
+            .to_object();
     }
 
     public to_nodes(): object[] {
@@ -157,7 +183,7 @@ export class Params {
     }
 
     public to_edge(edge_id: string): object {
-        return this.filter_edge(edge_id).strip_id().to_object();
+        return this.filter_edge(edge_id).strip_id().strip_display().to_object();
     }
 
     public to_edges(): object[] {
@@ -173,7 +199,10 @@ export class Params {
     }
 
     public to_inport(inport_id: string): object {
-        return this.filter_inport(inport_id).strip_id().to_object();
+        return this.filter_inport(inport_id)
+            .strip_id()
+            .strip_display()
+            .to_object();
     }
 
     public to_inports(): object[] {
@@ -189,7 +218,10 @@ export class Params {
     }
 
     public to_outport(outport_id: string): object {
-        return this.filter_outport(outport_id).strip_id().to_object();
+        return this.filter_outport(outport_id)
+            .strip_id()
+            .strip_display()
+            .to_object();
     }
 
     public to_outports(): object[] {

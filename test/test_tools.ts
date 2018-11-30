@@ -1,6 +1,4 @@
 import * as _ from "lodash";
-import * as uuidv4 from "uuid/v4";
-import * as tools from "../src/core/tools";
 // -----------------------------------------------------------------------------
 
 const display = {

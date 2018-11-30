@@ -1,17 +1,15 @@
 import * as _ from "lodash";
-import * as uuidv4 from "uuid/v4";
 import * as THREE from "three";
 import * as three_tools from "./three_tools";
 // -----------------------------------------------------------------------------
 
 export class PrimitiveBase {
-    private __id: string;
-    public _container: any;
+    private __id: string = null;
+    public _parent: any;
     public _item: any = null;
 
     public constructor(container: any) {
-        this._container = container;
-        this.__id = uuidv4();
+        this._parent = container;
     }
     // -------------------------------------------------------------------------
 
@@ -105,7 +103,7 @@ export class PrimitiveBase {
         Object.assign(new_params, temp);
 
         const item = this._create_item(new_params);
-        this._container.add(item);
+        this._parent.add(item);
         this._item = item;
         this._non_destructive_update(new_params);
     }
@@ -171,7 +169,7 @@ export class PrimitiveBase {
     }
 
     public delete(): void {
-        this._container.remove(this._item);
+        this._parent.remove(this._item);
         this._item = null;
     }
 }

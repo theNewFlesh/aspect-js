@@ -1,5 +1,4 @@
 import * as _ from "lodash";
-import * as uuidv4 from "uuid/v4";
 import * as tools from "../core/tools";
 import { Params } from "../core/params";
 import * as three_tools from "./three_tools";
@@ -38,13 +37,12 @@ export interface INodeParams {
 // -----------------------------------------------------------------------------
 
 export class Node {
-    private __id: string;
-    public _container: any;
+    private __id: string = null;
+    public _parent: any;
     public _components: object = {};
 
     public constructor(container: any) {
-        this._container = container;
-        this.__id = null;
+        this._parent = container;
     }
     // -------------------------------------------------------------------------
 
@@ -114,7 +112,6 @@ export class Node {
     private __to_inport_edge_params(subnode: object, inport: object): object {
         let output: object = {
             "name":                    three_tools.get_name(subnode, "inport_edge"),
-            "id":                      uuidv4(),
             "visible":                 subnode["visible"],
             "source/translate/x":      inport["translate/x"],
             "source/translate/y":      inport["translate/y"],
@@ -124,9 +121,6 @@ export class Node {
             "destination/translate/y": subnode["translate/y"],
             "destination/translate/z": subnode["translate/z"],
             "destination/visible":     false,
-            // "scale/x":                 subnode["scale/x"],
-            // "scale/y":                 subnode["scale/y"],
-            // "scale/z":                 subnode["scale/z"],
             "radius":                  subnode["radius"],
             "color/hue":               subnode["color/hue"],
             "color/saturation":        subnode["color/saturation"],
@@ -140,7 +134,6 @@ export class Node {
     private __to_outport_edge_params(subnode: object, outport: object): object {
         let output: object = {
             "name":                    three_tools.get_name(subnode, "outport_edge"),
-            "id":                      uuidv4(),
             "visible":                 subnode["visible"],
             "source/translate/x":      subnode["translate/x"],
             "source/translate/y":      subnode["translate/y"],
@@ -150,9 +143,6 @@ export class Node {
             "destination/translate/y": outport["translate/y"],
             "destination/translate/z": outport["translate/z"],
             "destination/visible":     false,
-            // "scale/x":                 subnode["scale/x"],
-            // "scale/y":                 subnode["scale/y"],
-            // "scale/z":                 subnode["scale/z"],
             "radius":                  subnode["radius"],
             "color/hue":               subnode["color/hue"],
             "color/saturation":        subnode["color/saturation"],
@@ -208,40 +198,40 @@ export class Node {
         return output;
     }
 
-    // public _create_port_edges(
-    //     ports: Port[],
-    //     subnode: SubNode,
-    //     port_type: string,
-    //     container: Group
-    // ): Edge[] {
+    public _create_port_edges(
+        ports: Port[],
+        subnode: SubNode,
+        port_type: string,
+        container: Group
+    ): Edge[] {
 
-    //     let func: any = null;
-    //     if (port_type === "inport") {
-    //         func = this.__to_inport_edge_params;
-    //     }
-    //     else if (port_type === "outport") {
-    //         func = this.__to_outport_edge_params;
-    //     }
+        let func: any = null;
+        if (port_type === "inport") {
+            func = this.__to_inport_edge_params;
+        }
+        else if (port_type === "outport") {
+            func = this.__to_outport_edge_params;
+        }
 
-    //     const sub: object = subnode.read();
-    //     const output: Edge[] = [];
-    //     for (const port of ports) {
-    //         const edge: Edge = new Edge(container);
-    //         edge.create( func(sub, port.read()) );
-    //         output.push(edge);
-    //     }
-    //     return output;
-    // }
+        const sub: object = subnode.read();
+        const output: Edge[] = [];
+        for (const port of ports) {
+            const edge: Edge = new Edge(container);
+            edge.create( func(sub, port.read()) );
+            output.push(edge);
+        }
+        return output;
+    }
 
-    public create(params: Params, id: string): void {
-        this.__id = id;
+    public create(params: INodeParams): void {
+        this.__id = params["id"];
 
         const node: object       = params.to_node(id);
         const inports: object[]  = params.to_inports();
         const outports: object[] = params.to_outports();
 
-        const grp: Group       = this._create_group(node, this._container);
-        const subnode: SubNode = this._create_subnode(node, grp._item);
+        const grp: Group       = this._create_group(params, this._parent);
+        const subnode: SubNode = this._create_subnode(params, grp._item);
         const ips: Port[]      = this._create_ports(inports, subnode, "inport", grp._item);
         const ops: Port[]      = this._create_ports(outports, subnode, "outport", grp._item);
 
@@ -249,8 +239,8 @@ export class Node {
         this._components["subnode"]       = subnode;
         this._components["inports"]       = ips;
         this._components["outports"]      = ops;
-        // this._components["inport_edges"]  = this._create_port_edges(ips, subnode, "inport", grp._item);
-        // this._components["outport_edges"] = this._create_port_edges(ops, subnode, "outport", grp._item);
+        this._components["inport_edges"]  = this._create_port_edges(ips, subnode, "inport", grp._item);
+        this._components["outport_edges"] = this._create_port_edges(ops, subnode, "outport", grp._item);
     }
 
     public update(params: Params): void {
