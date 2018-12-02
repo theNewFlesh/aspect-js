@@ -12,7 +12,7 @@ import { Node } from "./node";
 import { Port } from "./port";
 import { Params } from "../core/params";
 import { Scaffold } from "../core/scaffold";
-import { IPortParams, INodeParams, IEdgeParams } from '@/core/iparams';
+import { IPortParams, INodeParams, IEdgeParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class DAG {

@@ -5,4 +5,4 @@ export class Graph extends Group {
         component._item.add(this._item);
         this._parent = component._item;
     }
-};
+}
