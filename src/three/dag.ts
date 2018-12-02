@@ -112,7 +112,9 @@ export class DAG {
             if (this._children.hasOwnProperty(pid)) {
                 parent = this._children[pid];
             }
-            graph.link(parent);
+
+            parent._item.add(graph._item);
+            graph._parent = parent;
         }
     }
     // -------------------------------------------------------------------------
