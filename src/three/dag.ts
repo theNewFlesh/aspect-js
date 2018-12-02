@@ -108,7 +108,7 @@ export class DAG {
             const id: string = item["id"];
             const graph: Graph = this._children[id];
             const pid: string = params.get_parent_id(id);
-            let parent: any = this._item;
+            let parent: any = this._scene;
             if (this._children.hasOwnProperty(pid)) {
                 parent = this._children[pid];
             }

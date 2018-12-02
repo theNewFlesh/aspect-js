@@ -71,5 +71,7 @@ export class Scene extends Group{
         super.create(params);
         this.create_light();
         this.create_camera();
+
+        super.create(params);
     }
 }
