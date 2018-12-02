@@ -4,6 +4,7 @@ import * as tools from "../core/tools";
 import * as test_tools from "../../test/test_tools";
 import * as test_scene from "../../test/test_scene";
 import * as THREE from "three";
+import uuidv4 from "uuid/v4";
 import { Scene } from "./scene";
 import { Graph } from "./graph";
 import { Edge } from "./edge";
@@ -11,7 +12,7 @@ import { Node } from "./node";
 import { Port } from "./port";
 import { Params } from "../core/params";
 import { Scaffold } from "../core/scaffold";
-import { IPortParams } from '@/core/iparams';
+import { IPortParams, INodeParams, IEdgeParams } from '@/core/iparams';
 // -----------------------------------------------------------------------------
 
 export class DAG {
@@ -35,7 +36,7 @@ export class DAG {
         return this._children[pid];
     }
 
-    public _update_port_positions(params: Params) {
+    public _update_port_positions(params: Params, offset: number = 2) {
         for (const node of params.to_nodes()) {
             const pos: object = this._children[node["id"]].read();
             const x: number = pos["translate/x"];
@@ -46,11 +47,11 @@ export class DAG {
             let ipstart: number = Math.ceil(x - (inports.length / 2));
             for (const inport of inports) {
                 const port: Port = this._children[inport["id"]];
-                port.update(tools.log({
+                port.update({
                     "translate/x": ipstart,
-                    "translate/y": y + 4,
+                    "translate/y": y + offset,
                     "translate/z": z,
-                }));
+                });
                 ipstart++;
             }
 
@@ -60,10 +61,44 @@ export class DAG {
                 const port: Port = this._children[outport["id"]];
                 port.update({
                     "translate/x": opstart,
-                    "translate/y": y - 4,
+                    "translate/y": y - offset,
                     "translate/z": z,
                 });
                 opstart++;
+            }
+        }
+    }
+
+    public _create_node_edges(params: Params): void {
+        for (const n of params.to_nodes()) {
+            const parent: Node = this._children[n["id"]]
+            const node: INodeParams = parent.read();
+            for (const ip of params.filter_node(n["id"], true).to_inports()) {
+                const inport: IPortParams = this._children[ip["id"]].read();
+                const edge_params: object = {
+                    "id":                      "edge_" + uuidv4(),
+                    "source/translate/x":      inport["translate/x"],
+                    "source/translate/y":      inport["translate/y"],
+                    "source/translate/z":      inport["translate/z"],
+                    "destination/translate/x": node["translate/x"],
+                    "destination/translate/y": node["translate/y"],
+                    "destination/translate/z": node["translate/z"],
+                };
+                this._create_edge(params, parent, edge_params);
+            }
+
+            for (const op of params.filter_node(n["id"], true).to_outports()) {
+                const outport: IPortParams = this._children[op["id"]].read();
+                const edge_params: object = {
+                    "id":                      "edge_" + uuidv4(),
+                    "source/translate/x":      node["translate/x"],
+                    "source/translate/y":      node["translate/y"],
+                    "source/translate/z":      node["translate/z"],
+                    "destination/translate/x": outport["translate/x"],
+                    "destination/translate/y": outport["translate/y"],
+                    "destination/translate/z": outport["translate/z"],
+                };
+                this._create_edge(params, parent, edge_params);
             }
         }
     }
@@ -108,12 +143,16 @@ export class DAG {
         }
     }
 
+    public _create_edge(params: Params, parent: any, edge_params: IEdgeParams): void {
+        const edge: Edge = new Edge(parent);
+        this._children[edge_params["id"]] = edge;
+        edge.create(edge_params);
+    }
+
     public _create_edges(params: Params): void {
         for (const item of params.to_edges()) {
             const parent: any = this._get_parent(params, item["id"]);
-            const edge: Edge = new Edge(parent);
-            this._children[item["id"]] = edge;
-            edge.create(item);
+            this._create_edge(params, parent, item);
         }
     }
 
@@ -141,10 +180,13 @@ export class DAG {
         this._create_scene(params);
         this._create_graphs(params);
         this._link_graphs(params);
+
         this._create_nodes(params);
         this._create_inports(params);
         this._create_outports(params);
         this._update_port_positions(params);
+        this._create_node_edges(params);
+
         this._create_edges(params);
         this._params = new Params(state);
     }
