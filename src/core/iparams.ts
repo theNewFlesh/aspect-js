@@ -86,7 +86,7 @@ export interface IPortParams {
     "color/alpha"?: number;
 }
 
-export interface IGroupParams {
+export interface IComponentParams {
     "id"?: string;
     "name"?: string;
     "visible"?: boolean;
