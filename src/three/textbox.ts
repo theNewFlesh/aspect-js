@@ -3,30 +3,8 @@ import * as THREE from "three";
 import { Primitive } from "./primitive";
 import * as three_tools from "./three_tools";
 import TextTexture from "three.texttexture";
+import { ITextBoxParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
-
-export interface ITextBoxParams {
-    "id"?: string;
-    "name"?: string;
-    "visible"?: boolean;
-    "color/hue"?: number;
-    "color/saturation"?: number;
-    "color/value"?: number;
-    "color/alpha"?: number;
-    "translate/x"?: number;
-    "translate/y"?: number;
-    "translate/z"?: number;
-    "rotate/x"?: number;
-    "rotate/y"?: number;
-    "rotate/z"?: number;
-    "scale/x"?: number;
-    "scale/y"?: number;
-    "scale/z"?: number;
-    "font/text"?: string;
-    "font/family"?: string;
-    "font/style"?: string;
-    "font/size"?: number;
-}
 
 export class TextBox extends Primitive {
     private __get_font_family(): string {

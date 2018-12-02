@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { Primitive } from "./primitive";
-import { IParams } from "./three_tools";
+import { IParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Cube extends Primitive {

@@ -3,30 +3,7 @@ import * as THREE from "three";
 import { Primitive } from "./primitive";
 import { FONT_KEYS } from "./three_tools";
 import TextTexture from "three.texttexture";
-// -----------------------------------------------------------------------------
-
-export interface ITextParams {
-    "id"?: string;
-    "name"?: string;
-    "visible"?: boolean;
-    "color/hue"?: number;
-    "color/saturation"?: number;
-    "color/value"?: number;
-    "color/alpha"?: number;
-    "translate/x"?: number;
-    "translate/y"?: number;
-    "translate/z"?: number;
-    "rotate/x"?: number;
-    "rotate/y"?: number;
-    "rotate/z"?: number;
-    "scale/x"?: number;
-    "scale/y"?: number;
-    "scale/z"?: number;
-    "font/text"?: string;
-    "font/family"?: string;
-    "font/style"?: string;
-    "font/size"?: number;
-}
+import { ITextParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Text extends Primitive {
@@ -63,10 +40,10 @@ export class Text extends Primitive {
     public read(): ITextParams {
         const item = this._item;
         const params: ITextParams = super.read();
-        params["font/text"] =  item.material.map.text;
-        params["font/family"] =item.material.map.fontFamily;
-        params["font/style"] = item.material.map.fontStyle;
-        params["font/size"] = item.material.map.fontSize;
+        params["font/text"]   = item.material.map.text;
+        params["font/family"] = item.material.map.fontFamily;
+        params["font/style"]  = item.material.map.fontStyle;
+        params["font/size"]   = item.material.map.fontSize;
         return params;
     }
 

@@ -25,7 +25,8 @@ export class DAG {
     public get scaffold() { return Scaffold; }
     public get params() { return Params; }
 
-    public _parent: THREE.Scene;
+    public self = this;
+    public _item: any;
     public _params: Params = new Params({});
     public _children: object = {};
     public _scene: Scene;
@@ -74,12 +75,46 @@ export class DAG {
         return this._children[pid];
     }
 
+    public _create_ports(params: Params, type: string) {
+        for (const item of params.to_nodes()) {
+            const node: Node = this._children[item["id"]];
+            const x: number = node.read()["translate/x"];
+            const y: number = node.read()["translate/y"];
+            const z: number = node.read()["translate/z"];
+
+            let ports: object[] = params.to_inports();
+            if (type === "outport") {
+                ports = params.to_outports();
+            }
+
+            let start: number = Math.ceil(x - (ports.length / 2));
+            let height: number = y + 4;
+            if (type === "outport") {
+                height = y - 4;
+            }
+
+            const output: Port[] = [];
+            for (const p of ports) {
+                const port: Port = new Port(node);
+                const params: object = this.__to_port_params(p);
+                params["translate/x"] = start;
+                params["translate/y"] = height;
+                params["translate/z"] = z;
+
+                port.create(params);
+                output.push(port);
+                start++;
+            }
+            return output;
+        }
+    }
+
     public _create_scene(params: Params): void {
-        const scene: Scene = new Scene(new THREE.Scene());
+        this._item = new THREE.Scene();
+        const scene: Scene = new Scene(this.self);
         scene.create(params.to_scene());
         const id: string = params.to_scene()["id"];
         this._children[id] = scene;
-        this._parent = scene._item;
         this._scene = scene;
     }
 
@@ -88,7 +123,7 @@ export class DAG {
             const id: string = item["id"];
             const graph: Graph = this._children[id];
             const pid: string = params.get_parent_id(id);
-            let parent: any = this._parent;
+            let parent: any = this._item;
             if (this._children.hasOwnProperty(pid)) {
                 parent = this._children[pid];
             }
@@ -98,35 +133,35 @@ export class DAG {
 
     public _create_graphs(params: Params): void {
         for (const item of params.to_graphs()) {
-            this._create_component("graph", params, item["id"], this._parent);
+            this._create_component("graph", params, item["id"], this._scene);
         }
     }
 
     public _create_nodes(params: Params): void {
         for (const item of params.to_nodes()) {
             const parent: any = this._get_parent(params, item["id"]);
-            this._create_component("node", params, item["id"], parent._item);
+            this._create_component("node", params, item["id"], parent);
         }
     }
 
     public _create_edges(params: Params): void {
         for (const item of params.to_edges()) {
             const parent: any = this._get_parent(params, item["id"]);
-            this._create_component("edge", params, item["id"], parent._item);
+            this._create_component("edge", params, item["id"], parent);
         }
     }
 
     public _create_inports(params: Params): void {
         for (const item of params.to_inports()) {
             const parent: any = this._get_parent(params, item["id"]);
-            this._create_component("inport", params, item["id"], parent._item);
+            this._create_component("inport", params, item["id"], parent);
         }
     }
 
     public _create_outports(params: Params): void {
         for (const item of params.to_outports()) {
             const parent: any = this._get_parent(params, item["id"]);
-            this._create_component("outport", params, item["id"], parent._item);
+            this._create_component("outport", params, item["id"], parent);
         }
     }
 

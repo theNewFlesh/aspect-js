@@ -1,19 +1,19 @@
 import * as THREE from "three";
-import * as three_tools from "./three_tools";
 import { PrimitiveBase } from "./primitive_base";
+import { IGroupParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Group extends PrimitiveBase {
-    public _create_item(params: three_tools.IParams): THREE.Group {
+    public _create_item(params: IGroupParams): THREE.Group {
         const item = new THREE.Group();
         return item;
     }
 
-    public _is_destructive(params: three_tools.IParams): boolean {
+    public _is_destructive(params: IGroupParams): boolean {
         return false;
     }
 
-    public get _default_params(): object {
+    public get _default_params(): IGroupParams {
         return {
             "name": "group",
             "visible": true,

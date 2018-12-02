@@ -4,43 +4,19 @@ import * as three_tools from "./three_tools";
 import { Group } from "./group";
 import { Cube } from "./cube";
 import { TextBox } from "./textbox";
+import { INodeParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 const grey2 = tools.HSV_COLORS["aspect_grey_2"];
-
-export interface INodeParams {
-    "id"?: string;
-    "name"?: string;
-    "visible"?: boolean;
-    "translate/x"?: number;
-    "translate/y"?: number;
-    "translate/z"?: number;
-    "scale/x"?: number;
-    "scale/y"?: number;
-    "scale/z"?: number;
-    "color/hue"?: number;
-    "color/saturation"?: number;
-    "color/value"?: number;
-    "color/alpha"?: number;
-    "font/color/hue"?: number;
-    "font/color/saturation"?: number;
-    "font/color/value"?: number;
-    "font/color/alpha"?: number;
-    "font/text"?: string;
-    "font/family"?: string;
-    "font/style"?: string;
-    "font/size"?: number;
-}
-// -----------------------------------------------------------------------------
 
 export class Node {
     private __id: string = null;
     public _parent: any;
     public _children: object = {};
 
-    public constructor(container: any) {
-        this._parent = container;
+    public constructor(parent: any) {
+        this._parent = parent;
     }
     // -------------------------------------------------------------------------
 
@@ -89,7 +65,7 @@ export class Node {
     }
      // -------------------------------------------------------------------------
 
-    public get _default_params(): object {
+    public get _default_params(): INodeParams {
         return {
             "name":                  "node",
             "visible":               true,
@@ -115,7 +91,7 @@ export class Node {
     }
 
     public create(params: INodeParams = {}): void {
-        const temp: three_tools.IParams = three_tools.resolve_params(
+        const temp: INodeParams = three_tools.resolve_params(
             params, this._default_params
         );
         let new_params: object = this._default_params;
@@ -126,11 +102,11 @@ export class Node {
         grp.create(this.__to_group_params(new_params));
         this._children["group"] = grp;
 
-        const cube: Cube = new Cube(grp._item);
+        const cube: Cube = new Cube(grp);
         cube.create(this.__to_cube_params(new_params));
         this._children["cube"] = cube;
 
-        const textbox: TextBox = new TextBox(grp._item);
+        const textbox: TextBox = new TextBox(grp);
         textbox.create(this.__to_textbox_params(new_params));
         this._children["textbox"] = textbox;
     }
@@ -181,6 +157,6 @@ export class Node {
         const grp = this._children["group"];
         keys = _.filter(keys, key => key !== "group");
         keys.map(key => prims[key].delete());
-        this._parent.remove(grp._item);
+        this._parent._item.remove(grp._item);
     }
 }

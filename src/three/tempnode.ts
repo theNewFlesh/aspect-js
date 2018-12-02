@@ -11,38 +11,13 @@ import { Edge } from "./edge";
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
-export interface INodeParams {
-    "id"?: string;
-    "name"?: string;
-    "visible"?: boolean;
-    "translate/x"?: number;
-    "translate/y"?: number;
-    "translate/z"?: number;
-    "scale/x"?: number;
-    "scale/y"?: number;
-    "scale/z"?: number;
-    "color/hue"?: number;
-    "color/saturation"?: number;
-    "color/value"?: number;
-    "color/alpha"?: number;
-    "font/color/hue"?: number;
-    "font/color/saturation"?: number;
-    "font/color/value"?: number;
-    "font/color/alpha"?: number;
-    "font/text"?: string;
-    "font/family"?: string;
-    "font/style"?: string;
-    "font/size"?: number;
-}
-// -----------------------------------------------------------------------------
-
 export class Node {
     private __id: string = null;
     public _parent: any;
     public _children: object = {};
 
-    public constructor(container: any) {
-        this._parent = container;
+    public constructor(parent: any) {
+        this._parent = parent;
     }
     // -------------------------------------------------------------------------
 
@@ -154,14 +129,14 @@ export class Node {
     }
     // -------------------------------------------------------------------------
 
-    public _create_group(node_params: object, container: any): Group {
-        const grp: Group = new Group(container);
+    public _create_group(node_params: object, parent: any): Group {
+        const grp: Group = new Group(parent);
         grp.create(this.__to_group_params(node_params));
         return grp;
     }
 
-    public _create_subnode(node_params, container): SubNode {
-        const subnode: SubNode = new SubNode(container);
+    public _create_subnode(node_params, parent): SubNode {
+        const subnode: SubNode = new SubNode(parent);
         subnode.create(this.__to_subnode_params(node_params));
         return subnode;
     }
@@ -170,7 +145,7 @@ export class Node {
         ports: object[],
         subnode: SubNode,
         type: string,
-        container: Group
+        parent: Group
     ): Port[] {
 
         const x: number = subnode.read()["translate/x"];
@@ -185,7 +160,7 @@ export class Node {
 
         const output: Port[] = [];
         for (const ip of ports) {
-            const port: Port = new Port(container);
+            const port: Port = new Port(parent);
             const params: object = this.__to_port_params(ip);
             params["translate/x"] = start;
             params["translate/y"] = height;
@@ -202,7 +177,7 @@ export class Node {
         ports: Port[],
         subnode: SubNode,
         port_type: string,
-        container: Group
+        parent: Group
     ): Edge[] {
 
         let func: any = null;
@@ -216,7 +191,7 @@ export class Node {
         const sub: object = subnode.read();
         const output: Edge[] = [];
         for (const port of ports) {
-            const edge: Edge = new Edge(container);
+            const edge: Edge = new Edge(parent);
             edge.create( func(sub, port.read()) );
             output.push(edge);
         }

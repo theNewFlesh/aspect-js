@@ -1,5 +1,12 @@
 import * as _ from "lodash";
 import { Scaffold } from "./scaffold";
+import {
+    ISceneParams,
+    IEdgeParams,
+    INodeParams,
+    IInportParams,
+    IOutportParams,
+} from "./iparams";
 // -----------------------------------------------------------------------------
 
 export class Params {
@@ -28,7 +35,8 @@ export class Params {
         }
         const regex: RegExp = new RegExp(type + "_(.*?)\/");
         const data: object[] = temp
-            .filter(x => x.match(regex), "key")
+            .filter(x => x.match(regex),
+            "key")
             .assign(x => x.key.match(regex)[1], "id")
             .group_by(x => x.to_object(), "id")
             .to_array();
@@ -126,7 +134,7 @@ export class Params {
         return new Params(data);
     }
 
-    public to_scene(): object {
+    public to_scene(): ISceneParams {
         return this.filter_scene().strip_id().to_object();
     }
     // -------------------------------------------------------------------------
@@ -163,14 +171,14 @@ export class Params {
         return new Params(data);
     }
 
-    public to_node(node_id: string, full: boolean = false): object {
+    public to_node(node_id: string, full: boolean = false): INodeParams {
         return this.filter_node(node_id, full)
             .strip_id()
             .strip_display()
             .to_object();
     }
 
-    public to_nodes(): object[] {
+    public to_nodes(): INodeParams[] {
         return this._to_children("node");
     }
     // -------------------------------------------------------------------------
@@ -182,11 +190,11 @@ export class Params {
         return new Params(data);
     }
 
-    public to_edge(edge_id: string): object {
+    public to_edge(edge_id: string): IEdgeParams {
         return this.filter_edge(edge_id).strip_id().strip_display().to_object();
     }
 
-    public to_edges(): object[] {
+    public to_edges(): IEdgeParams[] {
         return this._to_children("edge");
     }
     // -------------------------------------------------------------------------
@@ -198,14 +206,14 @@ export class Params {
         return new Params(data);
     }
 
-    public to_inport(inport_id: string): object {
+    public to_inport(inport_id: string): IInportParams {
         return this.filter_inport(inport_id)
             .strip_id()
             .strip_display()
             .to_object();
     }
 
-    public to_inports(): object[] {
+    public to_inports(): IInportParams[] {
         return this._to_children("inport");
     }
     // -------------------------------------------------------------------------
@@ -217,14 +225,14 @@ export class Params {
         return new Params(data);
     }
 
-    public to_outport(outport_id: string): object {
+    public to_outport(outport_id: string): IOutportParams {
         return this.filter_outport(outport_id)
             .strip_id()
             .strip_display()
             .to_object();
     }
 
-    public to_outports(): object[] {
+    public to_outports(): IOutportParams[] {
         return this._to_children("outport");
     }
 }

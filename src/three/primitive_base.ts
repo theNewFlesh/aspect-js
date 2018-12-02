@@ -1,15 +1,19 @@
 import * as _ from "lodash";
 import * as THREE from "three";
 import * as three_tools from "./three_tools";
+import { IParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class PrimitiveBase {
-    private __id: string = null;
+    private __id: string;
     public _parent: any;
-    public _item: any = null;
+    public _item: any;
 
-    public constructor(container: any) {
-        this._parent = container;
+    public constructor(parent: any) {
+        if (parent._item === undefined) {
+            throw new Error("parent does not have an item")
+        }
+        this._parent = parent;
     }
     // -------------------------------------------------------------------------
 
@@ -36,15 +40,15 @@ export class PrimitiveBase {
         return output;
     }
 
-    private __set_name(params: three_tools.IParams): void {
+    private __set_name(params: IParams): void {
         this._item.name = params["name"];
     }
 
-    private __set_visible(params: three_tools.IParams): void {
+    private __set_visible(params: IParams): void {
         this._item.visible = params["visible"];
     }
 
-    private __set_translate(params: three_tools.IParams): void {
+    private __set_translate(params: IParams): void {
         this._item.position.set(
             params["translate/x"],
             params["translate/y"],
@@ -52,7 +56,7 @@ export class PrimitiveBase {
         );
     }
 
-    private __set_rotate(params: three_tools.IParams): void {
+    private __set_rotate(params: IParams): void {
         const rot: THREE.Euler = new THREE.Euler(
             three_tools.to_radians(params["rotate/x"]),
             three_tools.to_radians(params["rotate/y"]),
@@ -62,7 +66,7 @@ export class PrimitiveBase {
         this._item.setRotationFromEuler(rot);
     }
 
-    private __set_scale(params: three_tools.IParams): void {
+    private __set_scale(params: IParams): void {
         this._item.scale.set(
             params["scale/x"],
             params["scale/y"],
@@ -71,11 +75,11 @@ export class PrimitiveBase {
     }
     // -------------------------------------------------------------------------
 
-    public _create_item(params: three_tools.IParams): any {
+    public _create_item(params: IParams): any {
         throw new Error("method must be defined in subclass");
     }
 
-    public _is_destructive(params: three_tools.IParams): boolean {
+    public _is_destructive(params: IParams): boolean {
         throw new Error("method must be defined in subclass");
     }
 
@@ -95,23 +99,23 @@ export class PrimitiveBase {
         };
     }
 
-    public create(params: three_tools.IParams = {}): void {
-        const temp: three_tools.IParams = three_tools.resolve_params(
+    public create(params: IParams = {}): void {
+        const temp: IParams = three_tools.resolve_params(
             params, this._default_params
         );
         const new_params = this._default_params;
         Object.assign(new_params, temp);
 
         const item = this._create_item(new_params);
-        this._parent.add(item);
+        this._parent._item.add(item);
         this._item = item;
         this._non_destructive_update(new_params);
     }
 
-    public read(): three_tools.IParams {
+    public read(): IParams {
         const item = this._item;
         const geo = this._item.geometry;
-        const params: three_tools.IParams = {
+        const params: IParams = {
             "id": this.__id,
             "name": item.name,
             "visible": item.visible,
@@ -128,9 +132,9 @@ export class PrimitiveBase {
         return params;
     }
 
-    public update(params: three_tools.IParams): void {
-        const old_params: three_tools.IParams = this.read();
-        const new_params: three_tools.IParams = three_tools.resolve_params(params, old_params);
+    public update(params: IParams): void {
+        const old_params: IParams = this.read();
+        const new_params: IParams = three_tools.resolve_params(params, old_params);
         if (_.keys(new_params).length === 0) {
             return;
         }
@@ -145,7 +149,7 @@ export class PrimitiveBase {
         }
     }
 
-    public _non_destructive_update(params: three_tools.IParams): void {
+    public _non_destructive_update(params: IParams): void {
         const keys: string[] = _.keys(params);
         if (_.intersection(three_tools.TRANSLATE_KEYS, keys).length > 0) {
             this.__set_translate(params);
@@ -169,7 +173,7 @@ export class PrimitiveBase {
     }
 
     public delete(): void {
-        this._parent.remove(this._item);
+        this._parent._item.remove(this._item);
         this._item = null;
     }
 }

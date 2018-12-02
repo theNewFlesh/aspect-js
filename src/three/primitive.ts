@@ -2,6 +2,7 @@ import * as _ from "lodash";
 import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
 import { PrimitiveBase } from "./primitive_base";
+import { IParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Primitive extends PrimitiveBase {
@@ -21,7 +22,7 @@ export class Primitive extends PrimitiveBase {
         return tools.rgba_to_hsva(rgb);
     }
 
-    public __set_color(params: three_tools.IParams): void {
+    public __set_color(params: IParams): void {
         const hsva: tools.IHSVA = {
             h: params["color/hue"],
             s: params["color/saturation"],
@@ -61,7 +62,7 @@ export class Primitive extends PrimitiveBase {
         }
     };
 
-    public read(): three_tools.IParams {
+    public read(): IParams {
         const params: any = super.read();
         params["color/hue"] = this.__get_color().h;
         params["color/saturation"] = this.__get_color().s;
@@ -70,7 +71,7 @@ export class Primitive extends PrimitiveBase {
         return params;
     }
 
-    public _non_destructive_update(params: three_tools.IParams): void {
+    public _non_destructive_update(params: IParams): void {
         super._non_destructive_update(params);
         const keys: string[] = _.keys(params);
         if (_.intersection(three_tools.COLOR_KEYS, keys).length > 0) {

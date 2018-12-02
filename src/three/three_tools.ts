@@ -1,4 +1,5 @@
 import * as _ from "lodash";
+import { IParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export const TRANSLATE_KEYS: string[] = [
@@ -45,30 +46,6 @@ export const FONT_KEYS: string[] = [
     "font/size",
 ];
 // -----------------------------------------------------------------------------
-
-export interface IParams {
-    "id"?: string;
-    "name"?: string;
-    "visible"?: boolean;
-    "color/hue"?: number;
-    "color/saturation"?: number;
-    "color/value"?: number;
-    "color/alpha"?: number;
-    "translate/x"?: number;
-    "translate/y"?: number;
-    "translate/z"?: number;
-    "rotate/x"?: number;
-    "rotate/y"?: number;
-    "rotate/z"?: number;
-    "scale/x"?: number;
-    "scale/y"?: number;
-    "scale/z"?: number;
-    "font/text"?: string;
-    "font/family"?: string;
-    "font/style"?: string;
-    "font/size"?: number;
-    "radius"?: number;
-}
 
 export interface IVector3 {
     x: number;

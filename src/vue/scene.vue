@@ -33,9 +33,8 @@
         }
 
         public mounted() {
-            const scn = this.scene;
             const elem = document.getElementById("scene");
-            scn.render(elem, window);
+            this.scene.render(elem, window);
             this.animate();
         }
 

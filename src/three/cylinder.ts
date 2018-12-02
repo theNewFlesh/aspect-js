@@ -1,29 +1,7 @@
 import * as _ from "lodash";
 import * as THREE from "three";
 import { Primitive } from "./primitive";
-// -----------------------------------------------------------------------------
-
-export interface ICylinderParams {
-    "id"?: string;
-    "name"?: string;
-    "visible"?: boolean;
-    "color/hue"?: number;
-    "color/saturation"?: number;
-    "color/value"?: number;
-    "color/alpha"?: number;
-    "translate/x"?: number;
-    "translate/y"?: number;
-    "translate/z"?: number;
-    "rotate/x"?: number;
-    "rotate/y"?: number;
-    "rotate/z"?: number;
-    "scale/x"?: number;
-    "scale/y"?: number;
-    "scale/z"?: number;
-    "height"?: number;
-    "radius/top"?: number;
-    "radius/bottom"?: number;
-}
+import { ICylinderParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Cylinder extends Primitive {

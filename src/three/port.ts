@@ -3,35 +3,20 @@ import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
 import { Group } from "./group";
 import { Sphere } from "./sphere";
+import { IPortParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
-export interface IPortParams {
-    "id"?: string;
-    "name"?: string;
-    "visible"?: boolean;
-    "translate/x"?: number;
-    "translate/y"?: number;
-    "translate/z"?: number;
-    "scale/x"?: number;
-    "scale/y"?: number;
-    "scale/z"?: number;
-    "color/hue"?: number;
-    "color/saturation"?: number;
-    "color/value"?: number;
-    "color/alpha"?: number;
-}
-// -----------------------------------------------------------------------------
-
 export class Port {
-    private __id: string = null;
+    private __id: string;
     public _parent: any;
+    public _item: any;
     public _children: object = {};
 
-    public constructor(container: any) {
-        this._parent = container;
+    public constructor(parent: any) {
+        this._parent = parent;
     }
     // -------------------------------------------------------------------------
 
@@ -82,7 +67,7 @@ export class Port {
     }
 
     public create(params: IPortParams = {}): void {
-        const temp: three_tools.IParams = three_tools.resolve_params(
+        const temp: IPortParams = three_tools.resolve_params(
             params, this._default_params
         );
         let new_params: object = this._default_params;
@@ -92,8 +77,9 @@ export class Port {
         const grp: Group = new Group(this._parent);
         grp.create(this.__to_group_params(new_params));
         this._children["group"] = grp;
+        this._item = grp;
 
-        const sphere: Sphere = new Sphere(grp._item);
+        const sphere: Sphere = new Sphere(grp);
         sphere.create(this.__to_sphere_params(new_params));
         this._children["sphere"] = sphere;
     }
@@ -134,6 +120,6 @@ export class Port {
         const grp = this._children["group"];
         keys = _.filter(keys, key => key !== "group");
         keys.map(key => prims[key].delete());
-        this._parent.remove(grp._item);
+        this._parent._item.remove(grp._item);
     }
 }
