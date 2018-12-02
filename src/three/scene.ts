@@ -55,7 +55,7 @@ export class Scene extends Group{
         this._renderer.setPixelRatio(window.devicePixelRatio);
 
         // mount scene
-        const elem = document.getElementById("scene");
+        const elem = document.getElementById("dag-pane");
         element.appendChild(this._renderer.domElement);
     }
 

@@ -11,7 +11,7 @@ export class PrimitiveBase {
 
     public constructor(parent: any) {
         if (parent._item === undefined) {
-            throw new Error("parent does not have an item")
+            throw new Error("parent does not have an item member");
         }
         this._parent = parent;
     }
@@ -83,7 +83,7 @@ export class PrimitiveBase {
         throw new Error("method must be defined in subclass");
     }
 
-    public get _default_params(): object {
+    public get _default_params(): IParams {
         return {
             "name": "",
             "visible": true,
@@ -99,7 +99,7 @@ export class PrimitiveBase {
         };
     }
 
-    public create(params: IParams = {}): void {
+    public create(params: IParams): void {
         const temp: IParams = three_tools.resolve_params(
             params, this._default_params
         );
