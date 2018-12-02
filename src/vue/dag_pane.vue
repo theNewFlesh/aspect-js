@@ -1,5 +1,5 @@
 <template>
-    <div id="scene" ref="scene">
+    <div id="dag-pane" ref="dag-pane">
     </div>
 </template>
 
@@ -14,7 +14,7 @@
     // -------------------------------------------------------------------------
 
     @Component
-    export default class Scene extends Vue {
+    export default class DagPane extends Vue {
         public scene;
         public dag;
 
@@ -33,7 +33,7 @@
         }
 
         public mounted() {
-            const elem = document.getElementById("scene");
+            const elem = document.getElementById("dag-pane");
             this.scene.render(elem, window);
             this.animate();
         }

@@ -30,7 +30,7 @@ const proto_edge: object = {
     "display/order":                   "",
     "display/selected":                "",
     "display/visible":                 true,
-    "display/source/translate/x":      0,
+    "display/source/translate/x":      4,
     "display/source/translate/y":      8,
     "display/source/translate/z":      0,
     "display/source/visible":          true,
@@ -168,6 +168,8 @@ const ip1 = _.clone(proto_inport);
 ip1["id"] = "inport_1";
 const ip2 = _.clone(proto_inport);
 ip2["id"] = "inport_2";
+const ip3 = _.clone(proto_inport);
+ip3["id"] = "inport_3";
 
 const temp: object = {};
 temp[`${s0}`] = proto_scene;
@@ -178,5 +180,6 @@ temp[`${s0}`][`${g0}`][`${n0}`] = proto_node;
 temp[`${s0}`][`${g0}`][`${n0}`][`${ip0}`] = proto_inport;
 temp[`${s0}`][`${g0}`][`${n0}`][`inport_1`] = ip1;
 temp[`${s0}`][`${g0}`][`${n0}`][`inport_2`] = ip2;
+// temp[`${s0}`][`${g0}`][`${n0}`][`inport_3`] = ip3;
 temp[`${s0}`][`${g0}`][`${n0}`][`${op0}`] = proto_outport;
 export const scene: object = tools.flatten(temp);

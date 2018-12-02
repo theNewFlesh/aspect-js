@@ -8,12 +8,12 @@
         v-on:paneResizeStart="_on_resize_start"
         v-on:paneResizeStop="_on_resize_stop"
     >
-        <div id="scene-pane" class="pane" ref="scene_pane">
-            <Scene
-                :width="__scene_pane_width"
-                :height="__scene_pane_height"
+        <div id="dag-pane" class="pane" ref="dag_pane">
+            <DagPane
+                :width="__dag_pane_width"
+                :height="__dag_pane_height"
             >
-            </Scene>
+            </DagPane>
         </div>
 
         <multipane-resizer class="multipane-resizer">
@@ -40,7 +40,7 @@
 <script lang="ts">
     import { Prop, Component, Vue } from "vue-property-decorator";
     import Table from "./table.vue";
-    import Scene from "./scene.vue";
+    import DagPane from "./dag_pane.vue";
     import { Multipane, MultipaneResizer } from "vue-multipane";
     import * as _ from "lodash";
     import * as tt from "../../test/test_tools";
@@ -51,40 +51,40 @@
         theme: HEX_COLORS,
     });
 
-    @Component( {components: { Table, Scene, Multipane, MultipaneResizer } })
+    @Component( {components: { Table, DagPane, Multipane, MultipaneResizer } })
     export default class Layout extends Vue {
         public data = tt.data;
         public index = tt.index;
         public _collapsed: boolean = false;
-        public _prev_scene_width: number;
+        public _prev_dag_width: number;
 
-        private __scene_pane_width: number;
-        private __scene_pane_height: number;
+        private __dag_pane_width: number;
+        private __dag_pane_height: number;
 
         @Prop({default: 75})
-        public scene_width: number;
+        public dag_width: number;
 
         @Prop({default: 16})
         public collapse_width: number;
 
         public created() {
-            this.__update_scene_pane_shape();
+            this.__update_dag_pane_shape();
         }
 
         public mounted() {
-            this._set_width(this.$refs.scene_pane, this.scene_width);
-            this._set_width(this.$refs.node_pane, 100 - this.scene_width);
-            this._prev_scene_width = this._get_width(this.$refs.scene_pane);
+            this._set_width(this.$refs.dag_pane, this.dag_width);
+            this._set_width(this.$refs.node_pane, 100 - this.dag_width);
+            this._prev_dag_width = this._get_width(this.$refs.dag_pane);
         }
 
-        private __update_scene_pane_shape(): void {
-            let width: number = window.outerWidth * (this.scene_width / 100);
-            if (this.$refs.scene !== undefined) {
-                width = this._get_width(this.$refs.scene);
+        private __update_dag_pane_shape(): void {
+            let width: number = window.outerWidth * (this.dag_width / 100);
+            if (this.$refs.dag !== undefined) {
+                width = this._get_width(this.$refs.dag);
                 width = width * 100 * window.outerWidth;
             }
-            this.__scene_pane_width = width;
-            this.__scene_pane_height = window.outerHeight;
+            this.__dag_pane_width = width;
+            this.__dag_pane_height = window.outerHeight;
         }
 
         public _get_width(element: any): number {
@@ -108,27 +108,27 @@
         }
 
         public _on_resize_start(element: any) {
-            this._prev_scene_width = this._get_width(element);
+            this._prev_dag_width = this._get_width(element);
         }
 
         public _on_resize(element: any) {
-            const scene_pane: any = this.$refs.scene_pane;
+            const dag_pane: any = this.$refs.dag_pane;
             const node_pane: any = this.$refs.node_pane;
 
-            const sw: number = this._get_width(scene_pane);
-            this._set_width(scene_pane, sw);
+            const sw: number = this._get_width(dag_pane);
+            this._set_width(dag_pane, sw);
             this._set_width(node_pane, 100 - sw);
 
-            this.__update_scene_pane_shape();
+            this.__update_dag_pane_shape();
         }
 
         public _on_resize_stop(element: any) {
-            const scene_pane: any = this.$refs.scene_pane;
+            const dag_pane: any = this.$refs.dag_pane;
             const node_pane: any = this.$refs.node_pane;
-            let sw: number = this._get_width(scene_pane);
+            let sw: number = this._get_width(dag_pane);
 
             let autosize_event: boolean = false;
-            const delta: number = Math.abs(sw - this._prev_scene_width);
+            const delta: number = Math.abs(sw - this._prev_dag_width);
             if (delta <= 0.1 || sw > 100 - this.collapse_width) {
                 autosize_event = true;
             }
@@ -143,10 +143,10 @@
                 this._collapsed = !this._collapsed;
             }
 
-            this._set_width(scene_pane, sw);
+            this._set_width(dag_pane, sw);
             this._set_width(node_pane, 100 - sw);
 
-            this.__update_scene_pane_shape();
+            this.__update_dag_pane_shape();
         }
     }
 </script>
