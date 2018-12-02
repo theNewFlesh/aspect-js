@@ -12,6 +12,8 @@ const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
 export class Node extends Component {
+    public _scaling: boolean = false;
+
     public _to_group_params(params: object): object {
         let output: object = {
             "name":        three_tools.get_name(params, "group"),
@@ -19,6 +21,9 @@ export class Node extends Component {
             "translate/x": params["translate/x"],
             "translate/y": params["translate/y"],
             "translate/z": params["translate/z"],
+            "scale/x":     1,
+            "scale/y":     1,
+            "scale/z":     1,
         };
         output = three_tools.remove_empty_keys(output);
         return output;
@@ -87,6 +92,7 @@ export class Node extends Component {
 
     public create(params: INodeParams): void {
         super.create(params);
+
         const temp: INodeParams = this._clean_params(params);
         const grp: Group = this.children["group"];
 

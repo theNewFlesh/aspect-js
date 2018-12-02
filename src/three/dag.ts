@@ -121,7 +121,7 @@ export class DAG {
 
     public _create_scene(params: Params): void {
         this.three_item = new THREE.Scene();
-        const scene: Scene = new Scene(this.self);
+        const scene: Scene = new Scene(this);
         scene.create(params.to_scene());
         const id: string = params.to_scene()["id"];
         this.children[id] = scene;

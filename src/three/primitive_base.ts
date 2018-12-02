@@ -27,10 +27,11 @@ interface IPrimitive {
 }
 
 export class PrimitiveBase {
-    private __id: string;
+    public _id: string;
     public _parent: any;
     public _children: object = {};
     public _three_item: IThreeItem;
+    public _scaling: boolean = true;
 
     public constructor(parent: any) {
         if (parent.three_item === undefined) {
@@ -154,11 +155,8 @@ export class PrimitiveBase {
         const new_params = this._default_params;
         Object.assign(new_params, temp);
 
-        const three_item = this._create_three_item(new_params);
-        this.three_item = three_item;
-
+        this.three_item = this._create_three_item(new_params);
         this.link(this.parent);
-
         this._non_destructive_update(new_params);
     }
 
@@ -166,7 +164,7 @@ export class PrimitiveBase {
         const three_item = this.three_item;
         const geo = this.three_item.geometry;
         const params: IParams = {
-            "id": this.__id,
+            "id": this._id,
             "name": three_item.name,
             "visible": three_item.visible,
             "translate/x": this.__get_translate().x,
@@ -209,7 +207,7 @@ export class PrimitiveBase {
             this.__set_rotate(params);
         }
 
-        if (_.intersection(three_tools.SCALE_KEYS, keys).length > 0) {
+        if (_.intersection(three_tools.SCALE_KEYS, keys).length > 0 && this._scaling) {
             this.__set_scale(params);
         }
 

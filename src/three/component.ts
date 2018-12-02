@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import * as three_tools from "./three_tools";
-import { PrimitiveBase } from "./primitive_base";
 import { Group } from "./group";
 import { IComponentParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
@@ -42,13 +41,18 @@ export class Component extends Group {
     }
 
     public _assign_three_item(params: IComponentParams): void {
-        const grp: Group = new Group(this.parent);
+        const grp: Group = new Group(this);
         grp.create(this._to_group_params(params));
         this.children["group"] = grp;
         this.three_item = grp.three_item;
     }
 
     public create(params: IComponentParams): void {
+        const temp: IComponentParams = this._clean_params(params);
+        this._id = params["id"];
+        this.three_item = this._create_three_item(temp);
+        this.link(this.parent);
         this._assign_three_item(this._clean_params(params));
+        this._non_destructive_update(temp);
     }
 }
