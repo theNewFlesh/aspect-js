@@ -32,11 +32,10 @@ export class Cylinder extends Primitive {
     }
 
     public read(): ICylinderParams {
-        const item = this._item;
         const params: ICylinderParams = super.read();
-        params["height"] = item.geometry.parameters.height;
-        params["radius/top"] = item.geometry.parameters.radiusTop;
-        params["radius/bottom"] = item.geometry.parameters.radiusBottom;
+        params["height"]        = this.item.geometry.parameters.height;
+        params["radius/top"]    = this.item.geometry.parameters.radiusTop;
+        params["radius/bottom"] = this.item.geometry.parameters.radiusBottom;
         return params;
     }
 

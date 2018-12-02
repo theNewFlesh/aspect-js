@@ -74,12 +74,11 @@ export class TextBox extends Primitive {
     }
 
     public read(): ITextBoxParams {
-        const item = this._item;
         const params: ITextBoxParams = super.read();
-        params["font/text"] =  item.material[5].map.text;
+        params["font/text"]   = this.item.material[5].map.text;
         params["font/family"] = this.__get_font_family();
-        params["font/style"] = item.material[5].map.fontStyle;
-        params["font/size"] = item.material[5].map.fontSize;
+        params["font/style"]  = this.item.material[5].map.fontStyle;
+        params["font/size"]   = this.item.material[5].map.fontSize;
         return params;
     }
 

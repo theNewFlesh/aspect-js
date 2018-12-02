@@ -30,9 +30,8 @@ export class Sphere extends Primitive {
     }
 
     public read(): ISphereParams {
-        const item = this._item;
         const params: ISphereParams = super.read();
-        params["radius"] = item.geometry.parameters.radius;
+        params["radius"] = this.item.geometry.parameters.radius;
         return params;
     }
 

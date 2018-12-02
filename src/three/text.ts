@@ -38,12 +38,11 @@ export class Text extends Primitive {
     }
 
     public read(): ITextParams {
-        const item = this._item;
         const params: ITextParams = super.read();
-        params["font/text"]   = item.material.map.text;
-        params["font/family"] = item.material.map.fontFamily;
-        params["font/style"]  = item.material.map.fontStyle;
-        params["font/size"]   = item.material.map.fontSize;
+        params["font/text"]   = this.item.material.map.text;
+        params["font/family"] = this.item.material.map.fontFamily;
+        params["font/style"]  = this.item.material.map.fontStyle;
+        params["font/size"]   = this.item.material.map.fontSize;
         return params;
     }
 

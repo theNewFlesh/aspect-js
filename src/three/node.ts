@@ -11,7 +11,7 @@ const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
 export class Node {
-    private __id: string = null;
+    private __id: string;
     public _parent: any;
     public _item: any;
     public _children: object = {};
