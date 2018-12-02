@@ -32,7 +32,10 @@ export class PrimitiveBase {
     public _children: object = {};
     public _item: IItem;
 
-    public constructor(parent: IPrimitive) {
+    public constructor(parent: any) {
+        if (parent.item === undefined) {
+            throw new Error("parent does not have an item member");
+        }
         this.parent = parent;
     }
     // -------------------------------------------------------------------------
@@ -49,8 +52,8 @@ export class PrimitiveBase {
         this._parent = parent;
     }
 
-    public get children(): IPrimitive[] {
-        return _.values(this._children);
+    public get children(): object {
+        return this._children;
     }
 
     public get item(): IItem {
@@ -152,8 +155,10 @@ export class PrimitiveBase {
         Object.assign(new_params, temp);
 
         const item = this._create_item(new_params);
-        this.parent.item.add(item);
         this.item = item;
+
+        this.link(this.parent);
+
         this._non_destructive_update(new_params);
     }
 
@@ -218,6 +223,11 @@ export class PrimitiveBase {
     }
 
     public delete(): void {
+        const prims = this._children;
+        let keys = _.keys(prims);
+        const grp = this._children["group"];
+        keys = _.filter(keys, key => key !== "group");
+        keys.map(key => prims[key].delete());
         this.unlink();
         this.item = null;
     }

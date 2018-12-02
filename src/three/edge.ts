@@ -4,21 +4,13 @@ import * as three_tools from "../three/three_tools";
 import { Cylinder } from "./cylinder";
 import { Sphere } from "./sphere";
 import { Group } from "./group";
+import { Component } from "./component";
 import { IEdgeParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 
-export class Edge {
-    private __id: string = null;
-    public _parent: any;
-    public _children: object = {};
-
-    public constructor(parent: any) {
-        this._parent = parent;
-    }
-    // -------------------------------------------------------------------------
-
+export class Edge extends Component {
     private __to_vector(params: object): three_tools.IVector3 {
         return {
             x: params["translate/x"],
@@ -52,7 +44,7 @@ export class Edge {
     }
     // -------------------------------------------------------------------------
 
-    private __to_group_params(params: object): object {
+    public _to_group_params(params: object): object {
         let output: object = {
             "name":    three_tools.get_name(params, "group"),
             "visible": params["visible"],
@@ -155,31 +147,24 @@ export class Edge {
     }
 
     public create(params: IEdgeParams = {}): void {
-        const temp: IEdgeParams = three_tools.resolve_params(
-            params, this._default_params
-        );
-        let edge: any = this._default_params;
-        Object.assign(edge, temp);
-        edge = three_tools.remove_empty_keys(edge);
-
-        const grp: Group = new Group(this._parent);
-        grp.create(this.__to_group_params(edge));
-        this._children["group"] = grp;
+        super.create(params);
+        const temp: IEdgeParams = this._clean_params(params);
+        const grp: Group = this.children["group"];
 
         const body: Cylinder = new Cylinder(grp);
-        body.create(this.__to_body_params(edge));
+        body.create(this.__to_body_params(temp));
         this._children["body"] = body;
 
         const arrow: Cylinder = new Cylinder(grp);
-        arrow.create(this.__to_arrow_params(edge));
+        arrow.create(this.__to_arrow_params(temp));
         this._children["arrow"] = arrow;
 
         const source: Sphere = new Sphere(grp);
-        source.create(this.__to_source_params(edge));
+        source.create(this.__to_source_params(temp));
         this._children["source"] = source;
 
         const destination: Sphere = new Sphere(grp);
-        destination.create(this.__to_destination_params(edge));
+        destination.create(this.__to_destination_params(temp));
         this._children["destination"] = destination;
     }
 
@@ -215,19 +200,10 @@ export class Edge {
         let edge: object = this.read();
         edge = three_tools.resolve_params(params, edge);
 
-        this._children["group"].update(this.__to_group_params(edge));
+        this._children["group"].update(this._to_group_params(edge));
         this._children["body"].update(this.__to_body_params(edge));
         this._children["arrow"].update(this.__to_arrow_params(edge));
         this._children["source"].update(this.__to_source_params(edge));
         this._children["destination"].update(this.__to_destination_params(edge));
-    }
-
-    public delete(): void {
-        const prims = this._children;
-        let keys = _.keys(prims);
-        const grp = this._children["group"];
-        keys = _.filter(keys, key => key !== "group");
-        keys.map(key => prims[key].delete());
-        this._parent._item.remove(grp._item);
     }
 }

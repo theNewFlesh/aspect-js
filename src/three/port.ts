@@ -2,6 +2,7 @@ import * as _ from "lodash";
 import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
 import { Group } from "./group";
+import { Component } from "./component";
 import { Sphere } from "./sphere";
 import { IPortParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
@@ -9,32 +10,7 @@ import { IPortParams } from "../core/iparams";
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
-export class Port {
-    private __id: string;
-    public _parent: any;
-    public _item: any;
-    public _children: object = {};
-
-    public constructor(parent: any) {
-        this._parent = parent;
-    }
-    // -------------------------------------------------------------------------
-
-    private __to_group_params(params: object): object {
-        let output: object = {
-            "name":        three_tools.get_name(params, "group"),
-            "visible":     params["visible"],
-            "translate/x": params["translate/x"],
-            "translate/y": params["translate/y"],
-            "translate/z": params["translate/z"],
-            "scale/x":     params["scale/x"],
-            "scale/y":     params["scale/y"],
-            "scale/z":     params["scale/z"],
-        };
-        output = three_tools.remove_empty_keys(output);
-        return output;
-    }
-
+export class Port extends Component {
     private __to_sphere_params(params: object): object {
         let output: object = {
             "name":             three_tools.get_name(params, "sphere"),
@@ -67,22 +43,13 @@ export class Port {
     }
 
     public create(params: IPortParams = {}): void {
-        const temp: IPortParams = three_tools.resolve_params(
-            params, this._default_params
-        );
-        let new_params: object = this._default_params;
-        Object.assign(new_params, temp);
-        new_params = three_tools.remove_empty_keys(new_params);
-
-        const grp: Group = new Group(this._parent);
-        grp.create(this.__to_group_params(new_params));
-        this._children["group"] = grp;
+        super.create(params);
+        const temp: IPortParams = this._clean_params(params);
+        const grp: Group = this.children["group"];
 
         const sphere: Sphere = new Sphere(grp);
-        sphere.create(this.__to_sphere_params(new_params));
+        sphere.create(this.__to_sphere_params(temp));
         this._children["sphere"] = sphere;
-
-        this._item = grp;
     }
 
     public read(): IPortParams {
@@ -111,16 +78,7 @@ export class Port {
         let new_params: IPortParams = this.read();
         new_params = three_tools.resolve_params(params, new_params);
 
-        this._children["group"].update(this.__to_group_params(new_params));
+        this._children["group"].update(this._to_group_params(new_params));
         this._children["sphere"].update(this.__to_sphere_params(new_params));
-    }
-
-    public delete(): void {
-        const prims = this._children;
-        let keys = _.keys(prims);
-        const grp = this._children["group"];
-        keys = _.filter(keys, key => key !== "group");
-        keys.map(key => prims[key].delete());
-        this._parent._item.remove(grp._item);
     }
 }

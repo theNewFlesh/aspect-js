@@ -1,4 +1,4 @@
-import { Group } from "./group";
+import { Component } from "./component";
 
-export class Graph extends Group {
+export class Graph extends Component {
 }

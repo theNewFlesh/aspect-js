@@ -181,15 +181,15 @@ export class DAG {
         const params: Params = new Params(state).diff(this._params);
         this._create_scene(params);
         this._create_graphs(params);
-        // this._link_graphs(params);
+        this._link_graphs(params);
 
-        // this._create_nodes(params);
-        // this._create_inports(params);
-        // this._create_outports(params);
-        // this._update_port_positions(params);
-        // this._create_node_edges(params);
+        this._create_nodes(params);
+        this._create_inports(params);
+        this._create_outports(params);
+        this._update_port_positions(params);
+        this._create_node_edges(params);
 
-        // this._create_edges(params);
+        this._create_edges(params);
         this._params = new Params(state);
     }
 }
