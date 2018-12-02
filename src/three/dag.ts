@@ -14,9 +14,6 @@ import { Scaffold } from "../core/scaffold";
 import { IPortParams } from '@/core/iparams';
 // -----------------------------------------------------------------------------
 
-const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
-const grey2 = tools.HSV_COLORS["aspect_grey_2"];
-
 export class DAG {
     public get THREE() { return THREE; }
     public get three_tools() { return three_tools; }
@@ -45,19 +42,19 @@ export class DAG {
             const y: number = pos["translate/y"];
             const z: number = pos["translate/z"];
 
-            const inports: IPortParams[] = new Params(node).to_inports();
+            const inports: IPortParams[] = params.filter_node(node["id"], true).to_inports();
             let ipstart: number = Math.ceil(x - (inports.length / 2));
             for (const inport of inports) {
                 const port: Port = this._children[inport["id"]];
-                port.update({
+                port.update(tools.log({
                     "translate/x": ipstart,
                     "translate/y": y + 4,
                     "translate/z": z,
-                });
+                }));
                 ipstart++;
             }
 
-            const outports: IPortParams[] = new Params(node).to_outports();
+            const outports: IPortParams[] = params.filter_node(node["id"], true).to_outports();
             let opstart: number = Math.ceil(x - (outports.length / 2));
             for (const outport of outports) {
                 const port: Port = this._children[outport["id"]];

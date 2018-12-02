@@ -148,8 +148,8 @@ export class Params {
         return new Params(data);
     }
 
-    public to_graph(graph_id: string, full: boolean = false): object {
-        return this.filter_graph(graph_id, full)
+    public to_graph(graph_id: string): object {
+        return this.filter_graph(graph_id)
             .strip_id()
             .strip_display()
             .to_object();
@@ -170,8 +170,8 @@ export class Params {
         return new Params(data);
     }
 
-    public to_node(node_id: string, full: boolean = false): INodeParams {
-        return this.filter_node(node_id, full)
+    public to_node(node_id: string): INodeParams {
+        return this.filter_node(node_id)
             .strip_id()
             .strip_display()
             .to_object();
