@@ -1,10 +1,10 @@
 import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
-import { Group } from "./group";
+import { Component } from "./component";
 import { ISceneParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
-export class Scene extends Group{
+export class Scene extends Component {
     public _camera: any;
     public _controls: any;
     public _light: any;
@@ -17,7 +17,7 @@ export class Scene extends Group{
         const intensity: number = 1;
         const light = new THREE.DirectionalLight(color, intensity);
         light.position.set(0, 0 , 6);
-        this._item.add(light);
+        this.parent.item.add(light);
         this._light = light;
     }
 
@@ -61,17 +61,15 @@ export class Scene extends Group{
 
     public render_update() {
         this._controls.update();
-        this._renderer.render(this._parent._item, this._camera);
+        this._renderer.render(this.parent.item, this._camera);
     }
 
     public create(params: ISceneParams): void {
-        this._item = new THREE.Scene();
         this._width = params["width"];
         this._height = params["height"];
         super.create(params);
+
         this.create_light();
         this.create_camera();
-
-        super.create(params);
     }
 }

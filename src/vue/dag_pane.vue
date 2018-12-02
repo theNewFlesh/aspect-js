@@ -29,7 +29,7 @@
             test_scene["width"] = this.width;
             test_scene["height"] = this.height;
             this.dag.create(test_scene);
-            this.scene = this.dag._scene;
+            this.scene = this.dag.parent;
         }
 
         public mounted() {

@@ -15,10 +15,15 @@ interface IItem {
     setRotationFromEuler?: any;
 }
 
+interface IThreeItem {
+    add?: any;
+    remove?: any;
+}
+
 interface IPrimitive {
-    parent: any;
+    parent: IThreeItem;
     children: object;
-    item: IItem;
+    item: IThreeItem;
 }
 
 export class PrimitiveBase {
@@ -41,9 +46,6 @@ export class PrimitiveBase {
     }
 
     public set parent(parent: IPrimitive) {
-        // if (parent.item === undefined) {
-        //     throw new Error("parent does not have an item member");
-        // }
         this._parent = parent;
     }
 
@@ -150,7 +152,7 @@ export class PrimitiveBase {
         Object.assign(new_params, temp);
 
         const item = this._create_item(new_params);
-        this.parent._item.add(item);
+        this.parent.item.add(item);
         this.item = item;
         this._non_destructive_update(new_params);
     }
@@ -216,7 +218,21 @@ export class PrimitiveBase {
     }
 
     public delete(): void {
-        this.parent._item.remove(this.item);
+        this.unlink();
         this.item = null;
+    }
+
+    public link(parent: any): void {
+        if (parent.item === undefined) {
+            throw new Error("parent does not have an item member");
+        }
+        this.parent.item.add(this.item);
+    }
+
+    public unlink(): void {
+        if (this.parent === undefined) {
+            throw new Error("parent does not exist");
+        }
+        this.parent.item.remove(this.item);
     }
 }

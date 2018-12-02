@@ -5,14 +5,20 @@ import { Group } from "./group";
 import { IComponentParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
-export class Component extends PrimitiveBase {
+export class Component extends Group {
     private __to_group_params(params: object): object {
         let output: object = {
-            "name":    three_tools.get_name(params, "group"),
-            "visible": params["visible"],
-            "scale/x": params["scale/x"],
-            "scale/y": params["scale/y"],
-            "scale/z": params["scale/z"],
+            "name":        three_tools.get_name(params, "group"),
+            "visible":     params["visible"],
+            "translate/x": params["translate/x"],
+            "translate/y": params["translate/y"],
+            "translate/z": params["translate/z"],
+            "rotate/x":    params["rotate/x"],
+            "rotate/y":    params["rotate/y"],
+            "rotate/z":    params["rotate/z"],
+            "scale/x":     params["scale/x"],
+            "scale/y":     params["scale/y"],
+            "scale/z":     params["scale/z"],
         };
         output = three_tools.remove_empty_keys(output);
         return output;
@@ -34,10 +40,10 @@ export class Component extends PrimitiveBase {
         Object.assign(item, temp);
         params = three_tools.remove_empty_keys(item);
 
-        const grp: Group = new Group(this._parent);
+        const grp: Group = new Group(this.parent);
         grp.create(this.__to_group_params(item));
         this.children["group"] = grp;
 
-        this.item = grp;
+        this.item = grp.item;
     }
 }
