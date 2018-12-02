@@ -105,7 +105,10 @@ export class Params {
     public to_component(id: string): object {
         const type: string = id.split("_")[0];
 
-        if (type === "graph"){
+        if (type === "scene"){
+            return this.to_scene(id);
+        }
+        else if (type === "graph"){
             return this.to_graph(id);
         }
         else if (type === "node") {
@@ -126,15 +129,18 @@ export class Params {
     }
     // -------------------------------------------------------------------------
 
-    public filter_scene(): Params {
-        const data: any = this.__data
+    public filter_scene(id: string, full: boolean = false): Params {
+        let data: any = this.__data
             .filter(x => !x.match("graph|node|edge|inport|outport"), "key")
-            .to_object();
+        if (!full) {
+            data = data.filter(x => !x.match("graph|node|edge|inport|outport"), "key");
+        }
+        data = data.to_object();
         return new Params(data);
     }
 
-    public to_scene(): ISceneParams {
-        return this.filter_scene().strip_id().to_object();
+    public to_scene(id: string): ISceneParams {
+        return this.filter_scene(id).strip_id().to_object();
     }
     // -------------------------------------------------------------------------
 

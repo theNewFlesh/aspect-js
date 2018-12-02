@@ -192,4 +192,12 @@ export class DAG {
         this._create_edges(params);
         this._params = new Params(state);
     }
+
+    public update(state: object): void {
+        const params: Params = new Params(state).diff(this._params);
+        for (const key of _.keys(this.children)) {
+            const child: any = this.children[key];
+            child.update(params.to_component(key));
+        }
+    }
 }
