@@ -222,11 +222,7 @@ export class PrimitiveBase {
 
     public delete(): void {
         const prims = this._children;
-        let keys = _.keys(prims);
-        const grp = this._children["group"];
-        keys = _.filter(keys, key => key !== "group");
-        keys.map(key => prims[key].delete());
-        grp.delete();
+        _.keys(prims).map(key => prims[key].delete());
         this.unlink();
         this.three_item = null;
         this._children = {};

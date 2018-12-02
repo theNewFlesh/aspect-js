@@ -96,8 +96,8 @@ const proto_node: object = {
     "display/font/color/saturation": grey2.s,
     "display/font/color/value":      grey2.v,
     "display/font/color/alpha":      grey2.a,
-    // "display/font/text":             "DEFAULT TEXT",
-    "display/font/family":           "mono",
+    "display/font/text":             "NODEY MCNODERTON",
+    "display/font/family":           "courier",
     "display/font/style":            "normal",
     "display/font/size":             300,
 };
@@ -130,7 +130,7 @@ const proto_inport: object = {
     "display/font/color/value":      grey2.v,
     "display/font/color/alpha":      grey2.a,
     "display/font/text":             "DEFAULT TEXT",
-    "display/font/family":           "mono",
+    "display/font/family":           "courier",
     "display/font/style":            "normal",
     "display/font/size":             300,
 };
@@ -159,7 +159,7 @@ const proto_outport: object = {
     "display/font/color/value":      grey2.v,
     "display/font/color/alpha":      grey2.a,
     "display/font/text":             "DEFAULT TEXT",
-    "display/font/family":           "mono",
+    "display/font/family":           "courier",
     "display/font/style":            "normal",
     "display/font/size":             300,
 };

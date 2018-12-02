@@ -13,6 +13,18 @@ const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
 export class Node extends Component {
     public _scaling: boolean = false;
+    private __scale_factor: number = 2;
+
+    private __to_width(params: object): number {
+        let length: number;
+        if (params["font/text"] === undefined) {
+            length = this.read()["font/text"].length;
+        }
+        else {
+            length = params["font/text"].length;
+        }
+        return length / this.__scale_factor;
+    }
 
     public _to_group_params(params: object): object {
         let output: object = {
@@ -33,7 +45,7 @@ export class Node extends Component {
         let output: object = {
             "name":             three_tools.get_name(params, "cube"),
             "visible":          params["visible"],
-            "scale/x":          params["scale/x"],
+            "scale/x":          this.__to_width(params),
             "scale/y":          params["scale/y"],
             "scale/z":          params["scale/z"],
             "color/hue":        params["color/hue"],
@@ -48,7 +60,7 @@ export class Node extends Component {
     private __to_textbox_params(params: object): object {
         let output: object = {
             "name":             three_tools.get_name(params, "textbox"),
-            "scale/x":          params["scale/x"],
+            "scale/x":          this.__to_width(params),
             "scale/y":          params["scale/y"],
             "scale/z":          params["scale/z"],
             "color/hue":        params["font/color/hue"],
@@ -72,7 +84,7 @@ export class Node extends Component {
             "translate/x":           0,
             "translate/y":           0,
             "translate/z":           0,
-            "scale/x":               4,
+            "scale/x":               1,
             "scale/y":               1,
             "scale/z":               0.1,
             "color/hue":             cyan2.h,
@@ -84,7 +96,7 @@ export class Node extends Component {
             "font/color/value":      grey2.v,
             "font/color/alpha":      grey2.a,
             "font/text":             "node",
-            "font/family":           "mono",
+            "font/family":           "courier",
             "font/style":            "normal",
             "font/size":             300,
         };
@@ -116,9 +128,9 @@ export class Node extends Component {
             "translate/x":           grp["translate/x"],
             "translate/y":           grp["translate/y"],
             "translate/z":           grp["translate/z"],
-            "scale/x":               grp["scale/x"],
-            "scale/y":               grp["scale/y"],
-            "scale/z":               grp["scale/z"],
+            "scale/x":               textbox["scale/x"],
+            "scale/y":               textbox["scale/y"],
+            "scale/z":               textbox["scale/z"],
             "color/hue":             cube["color/hue"],
             "color/saturation":      cube["color/saturation"],
             "color/value":           cube["color/value"],
