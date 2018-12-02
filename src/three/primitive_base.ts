@@ -228,8 +228,10 @@ export class PrimitiveBase {
         const grp = this._children["group"];
         keys = _.filter(keys, key => key !== "group");
         keys.map(key => prims[key].delete());
+        grp.delete();
         this.unlink();
         this.item = null;
+        this._children = {};
     }
 
     public link(parent: any): void {
