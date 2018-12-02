@@ -164,6 +164,8 @@ const proto_outport: object = {
     "display/font/size":             300,
 };
 
+const e1 = _.clone(proto_edge);
+e1["id"] = "edge_1";
 const ip1 = _.clone(proto_inport);
 ip1["id"] = "inport_1";
 const ip2 = _.clone(proto_inport);
@@ -175,7 +177,7 @@ const temp: object = {};
 temp[`${s0}`] = proto_scene;
 temp[`${s0}`][`${e0}`] = proto_edge;
 temp[`${s0}`][`${g0}`] = proto_graph;
-temp[`${s0}`][`${g0}`][`${e0}`] = e0;
+temp[`${s0}`][`${g0}`]["edge_1"] = e1;
 temp[`${s0}`][`${g0}`][`${n0}`] = proto_node;
 temp[`${s0}`][`${g0}`][`${n0}`][`${ip0}`] = proto_inport;
 temp[`${s0}`][`${g0}`][`${n0}`][`inport_1`] = ip1;
