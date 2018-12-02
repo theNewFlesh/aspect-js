@@ -4,7 +4,7 @@ import * as three_tools from "./three_tools";
 import { IParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
-interface IItem {
+interface IThreeItem {
     material?: any;
     geometry?: any;
     name?: any;
@@ -15,26 +15,26 @@ interface IItem {
     setRotationFromEuler?: any;
 }
 
-interface IThreeItem {
+interface IGroup {
     add?: any;
     remove?: any;
 }
 
 interface IPrimitive {
-    parent: IThreeItem;
+    parent: IGroup;
     children: object;
-    item: IThreeItem;
+    three_item: IGroup;
 }
 
 export class PrimitiveBase {
     private __id: string;
     public _parent: any;
     public _children: object = {};
-    public _item: IItem;
+    public _three_item: IThreeItem;
 
     public constructor(parent: any) {
-        if (parent.item === undefined) {
-            throw new Error("parent does not have an item member");
+        if (parent.three_item === undefined) {
+            throw new Error("parent does not have an three_item member");
         }
         this.parent = parent;
     }
@@ -56,24 +56,24 @@ export class PrimitiveBase {
         return this._children;
     }
 
-    public get item(): IItem {
-        return this._item;
+    public get three_item(): IThreeItem {
+        return this._three_item;
     }
 
-    public set item(item: IItem) {
-        this._item = item;
+    public set three_item(three_item: IThreeItem) {
+        this._three_item = three_item;
     }
     // -------------------------------------------------------------------------
 
     private __get_translate(): three_tools.IVector3 {
-        let vect: number[] = this.item.position.toArray();
+        let vect: number[] = this.three_item.position.toArray();
         vect = vect.map(x => x === undefined ? 0 : x);
         const output: three_tools.IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
         return output;
     }
 
     private __get_rotate(): three_tools.IVector3 {
-        let vect: number[] = this.item.rotation.toArray();
+        let vect: number[] = this.three_item.rotation.toArray();
         vect.pop();
         vect = vect.map(x => x === undefined ? 0 : x);
         vect = vect.map(three_tools.to_angle);
@@ -82,22 +82,22 @@ export class PrimitiveBase {
     }
 
     private __get_scale(): three_tools.IVector3 {
-        let vect: number[] = this.item.scale.toArray();
+        let vect: number[] = this.three_item.scale.toArray();
         vect = vect.map(x => x === undefined ? 1 : x);
         const output: three_tools.IVector3 = {x: vect[0], y: vect[1], z: vect[2]};
         return output;
     }
 
     private __set_name(params: IParams): void {
-        this.item.name = params["name"];
+        this.three_item.name = params["name"];
     }
 
     private __set_visible(params: IParams): void {
-        this.item.visible = params["visible"];
+        this.three_item.visible = params["visible"];
     }
 
     private __set_translate(params: IParams): void {
-        this.item.position.set(
+        this.three_item.position.set(
             params["translate/x"],
             params["translate/y"],
             params["translate/z"],
@@ -111,11 +111,11 @@ export class PrimitiveBase {
             three_tools.to_radians(params["rotate/z"]),
             "XYZ",
         );
-        this.item.setRotationFromEuler(rot);
+        this.three_item.setRotationFromEuler(rot);
     }
 
     private __set_scale(params: IParams): void {
-        this.item.scale.set(
+        this.three_item.scale.set(
             params["scale/x"],
             params["scale/y"],
             params["scale/z"],
@@ -123,7 +123,7 @@ export class PrimitiveBase {
     }
     // -------------------------------------------------------------------------
 
-    public _create_item(params: IParams): any {
+    public _create_three_item(params: IParams): any {
         throw new Error("method must be defined in subclass");
     }
 
@@ -154,8 +154,8 @@ export class PrimitiveBase {
         const new_params = this._default_params;
         Object.assign(new_params, temp);
 
-        const item = this._create_item(new_params);
-        this.item = item;
+        const three_item = this._create_three_item(new_params);
+        this.three_item = three_item;
 
         this.link(this.parent);
 
@@ -163,12 +163,12 @@ export class PrimitiveBase {
     }
 
     public read(): IParams {
-        const item = this.item;
-        const geo = this.item.geometry;
+        const three_item = this.three_item;
+        const geo = this.three_item.geometry;
         const params: IParams = {
             "id": this.__id,
-            "name": item.name,
-            "visible": item.visible,
+            "name": three_item.name,
+            "visible": three_item.visible,
             "translate/x": this.__get_translate().x,
             "translate/y": this.__get_translate().y,
             "translate/z": this.__get_translate().z,
@@ -230,21 +230,21 @@ export class PrimitiveBase {
         keys.map(key => prims[key].delete());
         grp.delete();
         this.unlink();
-        this.item = null;
+        this.three_item = null;
         this._children = {};
     }
 
     public link(parent: any): void {
-        if (parent.item === undefined) {
-            throw new Error("parent does not have an item member");
+        if (parent.three_item === undefined) {
+            throw new Error("parent does not have an three_item member");
         }
-        this.parent.item.add(this.item);
+        this.parent.three_item.add(this.three_item);
     }
 
     public unlink(): void {
         if (this.parent === undefined) {
             throw new Error("parent does not exist");
         }
-        this.parent.item.remove(this.item);
+        this.parent.three_item.remove(this.three_item);
     }
 }

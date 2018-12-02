@@ -5,7 +5,7 @@ import { ICylinderParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Cylinder extends Primitive {
-    public _create_item(params: ICylinderParams): THREE.Mesh {
+    public _create_three_item(params: ICylinderParams): THREE.Mesh {
         const height: number = params["height"] || 1;
         const top: number = params["radius/top"] || 1;
         const bottom: number = params["radius/bottom"] || 1;
@@ -14,8 +14,8 @@ export class Cylinder extends Primitive {
             color: 0x444444,
             transparent: true
         });
-        const item = new THREE.Mesh(geo, material);
-        return item;
+        const three_item = new THREE.Mesh(geo, material);
+        return three_item;
     }
 
     public _is_destructive(params: ICylinderParams): boolean {
@@ -33,9 +33,9 @@ export class Cylinder extends Primitive {
 
     public read(): ICylinderParams {
         const params: ICylinderParams = super.read();
-        params["height"]        = this.item.geometry.parameters.height;
-        params["radius/top"]    = this.item.geometry.parameters.radiusTop;
-        params["radius/bottom"] = this.item.geometry.parameters.radiusBottom;
+        params["height"]        = this.three_item.geometry.parameters.height;
+        params["radius/top"]    = this.three_item.geometry.parameters.radiusTop;
+        params["radius/bottom"] = this.three_item.geometry.parameters.radiusBottom;
         return params;
     }
 

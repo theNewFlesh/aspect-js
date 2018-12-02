@@ -7,14 +7,14 @@ import { ITextParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Text extends Primitive {
-    public _create_item(params: ITextParams): THREE.Sprite {
+    public _create_three_item(params: ITextParams): THREE.Sprite {
         const texture = new TextTexture({
             text: params["font/text"] || "DEFAULT TEXT",
             fontFamily: `"${params["font/family"]}"` || "Tahoma",
             fontSize: params["font/size"] || 100,
             fontStyle: params["font/style"] || "normal",
         });
-        const material = new THREE.SpriteMaterial({
+        const material = new THREE.Sprthree_itematerial({
             map: texture
         });
         const sprite = new THREE.Sprite(material);
@@ -39,10 +39,10 @@ export class Text extends Primitive {
 
     public read(): ITextParams {
         const params: ITextParams = super.read();
-        params["font/text"]   = this.item.material.map.text;
-        params["font/family"] = this.item.material.map.fontFamily;
-        params["font/style"]  = this.item.material.map.fontStyle;
-        params["font/size"]   = this.item.material.map.fontSize;
+        params["font/text"]   = this.three_item.material.map.text;
+        params["font/family"] = this.three_item.material.map.fontFamily;
+        params["font/style"]  = this.three_item.material.map.fontStyle;
+        params["font/size"]   = this.three_item.material.map.fontSize;
         return params;
     }
 

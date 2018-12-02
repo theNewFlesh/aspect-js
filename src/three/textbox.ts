@@ -8,7 +8,7 @@ import { ITextBoxParams } from "../core/iparams";
 
 export class TextBox extends Primitive {
     private __get_font_family(): string {
-        const family: string = this._item.material[5].map.fontFamily;
+        const family: string = this._three_item.material[5].map.fontFamily;
         return family.replace(/"/g, "");
     }
 
@@ -36,7 +36,7 @@ export class TextBox extends Primitive {
         }
     };
 
-    public _create_item(params: ITextBoxParams): THREE.Mesh {
+    public _create_three_item(params: ITextBoxParams): THREE.Mesh {
         const texture = new TextTexture({
             text: params["font/text"],
             fontFamily: `"${params["font/family"]}"`,
@@ -56,8 +56,8 @@ export class TextBox extends Primitive {
         ];
 
         const geo: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 1);
-        const item = new THREE.Mesh(geo, materials);
-        return item;
+        const three_item = new THREE.Mesh(geo, materials);
+        return three_item;
     }
 
     public _is_destructive(params: ITextBoxParams): boolean {
@@ -75,10 +75,10 @@ export class TextBox extends Primitive {
 
     public read(): ITextBoxParams {
         const params: ITextBoxParams = super.read();
-        params["font/text"]   = this.item.material[5].map.text;
+        params["font/text"]   = this.three_item.material[5].map.text;
         params["font/family"] = this.__get_font_family();
-        params["font/style"]  = this.item.material[5].map.fontStyle;
-        params["font/size"]   = this.item.material[5].map.fontSize;
+        params["font/style"]  = this.three_item.material[5].map.fontStyle;
+        params["font/size"]   = this.three_item.material[5].map.fontSize;
         return params;
     }
 

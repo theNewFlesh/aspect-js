@@ -8,11 +8,11 @@ import { IParams } from "../core/iparams";
 export class Primitive extends PrimitiveBase {
     private __get_color(): any {
         let rgb;
-        if (tools.is_array(this.item.material)) {
-            rgb = this.item.material[5].color.toArray();
+        if (tools.is_array(this.three_item.material)) {
+            rgb = this.three_item.material[5].color.toArray();
         }
         else {
-            rgb = this.item.material.color.toArray();
+            rgb = this.three_item.material.color.toArray();
         }
         rgb = {
             r: rgb[0],
@@ -31,13 +31,13 @@ export class Primitive extends PrimitiveBase {
         };
         const rgba: any = tools.hsva_to_rgba(hsva);
         const rgb = [rgba.r, rgba.g, rgba.b];
-        if (tools.is_array(this.item.material)) {
-            this.item.material[5].color.setRGB(...rgb);
-            this.item.material[5].opacity = rgba.a;
+        if (tools.is_array(this.three_item.material)) {
+            this.three_item.material[5].color.setRGB(...rgb);
+            this.three_item.material[5].opacity = rgba.a;
         }
         else {
-            this.item.material.color.setRGB(...rgb);
-            this.item.material.opacity = rgba.a;
+            this.three_item.material.color.setRGB(...rgb);
+            this.three_item.material.opacity = rgba.a;
         }
     }
     // -------------------------------------------------------------------------
@@ -67,7 +67,7 @@ export class Primitive extends PrimitiveBase {
         params["color/hue"] = this.__get_color().h;
         params["color/saturation"] = this.__get_color().s;
         params["color/value"] = this.__get_color().v;
-        params["color/alpha"] = this.item.material.opacity;
+        params["color/alpha"] = this.three_item.material.opacity;
         return params;
     }
 

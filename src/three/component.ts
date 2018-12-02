@@ -24,31 +24,31 @@ export class Component extends Group {
         return output;
     }
 
-    public get item(): any {
-        return this._item;
+    public get three_item(): any {
+        return this._three_item;
     }
 
-    public set item(item: any) {
-        this._item = item;
+    public set three_item(three_item: any) {
+        this._three_item = three_item;
     }
 
     public _clean_params(params: object): object {
         const temp: IComponentParams = three_tools.resolve_params(
             params, this._default_params
         );
-        const item: any = this._default_params;
-        Object.assign(item, temp);
-        return three_tools.remove_empty_keys(item);
+        const three_item: any = this._default_params;
+        Object.assign(three_item, temp);
+        return three_tools.remove_empty_keys(three_item);
     }
 
-    public _assign_item(params: IComponentParams): void {
+    public _assign_three_item(params: IComponentParams): void {
         const grp: Group = new Group(this.parent);
         grp.create(this._to_group_params(params));
         this.children["group"] = grp;
-        this.item = grp.item;
+        this.three_item = grp.three_item;
     }
 
     public create(params: IComponentParams): void {
-        this._assign_item(this._clean_params(params));
+        this._assign_three_item(this._clean_params(params));
     }
 }

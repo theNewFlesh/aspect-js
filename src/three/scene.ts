@@ -17,7 +17,7 @@ export class Scene extends Component {
         const intensity: number = 1;
         const light = new THREE.DirectionalLight(color, intensity);
         light.position.set(0, 0 , 6);
-        this.parent.item.add(light);
+        this.parent.three_item.add(light);
         this._light = light;
     }
 
@@ -61,7 +61,7 @@ export class Scene extends Component {
 
     public render_update() {
         this._controls.update();
-        this._renderer.render(this.parent.item, this._camera);
+        this._renderer.render(this.parent.three_item, this._camera);
     }
 
     public create(params: ISceneParams): void {

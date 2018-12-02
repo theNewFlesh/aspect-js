@@ -5,15 +5,15 @@ import { ISphereParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Sphere extends Primitive {
-    public _create_item(params: ISphereParams): THREE.Mesh {
+    public _create_three_item(params: ISphereParams): THREE.Mesh {
         const radius: number = params["radius"] || 1;
         const geo = new THREE.SphereGeometry(radius, 24, 24);
         const material = new THREE.MeshLambertMaterial({
             color: 0x444444,
             transparent: true
         });
-        const item = new THREE.Mesh(geo, material);
-        return item;
+        const three_item = new THREE.Mesh(geo, material);
+        return three_item;
     }
 
     public _is_destructive(params: ISphereParams): boolean {
@@ -31,7 +31,7 @@ export class Sphere extends Primitive {
 
     public read(): ISphereParams {
         const params: ISphereParams = super.read();
-        params["radius"] = this.item.geometry.parameters.radius;
+        params["radius"] = this.three_item.geometry.parameters.radius;
         return params;
     }
 

@@ -28,7 +28,7 @@ export class DAG {
     public _params: Params = new Params({});
     public parent: any;
     public children: object = {};
-    public item: any;
+    public three_item: any;
     // -------------------------------------------------------------------------
 
     public _get_parent(params: Params, id: string): any {
@@ -104,8 +104,8 @@ export class DAG {
     }
 
     public _link_graphs(params: Params): void {
-        for (const item of params.to_graphs()) {
-            const id: string = item["id"];
+        for (const three_item of params.to_graphs()) {
+            const id: string = three_item["id"];
             const graph: Graph = this.children[id];
             const pid: string = params.get_parent_id(id);
             let parent: any = this.parent;
@@ -113,14 +113,14 @@ export class DAG {
                 parent = this.children[pid];
             }
 
-            parent._item.add(graph._item);
+            parent._three_item.add(graph._three_item);
             graph._parent = parent;
         }
     }
     // -------------------------------------------------------------------------
 
     public _create_scene(params: Params): void {
-        this.item = new THREE.Scene();
+        this.three_item = new THREE.Scene();
         const scene: Scene = new Scene(this.self);
         scene.create(params.to_scene());
         const id: string = params.to_scene()["id"];
@@ -129,19 +129,19 @@ export class DAG {
     }
 
     public _create_graphs(params: Params): void {
-        for (const item of params.to_graphs()) {
+        for (const three_item of params.to_graphs()) {
             const graph: Graph = new Graph(this.parent);
-            this.children[item["id"]] = graph;
-            graph.create(item);
+            this.children[three_item["id"]] = graph;
+            graph.create(three_item);
         }
     }
 
     public _create_nodes(params: Params): void {
-        for (const item of params.to_nodes()) {
-            const parent: any = this._get_parent(params, item["id"]);
+        for (const three_item of params.to_nodes()) {
+            const parent: any = this._get_parent(params, three_item["id"]);
             const node: Node = new Node(parent);
-            this.children[item["id"]] = node;
-            node.create(item);
+            this.children[three_item["id"]] = node;
+            node.create(three_item);
         }
     }
 
@@ -152,27 +152,27 @@ export class DAG {
     }
 
     public _create_edges(params: Params): void {
-        for (const item of params.to_edges()) {
-            const parent: any = this._get_parent(params, item["id"]);
-            this._create_edge(params, parent, item);
+        for (const three_item of params.to_edges()) {
+            const parent: any = this._get_parent(params, three_item["id"]);
+            this._create_edge(params, parent, three_item);
         }
     }
 
     public _create_inports(params: Params): void {
-        for (const item of params.to_inports()) {
-            const parent: any = this._get_parent(params, item["id"]);
+        for (const three_item of params.to_inports()) {
+            const parent: any = this._get_parent(params, three_item["id"]);
             const inport: Port = new Port(parent);
-            this.children[item["id"]] = inport;
-            inport.create(item);
+            this.children[three_item["id"]] = inport;
+            inport.create(three_item);
         }
     }
 
     public _create_outports(params: Params): void {
-        for (const item of params.to_outports()) {
-            const parent: any = this._get_parent(params, item["id"]);
+        for (const three_item of params.to_outports()) {
+            const parent: any = this._get_parent(params, three_item["id"]);
             const outport: Port = new Port(parent);
-            this.children[item["id"]] = outport;
-            outport.create(item);
+            this.children[three_item["id"]] = outport;
+            outport.create(three_item);
         }
     }
     // -------------------------------------------------------------------------
