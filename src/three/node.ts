@@ -13,6 +13,7 @@ const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 export class Node {
     private __id: string = null;
     public _parent: any;
+    public _item: any;
     public _children: object = {};
 
     public constructor(parent: any) {
@@ -27,9 +28,6 @@ export class Node {
             "translate/x": params["translate/x"],
             "translate/y": params["translate/y"],
             "translate/z": params["translate/z"],
-            "scale/x":     params["scale/x"],
-            "scale/y":     params["scale/y"],
-            "scale/z":     params["scale/z"],
         };
         output = three_tools.remove_empty_keys(output);
         return output;
@@ -39,6 +37,9 @@ export class Node {
         let output: object = {
             "name":             three_tools.get_name(params, "cube"),
             "visible":          params["visible"],
+            "scale/x":          params["scale/x"],
+            "scale/y":          params["scale/y"],
+            "scale/z":          params["scale/z"],
             "color/hue":        params["color/hue"],
             "color/saturation": params["color/saturation"],
             "color/value":      params["color/value"],
@@ -51,6 +52,9 @@ export class Node {
     private __to_textbox_params(params: object): object {
         let output: object = {
             "name":             three_tools.get_name(params, "textbox"),
+            "scale/x":          params["scale/x"],
+            "scale/y":          params["scale/y"],
+            "scale/z":          params["scale/z"],
             "color/hue":        params["font/color/hue"],
             "color/saturation": params["font/color/saturation"],
             "color/value":      params["font/color/value"],
@@ -109,6 +113,8 @@ export class Node {
         const textbox: TextBox = new TextBox(grp);
         textbox.create(this.__to_textbox_params(new_params));
         this._children["textbox"] = textbox;
+
+        this._item = grp._item;
     }
 
     public read(): INodeParams {

@@ -77,11 +77,12 @@ export class Port {
         const grp: Group = new Group(this._parent);
         grp.create(this.__to_group_params(new_params));
         this._children["group"] = grp;
-        this._item = grp;
 
         const sphere: Sphere = new Sphere(grp);
         sphere.create(this.__to_sphere_params(new_params));
         this._children["sphere"] = sphere;
+
+        this._item = grp;
     }
 
     public read(): IPortParams {

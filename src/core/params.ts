@@ -4,8 +4,7 @@ import {
     ISceneParams,
     IEdgeParams,
     INodeParams,
-    IInportParams,
-    IOutportParams,
+    IPortParams,
 } from "./iparams";
 // -----------------------------------------------------------------------------
 
@@ -206,14 +205,14 @@ export class Params {
         return new Params(data);
     }
 
-    public to_inport(inport_id: string): IInportParams {
+    public to_inport(inport_id: string): IPortParams {
         return this.filter_inport(inport_id)
             .strip_id()
             .strip_display()
             .to_object();
     }
 
-    public to_inports(): IInportParams[] {
+    public to_inports(): IPortParams[] {
         return this._to_children("inport");
     }
     // -------------------------------------------------------------------------
@@ -225,14 +224,14 @@ export class Params {
         return new Params(data);
     }
 
-    public to_outport(outport_id: string): IOutportParams {
+    public to_outport(outport_id: string): IPortParams {
         return this.filter_outport(outport_id)
             .strip_id()
             .strip_display()
             .to_object();
     }
 
-    public to_outports(): IOutportParams[] {
+    public to_outports(): IPortParams[] {
         return this._to_children("outport");
     }
 }
