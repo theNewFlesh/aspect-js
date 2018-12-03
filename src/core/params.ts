@@ -60,6 +60,10 @@ export class Params {
         this.__data.print();
     }
 
+    public get length(): number {
+        return _.keys(this.to_object()).length;
+    }
+
     public strip_id(): Params {
         const regex: RegExp = new RegExp(".*(inport|outport|node|edge|graph|scene)_.*?\/");
         const data: object = this.__data
@@ -99,6 +103,10 @@ export class Params {
             if (a[key] !== b[key]) {
                 data[key] = a[key];
             }
+        }
+
+        if (_.keys(data).length === 0) {
+            return new Params({});
         }
 
         if (keep_ids) {

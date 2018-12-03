@@ -226,6 +226,10 @@ export class DAG {
 
     public update(state: object): void {
         const params: Params = new Params(state).diff(this._params, true);
+        if (params.length === 0) {
+            return;
+        }
+
         this._update_scene(params);
         this._update_graphs(params);
         this._link_graphs(params);
