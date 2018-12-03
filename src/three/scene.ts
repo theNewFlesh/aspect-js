@@ -72,4 +72,8 @@ export class Scene extends Component {
         this.create_light();
         this.create_camera();
     }
+
+    public update(params: ISceneParams): void {
+        // pass
+    }
 }

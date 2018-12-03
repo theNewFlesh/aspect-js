@@ -28,7 +28,7 @@
             this.dag = new DAG();
             test_scene["width"] = this.width;
             test_scene["height"] = this.height;
-            this.dag.create(test_scene);
+            this.dag.update(test_scene);
             this.scene = this.dag.parent;
         }
 
