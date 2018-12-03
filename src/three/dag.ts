@@ -24,7 +24,7 @@ export class DAG {
     public get scaffold() { return Scaffold; }
     public get params() { return Params; }
 
-    public self = this;
+    public _id: string;
     public _params: Params = new Params({});
     public parent: any;
     public children: object = {};
@@ -48,9 +48,9 @@ export class DAG {
             for (const inport of inports) {
                 const port: Port = this.children[inport["id"]];
                 port.update({
-                    "translate/x": ipstart,
-                    "translate/y": y + offset,
-                    "translate/z": z,
+                    "translate/x": ipstart - x,
+                    "translate/y": offset,
+                    "translate/z": 0,
                 });
                 ipstart++;
             }
@@ -60,9 +60,9 @@ export class DAG {
             for (const outport of outports) {
                 const port: Port = this.children[outport["id"]];
                 port.update({
-                    "translate/x": opstart,
-                    "translate/y": y - offset,
-                    "translate/z": z,
+                    "translate/x": opstart - x,
+                    "translate/y": -offset,
+                    "translate/z": 0,
                 });
                 opstart++;
             }
@@ -80,9 +80,9 @@ export class DAG {
                     "source/translate/x":      inport["translate/x"],
                     "source/translate/y":      inport["translate/y"],
                     "source/translate/z":      inport["translate/z"],
-                    "destination/translate/x": node["translate/x"],
-                    "destination/translate/y": node["translate/y"],
-                    "destination/translate/z": node["translate/z"],
+                    "destination/translate/x": 0,
+                    "destination/translate/y": 0,
+                    "destination/translate/z": 0,
                 };
                 this._create_edge(params, parent, edge_params);
             }
@@ -91,9 +91,9 @@ export class DAG {
                 const outport: IPortParams = this.children[op["id"]].read();
                 const edge_params: object = {
                     "id":                      "edge_" + uuidv4(),
-                    "source/translate/x":      node["translate/x"],
-                    "source/translate/y":      node["translate/y"],
-                    "source/translate/z":      node["translate/z"],
+                    "source/translate/x":      0,
+                    "source/translate/y":      0,
+                    "source/translate/z":      0,
                     "destination/translate/x": outport["translate/x"],
                     "destination/translate/y": outport["translate/y"],
                     "destination/translate/z": outport["translate/z"],
@@ -120,11 +120,11 @@ export class DAG {
     // -------------------------------------------------------------------------
 
     public _create_scene(params: Params): void {
+        this._id = params.get_scene_id();
         this.three_item = new THREE.Scene();
         const scene: Scene = new Scene(this);
-        scene.create(params.to_scene());
-        const id: string = params.to_scene()["id"];
-        this.children[id] = scene;
+        scene.create(params.to_scene(this._id));
+        this.children[this._id] = scene;
         this.parent = scene;
     }
 
@@ -177,6 +177,60 @@ export class DAG {
     }
     // -------------------------------------------------------------------------
 
+    public _update_scene(params: Params): void {
+        const scene: Scene = this.children[this._id];
+        scene.update(params.to_scene(this._id));
+    }
+
+    public _update_graphs(params: Params): void {
+        for (const three_item of params.to_graphs()) {
+            const graph: Graph = new Graph(this.parent);
+            this.children[three_item["id"]] = graph;
+            graph.update(three_item);
+        }
+    }
+
+    public _update_nodes(params: Params): void {
+        for (const three_item of params.to_nodes()) {
+            const parent: any = this._get_parent(params, three_item["id"]);
+            const node: Node = new Node(parent);
+            this.children[three_item["id"]] = node;
+            node.update(three_item);
+        }
+    }
+
+    public _update_edge(params: Params, parent: any, edge_params: IEdgeParams): void {
+        const edge: Edge = new Edge(parent);
+        this.children[edge_params["id"]] = edge;
+        edge.update(edge_params);
+    }
+
+    public _update_edges(params: Params): void {
+        for (const three_item of params.to_edges()) {
+            const parent: any = this._get_parent(params, three_item["id"]);
+            this._update_edge(params, parent, three_item);
+        }
+    }
+
+    public _update_inports(params: Params): void {
+        for (const three_item of params.to_inports()) {
+            const parent: any = this._get_parent(params, three_item["id"]);
+            const inport: Port = new Port(parent);
+            this.children[three_item["id"]] = inport;
+            inport.update(three_item);
+        }
+    }
+
+    public _update_outports(params: Params): void {
+        for (const three_item of params.to_outports()) {
+            const parent: any = this._get_parent(params, three_item["id"]);
+            const outport: Port = new Port(parent);
+            this.children[three_item["id"]] = outport;
+            outport.update(three_item);
+        }
+    }
+    // -------------------------------------------------------------------------
+
     public create(state: object): void {
         const params: Params = new Params(state).diff(this._params);
         this._create_scene(params);
@@ -195,9 +249,20 @@ export class DAG {
 
     public update(state: object): void {
         const params: Params = new Params(state).diff(this._params);
-        for (const key of _.keys(this.children)) {
-            const child: any = this.children[key];
-            child.update(params.to_component(key));
-        }
+        this._update_scene(params);
+        this._update_graphs(params);
+        this._link_graphs(params);
+
+        this._update_nodes(params);
+        this._update_inports(params);
+        this._update_outports(params);
+        this._update_port_positions(params);
+
+        this._update_edges(params);
+    }
+
+    public delete(state: object): void {
+        this.three_item.remove(this.three_item.children[0]);
+        this._params = new Params({});
     }
 }

@@ -142,6 +142,10 @@ export class Params {
     public to_scene(id: string): ISceneParams {
         return this.filter_scene(id).strip_id().to_object();
     }
+
+    public get_scene_id(): string {
+        return _.keys(this.to_object())[0].split("/")[0];
+    }
     // -------------------------------------------------------------------------
 
     public filter_graph(graph_id: string, full: boolean = false): Params {
