@@ -6,6 +6,7 @@ import {
     INodeParams,
     IPortParams,
 } from "./iparams";
+import { MeshLambertMaterial } from 'three';
 // -----------------------------------------------------------------------------
 
 export class Params {
@@ -75,6 +76,13 @@ export class Params {
         return new Params(data);
     }
 
+    public drop_non_ids(): Params {
+        const data: object = this.__data
+            .filter(x => x.key.match(".*\/id$"), "key")
+            .to_object()
+        return new Params(data);
+    }
+
     public drop_display(): Params {
         const data: object = this.__data
             .filter(x => !x.match("display\/"), "key")
@@ -82,7 +90,7 @@ export class Params {
         return new Params(data);
     }
 
-    public diff(params: Params): Params {
+    public diff(params: Params, keep_ids: boolean = true): Params {
         const a: object = this.to_object();
         const b: object = params.to_object();
 
@@ -92,6 +100,20 @@ export class Params {
                 data[key] = a[key];
             }
         }
+
+        if (keep_ids) {
+            const key_re: RegExp = new RegExp("(.*(?:inport|outport|node|edge|graph|scene)_.*?\/)");
+            const val_re: RegExp = new RegExp(".*((?:inport|outport|node|edge|graph|scene)_.*?)\/");
+            for (const key of _.keys(data)) {
+                if (key.match(key_re)) {
+                    const temp: string = key.match(key_re)[1] + "id";
+                    if (!data.hasOwnProperty(temp)) {
+                        data[temp] = key.match(val_re)[1];
+                    }
+                }
+            }
+        }
+
         return new Params(data);
     }
 
