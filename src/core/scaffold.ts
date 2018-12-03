@@ -217,6 +217,11 @@ export class Scaffold {
         }
         return this.applymap(_fill_na);
     }
+
+    public unique(): Scaffold {
+        const data: DataFrame = this.__data.distinct((a, b) => (a !== b));
+        return new Scaffold(data);
+    }
     // -------------------------------------------------------------------------
 
     public to_lut(column: string): object {
