@@ -127,6 +127,7 @@ export class Params {
 
     public get_parent_id(id: string): string {
         return this.__data.filter(x => x.match("\/id$"), "key")
+            .filter(x => !x.match("source/id$|destination/id$"), "key")
             .assign(x => _.split(x.key, "/").slice(-3, -2)[0], "parent")
             .filter(x => x.match(id), "value")
             .to_array()[0]["parent"];

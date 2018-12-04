@@ -30,9 +30,11 @@ export interface IEdgeParams {
     "id"?: string;
     "name"?: string;
     "visible"?: boolean;
+    "source/id": string;
     "source/translate/x"?: number;
     "source/translate/y"?: number;
     "source/translate/z"?: number;
+    "destination/id": string;
     "destination/translate/x"?: number;
     "destination/translate/y"?: number;
     "destination/translate/z"?: number;

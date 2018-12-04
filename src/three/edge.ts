@@ -11,6 +11,9 @@ import { IEdgeParams } from "../core/iparams";
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 
 export class Edge extends Component {
+    private __source_id: string = null;
+    private __destination_id: string = null;
+
     private __to_vector(params: object): three_tools.IVector3 {
         return {
             x: params["translate/x"],
@@ -166,6 +169,9 @@ export class Edge extends Component {
         const destination: Sphere = new Sphere(grp);
         destination.create(this.__to_destination_params(temp));
         this._children["destination"] = destination;
+
+        this.__source_id = params["source/id"];
+        this.__destination_id = params["destination/id"];
     }
 
     public read(): IEdgeParams {
@@ -177,9 +183,11 @@ export class Edge extends Component {
         let params: IEdgeParams = {
             "name":                    grp["name"],
             "visible":                 grp["visible"],
+            "source/id":               this.__source_id,
             "source/translate/x":      src["translate/x"],
             "source/translate/y":      src["translate/y"],
             "source/translate/z":      src["translate/z"],
+            "destination/id":          this.__destination_id,
             "destination/translate/x": dst["translate/x"],
             "destination/translate/y": dst["translate/y"],
             "destination/translate/z": dst["translate/z"],
@@ -205,5 +213,12 @@ export class Edge extends Component {
         this._children["arrow"].update(this.__to_arrow_params(edge));
         this._children["source"].update(this.__to_source_params(edge));
         this._children["destination"].update(this.__to_destination_params(edge));
+
+        if (params.hasOwnProperty("source/id")) {
+            this.__source_id = params["source/id"];
+        }
+        if (params.hasOwnProperty("destination/id")) {
+            this.__destination_id = params["destination/id"];
+        }
     }
 }
