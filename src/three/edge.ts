@@ -182,6 +182,7 @@ export class Edge extends Component {
 
         let params: IEdgeParams = {
             "name":                    grp["name"],
+            "type":                    "edge",
             "visible":                 grp["visible"],
             "source/id":               this.__source_id,
             "source/translate/x":      src["translate/x"],

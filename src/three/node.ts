@@ -124,6 +124,7 @@ export class Node extends Component {
 
         let params: INodeParams = {
             "name":                  grp["name"],
+            "type":                  "node",
             "visible":               grp["visible"],
             "translate/x":           grp["translate/x"],
             "translate/y":           grp["translate/y"],

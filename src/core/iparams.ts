@@ -1,5 +1,6 @@
 export interface IParams {
     "id"?: string;
+    "type"?: string;
     "name"?: string;
     "visible"?: boolean;
     "color/hue"?: number;
@@ -24,10 +25,12 @@ export interface IParams {
 
 export interface ISceneParams {
     "id"?: string;
+    "type"?: string;
 }
 
 export interface IEdgeParams {
     "id"?: string;
+    "type"?: string;
     "name"?: string;
     "visible"?: boolean;
     "source/id": string;
@@ -50,6 +53,7 @@ export interface IEdgeParams {
 
 export interface INodeParams {
     "id"?: string;
+    "type"?: string;
     "name"?: string;
     "visible"?: boolean;
     "translate/x"?: number;
@@ -74,6 +78,7 @@ export interface INodeParams {
 
 export interface IPortParams {
     "id"?: string;
+    "type"?: string;
     "name"?: string;
     "visible"?: boolean;
     "translate/x"?: number;
@@ -90,6 +95,7 @@ export interface IPortParams {
 
 export interface IComponentParams {
     "id"?: string;
+    "type"?: string;
     "name"?: string;
     "visible"?: boolean;
     "color/hue"?: number;
