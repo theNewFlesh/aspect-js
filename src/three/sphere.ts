@@ -25,9 +25,9 @@ export class Sphere extends Primitive {
         return false;
     }
 
-    public create(params: ISphereParams = {}): void {
-        super.create(params);
-    }
+    // public create(params: ISphereParams, parent: any): void {
+    //     super.create(params);
+    // }
 
     public read(): ISphereParams {
         const params: ISphereParams = super.read();

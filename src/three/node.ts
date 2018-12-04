@@ -102,25 +102,25 @@ export class Node extends Component {
         };
     }
 
-    public create(params: INodeParams): void {
-        super.create(params);
+    public create(params: INodeParams, parent: any): void {
+        super.create(params, parent);
 
         const temp: INodeParams = this._clean_params(params);
-        const grp: Group = this.children["group"];
+        const grp: Group = this.get_child("group");
 
-        const cube: Cube = new Cube(grp);
-        cube.create(this.__to_cube_params(temp));
-        this._children["cube"] = cube;
+        const cube: Cube = new Cube();
+        cube.create(this.__to_cube_params(temp), grp);
+        this.set_child("cube", cube);
 
-        const textbox: TextBox = new TextBox(grp);
-        textbox.create(this.__to_textbox_params(temp));
-        this._children["textbox"] = textbox;
+        const textbox: TextBox = new TextBox();
+        textbox.create(this.__to_textbox_params(temp), grp);
+        this.set_child("textbox", textbox);
     }
 
     public read(): INodeParams {
-        const grp = this._children["group"].read();
-        const cube = this._children["cube"].read();
-        const textbox = this._children["textbox"].read();
+        const grp = this.get_child("group").read();
+        const cube = this.get_child("cube").read();
+        const textbox = this.get_child("textbox").read();
 
         let params: INodeParams = {
             "name":                  grp["name"],
@@ -153,8 +153,8 @@ export class Node extends Component {
         let new_params: INodeParams = this.read();
         new_params = three_tools.resolve_params(params, new_params);
 
-        this._children["group"].update(this._to_group_params(new_params));
-        this._children["cube"].update(this.__to_cube_params(new_params));
-        this._children["textbox"].update(this.__to_textbox_params(new_params));
+        this.get_child("group").update(this._to_group_params(new_params));
+        this.get_child("cube").update(this.__to_cube_params(new_params));
+        this.get_child("textbox").update(this.__to_textbox_params(new_params));
     }
 }

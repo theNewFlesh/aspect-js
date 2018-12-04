@@ -69,9 +69,9 @@ export class TextBox extends Primitive {
         return false;
     }
 
-    public create(params: ITextBoxParams): void {
-        super.create(params);
-    }
+    // public create(params: ITextBoxParams, parent: any): void {
+    //     super.create(params);
+    // }
 
     public read(): ITextBoxParams {
         const params: ITextBoxParams = super.read();

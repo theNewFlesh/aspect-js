@@ -20,7 +20,7 @@ interface IGroup {
     remove?: any;
 }
 
-interface IPrimitive {
+export interface IPrimitive {
     parent: IGroup;
     children: object;
     three_item: IGroup;
@@ -28,33 +28,52 @@ interface IPrimitive {
 
 export class PrimitiveBase {
     public _id: string;
-    public _parent: any;
     public _children: object = {};
     public _three_item: IThreeItem;
     public _scaling: boolean = true;
+    public _parent: any = null;
 
-    public constructor(parent: any) {
-        if (parent.three_item === undefined) {
-            throw new Error("parent does not have an three_item member");
-        }
-        this.parent = parent;
+    public has_child(id: string): boolean {
+        return this._children.hasOwnProperty(id);
     }
-    // -------------------------------------------------------------------------
 
-    public get_child(key: string): IPrimitive {
+    public get_child(key: string): any {
         return this._children[key];
     }
 
-    public get parent(): IPrimitive {
-        return this._parent;
-    }
-
-    public set parent(parent: IPrimitive) {
-        this._parent = parent;
+    public set_child(key: string, value: any): void {
+        this._children[key] = value;
     }
 
     public get children(): object {
         return this._children;
+    }
+
+    public has_parent(): boolean {
+        return ![null, undefined].includes(this.parent);
+    }
+
+    public get parent(): any {
+        return this._parent;
+    }
+
+    public set parent(parent: any) {
+        if ([null, undefined].includes(parent)) {
+            throw new Error("parent must not be null or undefined");
+        }
+        if (parent.three_item === null) {
+            throw new Error("parent does not have an three_item member");
+        }
+        this._parent = parent;
+        this._parent.three_item.add(this.three_item);
+    }
+
+    public delete_parent(): void {
+        if ([null, undefined].includes(this.parent)) {
+            throw new Error("this instance has no parent");
+        }
+        this.parent.three_item.remove(this.three_item);
+        this.parent = null;
     }
 
     public get three_item(): IThreeItem {
@@ -148,7 +167,7 @@ export class PrimitiveBase {
         };
     }
 
-    public create(params: IParams): void {
+    public create(params: IParams, parent: any = null): void {
         const temp: IParams = three_tools.resolve_params(
             params, this._default_params
         );
@@ -156,7 +175,9 @@ export class PrimitiveBase {
         Object.assign(new_params, temp);
 
         this.three_item = this._create_three_item(new_params);
-        this.add_parent(this.parent);
+        if (parent !== null) {
+            this.parent = parent;
+        }
         this._non_destructive_update(new_params);
     }
 
@@ -223,22 +244,10 @@ export class PrimitiveBase {
     public delete(): void {
         const prims = this._children;
         _.keys(prims).map(key => prims[key].delete());
-        this.remove_parent();
+        if (this.has_parent) {
+            this.delete_parent();
+        }
         this.three_item = null;
         this._children = {};
-    }
-
-    public add_parent(parent: any): void {
-        if (parent.three_item === undefined) {
-            throw new Error("parent does not have an three_item member");
-        }
-        this.parent.three_item.add(this.three_item);
-    }
-
-    public remove_parent(): void {
-        if (this.parent === undefined) {
-            throw new Error("parent does not exist");
-        }
-        this.parent.three_item.remove(this.three_item);
     }
 }

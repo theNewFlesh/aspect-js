@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
+import { IPrimitive } from "./primitive_base";
 import { Component } from "./component";
 import { ISceneParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
@@ -17,7 +18,7 @@ export class Scene extends Component {
         const intensity: number = 1;
         const light = new THREE.DirectionalLight(color, intensity);
         light.position.set(0, 0 , 6);
-        this.parent.three_item.add(light);
+        this.three_item.add(light);
         this._light = light;
     }
 
@@ -64,10 +65,10 @@ export class Scene extends Component {
         this._renderer.render(this.parent.three_item, this._camera);
     }
 
-    public create(params: ISceneParams): void {
+    public create(params: ISceneParams, parent: any): void {
         this._width = params["width"];
         this._height = params["height"];
-        super.create(params);
+        super.create(params, parent);
 
         this.create_light();
         this.create_camera();

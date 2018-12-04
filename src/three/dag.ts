@@ -42,6 +42,10 @@ export class DAG {
         return this.children[id];
     }
 
+    public set_child(key: string, value: any): void {
+        this.children[key] = value;
+    }
+
     public _get_parent(params: Params, id: string): any {
         const pid: string = params.get_parent_id(id);
         return this.get_child(pid);
@@ -154,12 +158,11 @@ export class DAG {
             const graph: Graph = this.get_child(id);
             const pid: string = params.get_parent_id(id);
             let parent: any = this.parent;
-            if (this.children.hasOwnProperty(pid)) {
+            if (this.has_child(pid)) {
                 parent = this.get_child(pid);
             }
 
-            parent._three_item.add(graph._three_item);
-            graph._parent = parent;
+            graph.parent = parent;
         }
     }
     // -------------------------------------------------------------------------
@@ -169,9 +172,9 @@ export class DAG {
         const item: object = params.to_scene(id);
         if (!this.has_child(id)) {
             this.three_item = new THREE.Scene();
-            const scene: Scene = new Scene(this);
-            scene.create(item);
-            this.children[id] = scene;
+            const scene: Scene = new Scene();
+            scene.create(item, this);
+            this.set_child(id, scene);
             this.parent = scene;
             this._id = id;
         }
@@ -185,9 +188,9 @@ export class DAG {
         for (const item of params.to_graphs()) {
             const id: string = item["id"];
             if (!this.has_child(id)) {
-                const graph: Graph = new Graph(this.parent);
-                this.children[id] = graph;
-                graph.create(item);
+                const graph: Graph = new Graph();
+                graph.create(item, this.parent);
+                this.set_child(id, graph);
             }
             else {
                 this.get_child(id).update(item);
@@ -201,9 +204,9 @@ export class DAG {
             const id: string = item["id"];
             if (!this.has_child(id)) {
                 const parent: any = this._get_parent(params, id);
-                const node: Node = new Node(parent);
-                this.children[id] = node;
-                node.create(item);
+                const node: Node = new Node();
+                node.create(item, parent);
+                this.set_child(id, node);
             }
             else {
                 this.get_child(id).update(item);
@@ -212,9 +215,9 @@ export class DAG {
     }
     // -------------------------------------------------------------------------
     public _create_edge(params: Params, parent: any, edge_params: IEdgeParams): void {
-        const edge: Edge = new Edge(parent);
-        this.children[edge_params["id"]] = edge;
-        edge.create(edge_params);
+        const edge: Edge = new Edge();
+        this.set_child(edge_params["id"], edge);
+        edge.create(edge_params, parent);
     }
 
     public _update_edges(params: Params): void {
@@ -240,9 +243,9 @@ export class DAG {
             const id: string = item["id"];
             if (!this.has_child(id)) {
                 const parent: any = this._get_parent(params, id);
-                const inport: Port = new Port(parent);
-                this.children[id] = inport;
-                inport.create(item);
+                const inport: Port = new Port();
+                inport.create(item, parent);
+                this.set_child(id, inport);
             }
             else {
                 this.get_child(id).update(item);
@@ -256,9 +259,9 @@ export class DAG {
             const id: string = item["id"];
             if (!this.has_child(id)) {
                 const parent: any = this._get_parent(params, id);
-                const outport: Port = new Port(parent);
-                this.children[id] = outport;
-                outport.create(item);
+                const outport: Port = new Port();
+                outport.create(item, parent);
+                this.set_child(id, outport);
             }
             else {
                 this.get_child(id).update(item);

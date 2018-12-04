@@ -2,6 +2,7 @@ import * as THREE from "three";
 import * as three_tools from "./three_tools";
 import { Group } from "./group";
 import { IComponentParams } from "../core/iparams";
+import { IPrimitive } from "./primitive_base";
 // -----------------------------------------------------------------------------
 
 export class Component extends Group {
@@ -35,23 +36,25 @@ export class Component extends Group {
         const temp: IComponentParams = three_tools.resolve_params(
             params, this._default_params
         );
-        const three_item: any = this._default_params;
-        Object.assign(three_item, temp);
-        return three_tools.remove_empty_keys(three_item);
+        const output: any = this._default_params;
+        Object.assign(output, temp);
+        return three_tools.remove_empty_keys(output);
     }
 
     public _assign_three_item(params: IComponentParams): void {
-        const grp: Group = new Group(this);
-        grp.create(this._to_group_params(params));
-        this.children["group"] = grp;
+        const grp: Group = new Group();
+        grp.create(this._to_group_params(params), this);
+        this.set_child("group", grp);
         this.three_item = grp.three_item;
     }
 
-    public create(params: IComponentParams): void {
+    public create(params: IComponentParams, parent: any): void {
         const temp: IComponentParams = this._clean_params(params);
         this._id = params["id"];
         this.three_item = this._create_three_item(temp);
-        this.add_parent(this.parent);
+        if (parent !== null) {
+            this.parent = parent;
+        }
         this._assign_three_item(this._clean_params(params));
         this._non_destructive_update(temp);
     }

@@ -14,7 +14,7 @@ export class Text extends Primitive {
             fontSize: params["font/size"] || 100,
             fontStyle: params["font/style"] || "normal",
         });
-        const material = new THREE.Sprthree_itematerial({
+        const material = new THREE.SpriteMaterial({
             map: texture
         });
         const sprite = new THREE.Sprite(material);
@@ -33,9 +33,9 @@ export class Text extends Primitive {
         return false;
     }
 
-    public create(params: ITextParams): void {
-        super.create(params);
-    }
+    // public create(params: ITextParams, parent: any): void {
+    //     super.create(params);
+    // }
 
     public read(): ITextParams {
         const params: ITextParams = super.read();

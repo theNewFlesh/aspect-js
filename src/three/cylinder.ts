@@ -27,9 +27,9 @@ export class Cylinder extends Primitive {
         return false;
     }
 
-    public create(params: ICylinderParams = {}): void {
-        super.create(params);
-    }
+    // public create(params: ICylinderParams, parent: any): void {
+    //     super.create(params);
+    // }
 
     public read(): ICylinderParams {
         const params: ICylinderParams = super.read();

@@ -42,19 +42,19 @@ export class Port extends Component {
         };
     }
 
-    public create(params: IPortParams = {}): void {
-        super.create(params);
+    public create(params: IPortParams, parent: any): void {
+        super.create(params, parent);
         const temp: IPortParams = this._clean_params(params);
-        const grp: Group = this.children["group"];
+        const grp: Group = this.get_child("group");
 
-        const sphere: Sphere = new Sphere(grp);
-        sphere.create(this.__to_sphere_params(temp));
-        this._children["sphere"] = sphere;
+        const sphere: Sphere = new Sphere();
+        sphere.create(this.__to_sphere_params(temp), grp);
+        this.set_child("sphere", sphere);
     }
 
     public read(): IPortParams {
-        const grp = this._children["group"].read();
-        const sphere = this._children["sphere"].read();
+        const grp = this.get_child("group").read();
+        const sphere = this.get_child("sphere").read();
 
         let params: IPortParams = {
             "name":                  grp["name"],
@@ -79,7 +79,7 @@ export class Port extends Component {
         let new_params: IPortParams = this.read();
         new_params = three_tools.resolve_params(params, new_params);
 
-        this._children["group"].update(this._to_group_params(new_params));
-        this._children["sphere"].update(this.__to_sphere_params(new_params));
+        this.get_child("group").update(this._to_group_params(new_params));
+        this.get_child("sphere").update(this.__to_sphere_params(new_params));
     }
 }
