@@ -51,7 +51,7 @@ export class Component extends Group {
         const temp: IComponentParams = this._clean_params(params);
         this._id = params["id"];
         this.three_item = this._create_three_item(temp);
-        this.link(this.parent);
+        this.add_parent(this.parent);
         this._assign_three_item(this._clean_params(params));
         this._non_destructive_update(temp);
     }

@@ -156,7 +156,7 @@ export class PrimitiveBase {
         Object.assign(new_params, temp);
 
         this.three_item = this._create_three_item(new_params);
-        this.link(this.parent);
+        this.add_parent(this.parent);
         this._non_destructive_update(new_params);
     }
 
@@ -223,19 +223,19 @@ export class PrimitiveBase {
     public delete(): void {
         const prims = this._children;
         _.keys(prims).map(key => prims[key].delete());
-        this.unlink();
+        this.remove_parent();
         this.three_item = null;
         this._children = {};
     }
 
-    public link(parent: any): void {
+    public add_parent(parent: any): void {
         if (parent.three_item === undefined) {
             throw new Error("parent does not have an three_item member");
         }
         this.parent.three_item.add(this.three_item);
     }
 
-    public unlink(): void {
+    public remove_parent(): void {
         if (this.parent === undefined) {
             throw new Error("parent does not exist");
         }
