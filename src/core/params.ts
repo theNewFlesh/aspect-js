@@ -64,6 +64,11 @@ export class Params {
         return _.keys(this.to_object()).length;
     }
 
+    public update(dict: object): Params {
+        const data: object = Object.assign(this.to_object(), dict);
+        return new Params(data);
+    }
+
     public strip_id(): Params {
         const regex: RegExp = new RegExp(".*(inport|outport|node|edge|graph|scene)_.*?\/");
         const data: object = this.__data

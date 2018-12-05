@@ -58,7 +58,7 @@ export class Port extends Component {
 
         let params: IPortParams = {
             "name":                  grp["name"],
-            "type":                  "edge",
+            "type":                  "port",
             "visible":               grp["visible"],
             "translate/x":           grp["translate/x"],
             "translate/y":           grp["translate/y"],

@@ -9,7 +9,8 @@ import { Scene } from "./scene";
 import { Graph } from "./graph";
 import { Edge } from "./edge";
 import { Node } from "./node";
-import { Port } from "./port";
+import { Inport } from "./inport";
+import { Outport } from "./outport";
 import { Params } from "../core/params";
 import { Scaffold } from "../core/scaffold";
 import { IPortParams, INodeParams, IEdgeParams } from "../core/iparams";
@@ -61,7 +62,7 @@ export class DAG {
             const inports: IPortParams[] = params.filter_node(node["id"], true).to_inports();
             let ipstart: number = Math.ceil(x - (inports.length / 2));
             for (const inport of inports) {
-                const port: Port = this.get_child(inport["id"]);
+                const port: Inport = this.get_child(inport["id"]);
                 port.update({
                     "translate/x": ipstart - x,
                     "translate/y": offset,
@@ -73,7 +74,7 @@ export class DAG {
             const outports: IPortParams[] = params.filter_node(node["id"], true).to_outports();
             let opstart: number = Math.ceil(x - (outports.length / 2));
             for (const outport of outports) {
-                const port: Port = this.get_child(outport["id"]);
+                const port: Outport = this.get_child(outport["id"]);
                 port.update({
                     "translate/x": opstart - x,
                     "translate/y": -offset,
@@ -84,7 +85,17 @@ export class DAG {
         }
     }
 
+    public _resolve_port_translation(node: INodeParams, port: IPortParams): object {
+        const output: object = {
+            "translate/x": node["translate/x"] + port["translate/x"],
+            "translate/y": node["translate/y"] + port["translate/y"],
+            "translate/z": node["translate/z"] + port["translate/z"],
+        };
+        return output;
+    }
+
     public _resolve_edge_params(
+        params: Params,
         edge_params: object,
         source_id: string,
         destination_id: string
@@ -98,6 +109,15 @@ export class DAG {
                 "translate/z": 0,
             };
         }
+        else if (src["type"] === "outport") {
+            if (!this.has_child(source_id)) {
+                throw new Error(`child does not exist. id: ${source_id}`);
+            }
+            src = this._resolve_port_translation(
+                this._get_parent(params, source_id).read(),
+                this.get_child(source_id).read(),
+            );
+        }
 
         let dst: object = this.get_child(destination_id).read();
         if (dst["type"] === "node") {
@@ -106,6 +126,15 @@ export class DAG {
                 "translate/y": 0,
                 "translate/z": 0,
             };
+        }
+        else if (dst["type"] === "inport") {
+            if (!this.has_child(destination_id)) {
+                throw new Error(`child does not exist. id: ${destination_id}`);
+            }
+            dst = this._resolve_port_translation(
+                this._get_parent(params, destination_id).read(),
+                this.get_child(destination_id).read(),
+            );
         }
 
         const output: IEdgeParams = {
@@ -135,7 +164,7 @@ export class DAG {
                     "id": "edge_" + uuidv4(),
                 };
                 const edge_params: IEdgeParams = this._resolve_edge_params(
-                    temp, inport["id"], node["id"]
+                    params, temp, inport["id"], node["id"]
                 );
                 this._create_edge(params, parent, edge_params);
             }
@@ -145,7 +174,7 @@ export class DAG {
                     "id": "edge_" + uuidv4(),
                 };
                 const edge_params: IEdgeParams = this._resolve_edge_params(
-                    temp, node["id"], outport["id"]
+                    params, temp, node["id"], outport["id"]
                 );
                 this._create_edge(params, parent, edge_params);
             }
@@ -224,14 +253,18 @@ export class DAG {
         for (let item of params.to_edges()) {
             const id: string = item["id"];
             if (!this.has_child(id)) {
-                item = this._resolve_edge_params(item, item["source/id"], item["destination/id"]);
+                item = this._resolve_edge_params(
+                    params, item, item["source/id"], item["destination/id"]
+                );
                 const parent: any = this._get_parent(params, id);
                 this._create_edge(params, parent, item);
             }
             else {
                 const temp: IEdgeParams = this.get_child(item["id"]).read();
                 Object.assign(temp, item);
-                item = this._resolve_edge_params(temp, temp["source/id"], temp["destination/id"]);
+                item = this._resolve_edge_params(
+                    params, temp, temp["source/id"], temp["destination/id"]
+                );
                 this.get_child(id).update(item);
             }
         }
@@ -243,7 +276,7 @@ export class DAG {
             const id: string = item["id"];
             if (!this.has_child(id)) {
                 const parent: any = this._get_parent(params, id);
-                const inport: Port = new Port();
+                const inport: Inport = new Inport();
                 inport.create(item, parent);
                 this.set_child(id, inport);
             }
@@ -259,7 +292,7 @@ export class DAG {
             const id: string = item["id"];
             if (!this.has_child(id)) {
                 const parent: any = this._get_parent(params, id);
-                const outport: Port = new Port();
+                const outport: Outport = new Outport();
                 outport.create(item, parent);
                 this.set_child(id, outport);
             }
@@ -271,7 +304,8 @@ export class DAG {
     // -------------------------------------------------------------------------
 
     public update(state: object): void {
-        const params: Params = new Params(state).diff(this._params, true);
+        // const params: Params = new Params(state).diff(this._params, true);
+        const params: Params = this._params.update(state);
         if (params.length === 0) {
             return;
         }
