@@ -325,6 +325,7 @@ export class DAG {
         for (const id of ids) {
             const row: object = {
                 id: id,
+                type: id.split("_")[0],
                 action: action,
                 param_state: this._params.has_component(id) ? "present" : "absent",
                 three_state:  this.has_child(id) ? "present" : "absent",

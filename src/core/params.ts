@@ -103,6 +103,21 @@ export class Params {
         return new Params(data);
     }
 
+    public resolve_ids(): Params {
+        const regex: RegExp = new RegExp("(inport|outport|node|edge|graph|scene)");
+        const data: object = this.to_object();
+        const keys: string[] = _.keys(data);
+        for (const key of keys) {
+            let id_key: any = _.filter(key.split("/"), x => x.match(regex));
+            const id: string = id_key[id_key.length - 1];
+            id_key =  _.join(id_key, "/") + "/id";
+            if (!keys.includes(id_key)) {
+                data[id_key] = id;
+            }
+        }
+        return new Params(data);
+    }
+
     public drop_display(): Params {
         const data: object = this.__data
             .filter(x => !x.match("display\/"), "key")
