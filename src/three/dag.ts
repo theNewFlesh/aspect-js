@@ -303,15 +303,12 @@ export class DAG {
     }
     // -------------------------------------------------------------------------
 
-    public get_command_table(partial_state: object, action: string): object[] {
+    public get_command_table(partial_state: object, action: string): Scaffold {
         if (!["add", "delete"].includes(action)) {
             throw new Error(`invalid action: ${action}`);
         }
 
-        let new_state: any = this._params.to_object();
-        Object.assign(new_state, partial_state);
-        new_state = new Params(new_state);
-
+        const new_state: Params = this._params.update(partial_state);
         const command_lut = {
             "delete_absent_absent":   "ignore",
             "delete_absent_present":  "delete",
@@ -329,20 +326,27 @@ export class DAG {
             const row: object = {
                 id: id,
                 action: action,
-                param_state: this._params.has_component(id),
-                three_state: this.has_child(id),
+                param_state: this._params.has_component(id) ? "present" : "absent",
+                three_state:  this.has_child(id) ? "present" : "absent",
                 dependencies: new_state.get_dependencies(id),
             };
             const key: string = [
-                row["action"], row["param_state"], row["three_state"]
+                row["action"],
+                row["param_state"],
+                row["three_state"]
             ].join("_");
             row["command"] = command_lut[key];
             command_table.push(row);
         }
-        return command_table;
+
+        const output: Scaffold = new Scaffold()
+        .from_array(command_table)
+        .sort_by(x => x.length, "dependencies");
+        return output;
     }
 
     public update(state: object): void {
+        this.get_command_table(state, "add").print();
         // const params: Params = new Params(state).diff(this._params, true);
         const params: Params = this._params.update(state);
         if (params.length === 0) {

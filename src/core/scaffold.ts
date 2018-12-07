@@ -134,6 +134,16 @@ export class Scaffold {
         data = new DataFrame(data);
         return new Scaffold(data);
     }
+
+    public sort_by(predicate, column: string, ascending: boolean = true): Scaffold {
+        if (ascending) {
+            const data: any = this.__data.orderBy(x => predicate(x[column]));
+            return new Scaffold(data);
+        } else {
+            const data: any = this.__data.orderByDescending(x => predicate(x[column]));
+            return new Scaffold(data);
+        }
+    }
     // -------------------------------------------------------------------------
 
     public apply(predicate, axis: number = 0): Scaffold {
