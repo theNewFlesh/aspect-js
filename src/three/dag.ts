@@ -303,6 +303,45 @@ export class DAG {
     }
     // -------------------------------------------------------------------------
 
+    public get_command_table(partial_state: object, action: string): object[] {
+        if (!["add", "delete"].includes(action)) {
+            throw new Error(`invalid action: ${action}`);
+        }
+
+        let new_state: any = this._params.to_object();
+        Object.assign(new_state, partial_state);
+        new_state = new Params(new_state);
+
+        const command_lut = {
+            "delete_absent_absent":   "ignore",
+            "delete_absent_present":  "delete",
+            "delete_present_present": "delete",
+            "delete_present_absent":  "ignore",
+            "add_absent_absent":      "create",
+            "add_absent_present":     "update",
+            "add_present_present":    "update",
+            "add_present_absent":     "create",
+        };
+
+        const ids: string[] = new Params(partial_state).to_ids();
+        const command_table: object[] = [];
+        for (const id of ids) {
+            const row: object = {
+                id: id,
+                action: action,
+                param_state: this._params.has_component(id),
+                three_state: this.has_child(id),
+                dependencies: new_state.get_dependencies(id),
+            };
+            const key: string = [
+                row["action"], row["param_state"], row["three_state"]
+            ].join("_");
+            row["command"] = command_lut[key];
+            command_table.push(row);
+        }
+        return command_table;
+    }
+
     public update(state: object): void {
         // const params: Params = new Params(state).diff(this._params, true);
         const params: Params = this._params.update(state);

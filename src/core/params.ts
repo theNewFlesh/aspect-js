@@ -85,6 +85,17 @@ export class Params {
         return new Params(data);
     }
 
+    public to_ids(): string[] {
+        const data: object[] = this.__data
+        .filter(x => x.match("\/id$"), "key")
+        .to_array();
+        return data.map(x => x["value"]);
+    }
+
+    public has_component(id: string): boolean {
+        return this.to_ids().includes(id);
+    }
+
     public drop_non_ids(): Params {
         const data: object = this.__data
             .filter(x => x.key.match(".*\/id$"), "key")
@@ -162,6 +173,20 @@ export class Params {
         else {
             throw new Error(`invalid id: ${id}`);
         }
+    }
+
+    public get_dependencies(id: string): string[] {
+        const ids: string[] = new Params(this.to_component(id)).to_ids();
+
+        const key: string = this.__data
+        .filter(x => x.match(id + "\/id$"), "key")
+        .to_array()[0]["key"];
+        for (const ancestor of key.split("/")) {
+            if (this.has_component(ancestor)) {
+                ids.push(ancestor);
+            }
+        }
+        return ids;
     }
     // -------------------------------------------------------------------------
 
