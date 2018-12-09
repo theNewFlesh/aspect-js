@@ -90,7 +90,9 @@ export class Params {
         .filter(x => x.match("\/id$"), "key")
         .dropna("value", "any")
         .to_array();
-        return data.map(x => x["value"]);
+        let output: string[] = data.map(x => x["value"]);
+        output = _.uniq(output);
+        return output;
     }
 
     public has_component(id: string): boolean {

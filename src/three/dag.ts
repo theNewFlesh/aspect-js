@@ -122,31 +122,6 @@ export class DAG {
         }
         return output;
     }
-
-    public _create_node_edges(params: Params): void {
-        for (const node of params.to_nodes()) {
-            const parent: Node = this.get_child(node["id"]);
-            for (const inport of params.filter_node(node["id"], true).to_inports()) {
-                const temp: object = {
-                    "id": "edge_" + uuidv4(),
-                };
-                const edge_params: IEdgeParams = this._resolve_edge_params(
-                    params, temp, inport["id"], node["id"]
-                );
-                this._create_edge(params, parent, edge_params);
-            }
-
-            for (const outport of params.filter_node(node["id"], true).to_outports()) {
-                const temp: object = {
-                    "id": "edge_" + uuidv4(),
-                };
-                const edge_params: IEdgeParams = this._resolve_edge_params(
-                    params, temp, node["id"], outport["id"]
-                );
-                this._create_edge(params, parent, edge_params);
-            }
-        }
-    }
     // -------------------------------------------------------------------------
 
     public _create_scene(params: Params, id: string): void {
@@ -215,7 +190,10 @@ export class DAG {
         let edge_params: IEdgeParams = this.get_child(id).read();
         Object.assign(edge_params, params.to_edge(id));
         edge_params = this._resolve_edge_params(
-            params, edge_params, edge_params["source/id"], edge_params["destination/id"]
+            params,
+            edge_params,
+            edge_params["source/id"],
+            edge_params["destination/id"]
         );
         this.get_child(id).update(edge_params);
     }
@@ -324,6 +302,7 @@ export class DAG {
 
         const ids: string[] = new Params(partial_state).to_ids();
         const schedule: object[] = [];
+        console.log(ids);
         for (const id of ids) {
             const row: object = {
                 id: id,
@@ -382,11 +361,10 @@ export class DAG {
         return partial_state;
     }
 
-    public update(partial_state: object): void {
+    public update(partial_state: object, action: string): void {
         partial_state = new Params(partial_state).resolve_ids().to_object();
         partial_state = this._add_edges_for_nodes(partial_state);
         const schedule: Scaffold = this.get_schedule(partial_state, "add");
-        schedule.print();
         const state: Params = this._state.update(partial_state);
 
         for (const row of schedule.to_array()) {
