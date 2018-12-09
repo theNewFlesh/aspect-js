@@ -123,30 +123,30 @@ export class DAG {
         return output;
     }
 
-    // public _create_node_edges(params: Params): void {
-    //     for (const node of params.to_nodes()) {
-    //         const parent: Node = this.get_child(node["id"]);
-    //         for (const inport of params.filter_node(node["id"], true).to_inports()) {
-    //             const temp: object = {
-    //                 "id": "edge_" + uuidv4(),
-    //             };
-    //             const edge_params: IEdgeParams = this._resolve_edge_params(
-    //                 params, temp, inport["id"], node["id"]
-    //             );
-    //             this._create_edge(params, parent, edge_params);
-    //         }
+    public _create_node_edges(params: Params): void {
+        for (const node of params.to_nodes()) {
+            const parent: Node = this.get_child(node["id"]);
+            for (const inport of params.filter_node(node["id"], true).to_inports()) {
+                const temp: object = {
+                    "id": "edge_" + uuidv4(),
+                };
+                const edge_params: IEdgeParams = this._resolve_edge_params(
+                    params, temp, inport["id"], node["id"]
+                );
+                this._create_edge(params, parent, edge_params);
+            }
 
-    //         for (const outport of params.filter_node(node["id"], true).to_outports()) {
-    //             const temp: object = {
-    //                 "id": "edge_" + uuidv4(),
-    //             };
-    //             const edge_params: IEdgeParams = this._resolve_edge_params(
-    //                 params, temp, node["id"], outport["id"]
-    //             );
-    //             this._create_edge(params, parent, edge_params);
-    //         }
-    //     }
-    // }
+            for (const outport of params.filter_node(node["id"], true).to_outports()) {
+                const temp: object = {
+                    "id": "edge_" + uuidv4(),
+                };
+                const edge_params: IEdgeParams = this._resolve_edge_params(
+                    params, temp, node["id"], outport["id"]
+                );
+                this._create_edge(params, parent, edge_params);
+            }
+        }
+    }
     // -------------------------------------------------------------------------
 
     public _create_scene(params: Params, id: string): void {
@@ -198,6 +198,7 @@ export class DAG {
         this.get_child(id).delete();
     }
     // -------------------------------------------------------------------------
+
     public _create_edge(params: Params, id: string): void {
         let item: IEdgeParams = params.to_edge(id);
         item = this._resolve_edge_params(
@@ -301,8 +302,6 @@ export class DAG {
             throw new Error(`invalid action: ${action}`);
         }
 
-        partial_state = new Params(partial_state).resolve_ids().to_object();
-        const new_state: Params = this._state.update(partial_state);
         const command_lut = {
             "delete_absent_absent":   "ignore",
             "delete_absent_present":  "delete",
@@ -349,7 +348,43 @@ export class DAG {
         return output;
     }
 
+    public _add_edges_for_nodes(partial_state: object): object {
+        const params: Params = new Params(partial_state);
+        for (const inport of params.to_inports()) {
+            const id: string = inport["id"];
+            const pid: string = params.get_parent_id(id);
+
+            const key: any = params.to_key_header(pid);
+            if (key !== null) {
+                const edge: object = {};
+                const eid: string = "edge_" + uuidv4();
+                edge[key + eid + "/id"] = eid;
+                edge[key + eid + "/source/id"] = id;
+                edge[key + eid + "/destination/id"] = pid;
+                Object.assign(partial_state, edge);
+            }
+        }
+        for (const outport of params.to_outports()) {
+            const id: string = outport["id"];
+            const pid: string = params.get_parent_id(id);
+
+            const key: any = params.to_key_header(pid);
+            if (key !== null) {
+                const edge: object = {};
+                const eid: string = "edge_" + uuidv4();
+                edge[key + eid + "/id"] = eid;
+                edge[key + eid + "/source/id"] = pid;
+                edge[key + eid + "/destination/id"] = id;
+                Object.assign(partial_state, edge);
+            }
+        }
+
+        return partial_state;
+    }
+
     public update(partial_state: object): void {
+        partial_state = new Params(partial_state).resolve_ids().to_object();
+        partial_state = this._add_edges_for_nodes(partial_state);
         const schedule: Scaffold = this.get_schedule(partial_state, "add");
         schedule.print();
         const state: Params = this._state.update(partial_state);

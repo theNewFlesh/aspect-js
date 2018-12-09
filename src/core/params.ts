@@ -100,8 +100,20 @@ export class Params {
     public drop_non_ids(): Params {
         const data: object = this.__data
             .filter(x => x.key.match(".*\/id$"), "key")
-            .to_object()
+            .to_object();
         return new Params(data);
+    }
+
+    public to_key_header(id: string): string {
+        const data: object = this.__data
+        .filter(x => x.match(id), "key")
+        .to_object();
+        if (_.keys(data).length === 0) {
+            return null;
+        }
+        let output: string = _.keys(data)[0];
+        output = output.match(".*" + id)[0] + "/";
+        return output;
     }
 
     public resolve_ids(): Params {
@@ -112,8 +124,10 @@ export class Params {
             let id_key: any = _.filter(key.split("/"), x => x.match(regex));
             const id: string = id_key[id_key.length - 1];
             id_key =  _.join(id_key, "/") + "/id";
-            if (!keys.includes(id_key)) {
-                data[id_key] = id;
+            if (id_key.match(".*_.*")) {
+                if (!keys.includes(id_key)) {
+                    data[id_key] = id;
+                }
             }
         }
         return new Params(data);
