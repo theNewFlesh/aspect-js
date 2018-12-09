@@ -47,11 +47,10 @@ export class Port extends Component {
     public create(params: IPortParams, parent: any): void {
         super.create(params, parent);
         const temp: IPortParams = this._clean_params(params);
-        const grp: Group = this.get_child("group");
 
         const sphere: Sphere = new Sphere(this._scene);
-        sphere.create(this.__to_sphere_params(temp), grp);
-        this.set_child("sphere", sphere);
+        sphere.create(this.__to_sphere_params(temp), this.item);
+        this.set_primitive("sphere", sphere);
 
         if (_.keys(params).includes("order")) {
             this.__order = params["order"];
@@ -59,8 +58,8 @@ export class Port extends Component {
     }
 
     public read(): IPortParams {
-        const grp = this.get_child("group").read();
-        const sphere = this.get_child("sphere").read();
+        const grp = this.item.read();
+        const sphere = this.get_primitive("sphere").read();
 
         let params: IPortParams = {
             "name":                  grp["name"],
@@ -86,8 +85,8 @@ export class Port extends Component {
         let new_params: IPortParams = this.read();
         new_params = three_tools.resolve_params(params, new_params);
 
-        this.get_child("group").update(this._to_group_params(new_params));
-        this.get_child("sphere").update(this.__to_sphere_params(new_params));
+        this.item.update(this._to_group_params(new_params));
+        this.get_primitive("sphere").update(this.__to_sphere_params(new_params));
 
         if (_.keys(params).includes("order")) {
             this.__order = params["order"];

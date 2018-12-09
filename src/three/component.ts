@@ -1,11 +1,37 @@
-import * as THREE from "three";
 import * as three_tools from "./three_tools";
 import { Group } from "./group";
 import { IComponentParams } from "../core/iparams";
-import { IPrimitive } from "./primitive_base";
 // -----------------------------------------------------------------------------
 
 export class Component extends Group {
+    public _children: object = {};
+    public _item: Group;
+
+    public has_child(id: string): boolean {
+        return this._children.hasOwnProperty(id);
+    }
+
+    public get_child(key: string): any {
+        return this._children[key];
+    }
+
+    public set_child(key: string, value: any): void {
+        this._children[key] = value;
+    }
+
+    public get children(): object {
+        return this._children;
+    }
+
+    public get item(): Group {
+        return this._item;
+    }
+
+    public set item(item: Group) {
+        this._item = item;
+    }
+    // -------------------------------------------------------------------------
+
     public _to_group_params(params: object): object {
         let output: object = {
             "name":        three_tools.get_name(params, "group"),
@@ -44,7 +70,7 @@ export class Component extends Group {
     public _assign_three_item(params: IComponentParams): void {
         const grp: Group = new Group(this._scene);
         grp.create(this._to_group_params(params), this);
-        this.set_child("group", grp);
+        this._item = grp;
         this.three_item = grp.three_item;
     }
 
@@ -54,6 +80,7 @@ export class Component extends Group {
         this.three_item = this._create_three_item(temp);
         if (parent !== null) {
             this.parent = parent;
+            this.parent.set_child(this._id, this);
         }
         this._assign_three_item(this._clean_params(params));
         this._non_destructive_update(temp);

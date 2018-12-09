@@ -101,7 +101,8 @@ export class Params {
 
     public drop_non_ids(): Params {
         const data: object = this.__data
-            .filter(x => x.key.match(".*\/id$"), "key")
+            .dropna("key")
+            .filter(x => x.match(".*\/id$"), "key")
             .to_object();
         return new Params(data);
     }
@@ -207,18 +208,30 @@ export class Params {
         }
     }
 
-    public get_dependencies(id: string): string[] {
-        const ids: string[] = new Params(this.to_component(id)).to_ids();
+    public get_dependencies(id: string, full: boolean = true): string[] {
+        let output: string[] = [];
 
-        const key: string = this.__data
-        .filter(x => x.match(id + "\/id$"), "key")
-        .to_array()[0]["key"];
-        for (const ancestor of _.split(key, "/")) {
-            if (this.has_component(ancestor)) {
-                ids.push(ancestor);
+        if (full) {
+            output = new Params(this.to_component(id)).to_ids();
+            const key: string = this.__data
+                .filter(x => x.match(id + "\/id$"), "key")
+                .to_array()[0]["key"];
+            for (const ancestor of _.split(key, "/")) {
+                if (this.has_component(ancestor)) {
+                    output.push(ancestor);
+                }
             }
         }
-        return ids;
+
+        let ids: any = new Params(this.to_component(id))
+            .__data.filter(x => x.match("(source|destination)\/id$"), "key")
+            .to_object();
+        ids = _.values(ids);
+        for (const id of ids) {
+            output.push(id);
+        }
+
+        return output;
     }
     // -------------------------------------------------------------------------
 

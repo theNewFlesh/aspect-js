@@ -106,21 +106,22 @@ export class Node extends Component {
         super.create(params, parent);
 
         const temp: INodeParams = this._clean_params(params);
-        const grp: Group = this.get_child("group");
+        // const grp: Group = this.three_item;
+        // console.log(grp);
 
         const cube: Cube = new Cube(this._scene);
-        cube.create(this.__to_cube_params(temp), grp);
-        this.set_child("cube", cube);
+        cube.create(this.__to_cube_params(temp), this.item);
+        this.set_primitive("cube", cube);
 
         const textbox: TextBox = new TextBox(this._scene);
-        textbox.create(this.__to_textbox_params(temp), grp);
-        this.set_child("textbox", textbox);
+        textbox.create(this.__to_textbox_params(temp), this.item);
+        this.set_primitive("textbox", textbox);
     }
 
     public read(): INodeParams {
-        const grp = this.get_child("group").read();
-        const cube = this.get_child("cube").read();
-        const textbox = this.get_child("textbox").read();
+        const grp = this.item.read();
+        const cube = this.get_primitive("cube").read();
+        const textbox = this.get_primitive("textbox").read();
 
         let params: INodeParams = {
             "name":                  grp["name"],
@@ -153,8 +154,8 @@ export class Node extends Component {
         let new_params: INodeParams = this.read();
         new_params = three_tools.resolve_params(params, new_params);
 
-        this.get_child("group").update(this._to_group_params(new_params));
-        this.get_child("cube").update(this.__to_cube_params(new_params));
-        this.get_child("textbox").update(this.__to_textbox_params(new_params));
+        this.item.update(this._to_group_params(new_params));
+        this.get_primitive("cube").update(this.__to_cube_params(new_params));
+        this.get_primitive("textbox").update(this.__to_textbox_params(new_params));
     }
 }

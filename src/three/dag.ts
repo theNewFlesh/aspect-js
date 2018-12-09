@@ -251,6 +251,26 @@ export class DAG {
     }
     // -------------------------------------------------------------------------
 
+    public _get_edge_dependency_lut(): object {
+          // create dep_id / edge_id lut
+          const edges: object[] = this._state.to_edges();
+          const lut: object = {};
+          for (const edge of edges) {
+              const eid: string = edge["id"];
+              const sid: string = edge["source/id"];
+              const did: string = edge["destination/id"];
+              if (!lut.hasOwnProperty(sid)) {
+                  lut[sid] = [];
+              }
+              if (!lut.hasOwnProperty(did)) {
+                  lut[did] = [];
+              }
+              lut[sid].push(eid);
+              lut[did].push(eid);
+          }
+          return lut;
+    }
+
     public get_schedule(partial_state: object, mode: string): Scaffold {
         if (!["edit", "delete"].includes(mode)) {
             throw new Error(`invalid mode: ${mode}`);
@@ -276,7 +296,18 @@ export class DAG {
                "edge": 5,
         };
 
-        const ids: string[] = new Params(partial_state).to_ids();
+        const temp_ids: string[] = new Params(partial_state).to_ids();
+        const edge_dep_lut: object = this._get_edge_dependency_lut();
+        let ids: string[] = _.clone(temp_ids);
+        for (const id of temp_ids) {
+            if (edge_dep_lut.hasOwnProperty(id)) {
+                for (const eid of edge_dep_lut[id]) {
+                    ids.push(eid);
+                }
+            }
+        }
+        ids = _.uniq(ids);
+
         const schedule: object[] = [];
         for (const id of ids) {
             const row: object = {
@@ -284,15 +315,16 @@ export class DAG {
                 type: _.split(id, "_")[0],
                 mode: mode,
                 param_state: this._state.has_component(id) ? "present" : "absent",
-                three_state:  this.has_child(id) ? "present" : "absent",
+                three_state: this.has_child(id) ? "present" : "absent",
             };
             const key: string = [
                 row["mode"],
                 row["param_state"],
-                row["three_state"]
+                row["three_state"],
             ].join("_");
             row["command"] = command_lut[key];
             row["order"] = order_lut[row["type"]];
+            row["dependencies"] = new Params(partial_state).get_dependencies(id, false);
             schedule.push(row);
         }
 

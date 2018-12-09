@@ -152,33 +152,32 @@ export class Edge extends Component {
     public create(params: IEdgeParams, parent: any): void {
         super.create(params, parent);
         const temp: IEdgeParams = this._clean_params(params);
-        const grp: Group = this.get_child("group");
 
         const body: Cylinder = new Cylinder(this._scene);
-        body.create(this.__to_body_params(temp), grp);
-        this.set_child("body", body);
+        body.create(this.__to_body_params(temp), this.item);
+        this.set_primitive("body", body);
 
         const arrow: Cylinder = new Cylinder(this._scene);
-        arrow.create(this.__to_arrow_params(temp), grp);
-        this.set_child("arrow", arrow);
+        arrow.create(this.__to_arrow_params(temp), this.item);
+        this.set_primitive("arrow", arrow);
 
         const source: Sphere = new Sphere(this._scene);
-        source.create(this.__to_source_params(temp), grp);
-        this.set_child("source", source);
+        source.create(this.__to_source_params(temp), this.item);
+        this.set_primitive("source", source);
 
         const destination: Sphere = new Sphere(this._scene);
-        destination.create(this.__to_destination_params(temp), grp);
-        this.set_child("destination", destination);
+        destination.create(this.__to_destination_params(temp), this.item);
+        this.set_primitive("destination", destination);
 
         this.__source_id = params["source/id"];
         this.__destination_id = params["destination/id"];
     }
 
     public read(): IEdgeParams {
-        const src = this.get_child("source").read();
-        const dst = this.get_child("destination").read();
-        const body = this.get_child("body").read();
-        const grp = this.get_child("group").read();
+        const src = this.get_primitive("source").read();
+        const dst = this.get_primitive("destination").read();
+        const body = this.get_primitive("body").read();
+        const grp = this.item.read();
 
         let params: IEdgeParams = {
             "name":                    grp["name"],
@@ -209,17 +208,13 @@ export class Edge extends Component {
         let edge: object = this.read();
         edge = three_tools.resolve_params(params, edge);
 
-        this.get_child("group").update(this._to_group_params(edge));
-        this.get_child("body").update(this.__to_body_params(edge));
-        this.get_child("arrow").update(this.__to_arrow_params(edge));
-        this.get_child("source").update(this.__to_source_params(edge));
-        this.get_child("destination").update(this.__to_destination_params(edge));
+        this.item.update(this._to_group_params(edge));
+        this.get_primitive("body").update(this.__to_body_params(edge));
+        this.get_primitive("arrow").update(this.__to_arrow_params(edge));
+        this.get_primitive("source").update(this.__to_source_params(edge));
+        this.get_primitive("destination").update(this.__to_destination_params(edge));
 
-        if (params.hasOwnProperty("source/id")) {
-            this.__source_id = params["source/id"];
-        }
-        if (params.hasOwnProperty("destination/id")) {
-            this.__destination_id = params["destination/id"];
-        }
+        this.__source_id = params["source/id"];
+        this.__destination_id = params["destination/id"];
     }
 }

@@ -22,14 +22,14 @@ interface IGroup {
 
 export interface IPrimitive {
     parent: IGroup;
-    children: object;
+    primitives: object;
     three_item: IGroup;
 }
 
 export class PrimitiveBase {
     public _scene: THREE.Scene;
     public _id: string;
-    public _children: object = {};
+    public _primitives: object = {};
     public _three_item: any;
     public _scaling: boolean = true;
     public _parent: any;
@@ -38,20 +38,20 @@ export class PrimitiveBase {
         this._scene = scene;
     }
 
-    public has_child(id: string): boolean {
-        return this._children.hasOwnProperty(id);
+    public has_primitive(id: string): boolean {
+        return this._primitives.hasOwnProperty(id);
     }
 
-    public get_child(key: string): any {
-        return this._children[key];
+    public get_primitive(key: string): any {
+        return this._primitives[key];
     }
 
-    public set_child(key: string, value: any): void {
-        this._children[key] = value;
+    public set_primitive(key: string, value: any): void {
+        this._primitives[key] = value;
     }
 
-    public get children(): object {
-        return this._children;
+    public get primitives(): object {
+        return this._primitives;
     }
 
     public has_parent(): boolean {
@@ -66,7 +66,7 @@ export class PrimitiveBase {
         if ([null, undefined].includes(parent)) {
             throw new Error("parent must not be null or undefined");
         }
-        if (parent.three_item === null) {
+        if ([null, undefined].includes(parent.three_item)) {
             throw new Error("parent does not have an three_item member");
         }
         this._parent = parent;
@@ -245,9 +245,9 @@ export class PrimitiveBase {
     }
 
     public delete(): void {
-        const prims = this._children;
-        for (const id of _.keys(this.children)) {
-            this.get_child(id).delete();
+        const prims = this._primitives;
+        for (const id of _.keys(this.primitives)) {
+            this.get_primitive(id).delete();
         }
         this._scene.add(this.three_item);
         this._scene.remove(this.three_item);
@@ -255,6 +255,6 @@ export class PrimitiveBase {
         //     this.delete_parent();
         // }
         // this.three_item = null;
-        this._children = {};
+        this._primitives = {};
     }
 }
