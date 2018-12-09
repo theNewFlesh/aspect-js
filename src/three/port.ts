@@ -11,6 +11,8 @@ const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
 export class Port extends Component {
+    private __order: number = 0;
+
     private __to_sphere_params(params: object): object {
         let output: object = {
             "name":             three_tools.get_name(params, "sphere"),
@@ -50,6 +52,10 @@ export class Port extends Component {
         const sphere: Sphere = new Sphere();
         sphere.create(this.__to_sphere_params(temp), grp);
         this.set_child("sphere", sphere);
+
+        if (_.keys(params).includes("order")) {
+            this.__order = params["order"];
+        }
     }
 
     public read(): IPortParams {
@@ -59,6 +65,7 @@ export class Port extends Component {
         let params: IPortParams = {
             "name":                  grp["name"],
             "type":                  "port",
+            "order":                 this.__order,
             "visible":               grp["visible"],
             "translate/x":           grp["translate/x"],
             "translate/y":           grp["translate/y"],
@@ -81,5 +88,9 @@ export class Port extends Component {
 
         this.get_child("group").update(this._to_group_params(new_params));
         this.get_child("sphere").update(this.__to_sphere_params(new_params));
+
+        if (_.keys(params).includes("order")) {
+            this.__order = params["order"];
+        }
     }
 }

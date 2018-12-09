@@ -39,8 +39,8 @@ const proto_edge: object = {
 const proto_graph: object = {
     "id":                  "graph_0",
     "type":                "graph",
-    "innode":              "",
-    "outnode":             "",
+    "source/id":           "node_0",
+    "destination/id":      "node_1",
     "display/name":        "graph",
     "display/info":        "",
     "display/version":     "",
@@ -63,7 +63,7 @@ const proto_node: object = {
     "type":                          "node",
     "module":                        "",
     "function":                      "",
-    "subgraph":                      "",
+    // "subgraph":                      "",
     "display/name":                  "node",
     "display/info":                  "",
     "display/version":               "",
@@ -100,12 +100,12 @@ const proto_inport: object = {
     "display/widget":                "",
     "display/options":               "",
     "display/info":                  "",
-    "display/order":                 "",
+    "display/order":                 0,
     "display/selected":              "",
     "display/visible":               true,
-    "display/translate/x":           0,
-    "display/translate/y":           0,
-    "display/translate/z":           0,
+    // "display/translate/x":           0,
+    // "display/translate/y":           0,
+    // "display/translate/z":           0,
     "display/scale/x":               0.15,
     "display/scale/y":               0.15,
     "display/scale/z":               0.15,
@@ -130,12 +130,12 @@ const proto_outport: object = {
     "display/widget":                "",
     "display/options":               "",
     "display/info":                  "",
-    "display/order":                 "",
+    "display/order":                 0,
     "display/selected":              "",
     "display/visible":               true,
-    "display/translate/x":           0,
-    "display/translate/y":           3,
-    "display/translate/z":           0,
+    // "display/translate/x":           0,
+    // "display/translate/y":           0,
+    // "display/translate/z":           0,
     "display/scale/x":               0.15,
     "display/scale/y":               0.15,
     "display/scale/z":               0.15,
@@ -157,17 +157,21 @@ const op1 = _.clone(proto_outport);
 op1["id"] = "outport_1";
 op1["display/color/hue"] = 0.5;
 op1["display/color/saturation"] = 1;
+op1["display/order"] = 0;
 
 const ip1 = _.clone(proto_inport);
 ip1["id"] = "inport_1";
+ip1["display/order"] = 1;
 
 const ip2 = _.clone(proto_inport);
 ip2["id"] = "inport_2";
+ip2["display/order"] = 2;
 
 const ip3 = _.clone(proto_inport);
 ip3["id"] = "inport_3";
 ip3["display/color/hue"] = 0;
 ip3["display/color/saturation"] = 1;
+ip3["display/order"] = 0;
 
 const n1 = _.clone(proto_node);
 n1["id"] = "node_1";

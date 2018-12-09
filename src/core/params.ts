@@ -88,6 +88,7 @@ export class Params {
     public to_ids(): string[] {
         const data: object[] = this.__data
         .filter(x => x.match("\/id$"), "key")
+        .dropna("value", "any")
         .to_array();
         return data.map(x => x["value"]);
     }
@@ -165,7 +166,7 @@ export class Params {
     }
 
     public to_component(id: string): object {
-        const type: string = id.split("_")[0];
+        const type: string = _.split(id, "_")[0];
 
         if (type === "scene"){
             return this.to_scene(id);
@@ -196,7 +197,7 @@ export class Params {
         const key: string = this.__data
         .filter(x => x.match(id + "\/id$"), "key")
         .to_array()[0]["key"];
-        for (const ancestor of key.split("/")) {
+        for (const ancestor of _.split(key, "/")) {
             if (this.has_component(ancestor)) {
                 ids.push(ancestor);
             }
@@ -220,7 +221,7 @@ export class Params {
     }
 
     public get_scene_id(): string {
-        return _.keys(this.to_object())[0].split("/")[0];
+        return _.split( _.keys( this.to_object() )[0], "/")[0];
     }
     // -------------------------------------------------------------------------
 

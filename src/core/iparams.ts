@@ -2,6 +2,7 @@ export interface IParams {
     "id"?: string;
     "type"?: string;
     "name"?: string;
+    "order"?: number;
     "visible"?: boolean;
     "color/hue"?: number;
     "color/saturation"?: number;
@@ -79,6 +80,7 @@ export interface INodeParams {
 export interface IPortParams {
     "id"?: string;
     "type"?: string;
+    "order"?: number;
     "name"?: string;
     "visible"?: boolean;
     "translate/x"?: number;
