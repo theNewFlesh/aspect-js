@@ -108,11 +108,11 @@ export class Node extends Component {
         const temp: INodeParams = this._clean_params(params);
         const grp: Group = this.get_child("group");
 
-        const cube: Cube = new Cube();
+        const cube: Cube = new Cube(this._scene);
         cube.create(this.__to_cube_params(temp), grp);
         this.set_child("cube", cube);
 
-        const textbox: TextBox = new TextBox();
+        const textbox: TextBox = new TextBox(this._scene);
         textbox.create(this.__to_textbox_params(temp), grp);
         this.set_child("textbox", textbox);
     }

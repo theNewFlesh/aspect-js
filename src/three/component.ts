@@ -42,7 +42,7 @@ export class Component extends Group {
     }
 
     public _assign_three_item(params: IComponentParams): void {
-        const grp: Group = new Group();
+        const grp: Group = new Group(this._scene);
         grp.create(this._to_group_params(params), this);
         this.set_child("group", grp);
         this.three_item = grp.three_item;

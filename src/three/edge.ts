@@ -154,19 +154,19 @@ export class Edge extends Component {
         const temp: IEdgeParams = this._clean_params(params);
         const grp: Group = this.get_child("group");
 
-        const body: Cylinder = new Cylinder();
+        const body: Cylinder = new Cylinder(this._scene);
         body.create(this.__to_body_params(temp), grp);
         this.set_child("body", body);
 
-        const arrow: Cylinder = new Cylinder();
+        const arrow: Cylinder = new Cylinder(this._scene);
         arrow.create(this.__to_arrow_params(temp), grp);
         this.set_child("arrow", arrow);
 
-        const source: Sphere = new Sphere();
+        const source: Sphere = new Sphere(this._scene);
         source.create(this.__to_source_params(temp), grp);
         this.set_child("source", source);
 
-        const destination: Sphere = new Sphere();
+        const destination: Sphere = new Sphere(this._scene);
         destination.create(this.__to_destination_params(temp), grp);
         this.set_child("destination", destination);
 

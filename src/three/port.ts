@@ -49,7 +49,7 @@ export class Port extends Component {
         const temp: IPortParams = this._clean_params(params);
         const grp: Group = this.get_child("group");
 
-        const sphere: Sphere = new Sphere();
+        const sphere: Sphere = new Sphere(this._scene);
         sphere.create(this.__to_sphere_params(temp), grp);
         this.set_child("sphere", sphere);
 

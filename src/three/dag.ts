@@ -28,23 +28,23 @@ export class DAG {
     public _id: string;
     public _state: Params = new Params({});
     public parent: any;
-    public children: object = {};
+    public _children: object = {};
     public three_item: any;
     // -------------------------------------------------------------------------
 
     public has_child(id: string): boolean {
-        return this.children.hasOwnProperty(id);
+        return this._children.hasOwnProperty(id);
     }
 
     public get_child(id: string): any {
         if (!this.has_child(id)) {
             throw new Error(`id: ${id} child does not exist`);
         }
-        return this.children[id];
+        return this._children[id];
     }
 
     public set_child(key: string, value: any): void {
-        this.children[key] = value;
+        this._children[key] = value;
     }
 
     public _get_parent(params: Params, id: string): any {
@@ -127,7 +127,7 @@ export class DAG {
     public _create_scene(params: Params, id: string): void {
         const item: object = params.to_scene(id);
         this.three_item = new THREE.Scene();
-        const scene: Scene = new Scene();
+        const scene: Scene = new Scene(this.three_item);
         scene.create(item, this);
         this.set_child(id, scene);
         this.parent = scene;
@@ -137,14 +137,10 @@ export class DAG {
     public _update_scene(params: Params, id: string): void {
         this.get_child(id).update(params.to_scene(id));
     }
-
-    public _delete_scene(params: Params, id: string): void {
-        this.get_child(id).delete();
-    }
     // -------------------------------------------------------------------------
 
     public _create_graph(params: Params, id: string): void {
-        const graph: Graph = new Graph();
+        const graph: Graph = new Graph(this.three_item);
         graph.create(params.to_graph(id), this.parent);
         this.set_child(id, graph);
     }
@@ -152,25 +148,17 @@ export class DAG {
     public _update_graph(params: Params, id: string): void {
         this.get_child(id).update(params.to_graph(id));
     }
-
-    public _delete_graph(params: Params, id: string): void {
-        this.get_child(id).delete();
-    }
     // -------------------------------------------------------------------------
 
     public _create_node(params: Params, id: string): void {
         const parent: any = this._get_parent(params, id);
-        const node: Node = new Node();
+        const node: Node = new Node(this.three_item);
         node.create(params.to_node(id), parent);
         this.set_child(id, node);
     }
 
     public _update_node(params: Params, id: string): void {
         this.get_child(id).update(params.to_node(id));
-    }
-
-    public _delete_node(params: Params, id: string): void {
-        this.get_child(id).delete();
     }
     // -------------------------------------------------------------------------
 
@@ -181,7 +169,7 @@ export class DAG {
         );
         const parent: any = this._get_parent(params, id);
 
-        const edge: Edge = new Edge();
+        const edge: Edge = new Edge(this.three_item);
         this.set_child(id, edge);
         edge.create(item, parent);
     }
@@ -196,10 +184,6 @@ export class DAG {
             edge_params["destination/id"]
         );
         this.get_child(id).update(edge_params);
-    }
-
-    public _delete_edge(params: Params, id: string): void {
-        this.get_child(id).delete();
     }
     // -------------------------------------------------------------------------
 
@@ -225,17 +209,13 @@ export class DAG {
         Object.assign(ip, pos);
 
         const parent: any = this._get_parent(params, id);
-        const inport: Inport = new Inport();
+        const inport: Inport = new Inport(this.three_item);
         inport.create(ip, parent);
         this.set_child(id, inport);
     }
 
     public _update_inport(params: Params, id: string): void {
         this.get_child(id).update(params.to_inport(id));
-    }
-
-    public _delete_inport(params: Params, id: string): void {
-        this.get_child(id).delete();
     }
     // -------------------------------------------------------------------------
 
@@ -261,7 +241,7 @@ export class DAG {
         Object.assign(op, pos);
 
         const parent: any = this._get_parent(params, id);
-        const outport: Outport = new Outport();
+        const outport: Outport = new Outport(this.three_item);
         outport.create(op, parent);
         this.set_child(id, outport);
     }
@@ -269,15 +249,11 @@ export class DAG {
     public _update_outport(params: Params, id: string): void {
         this.get_child(id).update(params.to_outport(id));
     }
-
-    public _delete_outport(params: Params, id: string): void {
-        this.get_child(id).delete();
-    }
     // -------------------------------------------------------------------------
 
-    public get_schedule(partial_state: object, action: string): Scaffold {
-        if (!["add", "delete"].includes(action)) {
-            throw new Error(`invalid action: ${action}`);
+    public get_schedule(partial_state: object, mode: string): Scaffold {
+        if (!["edit", "delete"].includes(mode)) {
+            throw new Error(`invalid mode: ${mode}`);
         }
 
         const command_lut = {
@@ -285,10 +261,10 @@ export class DAG {
             "delete_absent_present":  "delete",
             "delete_present_present": "delete",
             "delete_present_absent":  "ignore",
-            "add_absent_absent":      "create",
-            "add_absent_present":     "update",
-            "add_present_present":    "update",
-            "add_present_absent":     "create",
+            "edit_absent_absent":     "create",
+            "edit_absent_present":    "update",
+            "edit_present_present":   "update",
+            "edit_present_absent":    "create",
         };
 
         const order_lut: object = {
@@ -302,17 +278,16 @@ export class DAG {
 
         const ids: string[] = new Params(partial_state).to_ids();
         const schedule: object[] = [];
-        console.log(ids);
         for (const id of ids) {
             const row: object = {
                 id: id,
                 type: _.split(id, "_")[0],
-                action: action,
+                mode: mode,
                 param_state: this._state.has_component(id) ? "present" : "absent",
                 three_state:  this.has_child(id) ? "present" : "absent",
             };
             const key: string = [
-                row["action"],
+                row["mode"],
                 row["param_state"],
                 row["three_state"]
             ].join("_");
@@ -361,22 +336,42 @@ export class DAG {
         return partial_state;
     }
 
-    public update(partial_state: object, action: string): void {
+    public edit(partial_state: object): void {
         partial_state = new Params(partial_state).resolve_ids().to_object();
         partial_state = this._add_edges_for_nodes(partial_state);
-        const schedule: Scaffold = this.get_schedule(partial_state, "add");
+        const schedule: Scaffold = this.get_schedule(partial_state, "edit");
         const state: Params = this._state.update(partial_state);
 
+        schedule.print();
+
         for (const row of schedule.to_array()) {
-            // console.log(row);
-            const cmd: string = "_" + row["command"] + "_" + row["type"];
-            this[cmd](state, row["id"]);
+            if (row["command"] !== "ignore") {
+                const cmd: string = "_" + row["command"] + "_" + row["type"];
+                this[cmd](state, row["id"]);
+            }
         }
         this._state = state;
     }
 
-    public delete(state: object): void {
+    public delete(partial_state: object): void {
+        partial_state = new Params(partial_state).resolve_ids().to_object();
+        const schedule: Scaffold = this.get_schedule(partial_state, "delete");
+        const state: Params = this._state; //.update(partial_state);
+
+        schedule.print();
+
+        for (const row of schedule.to_array()) {
+            if (row["command"] !== "ignore") {
+                this.get_child(row["id"]).delete();
+                delete this._children[row["id"]];
+            }
+        }
+        this._state = state;
+    }
+
+    public destroy(): void {
         this.three_item.remove(this.three_item.children[0]);
+        this._children = {};
         this._state = new Params({});
     }
 }

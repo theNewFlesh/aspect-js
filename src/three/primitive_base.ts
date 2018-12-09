@@ -27,11 +27,16 @@ export interface IPrimitive {
 }
 
 export class PrimitiveBase {
+    public _scene: THREE.Scene;
     public _id: string;
     public _children: object = {};
-    public _three_item: IThreeItem;
+    public _three_item: any;
     public _scaling: boolean = true;
-    public _parent: any = null;
+    public _parent: any;
+
+    public constructor(scene: THREE.Scene) {
+        this._scene = scene;
+    }
 
     public has_child(id: string): boolean {
         return this._children.hasOwnProperty(id);
@@ -73,14 +78,14 @@ export class PrimitiveBase {
             throw new Error("this instance has no parent");
         }
         this.parent.three_item.remove(this.three_item);
-        this.parent = null;
+        // this.parent = null;
     }
 
-    public get three_item(): IThreeItem {
+    public get three_item(): any {
         return this._three_item;
     }
 
-    public set three_item(three_item: IThreeItem) {
+    public set three_item(three_item: any) {
         this._three_item = three_item;
     }
     // -------------------------------------------------------------------------
@@ -167,7 +172,7 @@ export class PrimitiveBase {
         };
     }
 
-    public create(params: IParams, parent: any = null): void {
+    public create(params: IParams, parent: any): void {
         const temp: IParams = three_tools.resolve_params(
             params, this._default_params
         );
@@ -175,9 +180,7 @@ export class PrimitiveBase {
         Object.assign(new_params, temp);
 
         this.three_item = this._create_three_item(new_params);
-        if (parent !== null) {
-            this.parent = parent;
-        }
+        this.parent = parent;
         this._non_destructive_update(new_params);
     }
 
@@ -211,7 +214,7 @@ export class PrimitiveBase {
         if (this._is_destructive(new_params)) {
             Object.assign(old_params, new_params);
             this.delete();
-            this.create(old_params);
+            this.create(old_params, this.parent);
         }
         else {
             this._non_destructive_update(new_params);
@@ -243,11 +246,15 @@ export class PrimitiveBase {
 
     public delete(): void {
         const prims = this._children;
-        _.keys(prims).map(key => prims[key].delete());
-        if (this.has_parent) {
-            this.delete_parent();
+        for (const id of _.keys(this.children)) {
+            this.get_child(id).delete();
         }
-        this.three_item = null;
+        this._scene.add(this.three_item);
+        this._scene.remove(this.three_item);
+        // if (this.has_parent) {
+        //     this.delete_parent();
+        // }
+        // this.three_item = null;
         this._children = {};
     }
 }
