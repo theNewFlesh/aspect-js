@@ -11,11 +11,11 @@ export class Component extends Group {
         return this._children.hasOwnProperty(id);
     }
 
-    public get_child(key: string): any {
+    public get_child(key: string): Component {
         return this._children[key];
     }
 
-    public set_child(key: string, value: any): void {
+    public set_child(key: string, value: Component): void {
         this._children[key] = value;
     }
 

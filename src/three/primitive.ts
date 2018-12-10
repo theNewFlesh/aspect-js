@@ -59,8 +59,8 @@ export class Primitive extends PrimitiveBase {
             "scale/x": 1,
             "scale/y": 1,
             "scale/z": 1,
-        }
-    };
+        };
+    }
 
     public read(): IParams {
         const params: any = super.read();

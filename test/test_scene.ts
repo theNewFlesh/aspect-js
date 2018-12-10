@@ -188,7 +188,6 @@ e1["destination/id"] = "inport_3";
 
 const temp: object = {};
 temp["scene_0"] = proto_scene;
-// temp["scene_0"]["edge_0"] = proto_edge;
 temp["scene_0"]["graph_0"] = proto_graph;
 temp["scene_0"]["graph_0"]["edge_1"] = e1;
 temp["scene_0"]["graph_0"]["node_0"] = proto_node;

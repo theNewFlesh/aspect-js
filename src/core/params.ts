@@ -278,7 +278,8 @@ export class Params {
 
     public filter_node(node_id: string, full: boolean = false): Params {
         let data: any = this.__data
-            .filter(x => x.match(node_id + "\/"), "key");
+            .filter(x => x.match(node_id + "\/"), "key")
+            .filter(x => !x.match("edge"), "key");
         if (!full) {
             data = data.filter(x => !x.match("inport|outport"), "key");
         }

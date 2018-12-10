@@ -170,8 +170,8 @@ export class DAG {
         const parent: any = this._get_parent(params, id);
 
         const edge: Edge = new Edge(this.three_item);
-        this.set_child(id, edge);
         edge.create(item, parent);
+        this.set_child(id, edge);
     }
 
     public _update_edge(params: Params, id: string): void {
@@ -329,8 +329,8 @@ export class DAG {
         }
 
         const output: Scaffold = new Scaffold()
-        .from_array(schedule)
-        .sort_by(x => x, "order");
+            .from_array(schedule)
+            .sort_by(x => x, "order");
         return output;
     }
 
