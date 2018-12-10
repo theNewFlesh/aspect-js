@@ -47,6 +47,15 @@ export class DAG {
         this._children[key] = value;
     }
 
+    public delete_child(id: string): void {
+        this.get_child(id).delete();
+        delete this._children[id];
+    }
+
+    public get children(): object {
+        return this._children;
+    }
+
     public _get_parent(params: Params, id: string): any {
         const pid: string = params.get_parent_id(id);
         return this.get_child(pid);
@@ -254,9 +263,9 @@ export class DAG {
     }
     // -------------------------------------------------------------------------
 
-    public _get_edge_dependency_lut(): object {
+    public _get_edge_dependency_lut(partial_state: object): object {
           // create dep_id / edge_id lut
-          const edges: object[] = this._state.to_edges();
+          const edges: object[] = new Params(partial_state).to_edges();
           const lut: object = {};
           for (const edge of edges) {
               const eid: string = edge["id"];
@@ -300,7 +309,7 @@ export class DAG {
         };
 
         const temp_ids: string[] = new Params(partial_state).to_ids();
-        const edge_dep_lut: object = this._get_edge_dependency_lut();
+        const edge_dep_lut: object = this._get_edge_dependency_lut(this._state);
         let ids: string[] = _.clone(temp_ids);
         for (const id of temp_ids) {
             if (edge_dep_lut.hasOwnProperty(id)) {
@@ -310,6 +319,8 @@ export class DAG {
             }
         }
         ids = _.uniq(ids);
+
+        const new_state: Params = this._state.update(partial_state);
 
         const schedule: object[] = [];
         for (const id of ids) {
@@ -327,7 +338,7 @@ export class DAG {
             ].join("_");
             row["command"] = command_lut[key];
             row["order"] = order_lut[row["type"]];
-            row["dependencies"] = new Params(partial_state).get_dependencies(id, false);
+            row["dependencies"] = new_state.get_dependencies(id, false);
             schedule.push(row);
         }
 
@@ -388,20 +399,38 @@ export class DAG {
         this._state = state;
     }
 
-    public delete(partial_state: object): void {
+    public _sweep_edges(): void {
+        for (const id of this._state.filter_edges().to_ids()) {
+            if (this.has_child(id)) {
+                const edge: Edge = this.get_child(id);
+                const src: string = edge.read()["source/id"];
+                const dst: string = edge.read()["destination/id"];
+                for (const pid of [src, dst]) {
+                    if (!this.has_child(pid)) {
+                        const temp: object = this._state.filter_edge(id).to_object();
+                        this.delete(temp, false);
+                    }
+                }
+            }
+        }
+    }
+
+    public delete(partial_state: object, sweep: boolean = true): void {
         partial_state = new Params(partial_state).resolve_ids().to_object();
         const schedule: Scaffold = this.get_schedule(partial_state, "delete");
-        const state: Params = this._state; //.update(partial_state);
+        const state: Params = this._state.subtract(partial_state);
 
         schedule.print();
 
         for (const row of schedule.to_array()) {
             if (row["command"] !== "ignore") {
-                this.get_child(row["id"]).delete();
-                delete this._children[row["id"]];
+                this.delete_child(row["id"]);
             }
         }
         this._state = state;
+        if (sweep) {
+            this._sweep_edges();
+        }
     }
 
     public destroy(): void {

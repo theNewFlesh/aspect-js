@@ -205,17 +205,42 @@ export class Edge extends Component {
         return params;
     }
 
+    public _is_destructive(params: IEdgeParams): boolean {
+        const items: string[] = [
+            "source/id",
+            "source/translate/x",
+            "source/translate/y",
+            "source/translate/z",
+            "destination/id",
+            "destination/translate/x",
+            "destination/translate/y",
+            "destination/translate/z",
+        ];
+        for (const key of _.keys(params)) {
+            if (items.includes(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public update(params: IEdgeParams): void {
-        let edge: object = this.read();
-        edge = three_tools.resolve_params(params, edge);
+        const parent: any = this.parent;
+        this.delete();
+        const new_params: IEdgeParams = this.read();
+        Object.assign(new_params, params);
+        this.create(new_params, parent);
 
-        this.item.update(this._to_group_params(edge));
-        this.get_primitive("body").update(this.__to_body_params(edge));
-        this.get_primitive("arrow").update(this.__to_arrow_params(edge));
-        this.get_primitive("source").update(this.__to_source_params(edge));
-        this.get_primitive("destination").update(this.__to_destination_params(edge));
+        // let edge: object = this.read();
+        // edge = three_tools.resolve_params(params, edge);
 
-        this.__source_id = params["source/id"];
-        this.__destination_id = params["destination/id"];
+        // this.item.update(this._to_group_params(edge));
+        // this.get_primitive("body").update(this.__to_body_params(edge));
+        // this.get_primitive("arrow").update(this.__to_arrow_params(edge));
+        // this.get_primitive("source").update(this.__to_source_params(edge));
+        // this.get_primitive("destination").update(this.__to_destination_params(edge));
+
+        // this.__source_id = params["source/id"];
+        // this.__destination_id = params["destination/id"];
     }
 }

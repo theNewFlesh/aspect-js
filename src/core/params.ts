@@ -6,7 +6,7 @@ import {
     INodeParams,
     IPortParams,
 } from "./iparams";
-import { MeshLambertMaterial } from 'three';
+import { MeshLambertMaterial, CompressedTextureLoader } from 'three';
 // -----------------------------------------------------------------------------
 
 export class Params {
@@ -69,6 +69,21 @@ export class Params {
         return new Params(data);
     }
 
+    public subtract(dict: object, full: boolean = true): Params {
+        const temp: Params = new Params(dict);
+        const ids: string[] = temp.to_ids();
+        const headers: string[] = _.map(ids, id => temp.to_key_header(id));
+        let drop_re: string = headers.join("|");
+        if (!full) {
+            drop_re = "(" + drop_re + ")(?!inport|outport|node|edge|graph|scene)";
+        }
+
+        const data: object = this.__data
+            .filter(x => !x.match(drop_re), "key")
+            .to_object();
+        return new Params(data);
+    }
+
     public strip_id(): Params {
         const regex: RegExp = new RegExp(".*(inport|outport|node|edge|graph|scene)_.*?\/");
         const data: object = this.__data
@@ -87,12 +102,19 @@ export class Params {
 
     public to_ids(): string[] {
         const data: object[] = this.__data
-        .filter(x => x.match("\/id$"), "key")
-        .dropna("value", "any")
-        .to_array();
+            .filter(x => x.match("\/id$"), "key")
+            .dropna("value", "any")
+            .to_array();
         let output: string[] = data.map(x => x["value"]);
         output = _.uniq(output);
         return output;
+    }
+
+    public filter_ids(ids: string[]): Params {
+        const data: object = this.__data
+            .filter(x => ids.includes(x), "value")
+            .to_object();
+        return new Params(data);
     }
 
     public has_component(id: string): boolean {
@@ -223,14 +245,18 @@ export class Params {
             }
         }
 
-        let ids: any = new Params(this.to_component(id))
-            .__data.filter(x => x.match("(source|destination)\/id$"), "key")
-            .to_object();
-        ids = _.values(ids);
-        for (const i of ids) {
-            output.push(i);
+        let ports: string[] = [];
+        const type: string = _.split(id, "_")[0];
+        if (["node"].includes(type)) {
+            const inports: string[] = this.filter_node(id, true).filter_inports().to_ids();
+            const outports: string[] = this.filter_node(id, true).filter_outports().to_ids();
+            ports = _.concat(inports, outports);
         }
 
+        const ids: any = new Params(this.to_component(id))
+            .__data.filter(x => x.match("(source|destination)\/id$"), "key")
+            .to_object();
+        output = _.concat(output, _.values(ids), ports);
         return output;
     }
     // -------------------------------------------------------------------------
@@ -264,6 +290,16 @@ export class Params {
         return new Params(data);
     }
 
+    public filter_graphs(full: boolean = false): Params {
+        let data: any = this.__data
+            .filter(x => x.match("graph_.*?\/"), "key");
+        if (!full) {
+            data = data.filter(x => !x.match("node|edge|inport|outport"), "key");
+        }
+        data = data.to_object();
+        return new Params(data);
+    }
+
     public to_graph(graph_id: string): object {
         return this.filter_graph(graph_id)
             .strip_id()
@@ -279,6 +315,17 @@ export class Params {
     public filter_node(node_id: string, full: boolean = false): Params {
         let data: any = this.__data
             .filter(x => x.match(node_id + "\/"), "key")
+            .filter(x => !x.match("edge"), "key");
+        if (!full) {
+            data = data.filter(x => !x.match("inport|outport"), "key");
+        }
+        data = data.to_object();
+        return new Params(data);
+    }
+
+    public filter_nodes(full: boolean = false): Params {
+        let data: any = this.__data
+            .filter(x => x.match("node.*?\/"), "key")
             .filter(x => !x.match("edge"), "key");
         if (!full) {
             data = data.filter(x => !x.match("inport|outport"), "key");
@@ -306,8 +353,18 @@ export class Params {
         return new Params(data);
     }
 
+    public filter_edges(): Params {
+        const data: object = this.__data
+            .filter(x => x.match("edge.*?\/"), "key")
+            .to_object();
+        return new Params(data);
+    }
+
     public to_edge(edge_id: string): IEdgeParams {
-        return this.filter_edge(edge_id).strip_id().strip_display().to_object();
+        return this.filter_edge(edge_id)
+            .strip_id()
+            .strip_display()
+            .to_object();
     }
 
     public to_edges(): IEdgeParams[] {
@@ -318,6 +375,13 @@ export class Params {
     public filter_inport(inport_id: string): Params {
         const data: object = this.__data
             .filter(x => x.match(inport_id + "\/"), "key")
+            .to_object();
+        return new Params(data);
+    }
+
+    public filter_inports(): Params {
+        const data: object = this.__data
+            .filter(x => x.match("inport_.*?\/"), "key")
             .to_object();
         return new Params(data);
     }
@@ -337,6 +401,13 @@ export class Params {
     public filter_outport(outport_id: string): Params {
         const data: object = this.__data
             .filter(x => x.match(outport_id + "\/"), "key")
+            .to_object();
+        return new Params(data);
+    }
+
+    public filter_outports(): Params {
+        const data: object = this.__data
+            .filter(x => x.match("outport_.*?\/"), "key")
             .to_object();
         return new Params(data);
     }

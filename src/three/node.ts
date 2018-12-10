@@ -107,8 +107,6 @@ export class Node extends Component {
         super.create(params, parent);
 
         const temp: INodeParams = this._clean_params(params);
-        // const grp: Group = this.three_item;
-        // console.log(grp);
 
         const cube: Cube = new Cube(this._scene);
         cube.create(this.__to_cube_params(temp), this.item);
