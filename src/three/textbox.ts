@@ -7,6 +7,8 @@ import { ITextBoxParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class TextBox extends Primitive {
+    public _class: string = "textbox";
+
     private __get_font_family(): string {
         const family: string = this._three_item.material[5].map.fontFamily;
         return family.replace(/"/g, "");

@@ -27,6 +27,7 @@ export interface IParams {
 export interface ISceneParams {
     "id"?: string;
     "type"?: string;
+    "name"?: string;
 }
 
 export interface IEdgeParams {

@@ -6,6 +6,7 @@ import { ISceneParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Scene extends Component {
+    public _class: string = "scene";
     public _camera: any;
     public _controls: any;
     public _light: any;
@@ -65,9 +66,15 @@ export class Scene extends Component {
         this._renderer.render(this.parent.three_item, this._camera);
     }
 
+    public get _default_params(): ISceneParams {
+        return {
+            "name": this._class,
+        };
+    }
+
     public create(params: ISceneParams, parent: any): void {
-        this._width = params["width"];
-        this._height = params["height"];
+        this._width = params["session/width"];
+        this._height = params["session/height"];
         super.create(params, parent);
 
         this.create_light();

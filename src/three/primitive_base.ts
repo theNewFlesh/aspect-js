@@ -27,6 +27,7 @@ export interface IPrimitive {
 }
 
 export class PrimitiveBase {
+    public _class: string = "primitive";
     public _scene: THREE.Scene;
     public _id: string;
     public _primitives: object = {};
@@ -146,6 +147,10 @@ export class PrimitiveBase {
             params["scale/z"],
         );
     }
+
+    public _get_name(params: object): string {
+        return three_tools.get_name(params, this._class);
+    }
     // -------------------------------------------------------------------------
 
     public _create_three_item(params: IParams): any {
@@ -158,7 +163,7 @@ export class PrimitiveBase {
 
     public get _default_params(): IParams {
         return {
-            "name": "",
+            "name": this._class,
             "visible": true,
             "translate/x": 0,
             "translate/y": 0,

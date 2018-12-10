@@ -26,8 +26,8 @@
 
         public created() {
             this.dag = new DAG();
-            test_scene["width"] = this.width;
-            test_scene["height"] = this.height;
+            test_scene["session/width"] = this.width;
+            test_scene["session/height"] = this.height;
             this.dag.edit(test_scene);
             this.scene = this.dag.parent;
         }

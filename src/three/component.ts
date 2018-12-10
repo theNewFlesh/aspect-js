@@ -4,6 +4,7 @@ import { IComponentParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Component extends Group {
+    public _class: string = "component";
     public _children: object = {};
     public _item: Group;
 
@@ -34,7 +35,7 @@ export class Component extends Group {
 
     public _to_group_params(params: object): object {
         let output: object = {
-            "name":        three_tools.get_name(params, "group"),
+            "name":        this._get_name(params),
             "visible":     params["visible"],
             "translate/x": params["translate/x"],
             "translate/y": params["translate/y"],

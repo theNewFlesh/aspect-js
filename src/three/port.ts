@@ -12,10 +12,11 @@ const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
 export class Port extends Component {
     private __order: number = 0;
+    public _class: string = "port";
 
     private __to_sphere_params(params: object): object {
         let output: object = {
-            "name":             three_tools.get_name(params, "sphere"),
+            "name":             this._get_name(params),
             "visible":          params["visible"],
             "color/hue":        params["color/hue"],
             "color/saturation": params["color/saturation"],

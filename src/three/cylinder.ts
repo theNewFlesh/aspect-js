@@ -5,6 +5,8 @@ import { ICylinderParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Cylinder extends Primitive {
+    public _class: string = "cylinder";
+
     public _create_three_item(params: ICylinderParams): THREE.Mesh {
         const height: number = params["height"] || 1;
         const top: number = params["radius/top"] || 1;

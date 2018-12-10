@@ -5,6 +5,8 @@ import { ISphereParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Sphere extends Primitive {
+    public _class: string = "sphere";
+
     public _create_three_item(params: ISphereParams): THREE.Mesh {
         const radius: number = params["radius"] || 1;
         const geo = new THREE.SphereGeometry(radius, 24, 24);

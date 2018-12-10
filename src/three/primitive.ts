@@ -6,6 +6,8 @@ import { IParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Primitive extends PrimitiveBase {
+    public _class: string = "primitive";
+
     private __get_color(): any {
         let rgb;
         if (tools.is_array(this.three_item.material)) {

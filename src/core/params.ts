@@ -227,8 +227,8 @@ export class Params {
             .__data.filter(x => x.match("(source|destination)\/id$"), "key")
             .to_object();
         ids = _.values(ids);
-        for (const id of ids) {
-            output.push(id);
+        for (const i of ids) {
+            output.push(i);
         }
 
         return output;

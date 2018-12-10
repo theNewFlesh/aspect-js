@@ -12,6 +12,7 @@ const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
 export class Node extends Component {
+    public _class: string = "node";
     public _scaling: boolean = false;
     private __scale_factor: number = 2;
 
@@ -28,7 +29,7 @@ export class Node extends Component {
 
     public _to_group_params(params: object): object {
         let output: object = {
-            "name":        three_tools.get_name(params, "group"),
+            "name":        this._get_name(params),
             "visible":     params["visible"],
             "translate/x": params["translate/x"],
             "translate/y": params["translate/y"],
@@ -43,7 +44,7 @@ export class Node extends Component {
 
     private __to_cube_params(params: object): object {
         let output: object = {
-            "name":             three_tools.get_name(params, "cube"),
+            "name":             this._get_name(params),
             "visible":          params["visible"],
             "scale/x":          this.__to_width(params),
             "scale/y":          params["scale/y"],
@@ -59,7 +60,7 @@ export class Node extends Component {
 
     private __to_textbox_params(params: object): object {
         let output: object = {
-            "name":             three_tools.get_name(params, "textbox"),
+            "name":             this._get_name(params),
             "scale/x":          this.__to_width(params),
             "scale/y":          params["scale/y"],
             "scale/z":          params["scale/z"],

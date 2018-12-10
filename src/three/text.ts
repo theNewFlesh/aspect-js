@@ -7,6 +7,8 @@ import { ITextParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Text extends Primitive {
+    public _class: string = "text";
+
     public _create_three_item(params: ITextParams): THREE.Sprite {
         const texture = new TextTexture({
             text: params["font/text"] || "DEFAULT TEXT",

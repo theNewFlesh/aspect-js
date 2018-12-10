@@ -4,6 +4,8 @@ import { IComponentParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
 export class Group extends PrimitiveBase {
+    public _class: string = "group";
+
     public _create_three_item(params: IComponentParams): THREE.Group {
         const three_item = new THREE.Group();
         return three_item;

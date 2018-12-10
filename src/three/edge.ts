@@ -11,6 +11,7 @@ import { IEdgeParams } from "../core/iparams";
 const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 
 export class Edge extends Component {
+    public _class: string = "edge";
     private __source_id: string = null;
     private __destination_id: string = null;
 
@@ -49,7 +50,7 @@ export class Edge extends Component {
 
     public _to_group_params(params: object): object {
         let output: object = {
-            "name":    three_tools.get_name(params, "group"),
+            "name":    this._get_name(params),
             "visible": params["visible"],
             "scale/x": params["scale/x"],
             "scale/y": params["scale/y"],
@@ -61,7 +62,7 @@ export class Edge extends Component {
 
     private __to_arrow_params(edge: object): object {
         let output: object = {
-            "name":             three_tools.get_name(edge, "arrow"),
+            "name":             this._get_name(edge),
             "translate/x":      this.__get_center(edge).x,
             "translate/y":      this.__get_center(edge).y,
             "translate/z":      this.__get_center(edge).z,
@@ -82,7 +83,7 @@ export class Edge extends Component {
 
     private __to_body_params(edge: object): object {
         let output: object = {
-            "name":             three_tools.get_name(edge, "body"),
+            "name":             this._get_name(edge),
             "translate/x":      this.__get_center(edge).x,
             "translate/y":      this.__get_center(edge).y,
             "translate/z":      this.__get_center(edge).z,
@@ -103,7 +104,7 @@ export class Edge extends Component {
 
     private __to_source_params(edge: object): object {
         let output: object = {
-            "name":             three_tools.get_name(edge, "source"),
+            "name":             this._get_name(edge),
             "visible":          false,
             "radius":           0.1,
             "translate/x":      edge["source/translate/x"],
@@ -116,7 +117,7 @@ export class Edge extends Component {
 
     private __to_destination_params(edge: object): object {
         let output: object = {
-            "name":             three_tools.get_name(edge, "source"),
+            "name":             this._get_name(edge),
             "visible":          false,
             "radius":           0.1,
             "translate/x":      edge["destination/translate/x"],
