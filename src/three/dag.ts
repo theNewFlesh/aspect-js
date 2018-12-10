@@ -165,7 +165,10 @@ export class DAG {
     public _create_edge(params: Params, id: string): void {
         let item: IEdgeParams = params.to_edge(id);
         item = this._resolve_edge_params(
-            params, item, item["source/id"], item["destination/id"]
+            params,
+            item,
+            item["source/id"],
+            item["destination/id"]
         );
         const parent: any = this._get_parent(params, id);
 
