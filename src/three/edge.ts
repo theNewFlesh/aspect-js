@@ -226,9 +226,9 @@ export class Edge extends Component {
 
     public update(params: IEdgeParams): void {
         const parent: any = this.parent;
-        this.delete();
         const new_params: IEdgeParams = this.read();
         Object.assign(new_params, params);
+        this.delete();
         this.create(new_params, parent);
 
         // let edge: object = this.read();

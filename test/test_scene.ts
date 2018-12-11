@@ -159,6 +159,10 @@ op1["id"] = "outport_1";
 // op1["display/color/saturation"] = 1;
 op1["display/order"] = 0;
 
+const op2 = _.clone(proto_outport);
+op2["id"] = "outport_2";
+op2["display/order"] = 1;
+
 const ip1 = _.clone(proto_inport);
 ip1["id"] = "inport_1";
 ip1["display/order"] = 1;
@@ -195,6 +199,7 @@ temp["scene_0"]["graph_0"]["node_0"]["inport_0"] = proto_inport;
 temp["scene_0"]["graph_0"]["node_0"][`inport_1`] = ip1;
 temp["scene_0"]["graph_0"]["node_0"][`inport_2`] = ip2;
 temp["scene_0"]["graph_0"]["node_0"]["outport_1"] = op1;
+temp["scene_0"]["graph_0"]["node_0"]["outport_2"] = op2;
 temp["scene_0"]["graph_0"][`node_1`] = n1;
 temp["scene_0"]["graph_0"][`node_1`][`inport_3`] = ip3;
 export const scene: object = tools.flatten(temp);
