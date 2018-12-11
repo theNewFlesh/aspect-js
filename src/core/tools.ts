@@ -131,6 +131,10 @@ export class OrderedDict {
         this._items[key] = value;
     }
 
+    public has(key: string): boolean {
+        return this._keys.includes(key);
+    }
+
     public insert(position, key, value) {
         if (this._items[key] !== undefined) {
             this._keys.splice(position, 0, key);

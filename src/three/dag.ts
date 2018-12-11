@@ -13,6 +13,7 @@ import { Inport } from "./inport";
 import { Outport } from "./outport";
 import { Params } from "../core/params";
 import { Scaffold } from "../core/scaffold";
+import { Scheduler } from "./scheduler";
 import { IPortParams, INodeParams, IEdgeParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
@@ -263,134 +264,15 @@ export class DAG {
     }
     // -------------------------------------------------------------------------
 
-    public _get_edge_dependency_lut(partial_state: object): object {
-          // create dep_id / edge_id lut
-          const edges: object[] = new Params(partial_state).to_edges();
-          const lut: object = {};
-          for (const edge of edges) {
-              const eid: string = edge["id"];
-              const sid: string = edge["source/id"];
-              const did: string = edge["destination/id"];
-              if (!lut.hasOwnProperty(sid)) {
-                  lut[sid] = [];
-              }
-              if (!lut.hasOwnProperty(did)) {
-                  lut[did] = [];
-              }
-              lut[sid].push(eid);
-              lut[did].push(eid);
-          }
-          return lut;
-    }
+    public edit(fragment: object): void {
+        const scheduler: Scheduler = new Scheduler(this._state).edit(fragment, this);
+        scheduler.print();
 
-    public get_schedule(partial_state: object, mode: string): Scaffold {
-        if (!["edit", "delete"].includes(mode)) {
-            throw new Error(`invalid mode: ${mode}`);
-        }
+        const temp: any = scheduler.to_state_and_schedule();
+        const state: Params = temp[0];
+        const schedule: object[] = temp[1];
 
-        const command_lut = {
-            "delete_absent_absent":   "ignore",
-            "delete_absent_present":  "delete",
-            "delete_present_present": "delete",
-            "delete_present_absent":  "ignore",
-            "edit_absent_absent":     "create",
-            "edit_absent_present":    "update",
-            "edit_present_present":   "update",
-            "edit_present_absent":    "create",
-        };
-
-        const order_lut: object = {
-              "scene": 0,
-              "graph": 1,
-               "node": 2,
-             "inport": 3,
-            "outport": 4,
-               "edge": 5,
-        };
-
-        const temp_ids: string[] = new Params(partial_state).to_ids();
-        const edge_dep_lut: object = this._get_edge_dependency_lut(this._state);
-        let ids: string[] = _.clone(temp_ids);
-        for (const id of temp_ids) {
-            if (edge_dep_lut.hasOwnProperty(id)) {
-                for (const eid of edge_dep_lut[id]) {
-                    ids.push(eid);
-                }
-            }
-        }
-        ids = _.uniq(ids);
-
-        const new_state: Params = this._state.update(partial_state);
-
-        const schedule: object[] = [];
-        for (const id of ids) {
-            const row: object = {
-                id: id,
-                type: _.split(id, "_")[0],
-                mode: mode,
-                param_state: this._state.has_component(id) ? "present" : "absent",
-                three_state: this.has_child(id) ? "present" : "absent",
-            };
-            const key: string = [
-                row["mode"],
-                row["param_state"],
-                row["three_state"],
-            ].join("_");
-            row["command"] = command_lut[key];
-            row["order"] = order_lut[row["type"]];
-            row["dependencies"] = new_state.get_dependencies(id, false);
-            schedule.push(row);
-        }
-
-        const output: Scaffold = new Scaffold()
-            .from_array(schedule)
-            .sort_by(x => x, "order");
-        return output;
-    }
-
-    public _add_edges_for_nodes(partial_state: object): object {
-        const params: Params = new Params(partial_state);
-        for (const inport of params.to_inports()) {
-            const id: string = inport["id"];
-            const pid: string = params.get_parent_id(id);
-
-            const key: any = params.to_key_header(pid);
-            if (key !== null) {
-                const edge: object = {};
-                const eid: string = "edge_" + uuidv4();
-                edge[key + eid + "/id"] = eid;
-                edge[key + eid + "/source/id"] = id;
-                edge[key + eid + "/destination/id"] = pid;
-                Object.assign(partial_state, edge);
-            }
-        }
-        for (const outport of params.to_outports()) {
-            const id: string = outport["id"];
-            const pid: string = params.get_parent_id(id);
-
-            const key: any = params.to_key_header(pid);
-            if (key !== null) {
-                const edge: object = {};
-                const eid: string = "edge_" + uuidv4();
-                edge[key + eid + "/id"] = eid;
-                edge[key + eid + "/source/id"] = pid;
-                edge[key + eid + "/destination/id"] = id;
-                Object.assign(partial_state, edge);
-            }
-        }
-
-        return partial_state;
-    }
-
-    public edit(partial_state: object): void {
-        partial_state = new Params(partial_state).resolve_ids().to_object();
-        partial_state = this._add_edges_for_nodes(partial_state);
-        const schedule: Scaffold = this.get_schedule(partial_state, "edit");
-        const state: Params = this._state.update(partial_state);
-
-        schedule.print();
-
-        for (const row of schedule.to_array()) {
+        for (const row of schedule) {
             if (row["command"] !== "ignore") {
                 const cmd: string = "_" + row["command"] + "_" + row["type"];
                 this[cmd](state, row["id"]);
@@ -415,22 +297,23 @@ export class DAG {
         }
     }
 
-    public delete(partial_state: object, sweep: boolean = true): void {
-        partial_state = new Params(partial_state).resolve_ids().to_object();
-        const schedule: Scaffold = this.get_schedule(partial_state, "delete");
-        const state: Params = this._state.subtract(partial_state);
+    public delete(fragment: object, sweep: boolean = true): void {
+        const scheduler: Scheduler = new Scheduler(this._state).delete(fragment, this);
+        scheduler.print();
 
-        schedule.print();
+        const temp: any = scheduler.to_state_and_schedule();
+        const state: Params = temp[0];
+        const schedule: object[] = temp[1];
 
-        for (const row of schedule.to_array()) {
+        for (const row of schedule) {
             if (row["command"] !== "ignore") {
                 this.delete_child(row["id"]);
             }
         }
         this._state = state;
-        if (sweep) {
-            this._sweep_edges();
-        }
+        // if (sweep) {
+        //     this._sweep_edges();
+        // }
     }
 
     public destroy(): void {
