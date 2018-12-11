@@ -264,18 +264,17 @@ export class DAG {
     // -------------------------------------------------------------------------
 
     public edit(fragment: object): void {
-        const scheduler: Scheduler = new Scheduler(this._state).edit(fragment, this);
+        let scheduler: Scheduler = new Scheduler(this._state).edit(fragment, this);
         scheduler.print();
+        scheduler = scheduler.remove_ignores();;
 
         const temp: any = scheduler.to_state_and_schedule();
         const state: Params = temp[0];
         const schedule: object[] = temp[1];
 
         for (const row of schedule) {
-            if (row["command"] !== "ignore") {
-                const cmd: string = "_" + row["command"] + "_" + row["type"];
-                this[cmd](state, row["id"]);
-            }
+            const cmd: string = "_" + row["command"] + "_" + row["type"];
+            this[cmd](state, row["id"]);
         }
         this._state = state;
     }
@@ -297,17 +296,16 @@ export class DAG {
     }
 
     public delete(fragment: object, sweep: boolean = true): void {
-        const scheduler: Scheduler = new Scheduler(this._state).delete(fragment, this);
+        let scheduler: Scheduler = new Scheduler(this._state).delete(fragment, this);
         scheduler.print();
+        scheduler = scheduler.remove_ignores();;
 
         const temp: any = scheduler.to_state_and_schedule();
         const state: Params = temp[0];
         const schedule: object[] = temp[1];
 
         for (const row of schedule) {
-            if (row["command"] !== "ignore") {
-                this.delete_child(row["id"]);
-            }
+            this.delete_child(row["id"]);
         }
         this._state = state;
         // if (sweep) {

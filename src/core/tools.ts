@@ -332,6 +332,25 @@ export function aggregate(objects, aggregator, separator: string = "/") {
     return output;
 }
 
+export function different(a: object, b: object): boolean {
+    const a_keys: any[] = _.keys(a);
+    const b_keys: any[] = _.keys(b);
+    const keys: any[] = _.concat(a_keys, b_keys);
+
+    for (const key of keys) {
+        if (!a_keys.includes(key)) {
+            return true;
+        }
+        if (!b_keys.includes(key)) {
+            return true;
+        }
+        if (a[key] !== b[key]) {
+            return true;
+        }
+    }
+    return false;
+}
+
 export function filter(dict: object, predicate: any): object {
     const pairs: any[][] = _.toPairs(dict);
     let output: any = _.filter(pairs, x => predicate(x[0], x[1]));

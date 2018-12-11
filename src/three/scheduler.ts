@@ -4,6 +4,7 @@ import { Params } from "../core/params";
 import { DAG } from "./dag";
 import { OrderedDict } from "../core/tools";
 import { Scaffold } from "../core/scaffold";
+import * as tools from "../core/tools";
 // -----------------------------------------------------------------------------
 
 interface IScheduleRow {
@@ -12,6 +13,7 @@ interface IScheduleRow {
     mode: string;
     param_state: string;
     three_state: string;
+    state_diff: boolean;
     command: string;
     order: string;
     dependencies: string[];
@@ -27,14 +29,22 @@ export class Scheduler {
     private __schedule: IScheduleRow[];
 
     private static __command_lut = {
-        "delete_absent_absent":   "ignore",
-        "delete_absent_present":  "delete",
-        "delete_present_present": "delete",
-        "delete_present_absent":  "ignore",
-        "edit_absent_absent":     "create",
-        "edit_absent_present":    "update",
-        "edit_present_present":   "update",
-        "edit_present_absent":    "create",
+        "delete_absent_absent_true":    "ignore",
+        "delete_absent_present_true":   "delete",
+        "delete_present_present_true":  "delete",
+        "delete_present_absent_true":   "ignore",
+        "edit_absent_absent_true":      "create",
+        "edit_absent_present_true":     "update",
+        "edit_present_present_true":    "update",
+        "edit_present_absent_true":     "create",
+        "delete_absent_absent_false":   "ignore",
+        "delete_absent_present_false":  "ignore",
+        "delete_present_present_false": "ignore",
+        "delete_present_absent_false":  "ignore",
+        "edit_absent_absent_false":     "ignore",
+        "edit_absent_present_false":    "ignore",
+        "edit_present_present_false":   "ignore",
+        "edit_present_absent_false":    "ignore",
     };
 
     private static __order_lut: object = {
@@ -115,10 +125,21 @@ export class Scheduler {
         return new Scheduler(next, data);
     }
 
+    public remove_ignores(): Scheduler {
+        const data: IScheduleRow[] = new Scaffold()
+            .from_array(this.__schedule)
+            .drop(x => x === "ignore", "command")
+            .to_array();
+        return new Scheduler(this.__state, data);
+    }
+
     public _get_row(id: string, mode: string, next: Params, dag: DAG): IScheduleRow {
         const param_state: string = this.__state.has_component(id) ? "present" : "absent";
         const three_state: string = dag.has_child(id) ? "present" : "absent";
-        const key: string = [mode, param_state, three_state].join("_");
+        const state_diff: boolean = tools.different(
+            dag._state.to_component(id), next.to_component(id)
+        );
+        const key: string = [mode, param_state, three_state, String(state_diff)].join("_");
         const type: string = _.split(id, "_")[0];
 
         const row: IScheduleRow = {
@@ -127,6 +148,7 @@ export class Scheduler {
             mode: mode,
             param_state: param_state,
             three_state: three_state,
+            state_diff: state_diff,
             command: Scheduler.__command_lut[key],
             order: Scheduler.__order_lut[type],
             dependencies: next.get_dependencies(id, false),
