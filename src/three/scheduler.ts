@@ -4,7 +4,6 @@ import { Params } from "../core/params";
 import { DAG } from "./dag";
 import { OrderedDict } from "../core/tools";
 import { Scaffold } from "../core/scaffold";
-import { isDate } from 'util';
 // -----------------------------------------------------------------------------
 
 interface IScheduleRow {
@@ -16,7 +15,6 @@ interface IScheduleRow {
     command: string;
     order: string;
     dependencies: string[];
-    params: object;
 }
 
 export class Scheduler {
@@ -132,7 +130,6 @@ export class Scheduler {
             command: Scheduler.__command_lut[key],
             order: Scheduler.__order_lut[type],
             dependencies: next.get_dependencies(id, false),
-            params: next.to_component(id),
         };
         return row;
     }

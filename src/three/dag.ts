@@ -4,7 +4,6 @@ import * as tools from "../core/tools";
 import * as test_tools from "../../test/test_tools";
 import * as test_scene from "../../test/test_scene";
 import * as THREE from "three";
-import uuidv4 from "uuid/v4";
 import { Scene } from "./scene";
 import { Graph } from "./graph";
 import { Edge } from "./edge";
