@@ -72,6 +72,10 @@ export class Scheduler {
     }
 
     public edit(fragment: object, dag: DAG): Scheduler {
+        if (tools.is_empty(fragment)) {
+            return this;
+        }
+
         fragment = new Params(fragment).resolve_ids().to_object();
         let next: Params = this.__state.update(fragment);
         next = this._add_edges_for_nodes(fragment, next);
@@ -89,8 +93,21 @@ export class Scheduler {
     }
 
     public delete(fragment: object, dag: DAG): Scheduler {
-        const temp_ids: string[] = new Params(fragment).resolve_ids().to_ids();
-        fragment = this.__state.filter_components(temp_ids, true).drop_non_ids().to_object();
+        if (tools.is_empty(fragment)) {
+            return this;
+        }
+
+        const temp_ids: string[] = new Params(fragment)
+            .resolve_ids()
+            .to_ids();
+
+        this.__state.ids_exist(temp_ids);
+
+        let frag: object = {};
+        frag = this.__state
+            .filter_components(temp_ids, true)
+            .drop_non_ids()
+            .to_object();
 
         const lut: object = {};
         for (const edge of this.__state.to_edges()) {
@@ -111,8 +128,11 @@ export class Scheduler {
             }
         }
 
-        let ids: string[] = new Params(fragment).to_ids();
-        ids = this.__state.filter_components(ids, true).to_ids();
+        let ids: string[] = new Params(frag).to_ids();
+        ids = this.__state
+            .filter_components(ids, true)
+            .to_ids();
+
         for (const id of _.clone(ids)) {
             if (lut.hasOwnProperty(id)) {
                 for (const i of lut[id]) {
@@ -121,9 +141,12 @@ export class Scheduler {
             }
         }
         ids = _.uniq(ids);
-        fragment = this.__state.filter_ids(ids).drop_non_ids().to_object();
+        frag = this.__state
+            .filter_ids(ids)
+            .drop_non_ids()
+            .to_object();
 
-        const next: Params = this.__state.subtract(fragment, true);
+        const next: Params = this.__state.subtract(frag, false);
 
         let data: IScheduleRow[] = _.clone(this.__schedule);
         for (const id of ids) {

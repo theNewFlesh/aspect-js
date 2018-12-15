@@ -167,6 +167,15 @@ export class OrderedDict {
     }
 }
 
+export function is_empty(item: any): boolean {
+    if (typeof item === "object") {
+        return _.keys(item).length === 0;
+    }
+    if (item instanceof Array) {
+        return item.length === 0;
+    }
+}
+
 export function omit(items, trash) {
     if (!Array.isArray(trash)) {
         trash = [trash];

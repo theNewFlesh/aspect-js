@@ -276,7 +276,7 @@ export class DAG {
     public delete(fragment: object, sweep: boolean = true): void {
         let scheduler: Scheduler = new Scheduler(this._state).delete(fragment, this);
         scheduler.print();
-        scheduler = scheduler.remove_ignores();;
+        scheduler = scheduler.remove_ignores();
 
         const temp: any = scheduler.to_state_and_schedule();
         const state: Params = temp[0];

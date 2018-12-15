@@ -7,6 +7,7 @@ import {
     IPortParams,
 } from "./iparams";
 import { MeshLambertMaterial, CompressedTextureLoader, LoaderUtils } from 'three';
+import { throws } from 'assert';
 // -----------------------------------------------------------------------------
 
 export class Params {
@@ -82,6 +83,15 @@ export class Params {
             .filter(x => !x.match(drop_re), "key")
             .to_object();
         return new Params(data);
+    }
+
+    public ids_exist(ids: string[]): void {
+        const extant: string[] = this.to_ids();
+        for (const id of ids) {
+            if (!extant.includes(id)) {
+                throw new Error(`id: ${id} does not exist`);
+            }
+        }
     }
 
     public strip_id(): Params {
