@@ -41,12 +41,12 @@
 </template>
 
 <script lang="ts">
+    import * as _ from "lodash";
     import { Component, Prop, Vue } from "vue-property-decorator";
-    import Cell from "./cell.vue";
+    import { DataFrame } from "data-forge";
     import { Scaffold } from "../core/scaffold";
     import { FancyIndex, IHeader, IIndexRow } from "../core/fancy_index";
-    import * as _ from "lodash";
-    import { DataFrame } from "data-forge";
+    import Cell from "./cell.vue";
     // -------------------------------------------------------------------------
 
     export interface IRow {

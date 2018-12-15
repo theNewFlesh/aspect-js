@@ -6,8 +6,6 @@ import {
     INodeParams,
     IPortParams,
 } from "./iparams";
-import { MeshLambertMaterial, CompressedTextureLoader, LoaderUtils } from 'three';
-import { throws } from 'assert';
 // -----------------------------------------------------------------------------
 
 export class Params {
@@ -149,14 +147,6 @@ export class Params {
         let output: string = _.keys(data)[0];
         output = output.match(".*" + id)[0] + "/";
         return output;
-    }
-
-    public get_full_components(): Params {
-        filter_scene
-        filter_graph
-        filter_graphs
-        filter_node
-        filter_nodes
     }
 
     public resolve_ids(): Params {
