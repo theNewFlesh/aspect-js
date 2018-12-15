@@ -6,7 +6,7 @@ import {
     INodeParams,
     IPortParams,
 } from "./iparams";
-import { MeshLambertMaterial, CompressedTextureLoader } from 'three';
+import { MeshLambertMaterial, CompressedTextureLoader, LoaderUtils } from 'three';
 // -----------------------------------------------------------------------------
 
 export class Params {
@@ -141,6 +141,14 @@ export class Params {
         return output;
     }
 
+    public get_full_components(): Params {
+        filter_scene
+        filter_graph
+        filter_graphs
+        filter_node
+        filter_nodes
+    }
+
     public resolve_ids(): Params {
         const regex: RegExp = new RegExp("(inport|outport|node|edge|graph|scene)");
         const data: object = this.to_object();
@@ -228,6 +236,40 @@ export class Params {
         else {
             throw new Error(`invalid id: ${id}`);
         }
+    }
+
+    public filter_component(id: string, full: boolean = false): Params {
+        const type: string = _.split(id, "_")[0];
+
+        if (type === "scene"){
+            return this.filter_scene(id, full);
+        }
+        else if (type === "graph"){
+            return this.filter_graph(id, full);
+        }
+        else if (type === "node") {
+            return this.filter_node(id, full);
+        }
+        else if (type === "edge") {
+            return this.filter_edge(id);
+        }
+        else if (type === "inport") {
+            return this.filter_inport(id);
+        }
+        else if (type === "outport") {
+            return this.filter_outport(id);
+        }
+        else {
+            throw new Error(`invalid id: ${id}`);
+        }
+    }
+
+    public filter_components(ids: string[], full: boolean = false): Params {
+        const data: object = {};
+        for (const id of ids) {
+            Object.assign(data, this.filter_component(id, full).to_object());
+        }
+        return new Params(data);
     }
 
     public get_dependencies(id: string, full: boolean = true): string[] {

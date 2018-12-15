@@ -162,7 +162,7 @@ export class OrderedDict {
         return this._keys.length;
     }
 
-    public as_object(): object {
+    public to_object(): object {
         return this._items;
     }
 }

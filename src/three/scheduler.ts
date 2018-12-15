@@ -2,7 +2,6 @@ import * as _ from "lodash";
 import uuidv4 from "uuid/v4";
 import { Params } from "../core/params";
 import { DAG } from "./dag";
-import { OrderedDict } from "../core/tools";
 import { Scaffold } from "../core/scaffold";
 import * as tools from "../core/tools";
 // -----------------------------------------------------------------------------
@@ -90,28 +89,41 @@ export class Scheduler {
     }
 
     public delete(fragment: object, dag: DAG): Scheduler {
-        fragment = new Params(fragment).resolve_ids().to_object();
-        const next: Params = this.__state.subtract(fragment, true);
+        const temp_ids: string[] = new Params(fragment).resolve_ids().to_ids();
+        fragment = this.__state.filter_components(temp_ids, true).drop_non_ids().to_object();
 
-        const lut: OrderedDict = new OrderedDict({}, []);
+        const lut: object = {};
         for (const edge of this.__state.to_edges()) {
-            if (edge["source/id"] !== undefined) {
-                lut[edge["source/id"]] = edge["id"];
+            const sid: string = edge["source/id"];
+            if (sid !== undefined) {
+                if (!lut.hasOwnProperty(sid)) {
+                    lut[sid] = [];
+                }
+                lut[sid].push(edge["id"]);
             }
-            if (edge["destination/id"] !== undefined) {
-                lut[edge["destination/id"]] = edge["id"];
+
+            const did: string = edge["destination/id"];
+            if (did !== undefined) {
+                if (!lut.hasOwnProperty(did)) {
+                    lut[did] = [];
+                }
+                lut[did].push(edge["id"]);
             }
         }
 
         let ids: string[] = new Params(fragment).to_ids();
+        ids = this.__state.filter_components(ids, true).to_ids();
         for (const id of _.clone(ids)) {
-            if (lut.has(id)) {
+            if (lut.hasOwnProperty(id)) {
                 for (const i of lut[id]) {
                     ids.push(i);
                 }
             }
         }
         ids = _.uniq(ids);
+        fragment = this.__state.filter_ids(ids).drop_non_ids().to_object();
+
+        const next: Params = this.__state.subtract(fragment, true);
 
         let data: IScheduleRow[] = _.clone(this.__schedule);
         for (const id of ids) {
