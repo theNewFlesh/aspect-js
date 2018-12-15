@@ -131,6 +131,46 @@ export class DAG {
         }
         return output;
     }
+
+    public _create_port(params: Params, id: string, type: string): void {
+        const pid: string = params.get_parent_id(id);
+        let count: number;
+        let op: object;
+        let y: number = 2;
+        let port: any;
+
+        if (type === "inport") {
+            count = params.filter_node(pid, true).to_inports().length;
+            op = params.to_inport(id);
+            port = new Inport(this.three_item);
+        }
+        else if (type === "outport") {
+            count = params.filter_node(pid, true).to_outports().length;
+            op = params.to_outport(id);
+            y *= -1;
+            port = new Outport(this.three_item);
+        }
+
+        let x_offset: number = 0;
+        if (count > 1) {
+            if (count % 2 === 0) {
+                x_offset = count / 2.0;
+            }
+            else {
+                x_offset = (count / 2.0) - 0.5;
+            }
+        }
+
+        const pos: object = {
+            "translate/x": op["order"] - x_offset,
+            "translate/y": y,
+        };
+        Object.assign(op, pos);
+
+        const parent: any = this._get_parent(params, id);
+        port.create(op, parent);
+        this.set_child(id, port);
+    }
     // -------------------------------------------------------------------------
 
     public _create_scene(params: Params, id: string): void {
@@ -200,30 +240,7 @@ export class DAG {
     // -------------------------------------------------------------------------
 
     public _create_inport(params: Params, id: string): void {
-        const pid: string = params.get_parent_id(id);
-        const count: number = params.filter_node(pid, true).to_inports().length;
-        const ip: object = params.to_inport(id);
-
-        let x_offset: number = 0;
-        if (count > 1) {
-            if (count % 2 === 0) {
-                x_offset = count / 2.0;
-            }
-            else {
-                x_offset = (count / 2.0) - 0.5;
-            }
-        }
-
-        const pos: object = {
-            "translate/x": ip["order"] - x_offset,
-            "translate/y": 2,
-        };
-        Object.assign(ip, pos);
-
-        const parent: any = this._get_parent(params, id);
-        const inport: Inport = new Inport(this.three_item);
-        inport.create(ip, parent);
-        this.set_child(id, inport);
+        this._create_port(params, id, "inport");
     }
 
     public _update_inport(params: Params, id: string): void {
@@ -232,30 +249,7 @@ export class DAG {
     // -------------------------------------------------------------------------
 
     public _create_outport(params: Params, id: string): void {
-        const pid: string = params.get_parent_id(id);
-        const count: number = params.filter_node(pid, true).to_outports().length;
-        const op: object = params.to_outport(id);
-
-        let x_offset: number = 0;
-        if (count > 1) {
-            if (count % 2 === 0) {
-                x_offset = count / 2.0;
-            }
-            else {
-                x_offset = (count / 2.0) - 0.5;
-            }
-        }
-
-        const pos: object = {
-            "translate/x": op["order"] - x_offset,
-            "translate/y": -2,
-        };
-        Object.assign(op, pos);
-
-        const parent: any = this._get_parent(params, id);
-        const outport: Outport = new Outport(this.three_item);
-        outport.create(op, parent);
-        this.set_child(id, outport);
+        this._create_port(params, id, "outport");
     }
 
     public _update_outport(params: Params, id: string): void {
@@ -279,22 +273,6 @@ export class DAG {
         this._state = state;
     }
 
-    public _sweep_edges(): void {
-        for (const id of this._state.filter_edges().to_ids()) {
-            if (this.has_child(id)) {
-                const edge: Edge = this.get_child(id);
-                const src: string = edge.read()["source/id"];
-                const dst: string = edge.read()["destination/id"];
-                for (const pid of [src, dst]) {
-                    if (!this.has_child(pid)) {
-                        const temp: object = this._state.filter_edge(id).to_object();
-                        this.delete(temp, false);
-                    }
-                }
-            }
-        }
-    }
-
     public delete(fragment: object, sweep: boolean = true): void {
         let scheduler: Scheduler = new Scheduler(this._state).delete(fragment, this);
         scheduler.print();
@@ -308,9 +286,6 @@ export class DAG {
             this.delete_child(row["id"]);
         }
         this._state = state;
-        // if (sweep) {
-        //     this._sweep_edges();
-        // }
     }
 
     public destroy(): void {
