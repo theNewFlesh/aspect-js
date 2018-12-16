@@ -56,6 +56,16 @@ const rows = [
     ["scene_002",  "graph_001", "node_007", "func7", "fuz", 55,   55,   "none",        "present" , display],
 ];
 
+const rows2 = [
+    ["func1", "baz",  b,    b,   "dropdown",    "override", display],
+    ["func1", "bar",  a,    a,   "combobox",    "override", display],
+    ["func1", "boo", text, text, "textarea",    "unlocked", display],
+    ["func1", "fuz", 55,   55,   "slider",      "present" , display],
+    ["func1", "zag",  5,    8,   "spinbox",     "override", display],
+    ["func1", "baz",  b,    b,   "dropdown",    "override", display],
+    ["func1", "bar",  a,    a,   "combobox",    "override", display],
+];
+
 function add_index(data) {
     let i: number = 0;
     for (const row of data) {
@@ -65,8 +75,13 @@ function add_index(data) {
 }
 
 const cols = [
-    "scene_id", "graph_id", "node_id", "node_name",
-    "inport_name", "value", "default_value", "widget", "lock", "display"
+    "scene_id", "graph_id", "node_id", "node/name",
+    "name", "value", "default_value", "widget", "lock", "display"
+];
+
+const cols2 = [
+    "node/name",
+    "name", "value", "default_value", "widget", "lock", "display"
 ];
 
 export const acols = [
@@ -74,21 +89,21 @@ export const acols = [
 ];
 
 export const bcols = [
-    ["node_name"],
-    ["inport_name", "value"]
+    ["node/name"],
+    ["name", "value"]
 ];
 
 export const ccols = [
-    // ["scene_id", "graph_id", "node_id", "node_name"],
-    ["node_name"],
-    ["inport_name", "value", "default_value", "widget", "lock"]// , "display"]
+    // ["scene_id", "graph_id", "node_id", "node/name"],
+    ["node/name"],
+    ["name", "value", "default_value", "widget", "lock"]// , "display"]
 ];
 
 export const dcols = [
     ["scene_id"],
     ["graph_id"],
-    ["node_id", "node_name"],
-    ["inport_name", "value", "default_value", "options", "widget", "lock"]
+    ["node_id", "node/name"],
+    ["name", "value", "default_value", "options", "widget", "lock"]
 ];
 
 const _index = [];
@@ -102,8 +117,8 @@ for (const cols of ccols) {
 }
 export const index = _index;
 
-cols.splice(0, 0, "__index");
-add_index(rows);
-export const data = _.map(rows, (row) => (_.zipObject(cols, row)) );
+cols2.splice(0, 0, "__index");
+add_index(rows2);
+export const data = _.map(rows2, (row) => (_.zipObject(cols2, row)) );
 
 export const masks = [false, false, false, false];

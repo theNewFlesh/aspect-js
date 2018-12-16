@@ -1,4 +1,5 @@
 import * as _ from "lodash";
+import * as tools from "../core/tools";
 import { Scaffold } from "./scaffold";
 import {
     ISceneParams,
@@ -41,7 +42,7 @@ export class Params {
             .to_array();
         const output: object[] = [];
         for (const port of data) {
-            output.push( new Params(port).strip_id().strip_display().to_object() );
+            output.push( new Params(port).strip_headers().strip_display().to_object() );
         }
         return output;
     }
@@ -92,7 +93,7 @@ export class Params {
         }
     }
 
-    public strip_id(): Params {
+    public strip_headers(): Params {
         const regex: RegExp = new RegExp(".*(inport|outport|node|edge|graph|scene)_.*?\/");
         const data: object = this.__data
             .assign(x => x.key.replace(regex, ""), "key")
@@ -166,9 +167,15 @@ export class Params {
         return new Params(data);
     }
 
-    public drop_display(): Params {
+    public drop_display(keep_re: string = null): Params {
+        let regex: any = "display\/";
+        if (keep_re !== null) {
+            regex += `(?!${keep_re})`;
+        }
+        regex = new RegExp(regex);
+
         const data: object = this.__data
-            .filter(x => !x.match("display\/"), "key")
+            .filter(x => !x.match(regex), "key")
             .to_object();
         return new Params(data);
     }
@@ -314,7 +321,7 @@ export class Params {
     }
 
     public to_scene(id: string): ISceneParams {
-        return this.filter_scene(id).strip_id().to_object();
+        return this.filter_scene(id).strip_headers().to_object();
     }
 
     public get_scene_id(): string {
@@ -344,7 +351,7 @@ export class Params {
 
     public to_graph(graph_id: string): object {
         return this.filter_graph(graph_id)
-            .strip_id()
+            .strip_headers()
             .strip_display()
             .to_object();
     }
@@ -378,7 +385,7 @@ export class Params {
 
     public to_node(node_id: string): INodeParams {
         return this.filter_node(node_id)
-            .strip_id()
+            .strip_headers()
             .strip_display()
             .to_object();
     }
@@ -404,7 +411,7 @@ export class Params {
 
     public to_edge(edge_id: string): IEdgeParams {
         return this.filter_edge(edge_id)
-            .strip_id()
+            .strip_headers()
             .strip_display()
             .to_object();
     }
@@ -430,7 +437,7 @@ export class Params {
 
     public to_inport(inport_id: string): IPortParams {
         return this.filter_inport(inport_id)
-            .strip_id()
+            .strip_headers()
             .strip_display()
             .to_object();
     }
@@ -456,12 +463,69 @@ export class Params {
 
     public to_outport(outport_id: string): IPortParams {
         return this.filter_outport(outport_id)
-            .strip_id()
+            .strip_headers()
             .strip_display()
             .to_object();
     }
 
     public to_outports(): IPortParams[] {
         return this._to_children("outport");
+    }
+    // -------------------------------------------------------------------------
+
+    public to_node_pane(): any[] {
+        const ids: string[] = this.filter_nodes().to_ids();
+        const data: object[] = [];
+        let i: number = 0;
+        for (const id of ids) {
+            const node: object = this.to_node(id);
+            const rows: object[] = this.filter_node(id, true)
+                .drop_display("name|options|widget")
+                .to_inports();
+
+            for (const row of rows) {
+                const datum: object = {};
+                datum["name"]          = row["name"];
+                datum["value"]         = row["value"];
+                datum["default_value"] = row["default_value"];
+                datum["widget"]        = row["widget"];
+                datum["lock"]          = row["lock"];
+                // datum["node/id"]       = node["id"];
+                datum["node/name"]     = node["name"];
+                // datum["node/function"] = node["function"];
+                // datum["node/module"]   = node["module"];
+                // datum["node/info"]     = node["info"];
+                // datum["node/version"]  = node["version"];
+                // datum["node/order"]    = node["order"];
+                // datum["node/selected"] = node["selected"];
+                // datum["node/visible"]  = node["visible"];
+                // TODO: remove me and fixe widgets
+                datum["display"]       = {"options": row["options"][0]};
+                datum["__index"]       = i;
+                data.push(datum);
+                i++;
+            }
+        }
+
+        const cols: string[][] = [
+            ["node/name"],
+            [
+                "name",
+                "value",
+                "default_value",
+                "widget",
+                "lock",
+            ]
+        ];
+        const index: object[] = [];
+        for (const col of cols) {
+            index.push({
+                columns: col,
+                group: col[0],
+                indent: true,
+                hide_headers: false,
+            });
+        }
+        return [data, index];
     }
 }

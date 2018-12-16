@@ -154,7 +154,7 @@ export class DAG {
         let x_offset: number = 0;
         if (count > 1) {
             if (count % 2 === 0) {
-                x_offset = count / 2.0;
+                x_offset = (count / 2.0) + 0.5;
             }
             else {
                 x_offset = (count / 2.0) - 0.5;
@@ -259,7 +259,7 @@ export class DAG {
 
     public edit(fragment: object): void {
         let scheduler: Scheduler = new Scheduler(this._state).edit(fragment, this);
-        scheduler.print();
+        // scheduler.print();
         scheduler = scheduler.remove_ignores();;
 
         const temp: any = scheduler.to_state_and_schedule();

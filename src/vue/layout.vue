@@ -44,6 +44,8 @@
     import { Multipane, MultipaneResizer } from "vue-multipane";
     import * as _ from "lodash";
     import * as tt from "../../test/test_tools";
+    import { Params } from "../../src/core/params";
+    import { scene } from "../../test/test_scene";
     import { HEX_COLORS } from "../core/tools";
 
     import Vuetify from "vuetify";
@@ -53,8 +55,8 @@
 
     @Component( {components: { Table, DagPane, Multipane, MultipaneResizer } })
     export default class Layout extends Vue {
-        public data = tt.data;
-        public index = tt.index;
+        public data = new Params(scene).to_node_pane()[0];
+        public index = new Params(scene).to_node_pane()[1];
         public _collapsed: boolean = false;
         public _prev_dag_width: number;
 

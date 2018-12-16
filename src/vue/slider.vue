@@ -22,7 +22,6 @@
 <script lang="ts">
     import Vue from "vue";
     import { Component, Prop } from "vue-property-decorator";
-    import { add_style_attribute } from "../tools";
     import * as _ from "lodash";
 
     @Component
