@@ -169,8 +169,6 @@ const proto_outport: object = {
 const op1 = _.clone(proto_outport);
 op1["id"] = "outport_1";
 op1["name"] = "outport_1";
-// op1["display/color/hue"] = 0.5;
-// op1["display/color/saturation"] = 1;
 op1["display/order"] = 0;
 
 const op2 = _.clone(proto_outport);
@@ -182,16 +180,19 @@ const ip1 = _.clone(proto_inport);
 ip1["id"] = "inport_1";
 ip1["name"] = "inport_1";
 ip1["display/order"] = 1;
+ip1["display/widget"] = "combobox";
 
 const ip2 = _.clone(proto_inport);
 ip2["id"] = "inport_2";
 ip2["name"] = "inport_2";
 ip2["display/order"] = 2;
+ip2["display/widget"] = "textarea";
 
 const ip3 = _.clone(proto_inport);
 ip3["id"] = "inport_3";
 ip3["name"] = "inport_3";
 ip3["display/order"] = 3;
+ip3["display/widget"] = "spinbox";
 
 const ip4 = _.clone(proto_inport);
 ip4["id"] = "inport_4";
@@ -220,8 +221,6 @@ e1["id"] = "edge_1";
 e1["name"] = "edge_1";
 e1["source/id"] = "outport_1";
 e1["destination/id"] = "inport_4";
-// e1["display/color/hue"] = 0.25;
-// e1["display/color/saturation"] = 1;
 
 const temp: object = {};
 temp["scene_0"] = proto_scene;
