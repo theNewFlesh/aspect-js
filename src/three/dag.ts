@@ -1,7 +1,6 @@
 import * as _ from "lodash";
 import * as three_tools from "./three_tools";
 import * as tools from "../core/tools";
-import * as test_tools from "../../test/test_tools";
 import * as test_scene from "../../test/test_scene";
 import * as THREE from "three";
 import { Scene } from "./scene";
@@ -19,7 +18,6 @@ import { IPortParams, INodeParams, IEdgeParams } from "../core/iparams";
 export class DAG {
     public get THREE() { return THREE; }
     public get three_tools() { return three_tools; }
-    public get test_tools() { return test_tools; }
     public get test_scene() { return test_scene.scene; }
     public get tools() { return tools; }
     public get scaffold() { return Scaffold; }

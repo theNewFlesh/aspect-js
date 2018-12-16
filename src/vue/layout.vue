@@ -43,7 +43,6 @@
     import DagPane from "./dag_pane.vue";
     import { Multipane, MultipaneResizer } from "vue-multipane";
     import * as _ from "lodash";
-    import * as tt from "../../test/test_tools";
     import { Params } from "../../src/core/params";
     import { scene } from "../../test/test_scene";
     import { HEX_COLORS } from "../core/tools";
