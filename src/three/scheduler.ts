@@ -193,7 +193,8 @@ export class Scheduler {
 
     public _add_edges_for_nodes(fragment: object, next: Params): Params {
         const params: Params = new Params(fragment);
-        for (const inport of params.to_inports()) {
+        const inports: object[] = params.to_inports(["both", "node"]);
+        for (const inport of inports) {
             const id: string = inport["id"];
             const pid: string = params.get_parent_id(id);
 

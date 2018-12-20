@@ -442,8 +442,12 @@ export class Params {
             .to_object();
     }
 
-    public to_inports(): IPortParams[] {
-        return this._to_children("inport");
+    public to_inports(
+        subtypes: string[] = ["both", "none", "widget", "node"]
+    ): IPortParams[] {
+        let output: object[] = this._to_children("inport");
+        output = _.filter(output, x => subtypes.includes(x["subtype"]));
+        return output;
     }
     // -------------------------------------------------------------------------
 
@@ -481,7 +485,7 @@ export class Params {
             const node: object = this.to_node(id);
             const rows: object[] = this.filter_node(id, true)
                 .drop_display("name|options|widget")
-                .to_inports();
+                .to_inports(["both", "widget"]);
 
             for (const row of rows) {
                 const datum: object = {};

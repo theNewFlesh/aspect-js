@@ -138,8 +138,15 @@ export class DAG {
         let port: any;
 
         if (type === "inport") {
-            count = params.filter_node(pid, true).to_inports().length;
+            count = params.filter_node(pid, true)
+                .to_inports(["both", "node"])
+                .length;
             temp = params.to_inport(id);
+
+            // cancel if port subtype is not meant to be displayed
+            if (!["node", "both"].includes(temp["subtype"])) {
+                return;
+            }
             port = new Inport(this.three_item);
         }
         else if (type === "outport") {

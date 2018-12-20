@@ -20,6 +20,7 @@ const options = [{
 const proto_scene: object = {
     "id":              "scene_0",
     "type":            "scene",
+    "subtype":         "",
     "resource_<id>":   "",
     "display/name":    "",
     "display/info":    "",
@@ -29,6 +30,7 @@ const proto_scene: object = {
 const proto_edge: object = {
     "id":                              "edge_0",
     "type":                            "edge",
+    "subtype":                         "",
     "source/id":                       "outport_0",
     "destination/id":                  "inport_0",
     "display/name":                    "edge",
@@ -51,6 +53,7 @@ const proto_edge: object = {
 const proto_graph: object = {
     "id":                  "graph_0",
     "type":                "graph",
+    "subtype":             "",
     "source/id":           "node_0",
     "destination/id":      "node_2",
     "display/name":        "graph",
@@ -73,6 +76,7 @@ const proto_graph: object = {
 const proto_node: object = {
     "id":                            "node_0",
     "type":                          "node",
+    "subtype":                       "",
     "module":                        "mod",
     "function":                      "func",
     // "subgraph":                      "",
@@ -105,6 +109,7 @@ const proto_node: object = {
 const proto_inport: object = {
     "id":                            "inport_0",
     "type":                          "inport",
+    "subtype":                       "node",
     "value":                         10,
     "default_value":                 50,
     "lock":                          "present",
@@ -139,6 +144,7 @@ const proto_inport: object = {
 const proto_outport: object = {
     "id":                            "outport_0",
     "type":                          "outport",
+    "subtype":                       "",
     "display/name":                  "outport",
     "display/widget":                "",
     "display/options":               "",
@@ -193,6 +199,7 @@ ip3["id"] = "inport_3";
 ip3["name"] = "inport_3";
 ip3["display/order"] = 3;
 ip3["display/widget"] = "spinbox";
+ip3["subtype"] = "both";
 
 const ip4 = _.clone(proto_inport);
 ip4["id"] = "inport_4";
@@ -203,6 +210,7 @@ const ip5 = _.clone(proto_inport);
 ip5["id"] = "inport_5";
 ip5["name"] = "inport_5";
 ip5["display/order"] = 4;
+ip5["subtype"] = "widget";
 
 const n1 = _.clone(proto_node);
 n1["id"] = "node_1";

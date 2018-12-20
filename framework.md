@@ -18,35 +18,41 @@ values --> may not include dicts or lists that contain dicts
 
 [scene_<id>]
     scene_<id>/<display>
+    scene_<id>/type: "scene"
     scene_<id>/resource_<id>:
 
 [scene_<id>/graph_<id>]
     scene_<id>/graph_<id>/<display>
-    scene_<id>/graph_<id>/type: ["standard", "view"]
+    scene_<id>/graph_<id>/type: "graph"
+    scene_<id>/graph_<id>/subtype: ["standard", "view"]
     scene_<id>/graph_<id>/innode: scene_<id>/graph_<id>/node_<id>
     scene_<id>/graph_<id>/outnode: scene_<id>/graph_<id>/node_<id>
 
 [scene_<id>/edge_<id>]
     scene_<id>/edge_<id>/<display>
-    scene_<id>/graph_<id>/edge_<id>/type: "cross_graph"
+    scene_<id>/edge_<id>/type: "edge"
+    scene_<id>/edge_<id>/subtype: "cross_graph"
     scene_<id>/edge_<id>/from: scene_<id>/graph_<id>/graph_<id>/node_<id>/outport_<id>
     scene_<id>/edge_<id>/to: scene_<id>/graph_<id>/graph_<id>/node_<id>/inport_<id>
 
 [scene_<id>/graph_<id>/edge_<id>]
     scene_<id>/graph_<id>/edge_<id>/<display>
-    scene_<id>/graph_<id>/edge_<id>/type: "standard"
+    scene_<id>/graph_<id>/edge_<id>/type: "edge"
+    scene_<id>/graph_<id>/edge_<id>/subtype: "standard"
     scene_<id>/graph_<id>/edge_<id>/from: scene_<id>/graph_<id>/graph_<id>/node_<id>/outport_<id>
     scene_<id>/graph_<id>/edge_<id>/to: scene_<id>/graph_<id>/graph_<id>/node_<id>/inport_<id>
 
 [scene_<id>/graph_<id>/node_<id>]
     scene_<id>/graph_<id>/node_<id>/<display>
-    scene_<id>/graph_<id>/node_<id>/type: [standard, in, out, subgraph, ...]
+    scene_<id>/graph_<id>/node_<id>/type: "node"
+    scene_<id>/graph_<id>/node_<id>/subtype: ["standard", "in", "out", "subgraph", ...]
     scene_<id>/graph_<id>/node_<id>/module: ["module_name"] (same as module)
     scene_<id>/graph_<id>/node_<id>/function: ["function_name"] (same as function)
     scene_<id>/graph_<id>/node_<id>/subgraph: ["none", "scene_<id>/graph_<id>"] (if type == subgraph)
 
 [scene_<id>/graph_<id>/node_<id>/inport_<id>]
     scene_<id>/graph_<id>/node_<id>/inport_<id>/<display>
+    scene_<id>/graph_<id>/node_<id>/inport_<id>/type: "inport"
     scene_<id>/graph_<id>/node_<id>/inport_<id>/value:
     scene_<id>/graph_<id>/node_<id>/inport_<id>/default_value:
     scene_<id>/graph_<id>/node_<id>/inport_<id>/type: ["node", "widget", "both", "none"]
@@ -54,6 +60,7 @@ values --> may not include dicts or lists that contain dicts
 
 [scene_<id>/graph_<id>/node_<id>/outport_<id>]
     scene_<id>/graph_<id>/node_<id>/outport_<id>/<display>
+    scene_<id>/graph_<id>/node_<id>/outport_<id>/type: "outport"
     scene_<id>/graph_<id>/node_<id>/outport_<id>/value:
 
 ---PORT-LOCKS-------------------------------------------------------------------
