@@ -169,12 +169,12 @@ const proto_outport: object = {
 const op1 = _.clone(proto_outport);
 op1["id"] = "outport_1";
 op1["name"] = "outport_1";
-op1["display/order"] = 0;
+op1["display/order"] = 1;
 
 const op2 = _.clone(proto_outport);
 op2["id"] = "outport_2";
 op2["name"] = "outport_2";
-op2["display/order"] = 1;
+op2["display/order"] = 2;
 
 const ip1 = _.clone(proto_inport);
 ip1["id"] = "inport_1";

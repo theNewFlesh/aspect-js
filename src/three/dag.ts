@@ -133,40 +133,35 @@ export class DAG {
     public _create_port(params: Params, id: string, type: string): void {
         const pid: string = params.get_parent_id(id);
         let count: number;
-        let op: object;
+        let temp: object;
         let y: number = 2;
         let port: any;
 
         if (type === "inport") {
             count = params.filter_node(pid, true).to_inports().length;
-            op = params.to_inport(id);
+            temp = params.to_inport(id);
             port = new Inport(this.three_item);
         }
         else if (type === "outport") {
             count = params.filter_node(pid, true).to_outports().length;
-            op = params.to_outport(id);
+            temp = params.to_outport(id);
             y *= -1;
             port = new Outport(this.three_item);
         }
 
         let x_offset: number = 0;
         if (count > 1) {
-            if (count % 2 === 0) {
-                x_offset = (count / 2.0) + 0.5;
-            }
-            else {
-                x_offset = (count / 2.0) - 0.5;
-            }
+            x_offset = (count / 2.0) + 0.5;
         }
 
         const pos: object = {
-            "translate/x": op["order"] - x_offset,
+            "translate/x": temp["order"] - x_offset,
             "translate/y": y,
         };
-        Object.assign(op, pos);
+        Object.assign(temp, pos);
 
         const parent: any = this._get_parent(params, id);
-        port.create(op, parent);
+        port.create(temp, parent);
         this.set_child(id, port);
     }
     // -------------------------------------------------------------------------
