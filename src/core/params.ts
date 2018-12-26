@@ -1,5 +1,4 @@
 import * as _ from "lodash";
-import * as tools from "../core/tools";
 import { Scaffold } from "./scaffold";
 import {
     ISceneParams,

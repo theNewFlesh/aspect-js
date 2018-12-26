@@ -1,7 +1,7 @@
 <template>
     <v-slider
         class="aspect-slider"
-        :v-model="value"
+        v-model="value"
         :min="display.options.min"
         :max="display.options.max"
         :step="display.options.step"
@@ -24,7 +24,7 @@
     import { Component, Prop } from "vue-property-decorator";
     import * as _ from "lodash";
 
-    @Component
+    @Component({})
     export default class Slider extends Vue {
         @Prop()
         public value: number;
@@ -45,7 +45,9 @@
 
         public get tick_labels(): number[] {
             let ticks: any[] = _.range(
-                this.display.options.min, this.display.options.max + 1, this.display.options.step
+                this.display.options.min,
+                this.display.options.max + 1,
+                this.display.options.step,
             );
             ticks = _.map(ticks, (x) => {
                 if (x % this.display.options.tick_step === 0) {
