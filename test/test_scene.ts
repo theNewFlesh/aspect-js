@@ -6,7 +6,7 @@ const cyan2 = tools.HSV_COLORS["aspect_cyan_2"];
 const grey2 = tools.HSV_COLORS["aspect_grey_2"];
 
 const options = [{
-    min: 10,
+    min: 0,
     max: 60,
     step: 5,
     tick_step: 10,

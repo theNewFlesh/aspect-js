@@ -1,6 +1,5 @@
 import * as _ from "lodash";
 import tiny_color from "tinycolor2";
-import { Scaffold } from "./scaffold";
 // -----------------------------------------------------------------------------
 
 export function log(item: any): any {
