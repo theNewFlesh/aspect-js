@@ -37,6 +37,8 @@
         "babel-core": "7.0.0-bridge.0",
         "less": "^3.0.4",
         "less-loader": "^4.1.0",
+        "stylus": "^0.54.5",
+        "stylus-loader": "^3.0.2",
         "ts-jest": "^23.0.0",
         "typescript": "^3.0.0",
         "vue-class-component": "^6.3.2",

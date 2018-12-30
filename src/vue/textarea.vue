@@ -33,24 +33,96 @@
     }
 </script>
 
-<style scoped lang="less">
-    .aspect-textarea textarea {
-        margin-top: 0px;
-        font-size: 13px !important;
-        padding-left: 6px !important;
-        padding-bottom: 2px !important;
-        background-color: transparent;
-    }
+<style scoped lang="stylus">
+    // @import "../bootstrap"
+    // @import "../theme"
 
-    .aspect-textarea .v-input__slot {
-        min-height: 20px;
-    }
+    v-textarea($material)
+        &.v-text-field--solo-inverted.v-text-field--solo
+            &.v-input--is-focused
+                textarea
+                    color: $material.inputs.solo-inverted-focused-text
 
-    .v-text-field > .v-input__control > .v-input__slot {
-        display: none;
-    }
+    theme(v-textarea, "v-textarea")
 
-    .v-datatable__expand-col.v-datatable__expand-col--expanded {
-        display: none !important;
-    }
+    v-textarea-rtl()
+        &.v-text-field--enclosed
+            .v-text-field__slot
+                margin-right: 0
+                margin-left: -12px
+
+                textarea
+                    padding-right: 0
+                    padding-left: 6px
+                    padding-bottom: 2px
+
+    rtl(v-textarea-rtl, "v-textarea")
+
+    .v-textarea
+        textarea
+            flex: 1 1 auto
+            line-height: 18px
+            max-width: 100%
+            min-height: 20px
+            outline: none
+            padding: 7px 0 8px
+            width: 100%
+
+        .v-text-field__prefix
+            padding-top: 4px
+            align-self: start
+
+        &.v-text-field--full-width,
+        &.v-text-field--full-width.v-text-field--single-line
+            .v-text-field__slot
+                textarea
+                    margin-top: 0
+
+            .v-text-field__details
+                bottom: 4px
+
+        &.v-text-field--enclosed
+            .v-text-field__slot
+                margin-right: -12px
+
+                textarea
+                    padding-right: 12px
+
+        &.v-text-field--box,
+        &.v-text-field--enclosed
+            .v-text-field__prefix,
+            textarea
+                margin-top: 24px
+
+            &.v-text-field--single-line
+                .v-text-field__prefix,
+                textarea
+                    margin-top: 12px
+
+                .v-label
+                    top: 18px
+
+                &.v-text-field--outline
+                    .v-input__control
+                        padding-top: 0
+
+        &.v-text-field--solo
+            align-items: flex-start
+
+            // Essentially revert styles
+            // applied by v-text-field
+            .v-input__prepend-inner,
+            .v-input__prepend-outer,
+            .v-input__append-inner,
+            .v-input__append-outer
+                align-self: flex-start
+                margin-top: 16px
+
+        &--auto-grow
+            textarea
+                overflow: hidden
+
+        &--no-resize
+            textarea
+                resize: none
 </style>

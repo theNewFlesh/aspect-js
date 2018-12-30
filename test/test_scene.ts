@@ -175,7 +175,7 @@ const proto_outport: object = {
 const op1 = _.clone(proto_outport);
 op1["id"] = "outport_1";
 op1["name"] = "outport_1";
-op1["display/order"] = 1;
+op1["display/order"] = 0;
 
 const op2 = _.clone(proto_outport);
 op2["id"] = "outport_2";
@@ -204,31 +204,38 @@ ip3["subtype"] = "both";
 const ip4 = _.clone(proto_inport);
 ip4["id"] = "inport_4";
 ip4["name"] = "inport_4";
-ip4["display/order"] = 0;
+ip4["display/order"] = 4;
 
 const ip5 = _.clone(proto_inport);
 ip5["id"] = "inport_5";
 ip5["name"] = "inport_5";
-ip5["display/order"] = 4;
-ip5["subtype"] = "widget";
+ip5["display/order"] = 1;
+ip5["subtype"] = "both";
+
+const ip6 = _.clone(proto_inport);
+ip6["id"] = "inport_6";
+ip6["name"] = "inport_6";
+ip6["display/order"] = 2;
+ip6["subtype"] = "both";
+ip3["display/widget"] = "textarea";
 
 const n1 = _.clone(proto_node);
 n1["id"] = "node_1";
 n1["name"] = "node_1";
 n1["display/font/text"] = "node_1";
+n1["display/translate/x"] = -3;
 
 const n2 = _.clone(proto_node);
 n2["id"] = "node_2";
 n2["name"] = "node_2";
 n2["display/font/text"] = "node_2";
-n2["display/translate/x"] = 3;
 n2["display/translate/y"] = -8;
 
 const e1 = _.clone(proto_edge);
 e1["id"] = "edge_1";
 e1["name"] = "edge_1";
 e1["source/id"] = "outport_1";
-e1["destination/id"] = "inport_4";
+e1["destination/id"] = "inport_5";
 
 const temp: object = {};
 temp["scene_0"] = proto_scene;
@@ -238,9 +245,10 @@ temp["scene_0"]["graph_0"]["node_1"] = n1;
 temp["scene_0"]["graph_0"]["node_1"]["inport_1"] = ip1;
 temp["scene_0"]["graph_0"]["node_1"]["inport_2"] = ip2;
 temp["scene_0"]["graph_0"]["node_1"]["inport_3"] = ip3;
-temp["scene_0"]["graph_0"]["node_1"]["inport_5"] = ip5;
+// temp["scene_0"]["graph_0"]["node_1"]["inport_4"] = ip4;
 temp["scene_0"]["graph_0"]["node_1"]["outport_1"] = op1;
-temp["scene_0"]["graph_0"]["node_1"]["outport_2"] = op2;
-temp["scene_0"]["graph_0"][`node_2`] = n2;
-temp["scene_0"]["graph_0"][`node_2`][`inport_4`] = ip4;
+// temp["scene_0"]["graph_0"]["node_1"]["outport_2"] = op2;
+temp["scene_0"]["graph_0"]["node_2"] = n2;
+temp["scene_0"]["graph_0"]["node_2"]["inport_5"] = ip5;
+temp["scene_0"]["graph_0"]["node_2"]["inport_6"] = ip6;
 export const scene: object = tools.flatten(temp);
