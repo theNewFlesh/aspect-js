@@ -36,6 +36,11 @@
 <style scoped lang="stylus">
     // @import "../bootstrap"
     // @import "../theme"
+    // @import "../../node_modules/vuetify/src/stylus/app.styl"
+
+    textarea
+        overflow: auto
+        resize: none
 
     v-textarea($material)
         &.v-text-field--solo-inverted.v-text-field--solo
@@ -125,4 +130,28 @@
         &--no-resize
             textarea
                 resize: none
+
+    .v-icon
+        align-items: center
+        display: inline-flex
+        -webkit-font-feature-settings: "liga"
+        font-feature-settings: "liga"
+        font-size: 16px
+        justify-content: center
+        line-height: 1
+        transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1)
+        vertical-align: text-bottom
+
+    .theme--dark .v-text-field--solo .v-input__slot,
+    .application .theme--dark.v-text-field--solo .v-input__slot
+        border-radius: 0px
+        background: #242424
+
+    .v-text-field input
+        flex: 1 1 auto
+        line-height: 20px
+        /* padding: 8px 0 8px */
+        max-width: 100%
+        min-width: 0px
+        width: 100%
 </style>

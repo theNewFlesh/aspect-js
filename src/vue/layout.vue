@@ -152,73 +152,62 @@
     }
 </script>
 
-<style lang="less">
-    .multipane {
-        height: 100vh;
-        display: inline-flex;
-    }
+<style lang="stylus">
+    // @import "../../node_modules/vuetify/src/stylus/app.styl"
+    @import "../static/css/style.css";
+    @import "../static/css/override.css";
 
-    .pane {
-        // overflow: hidden;
-        flex-grow: 1;
-        width: 100%;
-    }
+    .multipane
+        height: 100vh
+        display: inline-flex
 
-    .multipane .multipane-resizer {
-        width: 4px;
-        margin: 0;
-        left: 0;
-        position: relative;
-        background: #343434;
-        &:hover {
-            background: rgba(126, 196, 207, 0.25);
-        }
-    }
+    .pane
+        // overflow: hidden
+        flex-grow: 1
+        width: 100%
 
-    .aspect-testarea textarea {
-        margin-top: 0px !important;
-        font-size: 12px;
-        padding-left: 6px !important;
-        padding-bottom: 2px !important;
-    }
+    .multipane .multipane-resizer
+        width: 4px
+        margin: 0
+        left: 0
+        position: relative
+        background: #343434
+        &:hover
+            background: rgba(126, 196, 207, 0.25)
 
-    * {
-        box-shadow: unset !important;
-    }
+    .aspect-testarea textarea
+        margin-top: 0px !important
+        font-size: 12px
+        padding-left: 6px !important
+        padding-bottom: 2px !important
 
-    .application.theme--dark {
-        background-color: #141414;
-        color: #F4F4F4;
-    }
+    *
+        box-shadow: unset !important
 
-    .v-messages {
-        display: none;
-    }
+    .application.theme--dark
+        background-color: #141414
+        color: #F4F4F4
 
-    button, input, optgroup, select, textarea {
-        font-size: 13px;
-    }
+    .v-messages
+        display: none
 
-    ::-moz-selection {
-        background-color: rgba(126, 196, 207, 0.25);
-        color: #F4F4F4;
-        text-shadow: none;
-    }
+    button, input, optgroup, select, textarea
+        font-size: 13px
 
-    ::selection {
-        background-color: rgba(126, 196, 207, 0.25);
-        color: #F4F4F4;
-        text-shadow: none;
-    }
+    ::-moz-selection
+        background-color: rgba(126, 196, 207, 0.25)
+        color: #F4F4F4
+        text-shadow: none
+
+    ::selection
+        background-color: rgba(126, 196, 207, 0.25)
+        color: #F4F4F4
+        text-shadow: none
 
     ::grammar-error,
-    ::spelling-error {
-        color: #F77E70;
-    }
+    ::spelling-error
+        color: #F77E70
 
-    .v-menu__content {
-        position: fixed;
-    }
-
-    @import "../static/css/style.css";
+    .v-menu__content
+        position: fixed
 </style>

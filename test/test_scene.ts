@@ -207,17 +207,39 @@ ip4["name"] = "inport_4";
 ip4["display/order"] = 4;
 
 const ip5 = _.clone(proto_inport);
-ip5["id"] = "inport_5";
-ip5["name"] = "inport_5";
+ip5["id"] = "inport_05";
+ip5["name"] = "inport_05";
 ip5["display/order"] = 1;
 ip5["subtype"] = "both";
+ip5["display/widget"] = "combobox";
 
 const ip6 = _.clone(proto_inport);
-ip6["id"] = "inport_6";
-ip6["name"] = "inport_6";
+ip6["id"] = "inport_06";
+ip6["name"] = "inport_06";
 ip6["display/order"] = 2;
 ip6["subtype"] = "both";
-ip3["display/widget"] = "textarea";
+ip6["display/widget"] = "dropdown";
+
+const ip7 = _.clone(proto_inport);
+ip7["id"] = "inport_07";
+ip7["name"] = "inport_07";
+ip7["display/order"] = 3;
+ip7["subtype"] = "both";
+ip7["display/widget"] = "slider";
+
+const ip8 = _.clone(proto_inport);
+ip8["id"] = "inport_08";
+ip8["name"] = "inport_08";
+ip8["display/order"] = 3;
+ip8["subtype"] = "both";
+ip8["display/widget"] = "spinbox";
+
+const ip9 = _.clone(proto_inport);
+ip9["id"] = "inport_09";
+ip9["name"] = "inport_09";
+ip9["display/order"] = 3;
+ip9["subtype"] = "both";
+ip9["display/widget"] = "textarea";
 
 const n1 = _.clone(proto_node);
 n1["id"] = "node_1";
@@ -235,7 +257,7 @@ const e1 = _.clone(proto_edge);
 e1["id"] = "edge_1";
 e1["name"] = "edge_1";
 e1["source/id"] = "outport_1";
-e1["destination/id"] = "inport_5";
+e1["destination/id"] = "inport_05";
 
 const temp: object = {};
 temp["scene_0"] = proto_scene;
@@ -249,6 +271,9 @@ temp["scene_0"]["graph_0"]["node_1"]["inport_3"] = ip3;
 temp["scene_0"]["graph_0"]["node_1"]["outport_1"] = op1;
 // temp["scene_0"]["graph_0"]["node_1"]["outport_2"] = op2;
 temp["scene_0"]["graph_0"]["node_2"] = n2;
-temp["scene_0"]["graph_0"]["node_2"]["inport_5"] = ip5;
-temp["scene_0"]["graph_0"]["node_2"]["inport_6"] = ip6;
+temp["scene_0"]["graph_0"]["node_2"]["inport_05"] = ip5;
+temp["scene_0"]["graph_0"]["node_2"]["inport_06"] = ip6;
+temp["scene_0"]["graph_0"]["node_2"]["inport_07"] = ip7;
+temp["scene_0"]["graph_0"]["node_2"]["inport_08"] = ip8;
+temp["scene_0"]["graph_0"]["node_2"]["inport_09"] = ip9;
 export const scene: object = tools.flatten(temp);
