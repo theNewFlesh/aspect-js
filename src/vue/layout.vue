@@ -153,7 +153,6 @@
 </script>
 
 <style lang="stylus">
-    // @import "../../node_modules/vuetify/src/stylus/app.styl"
     @import "../static/css/style.css";
     @import "../static/css/override.css";
 

@@ -34,10 +34,6 @@
 </script>
 
 <style scoped lang="stylus">
-    // @import "../bootstrap"
-    // @import "../theme"
-    // @import "../../node_modules/vuetify/src/stylus/app.styl"
-
     textarea
         overflow: auto
         resize: none
