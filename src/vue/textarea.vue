@@ -41,6 +41,7 @@
     textarea
         overflow: auto
         resize: none
+        padding-top: 6px
 
     v-textarea($material)
         &.v-text-field--solo-inverted.v-text-field--solo

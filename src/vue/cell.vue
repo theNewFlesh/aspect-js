@@ -180,6 +180,10 @@
         padding: 0px 0px 0px 6px;
     }
 
+    #cell.name-cell {
+        padding-right: 6px;
+    }
+
     .value-cell,
     .default_value-cell {
         min-width: 150px;

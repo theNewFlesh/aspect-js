@@ -109,4 +109,7 @@
         margin-top: 0px;
         font-size: 13px;
     }
+    #aspect-dropdown.v-text-field {
+        padding-left: 4px;
+    }
 </style>

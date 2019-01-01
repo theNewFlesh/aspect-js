@@ -1,30 +1,30 @@
 textarea {
-  overflow: unset;
-  resize: unset;
+    overflow: unset;
+    resize: unset;
 }
 .application.theme--dark {
-  background: #343434;
-  color: #F4F4F4;
+    background: #343434;
+    color: #F4F4F4;
 }
 .theme--dark .v-icon,
 .application .theme--dark.v-icon {
-  color: unset;
+    color: unset;
 }
 .v-icon {
     align-items: center;
     display: inline-flex;
-    -webkit-font-feature-settings: 'liga';
-            font-feature-settings: 'liga';
+    -webkit-font-feature-settings: "liga";
+    font-feature-settings: "liga";
     font-size: 16px;
     justify-content: center;
     line-height: 1;
     transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
     vertical-align: text-bottom;
-  }
+}
 .theme--dark .v-text-field--solo .v-input__slot,
 .application .theme--dark.v-text-field--solo .v-input__slot {
-  border-radius: 0px;
-  background: #242424;
+    border-radius: 0px;
+    background: #d1a4a4;
 }
 .v-text-field input {
     flex: 1 1 auto;
@@ -33,28 +33,34 @@ textarea {
     max-width: 100%;
     min-width: 0px;
     width: 100%;
-  }
+}
+.v-text-field {
+    padding-top: 0px;
+}
 .v-text-field.v-text-field--enclosed .v-text-field__details,
 .v-text-field.v-text-field--enclosed .v-input__slot {
-  padding: unset;
+    padding: unset;
 }
 .v-text-field.v-text-field--enclosed .v-text-field__details {
-  margin-bottom: unset;
+    margin-bottom: unset;
 }
 .v-text-field.v-text-field--solo .v-input__control {
-  min-height: unset;
-  padding: unset;
+    min-height: unset;
+    padding: unset;
 }
 .v-select__slot {
     align-items: center;
     display: flex;
     height: 100%;
     width: 10000%;
-  }
+}
+.v-select__selections {
+    padding-left: 6px;
+}
 .theme--dark .v-chip,
 .application .theme--dark.v-chip {
-  background: unset;
-  color: unset;
+    background: unset;
+    color: unset;
 }
 .v-chip .v-chip__content {
     align-items: center;
@@ -67,9 +73,9 @@ textarea {
     vertical-align: middle;
     white-space: nowrap;
     z-index: 1;
-  }
+}
 .v-chip--small {
-  height: unset;
+    height: unset;
 }
 .v-input__control {
     display: flex;
@@ -79,7 +85,7 @@ textarea {
     flex-wrap: wrap;
     position: relative;
     width: 100%;
-  }
+}
 .v-input__slot {
     align-items: center;
     color: inherit;
@@ -89,13 +95,13 @@ textarea {
     position: relative;
     transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
     width: 100%;
-  }
+}
 .v-messages {
-  flex: unset;
-  font-size: unset;
-  min-height: unset;
-  min-width: unset;
-  position: unset;
+    flex: unset;
+    /* font-size: unset; */
+    min-height: unset;
+    min-width: unset;
+    position: unset;
 }
 .v-subheader {
     align-items: center;
@@ -104,7 +110,7 @@ textarea {
     font-size: 13px;
     font-weight: 500;
     padding: 0 16px 0 16px;
-  }
+}
 .theme--dark .v-list,
 .application .theme--dark.v-list {
     background: #343434;
@@ -131,15 +137,11 @@ textarea {
 }
 .theme--dark .v-table,
 .application .theme--dark.v-table {
-  color: unset;
+    color: unset;
 }
 .theme--dark .v-table thead tr:first-child,
 .application .theme--dark.v-table thead tr:first-child {
-  border-bottom: unset;
-}
-.theme--dark .v-table tbody tr:not(:last-child),
-.application .theme--dark.v-table tbody tr:not(:last-child) {
-  border-bottom: unset;
+    border-bottom: unset;
 }
 table.v-table thead td:not(:nth-child(1)),
 table.v-table tbody td:not(:nth-child(1)),
@@ -149,41 +151,44 @@ table.v-table thead td:first-child,
 table.v-table tbody td:first-child,
 table.v-table thead th:first-child,
 table.v-table tbody th:first-child {
-  padding: unset;
+    padding: unset;
 }
 table.v-table thead tr {
-  height: unset;
+    height: unset;
 }
 table.v-table thead th {
-  font-weight: unset;
-  font-size: unset;
-  transition: unset;
-  white-space: unset;
-  -webkit-user-select: unset;
-     -moz-user-select: unset;
-      -ms-user-select: unset;
-          user-select: unset;
+    font-weight: unset;
+    font-size: unset;
+    transition: unset;
+    white-space: unset;
+    -webkit-user-select: unset;
+    -moz-user-select: unset;
+    -ms-user-select: unset;
+    user-select: unset;
 }
 table.v-table tbody td,
 table.v-table tbody th {
-  height: unset;
+    height: unset;
 }
 table.v-table tbody td {
-  font-weight: unset;
-  font-size: unset;
+    font-weight: unset;
+    /* font-size: unset; */
 }
 .theme--dark .v-datatable .v-datatable__actions,
 .application .theme--dark.v-datatable .v-datatable__actions {
-  background-color: unset;
-  color: unset;
-  border-top: unset;
+    background-color: unset;
+    color: unset;
+    border-top: unset;
 }
 .v-datatable__expand-col--expanded {
     border-bottom: 0px solid rgba(0,0,0,0.12);
-  }
+}
 .v-datatable__expand-content {
     transition: height 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
     display: flex;
+}
+.v-datatable thead th.column.sortable {
+    padding-left: 6px;
 }
 .theme--dark .v-input--slider .v-slider__ticks,
 .application .theme--dark.v-input--slider .v-slider__ticks {
@@ -204,75 +209,75 @@ table.v-table tbody td {
     left: 0;
     bottom: 100%;
     -webkit-transform: translateY(-20%) translateY(-12px) translateX(-50%) rotate(45deg);
-            transform: translateY(-20%) translateY(-12px) translateX(-50%) rotate(45deg);
+    transform: translateY(-20%) translateY(-12px) translateX(-50%) rotate(45deg);
     -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  }
+}
 .v-textarea textarea {
-  flex: unset;
-  line-height: unset;
-  max-width: unset;
-  min-height: unset;
-  outline: unset;
-  padding: unset;
-  width: unset;
+    flex: unset;
+    line-height: unset;
+    max-width: unset;
+    min-height: unset;
+    outline: unset;
+    padding: unset;
+    width: unset;
 }
 .v-textarea .v-text-field__prefix {
-  padding-top: unset;
-  align-self: unset;
+    padding-top: unset;
+    align-self: unset;
 }
 .v-textarea.v-text-field--full-width .v-text-field__slot textarea,
 .v-textarea.v-text-field--full-width.v-text-field--single-line .v-text-field__slot textarea {
-  margin-top: unset;
+    margin-top: unset;
 }
 .v-textarea.v-text-field--full-width .v-text-field__details,
 .v-textarea.v-text-field--full-width.v-text-field--single-line .v-text-field__details {
-  bottom: unset;
+    bottom: unset;
 }
 .v-textarea.v-text-field--enclosed .v-text-field__slot {
-  margin-right: unset;
+    margin-right: unset;
 }
 .v-textarea.v-text-field--enclosed .v-text-field__slot textarea {
-  padding-right: unset;
+    padding-right: unset;
 }
 .v-textarea.v-text-field--box .v-text-field__prefix,
 .v-textarea.v-text-field--enclosed .v-text-field__prefix,
 .v-textarea.v-text-field--box textarea,
 .v-textarea.v-text-field--enclosed textarea {
-  margin-top: unset;
+    margin-top: unset;
 }
 .v-textarea.v-text-field--box.v-text-field--single-line .v-text-field__prefix,
 .v-textarea.v-text-field--enclosed.v-text-field--single-line .v-text-field__prefix,
 .v-textarea.v-text-field--box.v-text-field--single-line textarea,
 .v-textarea.v-text-field--enclosed.v-text-field--single-line textarea {
-  margin-top: unset;
+    margin-top: unset;
 }
 .v-textarea.v-text-field--box.v-text-field--single-line .v-label,
 .v-textarea.v-text-field--enclosed.v-text-field--single-line .v-label {
-  top: unset;
+    top: unset;
 }
 .v-textarea.v-text-field--box.v-text-field--single-line.v-text-field--outline .v-input__control,
 .v-textarea.v-text-field--enclosed.v-text-field--single-line.v-text-field--outline .v-input__control {
-  padding-top: unset;
+    padding-top: unset;
 }
 .v-textarea.v-text-field--solo {
-  align-items: unset;
+    align-items: unset;
 }
 .v-textarea.v-text-field--solo .v-input__prepend-inner,
 .v-textarea.v-text-field--solo .v-input__prepend-outer,
 .v-textarea.v-text-field--solo .v-input__append-inner,
 .v-textarea.v-text-field--solo .v-input__append-outer {
-  align-self: unset;
-  margin-top: unset;
+    align-self: unset;
+    margin-top: unset;
 }
 .v-textarea--auto-grow textarea {
-  overflow: unset;
+    overflow: unset;
 }
 .v-textarea--no-resize textarea {
-  resize: unset;
+    resize: unset;
 }
 .v-label.theme--dark {
     padding-left: 6px !important;
@@ -288,4 +293,10 @@ table.v-table tbody td {
 }
 textarea {
     font-size: 13px !important;
+}
+.v-text-field.v-text-field--enclosed .v-text-field__details,
+.v-text-field.v-text-field--enclosed > .v-input__control > .v-input__slot {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 6px;
 }

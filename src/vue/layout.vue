@@ -62,7 +62,7 @@
         private __dag_pane_width: number;
         private __dag_pane_height: number;
 
-        @Prop({default: 75})
+        @Prop({default: 25})
         public dag_width: number;
 
         @Prop({default: 16})
