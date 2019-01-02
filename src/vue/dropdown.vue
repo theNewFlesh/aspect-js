@@ -99,17 +99,17 @@
     }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="stylus">
     .theme--dark .v-chip,
-    .application .theme--dark.v-chip {
-        background: #7EC4CF;
-        color: #242424;
-    }
-    .v-input {
-        margin-top: 0px;
-        font-size: 13px;
-    }
-    #aspect-dropdown.v-text-field {
-        padding-left: 4px;
-    }
+    .application .theme--dark.v-chip
+        background: #7EC4CF
+        color: #242424
+
+    .v-input
+        margin-top: 0px
+        font-size: 13px
+
+    #aspect-dropdown.v-text-field
+        padding-left: 4px
+
 </style>

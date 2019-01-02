@@ -30,5 +30,5 @@
     }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="stylus">
 </style>

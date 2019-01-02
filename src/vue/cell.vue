@@ -167,40 +167,32 @@
     }
 </script>
 
-<style lang="less">
-    .widget-container.pad-2, th {
-        padding: 2px 6px 2px 6px;
-    }
+<style lang="stylus">
+    .widget-container.pad-2, th
+        padding: 2px 6px 2px 6px
 
-    .widget-container.pad-4 {
-        padding: 4px 6px 4px 6px;
-    }
+    .widget-container.pad-4
+        padding: 4px 6px 4px 6px
 
-    .widget-container.pad-l {
-        padding: 0px 0px 0px 6px;
-    }
+    .widget-container.pad-l
+        padding: 0px 0px 0px 6px
 
-    #cell.name-cell {
-        padding-right: 6px;
-    }
+    #cell.name-cell
+        padding-right: 6px
 
     .value-cell,
-    .default_value-cell {
-        min-width: 150px;
-    }
+    .default_value-cell
+        min-width: 150px
 
-    .widget-cell {
-        max-width: 90px;
-        padding: 0px 0px 0px 6px;
-    }
+    .widget-cell
+        max-width: 90px
+        padding: 0px 0px 0px 6px
 
-    .lock-cell {
-        max-width: 90px;
-        padding: 0px 0px 0px 6px;
-    }
+    .lock-cell
+        max-width: 90px
+        padding: 0px 0px 0px 6px
 
-    .display-cell {
-        max-width: 250px;
-        padding: 0px 0px 0px 6px;
-    }
+    .display-cell
+        max-width: 250px
+        padding: 0px 0px 0px 6px
 </style>

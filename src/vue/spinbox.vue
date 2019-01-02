@@ -80,45 +80,38 @@
     }
 </script>
 
-<style scoped lang="less">
-    .v-input {
-        margin-top: 0px;
-        flex-grow: 1;
-    }
+<style scoped lang="stylus">
+    .v-input
+        margin-top: 0px
+        flex-grow: 1
 
-    .aspect-spinbox {
-        flex-grow: 100;
-        flex-shrink: 100;
-    }
+    .aspect-spinbox
+        flex-grow: 100
+        flex-shrink: 100
 
-    .v-text-field {
-        padding-top: 6px;
-    }
+    .v-text-field
+        padding-top: 6px
 
-    .v-btn {
-        padding: 2px 2px 2px 2px;
-        margin: 0px 0px 0px 0px;
-        min-width: 24px;
-        flex-shrink: 10;
-    }
+    .v-btn
+        padding: 2px 2px 2px 2px
+        margin: 0px 0px 0px 0px
+        min-width: 24px
+        flex-shrink: 10
 
     .aspect-up-arrow-icon,
-    .aspect-down-arrow-icon {
-        color: #343434;
-        font-size: 20px;
-    }
+    .aspect-down-arrow-icon
+        color: #343434
+        font-size: 20px
 
-    .aspect-spinbox-button-up {
-        padding-top: 2px;
-        padding-bottom: 2px;
-        padding-left: 6px;
-        padding-right: 3px;
-    }
+    .aspect-spinbox-button-up
+        padding-top: 2px
+        padding-bottom: 2px
+        padding-left: 6px
+        padding-right: 3px
 
-    .aspect-spinbox-button-down {
-        padding-top: 2px;
-        padding-bottom: 2px;
-        padding-left: 3px;
-        padding-right: 6px;
-    }
+    .aspect-spinbox-button-down
+        padding-top: 2px
+        padding-bottom: 2px
+        padding-left: 3px
+        padding-right: 6px
 </style>
