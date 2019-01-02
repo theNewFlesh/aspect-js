@@ -120,19 +120,24 @@
     }
 </script>
 
-<style lang="less">
-    .v-datatable__expand-content {
-        display: flex !important;
-    }
+<style lang="stylus">
+    @import "../static/css/vuetify.css"
 
-    #child-table-container {
-        flex-grow: 10;
-    }
+    .v-datatable__expand-content
+        display: flex !important
+
+    #child-table-container
+        flex-grow: 10
 
     #aspect-table th:first-child,
-    #cell:first-child {
-        border-left: 0px;
-    }
+    #cell:first-child
+        border-left: 0px
+
+    table.v-table thead tr
+        height: unset
+
+    .v-datatable thead th.column.sortable
+        padding-left: 6px
 
     table.v-table thead td:not(:nth-child(1)),
     table.v-table tbody td:not(:nth-child(1)),
@@ -141,69 +146,60 @@
     table.v-table thead td:first-child,
     table.v-table tbody td:first-child,
     table.v-table thead th:first-child,
-    table.v-table tbody th:first-child {
-        // padding: 0 6px;
-        border-left: 1px solid #141414;
-    }
+    table.v-table tbody th:first-child
+        padding: unset
+        border-left: 1px solid #141414
 
     .theme--dark .v-datatable .v-datatable__actions,
-    .application .theme--dark.v-datatable .v-datatable__actions {
-        background-color: #242424;
-        color: rgba(255,255,255,0.7);
-        // border-top: 1px solid rgba(255,255,255,0.12);
-    }
+    .application .theme--dark.v-datatable .v-datatable__actions
+        background-color: #242424
+        color: rgba(255,255,255,0.7)
 
     .theme--dark .v-table,
-    .application .theme--dark.v-table {
-        background-color: #242424;
-        color: #F4F4F4;
-    }
+    .application .theme--dark.v-table
+        background-color: #242424
+        color: #F4F4F4
 
     .theme--dark .v-datatable .v-datatable__actions,
-    .application .theme--dark.v-datatable .v-datatable__actions {
-        background-color: #242424;
-        color: rgba(255,255,255,0.7);
-        // border-top: 1px solid rgba(255,255,255,0.12);
-    }
+    .application .theme--dark.v-datatable .v-datatable__actions
+        background-color: #242424
+        color: rgba(255,255,255,0.7)
 
-    .v-datatable__expand-col--expanded {
-        border-bottom: 1px solid #141414;
-    }
+    .v-datatable__expand-col--expanded
+        border-bottom: 1px solid #141414
 
-    table.v-table tbody td {
-        font-weight: 400;
-        font-size: 13px;
-    }
+    table.v-table tbody td,
+    table.v-table tbody th
+        height: unset
 
-    table.v-table thead th {
-        background-color: #343434;
-        font-weight: 500;
-        font-size: 13px;
-        transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-        white-space: nowrap;
-        -webkit-user-select: none;
-           -moz-user-select: none;
-            -ms-user-select: none;
-                user-select: none;
-    }
+    table.v-table tbody td
+        font-weight: 400
+        font-size: 13px
+
+    table.v-table thead th
+        background-color: #343434
+        font-weight: 500
+        font-size: 13px
+        transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1)
+        white-space: nowrap
+        -webkit-user-select: none
+        -moz-user-select: none
+        -ms-user-select: none
+        user-select: none
 
     .theme--dark .v-table tbody tr:not(:last-child),
-    .application .theme--dark.v-table tbody tr:not(:last-child) {
-        border-bottom: 1px solid #141414;
-    }
+    .application .theme--dark.v-table tbody tr:not(:last-child)
+        border-bottom: 1px solid #141414
 
     .theme--dark .v-table thead tr:first-child,
-    .application .theme--dark.v-table thead tr:first-child {
-        border-bottom: 1px solid #141414;
-    }
+    .application .theme--dark.v-table thead tr:first-child
+        border-bottom: 1px solid #141414
 
     .theme--dark .v-table tbody tr:hover:not(.v-datatable__expand-row),
-    .application .theme--dark.v-table tbody tr:hover:not(.v-datatable__expand-row) {
-        background: rgba(126, 196, 207, 0.25);
-    }
+    .application .theme--dark.v-table tbody tr:hover:not(.v-datatable__expand-row)
+        background: rgba(126, 196, 207, 0.25)
 
-    .aspect-table #indent {
-        padding: 0px 0px 0px 8px;
-        background-color: #141414;
-    }
+    .aspect-table #indent
+        padding: 0px 0px 0px 8px
+        background-color: #141414
 </style>

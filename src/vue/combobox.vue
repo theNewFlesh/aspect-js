@@ -125,13 +125,20 @@
     }
 </script>
 
-<style scoped lang="less">
+<style lang="stylus">
+    @import "../static/css/vuetify.css"
+
     .theme--dark .v-chip,
-    .application .theme--dark.v-chip {
-        background: #7EC4CF;
-        color: #242424;
-    }
-    .v-input {
-        margin-top: 0px;
-    }
+    .application .theme--dark.v-chip
+        background: #7EC4CF
+        color: #242424
+    
+    .v-input
+        margin-top: 0px
+    
+    .v-chip--small
+        height: unset
+    
+    .v-chip .v-chip__content
+        height: 15px
 </style>

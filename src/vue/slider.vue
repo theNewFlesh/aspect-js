@@ -60,20 +60,24 @@
     }
 </script>
 
-<style scoped lang="less">
-    .aspect-slider {
-        padding-right: 5px;
-    }
+<style lang="stylus">
+    @import "../static/css/vuetify.css"
 
-    .v-input {
-        font-size: 12px;
-    }
+    .aspect-slider
+        padding-right: 5px
 
-    .aspect-textarea .v-input__control .v-input__slot {
-        margin-bottom: 0px;
-    }
+    .v-input
+        font-size: 12px
 
-    .v-slider__thumb-label {
-        color: #242424;
-    }
+    .aspect-textarea .v-input__control .v-input__slot
+        margin-bottom: 0px
+
+    .v-slider__thumb-label
+        color: #242424
+
+    .theme--dark .v-input--slider .v-slider__ticks,
+    .application .theme--dark.v-input--slider .v-slider__ticks
+        border-color: #646464
+        color: #A4A4A4
+        height: 10px
 </style>
