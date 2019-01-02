@@ -122,13 +122,14 @@
 
 <style lang="stylus">
     @import "../static/css/vuetify.css"
+    @import "../static/css/config.styl"
 
     .v-datatable__expand-content
         display: flex !important
 
     #child-table-container
         flex-grow: 10
-    
+
     #aspect-table-row
         margin-bottom: 0px
 
@@ -154,25 +155,25 @@
     table.v-table thead th:first-child,
     table.v-table tbody th:first-child
         padding: unset
-        border-left: 1px solid #141414
+        border-left: 1px solid aspect_dark_2
 
     .theme--dark .v-datatable .v-datatable__actions,
     .application .theme--dark.v-datatable .v-datatable__actions
-        background-color: #242424
-        color: rgba(255,255,255,0.7)
+        background-color: aspect_bg
+        color: aspect_white_alpha
 
     .theme--dark .v-table,
     .application .theme--dark.v-table
-        background-color: #242424
-        color: #F4F4F4
+        background-color: aspect_bg
+        color: aspect_light_2
 
     .theme--dark .v-datatable .v-datatable__actions,
     .application .theme--dark.v-datatable .v-datatable__actions
-        background-color: #242424
-        color: rgba(255,255,255,0.7)
+        background-color: aspect_bg
+        color: aspect_white_alpha
 
     .v-datatable__expand-col--expanded
-        border-bottom: 0px solid #141414
+        border-bottom: 0px solid aspect_dark_2
 
     table.v-table tbody td,
     table.v-table tbody th
@@ -183,7 +184,7 @@
         font-size: 13px
 
     table.v-table thead th
-        background-color: #343434
+        background-color: aspect_grey_1
         font-weight: 500
         font-size: 13px
         transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1)
@@ -195,17 +196,17 @@
 
     .theme--dark .v-table tbody tr:not(:last-child),
     .application .theme--dark.v-table tbody tr:not(:last-child)
-        border-bottom: 1px solid #141414
+        border-bottom: 1px solid aspect_dark_2
 
     .theme--dark .v-table thead tr:first-child,
     .application .theme--dark.v-table thead tr:first-child
-        border-bottom: 1px solid #141414
+        border-bottom: 1px solid aspect_dark_2
 
     .theme--dark .v-table tbody tr:hover:not(.v-datatable__expand-row),
     .application .theme--dark.v-table tbody tr:hover:not(.v-datatable__expand-row)
-        background: rgba(126, 196, 207, 0.25)
+        background: aspect_highlight_alpha
 
     .aspect-table #indent
         padding: 0px 0px 0px 8px
-        background-color: #141414
+        background-color: aspect_dark_2
 </style>

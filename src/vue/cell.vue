@@ -168,6 +168,8 @@
 </script>
 
 <style lang="stylus">
+    @import "../static/css/config.styl"
+
     .widget-container.pad-2, th
         padding: 2px 6px 2px 6px
 

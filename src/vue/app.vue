@@ -12,9 +12,11 @@
 </script>
 
 <style lang="stylus">
+    @import "../static/css/config.styl"
+
     html
         overflow-y: hidden
 
     body
-        background: #141414
+        background: aspect_dark_2
 </style>

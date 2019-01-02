@@ -35,6 +35,7 @@
 
 <style scoped lang="stylus">
     @import "../static/css/vuetify.css"
+    @import "../static/css/config.styl"
 
     .v-textarea textarea
         flex: unset
@@ -68,7 +69,7 @@
     .theme--dark .v-text-field--solo .v-input__slot,
     .application .theme--dark.v-text-field--solo .v-input__slot
         border-radius: 0px
-        background: #242424
+        background: aspect_bg
 
     .v-text-field input
         flex: 1 1 auto
@@ -78,5 +79,5 @@
         width: 100%
 
     .v-textarea.v-text-field--enclosed .v-text-field__slot
-        margin-right: unset     
+        margin-right: unset
 </style>

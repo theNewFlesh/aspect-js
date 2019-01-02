@@ -62,6 +62,7 @@
 
 <style lang="stylus">
     @import "../static/css/vuetify.css"
+    @import "../static/css/config.styl"
 
     .aspect-slider
         padding-right: 5px
@@ -73,11 +74,11 @@
         margin-bottom: 0px
 
     .v-slider__thumb-label
-        color: #242424
+        color: aspect_bg
 
     .theme--dark .v-input--slider .v-slider__ticks,
     .application .theme--dark.v-input--slider .v-slider__ticks
-        border-color: #646464
-        color: #A4A4A4
+        border-color: aspect_grey_3
+        color: aspect_light_1
         height: 10px
 </style>

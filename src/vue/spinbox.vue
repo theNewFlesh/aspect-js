@@ -81,6 +81,8 @@
 </script>
 
 <style scoped lang="stylus">
+    @import "../static/css/config.styl"
+
     .v-input
         margin-top: 0px
         flex-grow: 1
@@ -100,7 +102,7 @@
 
     .aspect-up-arrow-icon,
     .aspect-down-arrow-icon
-        color: #343434
+        color: aspect_grey_1
         font-size: 20px
 
     .aspect-spinbox-button-up

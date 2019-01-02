@@ -154,40 +154,41 @@
 
 <style lang="stylus">
     @import "../static/css/vuetify.css"
+    @import "../static/css/config.styl"
 
     .application.theme--dark
-        background: #141414
-        color: #F4F4F4
+        background: aspect_dark_2
+        color: aspect_light_2
 
     .theme--dark .v-text-field--solo .v-input__slot,
     .application .theme--dark.v-text-field--solo .v-input__slot
-        border-radius: 0px;
-        background: #d1a4a4;
-    
+        border-radius: 0px
+        background: #d1a4a4
+
     .theme--dark.v-list .v-list__tile--link:hover,
     .theme--dark.v-list .v-list__tile--highlighted,
     .theme--dark.v-list .v-list__group__header:hover
-        background: rgba(126, 196, 207, 0.25)
+        background: aspect_highlight_alpha
 
     .v-text-field
-        padding-top: 0px;
-    
+        padding-top: 0px
+
     .v-text-field input
-        padding: unset;
+        padding: unset
 
     .v-select__slot
-        align-items: center;
-        height: 100%;
-        width: 10000%;
-    
+        align-items: center
+        height: 100%
+        width: 10000%
+
     .v-select__selections
-        padding-left: 6px;
+        padding-left: 6px
 
     // ---widget-indicators-----------------------------------------------------
     .v-input__slot
         margin-bottom: unset
         min-height: unset
-    
+
     .v-input__append-inner
         margin-top: 0px !important
 
@@ -202,10 +203,10 @@
     // ---dropdown-list---------------------------------------------------------
     .theme--dark .v-list,
     .application .theme--dark.v-list
-        background: #343434
-        color: #F4F4F4
+        background: aspect_grey_1
+        color: aspect_light_2
         padding: 0px 0px 0px 0px
-    
+
     .v-list__tile
         font-size: 13px
         height: 30px
@@ -215,7 +216,7 @@
     // ---textarea--------------------------------------------------------------
     .v-textarea.v-text-field--enclosed .v-text-field__slot textarea
         padding-right: 4px
-    
+
     .v-textarea.v-text-field--box textarea,
     .v-textarea.v-text-field--box .v-text-field__prefix,
     .v-textarea.v-text-field--box.v-text-field--single-line textarea,
@@ -225,12 +226,12 @@
     .v-textarea.v-text-field--enclosed.v-text-field--single-line textarea,
     .v-textarea.v-text-field--enclosed.v-text-field--single-line .v-text-field__prefix
         margin-top: 0px
-    
+
     .v-text-field.v-text-field--enclosed > .v-input__control > .v-input__slot
         padding-left: 0px
         padding-right: 0px
         padding-top: 0px
-    // -------------------------------------------------------------------------    
+    // -------------------------------------------------------------------------
 
     .multipane
         height: 100vh
@@ -246,9 +247,9 @@
         margin: 0
         left: 0
         position: relative
-        background: #343434
+        background: aspect_grey_1
         &:hover
-            background: rgba(126, 196, 207, 0.25)
+            background: aspect_highlight_alpha
 
     *
         box-shadow: unset !important
@@ -260,18 +261,18 @@
         font-size: 13px
 
     ::-moz-selection
-        background-color: rgba(126, 196, 207, 0.25)
-        color: #F4F4F4
+        background-color: aspect_highlight_alpha
+        color: aspect_light_2
         text-shadow: none
 
     ::selection
-        background-color: rgba(126, 196, 207, 0.25)
-        color: #F4F4F4
+        background-color: aspect_highlight_alpha
+        color: aspect_light_2
         text-shadow: none
 
     ::grammar-error,
     ::spelling-error
-        color: #F77E70
+        color: aspect_red_1
 
     .v-menu__content
         position: fixed

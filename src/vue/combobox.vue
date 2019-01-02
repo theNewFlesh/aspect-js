@@ -127,18 +127,19 @@
 
 <style lang="stylus">
     @import "../static/css/vuetify.css"
+    @import "../static/css/config.styl"
 
     .theme--dark .v-chip,
     .application .theme--dark.v-chip
-        background: #7EC4CF
-        color: #242424
-    
+        background: aspect_cyan_1
+        color: aspect_bg
+
     .v-input
         margin-top: 0px
-    
+
     .v-chip--small
         height: unset
-    
+
     .v-chip .v-chip__content
         height: 15px
 </style>
