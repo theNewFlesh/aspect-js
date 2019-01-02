@@ -181,7 +181,7 @@
         width: 10000%;
     
     .v-select__selections
-        padding-left: 0px;
+        padding-left: 6px;
 
     // ---widget-indicators-----------------------------------------------------
     .v-input__slot

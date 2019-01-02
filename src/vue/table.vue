@@ -128,10 +128,16 @@
 
     #child-table-container
         flex-grow: 10
+    
+    #aspect-table-row
+        margin-bottom: 0px
 
     #aspect-table th:first-child,
     #cell:first-child
         border-left: 0px
+
+    .v-table__overflow
+        overflow-x: hidden
 
     table.v-table thead tr
         height: unset
@@ -166,7 +172,7 @@
         color: rgba(255,255,255,0.7)
 
     .v-datatable__expand-col--expanded
-        border-bottom: 1px solid #141414
+        border-bottom: 0px solid #141414
 
     table.v-table tbody td,
     table.v-table tbody th
