@@ -21,12 +21,11 @@ export class Scene extends Component {
             // calculate mouse position in normalized device coordinates
             // (-1 to +1) for both components
 
-            const x: number = (event.clientX / window.innerWidth) * 2 - 1;
-            const y: number = -(event.clientY / window.innerHeight) * 2 + 1;
-            this._mouse.x = x;
-            this._mouse.y = y;
+            this._mouse.x = (event.clientX / this._width) * 2 - 1;
+            this._mouse.y = -(event.clientY / this._height) * 2 + 1;
 
-            this.get_selected_ids();
+            const ids: string[] = this.get_selected_ids();
+            console.log(ids);
         }.bind(this);
     }
 
@@ -79,7 +78,6 @@ export class Scene extends Component {
         // calculate meshes intersecting the picking ray
         const selected = this._raycaster.intersectObjects(this.parent.three_item.children, true);
         const output: string[] = _.uniq(_.map(selected, x => x.object["component_id"]));
-        console.log(output);
         return output;
     }
 
