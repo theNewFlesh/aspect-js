@@ -156,18 +156,22 @@ export class Edge extends Component {
 
         const body: Cylinder = new Cylinder(this._scene);
         body.create(this.__to_body_params(temp), this.item);
+        this.add_component_id(body);
         this.set_primitive("body", body);
 
         const arrow: Cylinder = new Cylinder(this._scene);
         arrow.create(this.__to_arrow_params(temp), this.item);
+        this.add_component_id(arrow);
         this.set_primitive("arrow", arrow);
 
         const source: Sphere = new Sphere(this._scene);
         source.create(this.__to_source_params(temp), this.item);
+        this.add_component_id(source);
         this.set_primitive("source", source);
 
         const destination: Sphere = new Sphere(this._scene);
         destination.create(this.__to_destination_params(temp), this.item);
+        this.add_component_id(destination);
         this.set_primitive("destination", destination);
 
         this.__source_id = params["source/id"];

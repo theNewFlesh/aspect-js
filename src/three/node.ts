@@ -110,10 +110,12 @@ export class Node extends Component {
 
         const cube: Cube = new Cube(this._scene);
         cube.create(this.__to_cube_params(temp), this.item);
+        this.add_component_id(cube);
         this.set_primitive("cube", cube);
 
         const textbox: TextBox = new TextBox(this._scene);
         textbox.create(this.__to_textbox_params(temp), this.item);
+        this.add_component_id(textbox);
         this.set_primitive("textbox", textbox);
     }
 

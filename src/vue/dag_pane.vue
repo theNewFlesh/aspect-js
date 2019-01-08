@@ -39,7 +39,7 @@
         }
 
         public animate() {
-            requestAnimationFrame(this.animate);
+            window.requestAnimationFrame(this.animate);
             this.scene.render_update();
         }
     }

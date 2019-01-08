@@ -51,6 +51,7 @@ export class Port extends Component {
 
         const sphere: Sphere = new Sphere(this._scene);
         sphere.create(this.__to_sphere_params(temp), this.item);
+        this.add_component_id(sphere);
         this.set_primitive("sphere", sphere);
 
         if (_.keys(params).includes("order")) {

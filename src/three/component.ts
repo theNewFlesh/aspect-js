@@ -31,6 +31,10 @@ export class Component extends Group {
     public set item(item: Group) {
         this._item = item;
     }
+
+    public add_component_id(primitive: any): void {
+        primitive.three_item.component_id = this._id;
+    }
     // -------------------------------------------------------------------------
 
     public _to_group_params(params: object): object {

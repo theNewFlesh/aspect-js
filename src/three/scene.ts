@@ -1,6 +1,6 @@
+import * as _ from "lodash";
 import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
-import { IPrimitive } from "./primitive_base";
 import { Component } from "./component";
 import { ISceneParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
@@ -13,6 +13,22 @@ export class Scene extends Component {
     public _renderer: any;
     public _width: number;
     public _height: number;
+    public _raycaster: THREE.Raycaster;
+    public _mouse: THREE.Vector2 = new THREE.Vector2(0, 0);
+
+    public get on_mouse_move() {
+        return function(event) {
+            // calculate mouse position in normalized device coordinates
+            // (-1 to +1) for both components
+
+            const x: number = (event.clientX / window.innerWidth) * 2 - 1;
+            const y: number = -(event.clientY / window.innerHeight) * 2 + 1;
+            this._mouse.x = x;
+            this._mouse.y = y;
+
+            this.get_selected_ids();
+        }.bind(this);
+    }
 
     public create_light() {
         const color = 0xffffff;
@@ -48,6 +64,23 @@ export class Scene extends Component {
         camera.position.x = 0;
         camera.position.y = 0;
         camera.position.z = 6;
+
+        camera.lookAt(this.parent.three_item.position);
+    }
+
+    public get_selected_ids(): string[] {
+        const pos: any = this._camera.position;
+        const origin: THREE.Vector3 = new THREE.Vector3(pos.x, pos.y, pos.z);
+
+        // update the picking ray with the camera and mouse position
+        this._raycaster = new THREE.Raycaster(origin);
+        this._raycaster.setFromCamera(this._mouse, this._camera);
+
+        // calculate meshes intersecting the picking ray
+        const selected = this._raycaster.intersectObjects(this.parent.three_item.children, true);
+        const output: string[] = _.uniq(_.map(selected, x => x.object["component_id"]));
+        console.log(output);
+        return output;
     }
 
     public render(element: any, window: any) {
@@ -59,6 +92,8 @@ export class Scene extends Component {
         // mount scene
         const elem = document.getElementById("dag-pane");
         element.appendChild(this._renderer.domElement);
+
+        window.addEventListener("mousemove", this.on_mouse_move, false);
     }
 
     public render_update() {
