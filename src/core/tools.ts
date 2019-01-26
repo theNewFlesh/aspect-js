@@ -1,13 +1,19 @@
 import * as _ from "lodash";
 import tiny_color from "tinycolor2";
 // -----------------------------------------------------------------------------
-
+/**
+ * Convenience function for logging things
+ * @param item item to be logged
+ */
 export function log(item: any): any {
     // tslint:disable-next-line:no-console
     console.log(item);
     return item;
 }
 
+/**
+ * Interface for RGBA color data
+ */
 export interface IRGBA {
     r: number;
     g: number;
@@ -15,6 +21,9 @@ export interface IRGBA {
     a?: number;
 }
 
+/**
+ * Interface for HSVA color data
+ */
 export interface IHSVA {
     h: number;
     s: number;
@@ -22,6 +31,11 @@ export interface IHSVA {
     a?: number;
 }
 
+/**
+ * Convert RGBA data to HSVA data (RGB are multiplied by 255)
+ * @param rgba IRGBA color data
+ * @returns HSVA object 
+ */
 export function rgba_to_hsva(rgba: IRGBA): IHSVA {
     const color = {
         r: rgba.r * 255,
@@ -38,6 +52,11 @@ export function rgba_to_hsva(rgba: IRGBA): IHSVA {
     };
 }
 
+/**
+ * Convert HSVA data to RGBA data (divides HSV by 255)
+ * @param hsva IHSVA color data
+ * @returns RGBA object
+ */
 export function hsva_to_rgba(hsva: IHSVA): IRGBA {
     const color = tiny_color.fromRatio(hsva).toRgb();
     return {
@@ -48,6 +67,11 @@ export function hsva_to_rgba(hsva: IHSVA): IRGBA {
     };
 }
 
+/**
+ * Converts HEX color data to RGBA data (A is 1)
+ * @param hex Hexidecimal string
+ * @returns RGBA object
+ */
 export function hex_to_rgba(hex: string): IRGBA {
     const color = tiny_color(hex).toRgb();
     return {
@@ -58,11 +82,19 @@ export function hex_to_rgba(hex: string): IRGBA {
     };
 }
 
+/**
+ * Converts HEX color data to HSVA data (A is 1)
+ * @param hex Hexidecimal string
+ * @returns HSVA object
+ */
 export function hex_to_hsva(hex: string): IHSVA {
     return rgba_to_hsva(hex_to_rgba(hex));
 }
 // -----------------------------------------------------------------------------
 
+/**
+ * Application-wide HEX color reference
+ */
 export const HEX_COLORS: object = {
     aspect_dark_1:   "#040404",
     aspect_dark_2:   "#141414",
@@ -91,6 +123,7 @@ export const HEX_COLORS: object = {
     // aspect_hover:    "rgba(126, 196, 207, 0.25)",
 };
 
+// Convenience function for exporting HSV colors
 function __hex_colors_to_hsva(): object {
     const output: object = {};
     for (const key of _.keys(HEX_COLORS)) {
@@ -100,7 +133,14 @@ function __hex_colors_to_hsva(): object {
 }
 export const HSV_COLORS: object = __hex_colors_to_hsva();
 
+/**
+ * Class which replicates the functionality of Python OrderedDict and defaultdict
+ */
 export class OrderedDict {
+    /**
+     * @param items Dict object
+     * @param default_value Default value for non-existent keys
+     */
     constructor(items?: object, default_value?) {
         this.default = default_value;
         if (items !== undefined) {
@@ -113,6 +153,11 @@ export class OrderedDict {
     public _items = {};
     public default;
 
+    /**
+     * Gets value of key
+     * @param key Key
+     * @returns Value
+     */
     public get(key) {
         if (this._items[key] === undefined) {
             if (this.default !== undefined) {
@@ -123,6 +168,11 @@ export class OrderedDict {
         return this._items[key];
     }
 
+    /**
+     * 
+     * @param key Sets key to value
+     * @param value Value
+     */
     public set(key, value) {
         if (this._items[key] === undefined) {
             this._keys.push(key);
@@ -130,10 +180,20 @@ export class OrderedDict {
         this._items[key] = value;
     }
 
+    /**
+     * Determines if key exists
+     * @param key 
+     */
     public has(key: string): boolean {
         return this._keys.includes(key);
     }
 
+    /**
+     * Inserts a key at a given position
+     * @param position Index of key in keys
+     * @param key Key
+     * @param value Value
+     */
     public insert(position, key, value) {
         if (this._items[key] !== undefined) {
             this._keys.splice(position, 0, key);
@@ -141,14 +201,23 @@ export class OrderedDict {
         }
     }
 
+    /**
+     * @returns Array of key/value pairs 
+     */
     public get items() {
         return _.map(this._keys, (key) => ( [key, this.get(key)] ));
     }
 
+    /**
+     * @returns Array of keys
+     */
     public get keys(): any[] {
         return this._keys;
     }
 
+    /**
+     * @returns Array of values
+     */
     public get values(): any[] {
         const output = [];
         for (const key of this._keys) {
@@ -157,15 +226,25 @@ export class OrderedDict {
         return output;
     }
 
+    /**
+     * @returns Number of keys
+     */
     public get length(): number {
         return this._keys.length;
     }
 
+    /**
+     * @returns Normal object from keys and values
+     */
     public to_object(): object {
         return this._items;
     }
 }
 
+/**
+ * Convenience function for determining if an object or Array is empty
+ * @param item Object or Array
+ */
 export function is_empty(item: any): boolean {
     if (typeof item === "object") {
         return _.keys(item).length === 0;
@@ -175,13 +254,18 @@ export function is_empty(item: any): boolean {
     }
 }
 
-export function omit(items, trash) {
-    if (!Array.isArray(trash)) {
-        trash = [trash];
+/**
+ * Filter keys of object given a blacklist of keys
+ * @param items Object to be filtered
+ * @param blacklist String or Array of keys 
+ */
+export function omit(items: object, blacklist: any) {
+    if (!Array.isArray(blacklist)) {
+        blacklist = [blacklist];
     }
     const keys = _.filter(
         Object.keys(items),
-        (item) => (!trash.includes(item))
+        (item) => (!blacklist.includes(item))
     );
     const output = {};
     for (const key in keys) {
@@ -190,10 +274,21 @@ export function omit(items, trash) {
     return output;
 }
 
+/**
+ * Converts strings like "foo_bar_baz" to "foo-bar-baz"
+ * @param item String to be converted
+ * @returns Kebab-case string
+ */
 export function to_kebab_case(item: string) {
     return item.replace(/_/g, "-");
 }
 
+/**
+ * Conforms strings to a special naming convention
+ * Replaces "_" and "-"" with " ", also drops "inport "
+ * @param name String to be conformed
+ * @returns Conformed string
+ */
 export function conform_name(name: string): string {
     let output: string = name.replace(/_|-/g, " ");
     // probably should remove this at some point
@@ -201,6 +296,12 @@ export function conform_name(name: string): string {
     return output;
 }
 
+/**
+ * Convenience function for adding a given attribute to a DOM element
+ * @param selector QuerySelector string
+ * @param attribute Name of DOM attribute
+ * @param value Value of DOM attribute
+ */
 export function add_attribute(
     selector: string,
     attribute: string,
@@ -212,6 +313,12 @@ export function add_attribute(
     }
 }
 
+/**
+ * Convenience function for adding a given style attribute to a DOM element
+ * @param selector QuerySelector string
+ * @param attribute Name of style attribute
+ * @param value Value of style attribute
+ */
 export function add_style_attribute(
     selector: string, attribute: string, value: any
 ) {
@@ -227,24 +334,28 @@ export function add_style_attribute(
 }
 
 /**
- * flattens nested objects into objects with character seperated keys
+ * Flattens nested objects into objects with character seperated keys
  * @param object object to be flattened
  * @param separator string separator used in keys. Default: "."
  * @param skipArrays don't recurse into Array objects. Default: true
- * example:
- *     >>> const nested = {
- *             "a": {
- *                 "b": 1,
- *                 "c": {
- *                     "d": 2,
- *                 }
+ * @returns Object without nested objects
+ * <p>
+ * <b>Example</b>
+ * <pre>
+ * >>> const nested = {
+ *         "a": {
+ *             "b": 1,
+ *             "c": {
+ *                 "d": 2,
  *             }
- *         };
- *     >>> flatten(nested);
+ *         }
+ *     };
+ * >>> flatten(nested);
  *     {
  *         "a/b": 1,
  *         "a/c/d": 2,
  *     }
+ * </pre>
  */
 export function flatten(
     object: object,
@@ -277,26 +388,30 @@ export function flatten(
     return output;
 }
 
-    /**
-     * transforms flattend objects into nested objects by splitting apart keys
-     * @param object object to be flattened
-     * @param separator string separator used in keys. Default: "."
-     * @param skipArrays don't recurse into Array objects. Default: true
-     * example:
-     *     >>> const flat = {
-     *             "a/b": 1,
-     *             "a/c/d": 2,
-     *         };
-     *     >>> unflatten(flat);
-     *     {
-     *         "a": {
-     *             "b": 1,
-     *             "c": {
-     *                 "d": 2,
-     *             }
-     *         }
-     *     }
-     */
+/**
+ * Transforms flattend objects into nested objects by splitting apart keys
+ * @param object object to be flattened
+ * @param separator string separator used in keys. Default: "."
+ * @param skipArrays don't recurse into Array objects. Default: true
+ * @returns Unflattened object
+ * <p>
+ * <b>Example</b>
+ * <pre>
+ * >>> const flat = {
+ *         "a/b": 1,
+ *         "a/c/d": 2,
+ *     };
+ * >>> unflatten(flat);
+ *     {
+ *         "a": {
+ *             "b": 1,
+ *             "c": {
+ *                 "d": 2,
+ *             }
+ *         }
+ *     }
+ * </pre>
+ */
 export function unflatten(object, separator: string = "/") {
     const output = {};
     for (const flatKey of _.keys(object)) {
@@ -314,7 +429,32 @@ export function unflatten(object, separator: string = "/") {
     return output;
 }
 
-export function aggregate(objects, aggregator, separator: string = "/") {
+/**
+ * Flattens objects, aggregates their values into 1 Array per key,
+ * applies given aggregator to each Array and finally unflattens the results
+ * @param objects Array of objects with same schema
+ * @param aggregator Function of signature: (items) => (scalar)
+ * @param separator Key field separator
+ * @returns Aggregated object
+ * <p>
+ * <b>Example</b>
+ * <pre>
+ * >>> const a = {
+ *         "a": {
+ *             "b": 1,
+ *             "c": 2
+ *         }
+ *     };
+ * >>> aggregate([a, a], items => ).sum(item));
+ *     {
+ *         "a": {
+ *             "b": 2,
+ *             "c": 4
+ *         }
+ *     };
+ * </pre>
+ */
+export function aggregate(objects: object[], aggregator: any, separator: string = "/") {
     // flatten all objects
     const flatObjs = _.map( objects, (obj) => (flatten(obj, separator)) );
 
@@ -340,6 +480,11 @@ export function aggregate(objects, aggregator, separator: string = "/") {
     return output;
 }
 
+/**
+ * Recursively compares to objects to find differences between them
+ * @param a
+ * @param b
+ */
 export function different(a: object, b: object): boolean {
     const a_keys: any[] = _.keys(a);
     const b_keys: any[] = _.keys(b);
@@ -359,6 +504,12 @@ export function different(a: object, b: object): boolean {
     return false;
 }
 
+/**
+ * Filters an object according to a predicate applied to its key/value pairs
+ * @param dict Object to be filtered
+ * @param predicate Funtion of signature: (a, b) => (boolean)
+ * @returns Filtered object
+ */
 export function filter(dict: object, predicate: any): object {
     const pairs: any[][] = _.toPairs(dict);
     let output: any = _.filter(pairs, x => predicate(x[0], x[1]));
@@ -368,14 +519,31 @@ export function filter(dict: object, predicate: any): object {
     return output;
 }
 
+/**
+ * Filters the keys of a given object according to a given regex
+ * Keys must be strings
+ * @param dict Object to be filtered
+ * @param regex Regular expression to be applied to object keys
+ * @returns Filtered object
+ */
 export function filter_keys(dict: object, regex: any): object {
     return filter( dict, (k, v) => (k.search(regex) > -1) );
 }
 
+/**
+ * Filters the values of a given object according to a given regex
+ * Values must be strings
+ * @param dict Object to be filtered
+ * @param regex Regular expression to be applied to object values
+ * @returns Filtered object
+ */
 export function filter_values(dict: object, predicate: any): object {
     return filter( dict, (k, v) => (predicate(v)) );
 }
 
+/**
+ * @param item Array indicating whether item is an Array
+ */
 export function is_array(item): boolean {
     return item instanceof Array;
 }
