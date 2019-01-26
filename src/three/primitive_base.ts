@@ -98,7 +98,7 @@ export class PrimitiveBase {
         return output;
     }
 
-    private __get_rotate(): three_tools.IVector3 {
+    public __get_rotate(): three_tools.IVector3 {
         let vect: number[] = this.three_item.rotation.toArray();
         vect.pop();
         vect = vect.map(x => x === undefined ? 0 : x);

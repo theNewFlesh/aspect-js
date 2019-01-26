@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import { expect } from "chai";
-import { DataFrame } from "data-forge";
+import { DataFrame, IDataFrame } from "data-forge";
 // -----------------------------------------------------------------------------
 
 export class Scaffold {
@@ -229,7 +229,9 @@ export class Scaffold {
     }
 
     public unique(): Scaffold {
-        const data: DataFrame = this.__data.distinct((a, b) => (a !== b));
+        // returns IDataFrame, so use any instead
+        const data: any = this.__data.distinct();
+        // const data: DataFrame = this.__data.distinct((a, b) => (a !== b));
         return new Scaffold(data);
     }
     // -------------------------------------------------------------------------

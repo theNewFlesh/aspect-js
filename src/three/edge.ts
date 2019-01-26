@@ -39,7 +39,10 @@ export class Edge extends Component {
         return three_tools.to_l2_distance(a, b);
     }
 
-    private __get_rotate(edge: object): three_tools.IVector3 {
+    public __get_rotate(edge?: object): three_tools.IVector3 {
+        if (edge === undefined) {
+            throw new Error("edge not defined");
+        }
         const src: object = this.__to_source_params(edge);
         const dst: object = this.__to_destination_params(edge);
         const a: three_tools.IVector3 = this.__to_vector(src);
