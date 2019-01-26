@@ -1,3 +1,6 @@
+/**
+ * Generic interface for Primitives
+ */
 export interface IParams {
     "id"?: string;
     "type"?: string;
@@ -24,12 +27,18 @@ export interface IParams {
     "radius"?: number;
 }
 
+/**
+ * Interface for Scene components
+ */
 export interface ISceneParams {
     "id"?: string;
     "type"?: string;
     "name"?: string;
 }
 
+/**
+ * Interface for Edge components
+ */
 export interface IEdgeParams {
     "id"?: string;
     "type"?: string;
@@ -53,6 +62,9 @@ export interface IEdgeParams {
     "color/alpha"?: number;
 }
 
+/**
+ * Interface for Node components
+ */
 export interface INodeParams {
     "id"?: string;
     "type"?: string;
@@ -78,6 +90,9 @@ export interface INodeParams {
     "font/size"?: number;
 }
 
+/**
+ * Interface for Port components
+ */
 export interface IPortParams {
     "id"?: string;
     "type"?: string;
@@ -96,6 +111,9 @@ export interface IPortParams {
     "color/alpha"?: number;
 }
 
+/**
+ * Generic interface for Components
+ */
 export interface IComponentParams {
     "id"?: string;
     "type"?: string;
@@ -121,6 +139,9 @@ export interface IComponentParams {
     "radius"?: number;
 }
 
+/**
+ * Interface for Cylinder primitives
+ */
 export interface ICylinderParams {
     "id"?: string;
     "name"?: string;
@@ -143,6 +164,9 @@ export interface ICylinderParams {
     "radius/bottom"?: number;
 }
 
+/**
+ * Interface for Sphere primitives
+ */
 export interface ISphereParams {
     "id"?: string;
     "name"?: string;
@@ -163,6 +187,9 @@ export interface ISphereParams {
     "radius"?: number;
 }
 
+/**
+ * Interface for Text primitives
+ */
 export interface ITextParams {
     "id"?: string;
     "name"?: string;
@@ -186,6 +213,9 @@ export interface ITextParams {
     "font/size"?: number;
 }
 
+/**
+ * Interface for TextBox primitives
+ */
 export interface ITextBoxParams {
     "id"?: string;
     "name"?: string;

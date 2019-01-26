@@ -34,7 +34,7 @@ export interface IHSVA {
 /**
  * Convert RGBA data to HSVA data (RGB are multiplied by 255)
  * @param rgba IRGBA color data
- * @returns HSVA object 
+ * @returns HSVA object
  */
 export function rgba_to_hsva(rgba: IRGBA): IHSVA {
     const color = {
@@ -169,7 +169,7 @@ export class OrderedDict {
     }
 
     /**
-     * 
+     *
      * @param key Sets key to value
      * @param value Value
      */
@@ -182,7 +182,7 @@ export class OrderedDict {
 
     /**
      * Determines if key exists
-     * @param key 
+     * @param key
      */
     public has(key: string): boolean {
         return this._keys.includes(key);
@@ -202,7 +202,7 @@ export class OrderedDict {
     }
 
     /**
-     * @returns Array of key/value pairs 
+     * @returns Array of key/value pairs
      */
     public get items() {
         return _.map(this._keys, (key) => ( [key, this.get(key)] ));
@@ -257,7 +257,7 @@ export function is_empty(item: any): boolean {
 /**
  * Filter keys of object given a blacklist of keys
  * @param items Object to be filtered
- * @param blacklist String or Array of keys 
+ * @param blacklist String or Array of keys
  */
 export function omit(items: object, blacklist: any) {
     if (!Array.isArray(blacklist)) {
@@ -339,22 +339,22 @@ export function add_style_attribute(
  * @param separator string separator used in keys. Default: "."
  * @param skipArrays don't recurse into Array objects. Default: true
  * @returns Object without nested objects
- * <p>
+ * <p></p>
  * <b>Example</b>
  * <pre>
  * >>> const nested = {
- *         "a": {
- *             "b": 1,
- *             "c": {
- *                 "d": 2,
- *             }
+ *     "a": {
+ *         "b": 1,
+ *         "c": {
+ *             "d": 2,
  *         }
- *     };
- * >>> flatten(nested);
- *     {
- *         "a/b": 1,
- *         "a/c/d": 2,
  *     }
+ * };
+ * >>> flatten(nested);
+ * {
+ *     "a/b": 1,
+ *     "a/c/d": 2,
+ * }
  * </pre>
  */
 export function flatten(
@@ -394,22 +394,22 @@ export function flatten(
  * @param separator string separator used in keys. Default: "."
  * @param skipArrays don't recurse into Array objects. Default: true
  * @returns Unflattened object
- * <p>
+ * <p></p>
  * <b>Example</b>
  * <pre>
  * >>> const flat = {
- *         "a/b": 1,
- *         "a/c/d": 2,
- *     };
+ *     "a/b": 1,
+ *     "a/c/d": 2,
+ * };
  * >>> unflatten(flat);
- *     {
- *         "a": {
- *             "b": 1,
- *             "c": {
- *                 "d": 2,
- *             }
+ * {
+ *     "a": {
+ *         "b": 1,
+ *         "c": {
+ *             "d": 2,
  *         }
  *     }
+ * }
  * </pre>
  */
 export function unflatten(object, separator: string = "/") {
@@ -436,22 +436,22 @@ export function unflatten(object, separator: string = "/") {
  * @param aggregator Function of signature: (items) => (scalar)
  * @param separator Key field separator
  * @returns Aggregated object
- * <p>
+ * <p></p>
  * <b>Example</b>
  * <pre>
  * >>> const a = {
- *         "a": {
- *             "b": 1,
- *             "c": 2
- *         }
- *     };
+ *     "a": {
+ *         "b": 1,
+ *         "c": 2
+ *     }
+ * };
  * >>> aggregate([a, a], items => ).sum(item));
- *     {
- *         "a": {
- *             "b": 2,
- *             "c": 4
- *         }
- *     };
+ * {
+ *     "a": {
+ *         "b": 2,
+ *         "c": 4
+ *     }
+ * };
  * </pre>
  */
 export function aggregate(objects: object[], aggregator: any, separator: string = "/") {
