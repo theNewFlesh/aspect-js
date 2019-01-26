@@ -7,7 +7,7 @@
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint",
         "test:unit": "vue-cli-service test:unit",
-        "docs": "vue-cli-service typedoc --out docs --mode modules"
+        "docs": "typedoc --out docs --mode modules ./src --theme ./node_modules/typedoc-clarity-theme/bin"
     },
     "dependencies": {
         "@types/chai": "^4.1.7",
@@ -22,6 +22,7 @@
         "three.meshline": "^1.1.0",
         "three.texttexture": "^18.10.24",
         "tinycolor2": "^1.4.1",
+        "typedoc-clarity-theme": "^1.1.0",
         "uuid": "^3.3.2",
         "vue": "^2.5.17",
         "vue-multipane": "^0.9.5",
