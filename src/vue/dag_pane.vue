@@ -13,6 +13,10 @@
     import { scene as test_scene } from "../../test/test_scene";
     // -------------------------------------------------------------------------
 
+    /**
+     * The DagPane class is responsible for rendering a Aspect DAG in a
+     * ThreeJs scene
+     */
     @Component
     export default class DagPane extends Vue {
         public scene;
