@@ -36,7 +36,7 @@ export class FancyIndex {
      * @param data Array of IndexRows
      */
     public constructor(data: IIndexRow[]) {
-        this.__data = new DataFrame( _.map(data, this._coerce) );
+        this.__data = new DataFrame(_.map(data, this._coerce));
     }
 
     private __data: DataFrame;
@@ -61,28 +61,28 @@ export class FancyIndex {
     }
 
     /**
-     * @returns Internal DayaFrame
+     * Internal DataFrame
      */
     public to_dataframe(): DataFrame {
         return this.__data;
     }
 
     /**
-     * @returns Boolean indicating the visibility of outermost table's header
+     * Boolean indicating the visibility of outermost table's header
      */
     public get hide_headers(): boolean {
         return this.__data.getSeries("hide_headers").head(1).toArray()[0];
     }
 
     /**
-     * @returns Boolean indicating the indentation of outermost table's header
+     * Boolean indicating the indentation of outermost table's header
      */
     public get indent(): boolean {
         return this.__data.getSeries("indent").head(1).toArray()[0];
     }
 
     /**
-     * @returns Column which the outermost table will be grouped by
+     * Column which the outermost table will be grouped by
      */
     public get group_column(): string {
         return this.__data.at(0).group;
@@ -97,7 +97,7 @@ export class FancyIndex {
     }
 
     /**
-     * @returns Array of Header objects which Vuetify VDataTable can accept
+     * Array of Header objects which Vuetify VDataTable can accept
      */
     public to_headers(): IHeader[] {
         let cols = this.__data.at(0).columns;

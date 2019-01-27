@@ -22,6 +22,10 @@ export class Component extends Group {
      */
     public _item: Group;
 
+    /**
+     * Determines whether given component id found in children
+     * @param id Component id
+     */
     public has_child(id: string): boolean {
         return this._children.hasOwnProperty(id);
     }
@@ -44,14 +48,14 @@ export class Component extends Group {
     }
 
     /**
-     * @returns Child component lut
+     * Child component lut
      */
     public get children(): object {
         return this._children;
     }
 
     /**
-     * @returns This class's single Group primitive
+     * This class's single Group primitive
      */
     public get item(): Group {
         return this._item;
@@ -96,7 +100,7 @@ export class Component extends Group {
     }
 
     /**
-     * @returns THREE.Group instance for an instance
+     * THREE.Group instance for an instance
      */
     public get three_item(): any {
         return this._three_item;

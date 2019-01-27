@@ -75,7 +75,7 @@ export class Scaffold {
     }
 
     /**
-     * @returns An Array of rows (likely objects)
+     * An Array of rows (likely objects)
      */
     public to_array(): any[] {
         return this.__data.toArray();
@@ -93,7 +93,7 @@ export class Scaffold {
     }
 
     /**
-     * @returns DataFrame
+     * DataFrame
      */
     public to_dataframe(): DataFrame {
         return this.__data;
@@ -109,7 +109,7 @@ export class Scaffold {
     // -------------------------------------------------------------------------
 
     /**
-     * @returns The number of rows and columns
+     * The number of rows and columns
      */
     public get shape(): number[] {
         return [this.to_array().length, this.columns.length];
@@ -194,7 +194,7 @@ export class Scaffold {
     }
 
     /**
-     * @returns The columns within the Scaffold
+     * The columns within the Scaffold
      */
     public get columns(): any[] {
         return this.__data.getColumnNames();
@@ -369,7 +369,7 @@ export class Scaffold {
     }
 
     /**
-     * @returns A Scaffold with unique rows
+     * A Scaffold with unique rows
      */
     public unique(): Scaffold {
         // returns IDataFrame, so use any instead

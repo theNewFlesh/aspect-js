@@ -96,28 +96,28 @@ export function hex_to_hsva(hex: string): IHSVA {
  * Application-wide HEX color reference
  */
 export const HEX_COLORS: object = {
-    aspect_dark_1:   "#040404",
-    aspect_dark_2:   "#141414",
-    aspect_bg:       "#242424",
-    aspect_grey_1:   "#343434",
-    aspect_grey_2:   "#444444",
-    aspect_light_1:  "#A4A4A4",
-    aspect_light_2:  "#F4F4F4",
+    aspect_dark_1: "#040404",
+    aspect_dark_2: "#141414",
+    aspect_bg: "#242424",
+    aspect_grey_1: "#343434",
+    aspect_grey_2: "#444444",
+    aspect_light_1: "#A4A4A4",
+    aspect_light_2: "#F4F4F4",
     aspect_dialog_1: "#444459",
     aspect_dialog_2: "#5D5D7A",
-    aspect_red_1:    "#F77E70",
-    aspect_red_2:    "#DE958E",
+    aspect_red_1: "#F77E70",
+    aspect_red_2: "#DE958E",
     aspect_orange_1: "#EB9E58",
     aspect_orange_2: "#EBB483",
     aspect_yellow_1: "#E8EA7E",
     aspect_yellow_2: "#E9EABE",
-    aspect_green_1:  "#8BD155",
-    aspect_green_2:  "#A0D17B",
-    aspect_cyan_1:   "#7EC4CF",
-    aspect_cyan_2:   "#B6ECF3",
-    aspect_cyan_3:   "#3A4C4F",
-    aspect_blue_1:   "#5F95DE",
-    aspect_blue_2:   "#93B6E6",
+    aspect_green_1: "#8BD155",
+    aspect_green_2: "#A0D17B",
+    aspect_cyan_1: "#7EC4CF",
+    aspect_cyan_2: "#B6ECF3",
+    aspect_cyan_3: "#3A4C4F",
+    aspect_blue_1: "#5F95DE",
+    aspect_blue_2: "#93B6E6",
     aspect_purple_1: "#C98FDE",
     aspect_purple_2: "#AC92DE",
     // aspect_hover:    "rgba(126, 196, 207, 0.25)",
@@ -202,21 +202,21 @@ export class OrderedDict {
     }
 
     /**
-     * @returns Array of key/value pairs
+     * Array of key/value pairs
      */
     public get items() {
-        return _.map(this._keys, (key) => ( [key, this.get(key)] ));
+        return _.map(this._keys, (key) => ([key, this.get(key)]));
     }
 
     /**
-     * @returns Array of keys
+     * Array of keys
      */
     public get keys(): any[] {
         return this._keys;
     }
 
     /**
-     * @returns Array of values
+     * Array of values
      */
     public get values(): any[] {
         const output = [];
@@ -227,14 +227,14 @@ export class OrderedDict {
     }
 
     /**
-     * @returns Number of keys
+     * Number of keys
      */
     public get length(): number {
         return this._keys.length;
     }
 
     /**
-     * @returns Normal object from keys and values
+     * Normal object from keys and values
      */
     public to_object(): object {
         return this._items;
@@ -363,16 +363,16 @@ export function flatten(
     skipArrays: boolean = true
 ): object {
     const output = {};
-    for ( const key of _.keys(object) ) {
+    for (const key of _.keys(object)) {
         if (!object.hasOwnProperty(key)) {
             continue;
         }
 
         // do not recurse Array keys
-        if ( skipArrays && object[key] instanceof Array) {
+        if (skipArrays && object[key] instanceof Array) {
             output[key] = object[key];
         }
-        else if ( (typeof object[key]) === "object" ) {
+        else if ((typeof object[key]) === "object") {
             const flatObject = flatten(object[key]);
             for (const flatKey in flatObject) {
                 if (!flatObject.hasOwnProperty(flatKey)) {
@@ -419,7 +419,7 @@ export function unflatten(object, separator: string = "/") {
         const keys = _.split(flatKey, separator);
         const lastKey = keys.pop();
         for (const key of keys) {
-            if ( !cursor.hasOwnProperty(key) ) {
+            if (!cursor.hasOwnProperty(key)) {
                 cursor[key] = {};
             }
             cursor = cursor[key];
@@ -456,12 +456,12 @@ export function unflatten(object, separator: string = "/") {
  */
 export function aggregate(objects: object[], aggregator: any, separator: string = "/") {
     // flatten all objects
-    const flatObjs = _.map( objects, (obj) => (flatten(obj, separator)) );
+    const flatObjs = _.map(objects, (obj) => (flatten(obj, separator)));
 
     // create aggregate objects with arrays as values
     let output = {};
     for (const obj of flatObjs) {
-        for ( const key of _.keys(obj) ) {
+        for (const key of _.keys(obj)) {
             if (!output.hasOwnProperty(key)) {
                 output[key] = [];
             }
@@ -470,7 +470,7 @@ export function aggregate(objects: object[], aggregator: any, separator: string 
     }
 
     // aggregate each value into scalar
-    for ( const key of _.keys(output) ) {
+    for (const key of _.keys(output)) {
         output[key] = aggregator(output[key]);
     }
 
@@ -527,7 +527,7 @@ export function filter(dict: object, predicate: any): object {
  * @returns Filtered object
  */
 export function filter_keys(dict: object, regex: any): object {
-    return filter( dict, (k, v) => (k.search(regex) > -1) );
+    return filter(dict, (k, v) => (k.search(regex) > -1));
 }
 
 /**
@@ -538,7 +538,7 @@ export function filter_keys(dict: object, regex: any): object {
  * @returns Filtered object
  */
 export function filter_values(dict: object, predicate: any): object {
-    return filter( dict, (k, v) => (predicate(v)) );
+    return filter(dict, (k, v) => (predicate(v)));
 }
 
 /**

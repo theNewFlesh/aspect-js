@@ -68,14 +68,14 @@ export class Params {
     // -------------------------------------------------------------------------
 
     /**
-     * @returns Params as a single object
+     * Params as a single object
      */
     public to_object(): object {
         return this.__data.to_object();
     }
 
     /**
-     * @returns Params as an array of row objects
+     * Params as an array of row objects
      */
     public to_array(): object[] {
         return this.__data.to_array();
@@ -166,7 +166,7 @@ export class Params {
     }
 
     /**
-     * @returns A unique Array of all the ids found in Params
+     * A unique Array of all the ids found in Params
      */
     public to_ids(): string[] {
         const data: object[] = this.__data
@@ -223,8 +223,8 @@ export class Params {
      */
     public to_key_header(id: string): string {
         const data: object = this.__data
-        .filter(x => x.match(id), "key")
-        .to_object();
+            .filter(x => x.match(id), "key")
+            .to_object();
         if (_.keys(data).length === 0) {
             return null;
         }
@@ -244,7 +244,7 @@ export class Params {
         for (const key of keys) {
             let id_key: any = _.filter(key.split("/"), x => x.match(regex));
             const id: string = id_key[id_key.length - 1];
-            id_key =  _.join(id_key, "/") + "/id";
+            id_key = _.join(id_key, "/") + "/id";
             if (id_key.match(".*_.*")) {
                 if (!keys.includes(id_key)) {
                     data[id_key] = id;
@@ -330,10 +330,10 @@ export class Params {
     public to_component(id: string): object {
         const type: string = _.split(id, "_")[0];
 
-        if (type === "scene"){
+        if (type === "scene") {
             return this.to_scene(id);
         }
-        else if (type === "graph"){
+        else if (type === "graph") {
             return this.to_graph(id);
         }
         else if (type === "node") {
@@ -362,10 +362,10 @@ export class Params {
     public filter_component(id: string, full: boolean = false): Params {
         const type: string = _.split(id, "_")[0];
 
-        if (type === "scene"){
+        if (type === "scene") {
             return this.filter_scene(id, full);
         }
-        else if (type === "graph"){
+        else if (type === "graph") {
             return this.filter_graph(id, full);
         }
         else if (type === "node") {
@@ -462,10 +462,10 @@ export class Params {
     }
 
     /**
-     * @returns Id of the scene in data
+     * Id of the scene in data
      */
     public get_scene_id(): string {
-        return _.split( _.keys( this.to_object() )[0], "/")[0];
+        return _.split(_.keys(this.to_object())[0], "/")[0];
     }
     // -------------------------------------------------------------------------
 
@@ -731,13 +731,13 @@ export class Params {
 
             for (const row of rows) {
                 const datum: object = {};
-                datum["name"]          = row["name"];
-                datum["value"]         = row["value"];
+                datum["name"] = row["name"];
+                datum["value"] = row["value"];
                 datum["default_value"] = row["default_value"];
-                datum["widget"]        = row["widget"];
-                datum["lock"]          = row["lock"];
+                datum["widget"] = row["widget"];
+                datum["lock"] = row["lock"];
                 // datum["node/id"]       = node["id"];
-                datum["node/name"]     = node["name"];
+                datum["node/name"] = node["name"];
                 // datum["node/function"] = node["function"];
                 // datum["node/module"]   = node["module"];
                 // datum["node/info"]     = node["info"];
@@ -746,8 +746,8 @@ export class Params {
                 // datum["node/selected"] = node["selected"];
                 // datum["node/visible"]  = node["visible"];
                 // TODO: remove me and fixe widgets
-                datum["display"]       = {"options": row["options"][0]};
-                datum["__index"]       = i;
+                datum["display"] = { "options": row["options"][0] };
+                datum["__index"] = i;
                 data.push(datum);
                 i++;
             }

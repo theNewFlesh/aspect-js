@@ -64,7 +64,7 @@ export function to_radians(angle: number): number {
     return (angle / 360) * Math.PI * 2;
 }
 
-export function to_angle(radian: number): number {
+export function to_degrees(radian: number): number {
     return radian * (180 / Math.PI);
 }
 
@@ -80,7 +80,7 @@ export function to_l2_distance(v0: IVector, v1: IVector): number {
     const dx: number = Math.pow(x0 - x1, 2);
     const dy: number = Math.pow(y0 - y1, 2);
     const dz: number = Math.pow(z0 - z1, 2);
-    const distance: number =  Math.sqrt(dx + dy + dz);
+    const distance: number = Math.sqrt(dx + dy + dz);
 
     return distance;
 }
@@ -98,15 +98,15 @@ export function get_rotation(v0: IVector3, v1: IVector3): IVector3 {
         const adj: number = Math.sqrt(Math.pow(p1.x - p0.x, 2));
         const hyp: number = to_l2_distance(p0, p1);
         let angle: number = Math.acos(adj / hyp);
-        angle = to_angle(angle);
+        angle = to_degrees(angle);
 
-        const q1: boolean    = p0.x  <  p1.x && p0.y < p1.y;
-        const q2: boolean    = p0.x  <  p1.x && p0.y > p1.y;
-        const q3: boolean    = p0.x  >  p1.x && p0.y > p1.y;
-        const q4: boolean    = p0.x  >  p1.x && p0.y < p1.y;
-        const up: boolean    = p0.x === p1.x && p0.y < p1.y;
-        const down: boolean  = p0.x === p1.x && p0.y > p1.y;
-        const left: boolean  = p0.y === p1.y && p0.x < p1.x;
+        const q1: boolean = p0.x < p1.x && p0.y < p1.y;
+        const q2: boolean = p0.x < p1.x && p0.y > p1.y;
+        const q3: boolean = p0.x > p1.x && p0.y > p1.y;
+        const q4: boolean = p0.x > p1.x && p0.y < p1.y;
+        const up: boolean = p0.x === p1.x && p0.y < p1.y;
+        const down: boolean = p0.x === p1.x && p0.y > p1.y;
+        const left: boolean = p0.y === p1.y && p0.x < p1.x;
         const right: boolean = p0.y === p1.y && p0.x > p1.x;
 
         if (up) {
@@ -142,7 +142,7 @@ export function get_rotation(v0: IVector3, v1: IVector3): IVector3 {
         // y: 180 + _get_rotation({x: v0.z, y: v0.x}, {x: v1.z, y: v1.x}),
         x: 0,
         y: 0,
-        z: _get_rotation({x: v0.x, y: v0.y}, {x: v1.x, y: v1.y}),
+        z: _get_rotation({ x: v0.x, y: v0.y }, { x: v1.x, y: v1.y }),
     };
 }
 
