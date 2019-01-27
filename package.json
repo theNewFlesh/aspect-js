@@ -22,7 +22,7 @@
         "three.meshline": "^1.1.0",
         "three.texttexture": "^18.10.24",
         "tinycolor2": "^1.4.1",
-        "typedoc-henanigans-theme": "^0.1.1",
+        "typedoc-henanigans-theme": "^0.1.2",
         "uuid": "^3.3.2",
         "vue": "^2.5.17",
         "vue-multipane": "^0.9.5",
