@@ -15,7 +15,13 @@ import { Scheduler } from "./scheduler";
 import { IPortParams, INodeParams, IEdgeParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
+/**
+ * Class for generating editing and rendering a Directed Acyclic Graph in ThreeJS
+ * DAG's consist of a Scene with one or more Graphs inside of which are Node,
+ * which are connected to each other via Edges.
+ */
 export class DAG {
+    // TODO: remove these dev methods
     public get THREE() { return THREE; }
     public get three_tools() { return three_tools; }
     public get test_scene() { return test_scene.scene; }
@@ -23,17 +29,46 @@ export class DAG {
     public get scaffold() { return Scaffold; }
     public get params() { return Params; }
 
+    /**
+     *  The id of the DAG instance
+     */
     public _id: string;
+
+    /**
+     * The state of the DAG as defined by a Params instance
+     */
     public _state: Params = new Params({});
+
+    /**
+     * Needed for instantiating a Scene component
+     */
     public parent: any;
+
+    /**
+     * Lut of child components of the DAG
+     */
     public _children: object = {};
+
+    /**
+     * A THREE.Scene instance, needed by all components
+     */
     public three_item: any;
     // -------------------------------------------------------------------------
 
+    /**
+     * Determines whether DAG contains child component
+     * @param id Component id
+     */
     public has_child(id: string): boolean {
         return this._children.hasOwnProperty(id);
     }
 
+    /**
+     * Get a child component given a compoenent id
+     * @param id Component id
+     * @throws Error if id not found in children keys
+     * @returns Child component of DAG
+     */
     public get_child(id: string): any {
         if (!this.has_child(id)) {
             throw new Error(`id: ${id} child does not exist`);
@@ -41,24 +76,49 @@ export class DAG {
         return this._children[id];
     }
 
-    public set_child(key: string, value: any): void {
-        this._children[key] = value;
+    /**
+     * Assigns a component to children
+     * @param id Component id
+     * @param component Component
+     */
+    public set_child(id: string, component: any): void {
+        this._children[id] = component;
     }
 
+    /**
+     * Calls delete method on child component and removes it from children
+     * @param id Component id
+     */
     public delete_child(id: string): void {
         this.get_child(id).delete();
         delete this._children[id];
     }
 
+    /**
+     * Returns a lut of child components
+     */
     public get children(): object {
         return this._children;
     }
 
+    /**
+     * Searchs a params object and returns the discovered parent component of a
+     * given child component id
+     * @param params Params object to be searched
+     * @param id Child component id
+     * @returns Component
+     */
     public _get_parent(params: Params, id: string): any {
         const pid: string = params.get_parent_id(id);
         return this.get_child(pid);
     }
 
+    /**
+     * Translates port position relative to node position
+     * @param node Node params object
+     * @param port Port params object
+     * @returns Port position in world-space coordinates
+     */
     public _resolve_port_translation(node: INodeParams, port: IPortParams): object {
         const output: object = {
             "translate/x": node["translate/x"] + port["translate/x"],
@@ -68,6 +128,16 @@ export class DAG {
         return output;
     }
 
+    /**
+     * Resolves the world-space coordinates of an Edge's source and destination
+     * fields
+     * @param params Params of scene
+     * @param edge_params Edge params
+     * @param source_id Component id of a Node or a Port the edge starts at
+     * @param destination_id Component id of a Node or a Port the edge ends at
+     * @throws Error if source or destination components do not exist
+     * @returns Edge params with correct source and destination fields
+     */
     public _resolve_edge_params(
         params: Params,
         edge_params: object,
@@ -77,6 +147,7 @@ export class DAG {
 
         let src: object = this.get_child(source_id).read();
         if (src["type"] === "node") {
+            // set edge source to center of node
             src = {
                 "translate/x": 0,
                 "translate/y": 0,
@@ -87,6 +158,7 @@ export class DAG {
             if (!this.has_child(source_id)) {
                 throw new Error(`child does not exist. id: ${source_id}`);
             }
+            // assign source new x, y, z coordinates
             src = this._resolve_port_translation(
                 this._get_parent(params, source_id).read(),
                 this.get_child(source_id).read(),
@@ -95,6 +167,7 @@ export class DAG {
 
         let dst: object = this.get_child(destination_id).read();
         if (dst["type"] === "node") {
+            // set edge destination to center of node
             dst = {
                 "translate/x": 0,
                 "translate/y": 0,
@@ -105,6 +178,7 @@ export class DAG {
             if (!this.has_child(destination_id)) {
                 throw new Error(`child does not exist. id: ${destination_id}`);
             }
+            // assign destination new x, y, z coordinates
             dst = this._resolve_port_translation(
                 this._get_parent(params, destination_id).read(),
                 this.get_child(destination_id).read(),
@@ -112,16 +186,18 @@ export class DAG {
         }
 
         const output: IEdgeParams = {
-            "id":                      edge_params["id"],
-            "source/id":               source_id,
-            "source/translate/x":      src["translate/x"],
-            "source/translate/y":      src["translate/y"],
-            "source/translate/z":      src["translate/z"],
-            "destination/id":          destination_id,
+            "id": edge_params["id"],
+            "source/id": source_id,
+            "source/translate/x": src["translate/x"],
+            "source/translate/y": src["translate/y"],
+            "source/translate/z": src["translate/z"],
+            "destination/id": destination_id,
             "destination/translate/x": dst["translate/x"],
             "destination/translate/y": dst["translate/y"],
             "destination/translate/z": dst["translate/z"],
         };
+
+        // update output with edge_params
         for (const key of _.keys(edge_params)) {
             if (!output.hasOwnProperty(key)) {
                 output[key] = edge_params[key];

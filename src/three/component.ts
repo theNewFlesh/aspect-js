@@ -18,7 +18,7 @@ export class Component extends Group {
     public _children: object = {};
 
     /**
-     * Group object which encapsulates all ThreeJs children
+     * Group object which encapsulates all ThreeJS children
      */
     public _item: Group;
 

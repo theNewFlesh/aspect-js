@@ -36,7 +36,7 @@ export interface IPrimitive {
 }
 
 /**
- * CRUD wrapper for all ThreeJs items used by Aspect.
+ * Abstract base wrapper for all ThreeJS items used by Aspect.
  * Primitives are instantiated with a THREE.Scene item.
  * They can be parented to other primitives.
  * All CRUD methods receive a params object specific to the primitive class,
@@ -149,7 +149,7 @@ export class PrimitiveBase {
     }
 
     /**
-     * Removes instance's ThreeJs item form parent's ThreeJs item
+     * Removes instance's ThreeJS item form parent's ThreeJS item
      */
     public delete_parent(): void {
         if ([null, undefined].includes(this.parent)) {
@@ -160,15 +160,15 @@ export class PrimitiveBase {
     }
 
     /**
-     * ThreeJs item of this instance
+     * ThreeJS item of this instance
      */
     public get three_item(): any {
         return this._three_item;
     }
 
     /**
-     * Set's a ThreeJs item to _three_item
-     * @param three_item ThreeJs item
+     * Set's a ThreeJS item to _three_item
+     * @param three_item ThreeJS item
      */
     public set three_item(three_item: any) {
         this._three_item = three_item;
@@ -211,7 +211,7 @@ export class PrimitiveBase {
     }
 
     /**
-     * Set's name of ThreeJs item
+     * Set's name of ThreeJS item
      * @param params Primitive params. Must have name field.
      */
     private __set_name(params: IParams): void {
@@ -219,7 +219,7 @@ export class PrimitiveBase {
     }
 
     /**
-     * Set's visibility of ThreeJs item
+     * Set's visibility of ThreeJS item
      * @param params Primitve params. Must have visibility field.
      */
     private __set_visible(params: IParams): void {
@@ -227,7 +227,7 @@ export class PrimitiveBase {
     }
 
     /**
-     * Set's translation of ThreeJs item
+     * Set's translation of ThreeJS item
      * @param params Primitive params. Must have translate/[x,y,z] fields.
      */
     private __set_translate(params: IParams): void {
@@ -239,7 +239,7 @@ export class PrimitiveBase {
     }
 
     /**
-     * Set's rotation of ThreeJs item
+     * Set's rotation of ThreeJS item
      * @param params Primitive params. Must have rotate/[x,y,z] fields in degrees.
      */
     private __set_rotate(params: IParams): void {
@@ -253,7 +253,7 @@ export class PrimitiveBase {
     }
 
     /**
-     * Set's scale of ThreeJs item
+     * Set's scale of ThreeJS item
      * @param params Primitive params. Must have scale/[x,y,z] fields.
      */
     private __set_scale(params: IParams): void {
@@ -265,7 +265,7 @@ export class PrimitiveBase {
     }
 
     /**
-     * Get's name of ThreeJs item
+     * Get's name of ThreeJS item
      * @param params Primitive params
      */
     public _get_name(params: object): string {
@@ -274,9 +274,9 @@ export class PrimitiveBase {
     // -------------------------------------------------------------------------
 
     /**
-     * Abstract method for instantiating ThreeJs item
+     * Abstract method for instantiating ThreeJS item
      * @param params Primitive params
-     * @returns ThreeJs item
+     * @returns ThreeJS item
      */
     public _create_three_item(params: IParams): any {
         throw new Error("method must be defined in subclass");
@@ -310,8 +310,8 @@ export class PrimitiveBase {
     }
 
     /**
-     * Create ThreeJs item with params values
-     * @param params Primtive params to be appllied to ThreeJs item
+     * Create ThreeJS item with params values
+     * @param params Primtive params to be appllied to ThreeJS item
      * @param parent Parent of this instance
      */
     public create(params: IParams, parent: any): void {
@@ -327,8 +327,8 @@ export class PrimitiveBase {
     }
 
     /**
-     * Read values from ThreeJs item and compile it into a params object
-     * @returns Params object with ThreeJs item values
+     * Read values from ThreeJS item and compile it into a params object
+     * @returns Params object with ThreeJS item values
      */
     public read(): IParams {
         const three_item = this.three_item;
@@ -351,8 +351,8 @@ export class PrimitiveBase {
     }
 
     /**
-     * Update ThreeJs item with params values.
-     * Will destroy ThreeJs and recreate it with new params if destructive
+     * Update ThreeJS item with params values.
+     * Will destroy ThreeJS and recreate it with new params if destructive
      * param encountered. Call _non_destructive_update.
      * @param params Object with correct fields and values for Primitive class
      */
@@ -374,7 +374,7 @@ export class PrimitiveBase {
     }
 
     /**
-     * Applies changes to ThreeJs translate, rotate, scale, name or visibility
+     * Applies changes to ThreeJS translate, rotate, scale, name or visibility
      * attributes.
      * @param params Params object
      */
@@ -402,7 +402,7 @@ export class PrimitiveBase {
     }
 
     /**
-     * Deletes instance's child primitives and ThreeJs items
+     * Deletes instance's child primitives and ThreeJS items
      */
     public delete(): void {
         const prims = this._primitives;

@@ -5,9 +5,23 @@ import { PrimitiveBase } from "./primitive_base";
 import { IParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
+/**
+ * CRUD wrapper for all ThreeJS items used by Aspect.
+ * Primitives are instantiated with a THREE.Scene item.
+ * They can be parented to other primitives.
+ * All CRUD methods receive a params object specific to the primitive class,
+ * resolve, validate, diff and apply this data to appropriate ThreeJS items.
+ */
 export class Primitive extends PrimitiveBase {
+    /**
+     * Name of class in lowercase. Overwritten in subclass.
+     */
     public _class: string = "primitive";
 
+    /**
+     * Reads material color of ThreeJS item and convert it into RGB object
+     * @returns Object with r, g, b keys
+     */
     private __get_color(): any {
         let rgb;
         if (tools.is_array(this.three_item.material)) {
@@ -24,7 +38,11 @@ export class Primitive extends PrimitiveBase {
         return tools.rgba_to_hsva(rgb);
     }
 
-    public __set_color(params: IParams): void {
+    /**
+     * Set's color of ThreeJS item's material
+     * @param params Object wih color/[hue, saturation, value, alpha] fields
+     */
+    private __set_color(params: IParams): void {
         const hsva: tools.IHSVA = {
             h: params["color/hue"],
             s: params["color/saturation"],
@@ -44,6 +62,10 @@ export class Primitive extends PrimitiveBase {
     }
     // -------------------------------------------------------------------------
 
+    /**
+     * Default values for fields of params.
+     * Fields include: name, visibile, color/*, translate/*, rotate/*, scale/*
+     */
     public get _default_params(): object {
         return {
             "name": "",
@@ -64,6 +86,9 @@ export class Primitive extends PrimitiveBase {
         };
     }
 
+    /**
+     * Read values from ThreeJS item and return them as a params object
+     */
     public read(): IParams {
         const params: any = super.read();
         params["color/hue"] = this.__get_color().h;
@@ -73,6 +98,10 @@ export class Primitive extends PrimitiveBase {
         return params;
     }
 
+    /**
+     * @param params Params object
+     * @returns true if params contains color fields
+     */
     public _non_destructive_update(params: IParams): void {
         super._non_destructive_update(params);
         const keys: string[] = _.keys(params);

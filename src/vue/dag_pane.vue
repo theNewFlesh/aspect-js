@@ -15,7 +15,7 @@
 
     /**
      * The DagPane class is responsible for rendering a Aspect DAG in a
-     * ThreeJs scene
+     * ThreeJS scene
      */
     @Component
     export default class DagPane extends Vue {
