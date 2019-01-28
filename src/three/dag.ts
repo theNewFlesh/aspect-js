@@ -423,9 +423,8 @@ export class DAG {
         let scheduler: Scheduler = new Scheduler(this._state).edit(fragment, this);
         scheduler.print();
         scheduler = scheduler.remove_ignores();
-        const temp: any = scheduler.to_state_and_schedule();
-        const state: Params = temp[0];
-        const schedule: object[] = temp[1];
+        const state: Params = scheduler.to_state();
+        const schedule: object[] = scheduler.to_schedule();
 
         // update child components according to commands
         for (const row of schedule) {
@@ -444,9 +443,8 @@ export class DAG {
         let scheduler: Scheduler = new Scheduler(this._state).delete(fragment, this);
         scheduler.print();
         scheduler = scheduler.remove_ignores();
-        const temp: any = scheduler.to_state_and_schedule();
-        const state: Params = temp[0];
-        const schedule: object[] = temp[1];
+        const state: Params = scheduler.to_state();
+        const schedule: object[] = scheduler.to_schedule();
 
         // delete children listed in schedule
         for (const row of schedule) {

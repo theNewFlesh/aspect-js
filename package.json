@@ -7,7 +7,7 @@
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint",
         "test": "vue-cli-service test:unit",
-        "docs": "typedoc --out docs --mode modules ./src --theme ./node_modules/typedoc-henanigans-theme/bin/default"
+        "docs": "typedoc --out docs --mode modules ./src --hideGenerator --theme ./node_modules/typedoc-henanigans-theme/bin/default"
     },
     "dependencies": {
         "@types/chai": "^4.1.7",

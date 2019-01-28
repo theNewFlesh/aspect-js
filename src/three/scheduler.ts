@@ -6,6 +6,9 @@ import { Scaffold } from "../core/scaffold";
 import * as tools from "../core/tools";
 // -----------------------------------------------------------------------------
 
+/**
+ * Interface for a single row within a schedule
+ */
 interface IScheduleRow {
     id: string;
     type: string;
@@ -18,59 +21,101 @@ interface IScheduleRow {
     dependencies: string[];
 }
 
+/**
+ * The scheduler is responsible for building a table which fully defines the
+ * transformations to the scene required to make it correctly mirror the scene
+ * state specified by the given params.
+ */
 export class Scheduler {
+    /**
+     * @param state Desired scene state
+     * @param schedule Array of IScheduleRows if one exists
+     */
     public constructor(state: Params, schedule: IScheduleRow[] = []) {
         this.__state = state;
         this.__schedule = schedule;
     }
 
+    /**
+     * Desired scene state
+     */
     private __state: Params;
+
+    /**
+     * Table of IScheduleRows used for defining scene transformations
+     */
     private __schedule: IScheduleRow[];
 
+    /**
+     * Look up table that maps:
+     * +------------------------+
+     * | mode,                  |
+     * | param_state,           |
+     * | three_state,           | --> action
+     * | diff of current state  |
+     * | and desired state      |
+     * +------------------------+
+     */
     private static __command_lut = {
-        "delete_absent_absent_true":    "ignore",
-        "delete_absent_present_true":   "delete",
-        "delete_present_present_true":  "delete",
-        "delete_present_absent_true":   "ignore",
-        "edit_absent_absent_true":      "create",
-        "edit_absent_present_true":     "update",
-        "edit_present_present_true":    "update",
-        "edit_present_absent_true":     "create",
-        "delete_absent_absent_false":   "ignore",
-        "delete_absent_present_false":  "ignore",
+        "delete_absent_absent_true": "ignore",
+        "delete_absent_present_true": "delete",
+        "delete_present_present_true": "delete",
+        "delete_present_absent_true": "ignore",
+        "edit_absent_absent_true": "create",
+        "edit_absent_present_true": "update",
+        "edit_present_present_true": "update",
+        "edit_present_absent_true": "create",
+        "delete_absent_absent_false": "ignore",
+        "delete_absent_present_false": "ignore",
         "delete_present_present_false": "ignore",
-        "delete_present_absent_false":  "ignore",
-        "edit_absent_absent_false":     "ignore",
-        "edit_absent_present_false":    "ignore",
-        "edit_present_present_false":   "ignore",
-        "edit_present_absent_false":    "ignore",
+        "delete_present_absent_false": "ignore",
+        "edit_absent_absent_false": "ignore",
+        "edit_absent_present_false": "ignore",
+        "edit_present_present_false": "ignore",
+        "edit_present_absent_false": "ignore",
     };
 
+    /**
+     * Order in which component actions are carried out.
+     * Edge must be at bottom because it depends on components above.
+     */
     private static __order_lut: object = {
-          "scene": 0,
-          "graph": 1,
-           "node": 2,
-         "inport": 3,
+        "scene": 0,
+        "graph": 1,
+        "node": 2,
+        "inport": 3,
         "outport": 4,
-           "edge": 5,
+        "edge": 5,
     };
 
+    /**
+     * Prints schedule to console
+     */
     public print(): void {
         new Scaffold().from_array(this.__schedule).print();
     }
 
-    public to_state_and_schedule(): any[] {
-        return [this.__state, this.__schedule];
-    }
-
+    /**
+     * Returns schedule table
+     */
     public to_schedule(): object[] {
         return this.__schedule;
     }
 
+    /**
+     * Return desired state
+     */
     public to_state(): Params {
         return this.__state;
     }
 
+    /**
+     * Adds or updates components of DAG with fragment.
+     * SHort circuits if fragment is empty.
+     * @param fragment Fragment of scene used to edit scene
+     * @param dag DAG instance
+     * @returns Scheduler which contains correct transformations
+     */
     public edit(fragment: object, dag: DAG): Scheduler {
         if (tools.is_empty(fragment)) {
             return this;
