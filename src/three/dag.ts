@@ -131,7 +131,7 @@ export class DAG {
     /**
      * Resolves the world-space coordinates of an Edge's source and destination
      * fields
-     * @param params Params of scene
+     * @param params Params that contain edge and its dependencies
      * @param edge_params Edge params
      * @param source_id Component id of a Node or a Port the edge starts at
      * @param destination_id Component id of a Node or a Port the edge ends at
@@ -206,6 +206,13 @@ export class DAG {
         return output;
     }
 
+    /**
+     * Creates an InPort or OutPort and assigns it to children.
+     * Short circuits if inport subtype is not "node" or "both".
+     * @param params Params that contain port and its parent
+     * @param id Port id
+     * @param type Port type
+     */
     public _create_port(params: Params, id: string, type: string): void {
         const pid: string = params.get_parent_id(id);
         let count: number;
@@ -214,9 +221,12 @@ export class DAG {
         let port: any;
 
         if (type === "inport") {
+            // get number of ports of subtype "both" or "node"
             count = params.filter_node(pid, true)
                 .to_inports(["both", "node"])
                 .length;
+
+            // get port params
             temp = params.to_inport(id);
 
             // cancel if port subtype is not meant to be displayed
@@ -232,23 +242,31 @@ export class DAG {
             port = new Outport(this.three_item);
         }
 
+        // offset port x translation based on count of ports
         let x_offset: number = 0;
         if (count > 1) {
             x_offset = (count / 2.0) + 0.5;
         }
 
+        // influence port x offset by port order
         const pos: object = {
             "translate/x": temp["order"] - x_offset,
             "translate/y": y,
         };
         Object.assign(temp, pos);
 
+        // create port and assign it to children
         const parent: any = this._get_parent(params, id);
         port.create(temp, parent);
         this.set_child(id, port);
     }
     // -------------------------------------------------------------------------
 
+    /**
+     * Create a Scene component and assign it to children
+     * @param params Params that contain scene
+     * @param id Scene id
+     */
     public _create_scene(params: Params, id: string): void {
         const item: object = params.to_scene(id);
         this.three_item = new THREE.Scene();
@@ -259,22 +277,42 @@ export class DAG {
         this._id = id;
     }
 
+    /**
+     * Update Scene component with new params
+     * @param params Params that contain scene
+     * @param id Scene id
+     */
     public _update_scene(params: Params, id: string): void {
         this.get_child(id).update(params.to_scene(id));
     }
     // -------------------------------------------------------------------------
 
+    /**
+     * Create a Graph component and assign it to children
+     * @param params Params that contain graph
+     * @param id Graph id
+     */
     public _create_graph(params: Params, id: string): void {
         const graph: Graph = new Graph(this.three_item);
         graph.create(params.to_graph(id), this.parent);
         this.set_child(id, graph);
     }
 
+    /**
+     * Update Graph component with new params
+     * @param params Params that contain graph
+     * @param id Graph id
+     */
     public _update_graph(params: Params, id: string): void {
         this.get_child(id).update(params.to_graph(id));
     }
     // -------------------------------------------------------------------------
 
+    /**
+     * Create a Node component and assign it to children
+     * @param params Params that contain node
+     * @param id Node id
+     */
     public _create_node(params: Params, id: string): void {
         const parent: any = this._get_parent(params, id);
         const node: Node = new Node(this.three_item);
@@ -282,11 +320,22 @@ export class DAG {
         this.set_child(id, node);
     }
 
+    /**
+     * Update Node component with new params
+     * @param params Params that contain node
+     * @param id Node id
+     */
     public _update_node(params: Params, id: string): void {
         this.get_child(id).update(params.to_node(id));
     }
     // -------------------------------------------------------------------------
 
+    /**
+     * Creates an Edge component, by first resolving its params, then assigning
+     * it to children
+     * @param params Params that contain edge and its dependencies
+     * @param id Edge id
+     */
     public _create_edge(params: Params, id: string): void {
         let item: IEdgeParams = params.to_edge(id);
         item = this._resolve_edge_params(
@@ -302,46 +351,83 @@ export class DAG {
         this.set_child(id, edge);
     }
 
+    /**
+     * Updates an Edge component with new params
+     * @param params Params that contain edge and its dependencies
+     * @param id Edge id
+     */
     public _update_edge(params: Params, id: string): void {
+        // update existing edge params with new edge params
         let edge_params: IEdgeParams = this.get_child(id).read();
         Object.assign(edge_params, params.to_edge(id));
+
+        // resolve edge translate coordinates
         edge_params = this._resolve_edge_params(
             params,
             edge_params,
             edge_params["source/id"],
             edge_params["destination/id"]
         );
+
+        // update edge
         this.get_child(id).update(edge_params);
     }
     // -------------------------------------------------------------------------
 
+    /**
+     * Create an Inport component and assign it to children
+     * @param params Params that contain inport
+     * @param id Inport id
+     */
     public _create_inport(params: Params, id: string): void {
         this._create_port(params, id, "inport");
     }
 
+    /**
+     * Update InPort component with new params
+     * @param params Params that contain node
+     * @param id InPort id
+     */
     public _update_inport(params: Params, id: string): void {
         this.get_child(id).update(params.to_inport(id));
     }
     // -------------------------------------------------------------------------
 
+    /**
+     * Create an OutPort component and assign it to children
+     * @param params Params that contain outport
+     * @param id OutPort id
+     */
     public _create_outport(params: Params, id: string): void {
         this._create_port(params, id, "outport");
     }
 
+    /**
+     * Update OutPort component with new params
+     * @param params Params that contain outport
+     * @param id OutPort id
+     */
     public _update_outport(params: Params, id: string): void {
         this.get_child(id).update(params.to_outport(id));
     }
     // -------------------------------------------------------------------------
 
+    /**
+     * Updates DAG with params fragment. Adds or edits DAG information.
+     * Schedules update calls to affected children and updates state params upon
+     * finishing.
+     * @param fragment A piece of a full DAG description
+     */
     public edit(fragment: object): void {
+        // get new params state and creation/update schedule
         let scheduler: Scheduler = new Scheduler(this._state).edit(fragment, this);
-        // scheduler.print();
-        scheduler = scheduler.remove_ignores();;
-
+        scheduler.print();
+        scheduler = scheduler.remove_ignores();
         const temp: any = scheduler.to_state_and_schedule();
         const state: Params = temp[0];
         const schedule: object[] = temp[1];
 
+        // update child components according to commands
         for (const row of schedule) {
             const cmd: string = "_" + row["command"] + "_" + row["type"];
             this[cmd](state, row["id"]);
@@ -349,21 +435,29 @@ export class DAG {
         this._state = state;
     }
 
-    public delete(fragment: object, sweep: boolean = true): void {
+    /**
+     * Deletes components from DAG from those found in fragment.
+     * @param fragment A piece of a full DAG description containing component ids
+     */
+    public delete(fragment: object): void {
+        // get new params state and deletion schedule
         let scheduler: Scheduler = new Scheduler(this._state).delete(fragment, this);
         scheduler.print();
         scheduler = scheduler.remove_ignores();
-
         const temp: any = scheduler.to_state_and_schedule();
         const state: Params = temp[0];
         const schedule: object[] = temp[1];
 
+        // delete children listed in schedule
         for (const row of schedule) {
             this.delete_child(row["id"]);
         }
         this._state = state;
     }
 
+    /**
+     * Destroy THREE.Scene, remove all chidlren and wipe state
+     */
     public destroy(): void {
         this.three_item.remove(this.three_item.children[0]);
         this._children = {};
