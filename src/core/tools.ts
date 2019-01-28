@@ -337,7 +337,7 @@ export function add_style_attribute(
  * Flattens nested objects into objects with character seperated keys
  * @param object object to be flattened
  * @param separator string separator used in keys. Default: "."
- * @param skipArrays don't recurse into Array objects. Default: true
+ * @param skip_arrays don't recurse into Array objects. Default: true
  * @returns Object without nested objects
  * <p></p>
  * <b>Example</b>
@@ -360,7 +360,7 @@ export function add_style_attribute(
 export function flatten(
     object: object,
     separator: string = "/",
-    skipArrays: boolean = true
+    skip_arrays: boolean = true
 ): object {
     const output = {};
     for (const key of _.keys(object)) {
@@ -369,7 +369,7 @@ export function flatten(
         }
 
         // do not recurse Array keys
-        if (skipArrays && object[key] instanceof Array) {
+        if (skip_arrays && object[key] instanceof Array) {
             output[key] = object[key];
         }
         else if ((typeof object[key]) === "object") {
@@ -392,7 +392,7 @@ export function flatten(
  * Transforms flattend objects into nested objects by splitting apart keys
  * @param object object to be flattened
  * @param separator string separator used in keys. Default: "."
- * @param skipArrays don't recurse into Array objects. Default: true
+ * @param skip_arrays don't recurse into Array objects. Default: true
  * @returns Unflattened object
  * <p></p>
  * <b>Example</b>
