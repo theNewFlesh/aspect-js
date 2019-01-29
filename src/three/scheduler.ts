@@ -48,13 +48,15 @@ export class Scheduler {
 
     /**
      * Look up table that maps:
+     * <pre>
      * +------------------------+
      * | mode,                  |
      * | param_state,           |
-     * | three_state,           | --> action
+     * | three_state,           | --> command
      * | diff of current state  |
      * | and desired state      |
      * +------------------------+
+     * </pre>
      */
     private static __command_lut = {
         "delete_absent_absent_true": "ignore",
@@ -111,8 +113,8 @@ export class Scheduler {
 
     /**
      * Adds or updates components of DAG with fragment.
-     * SHort circuits if fragment is empty.
-     * @param fragment Fragment of scene used to edit scene
+     * Short circuits if fragment is empty.
+     * @param fragment Fragment used to edit scene
      * @param dag DAG instance
      * @returns Scheduler which contains correct transformations
      */
@@ -137,23 +139,32 @@ export class Scheduler {
         return new Scheduler(next, data);
     }
 
+    /**
+     * Deletes components found within given fragment
+     * @param fragment Fragment containing components
+     * @param dag Dag instance
+     */
     public delete(fragment: object, dag: DAG): Scheduler {
         if (tools.is_empty(fragment)) {
             return this;
         }
 
+        // get desired state component ids
         const temp_ids: string[] = new Params(fragment)
             .resolve_ids()
             .to_ids();
 
+        // ensure all ids exist
         this.__state.ids_exist(temp_ids);
 
+        // create current state fragment with only component ids
         let frag: object = {};
         frag = this.__state
             .filter_components(temp_ids, true)
             .drop_non_ids()
             .to_object();
 
+        // create a lut: (ports/nodes) -> (connected edges) for current state
         const lut: object = {};
         for (const edge of this.__state.to_edges()) {
             const sid: string = edge["source/id"];
@@ -173,11 +184,14 @@ export class Scheduler {
             }
         }
 
+        // get ids from current state frag
         let ids: string[] = new Params(frag).to_ids();
         ids = this.__state
             .filter_components(ids, true)
             .to_ids();
 
+        // iterate through current state ids and add their connected edges if
+        // found in lut
         for (const id of _.clone(ids)) {
             if (lut.hasOwnProperty(id)) {
                 for (const i of lut[id]) {
@@ -185,19 +199,24 @@ export class Scheduler {
                 }
             }
         }
+
+        // create new current state fragment from new unique set of ids
         ids = _.uniq(ids);
         frag = this.__state
             .filter_ids(ids)
             .drop_non_ids()
             .to_object();
 
+        // subtract fragment from current state to create next state
         const next: Params = this.__state.subtract(frag, false);
 
+        // add a delete row for each component id
         let data: IScheduleRow[] = _.clone(this.__schedule);
         for (const id of ids) {
             data.push(this._get_row(id, "delete", next, dag));
         }
 
+        // create schedule table
         data = new Scaffold()
             .from_array(data)
             .sort_by(x => x, "order", true)
@@ -205,6 +224,10 @@ export class Scheduler {
         return new Scheduler(next, data);
     }
 
+    /**
+     * Remove rows with "ignore" commands
+     * @returns Scheduler without ignore rows
+     */
     public remove_ignores(): Scheduler {
         const data: IScheduleRow[] = new Scaffold()
             .from_array(this.__schedule)
@@ -213,15 +236,34 @@ export class Scheduler {
         return new Scheduler(this.__state, data);
     }
 
+    /**
+     * Creates a row for a component
+     * @param id Component id
+     * @param mode "edit" or "delete"
+     * @param next Next state fully defined
+     * @param dag DAG instance
+     */
     public _get_row(id: string, mode: string, next: Params, dag: DAG): IScheduleRow {
+        // does component exists within current params?
         const param_state: string = this.__state.has_component(id) ? "present" : "absent";
+
+        // does a component instance exist for this id?
         const three_state: string = dag.has_child(id) ? "present" : "absent";
+
+        // does the component differ in each state?
         const state_diff: boolean = tools.different(
             dag._state.to_component(id), next.to_component(id)
         );
+
+        // build a key for the command lut
         const key: string = [mode, param_state, three_state, String(state_diff)].join("_");
+
+        // get component type for order lut
         const type: string = _.split(id, "_")[0];
 
+        // create row
+        // hand in key to get command
+        // hand in type to get order
         const row: IScheduleRow = {
             id: id,
             type: type,
@@ -236,35 +278,53 @@ export class Scheduler {
         return row;
     }
 
+    /**
+     * Create edges which connect a node to its ports
+     * @param fragment Fragment with fuly defined node (includes ports)
+     * @param next Desired state
+     * @returns New desired state with added node edges
+     */
     public _add_edges_for_nodes(fragment: object, next: Params): Params {
         const params: Params = new Params(fragment);
         const inports: object[] = params.to_inports(["both", "node"]);
         for (const inport of inports) {
             const id: string = inport["id"];
+
+            // get node
             const pid: string = params.get_parent_id(id);
 
+            // find node header key "/scene_id/graph_id/node_id/"
             const key: any = params.to_key_header(pid);
+
             if (key !== null) {
+                // create edge object with inport as source and node as destination
                 const edge: object = {};
                 const eid: string = "edge_" + uuidv4();
                 edge[key + eid + "/id"] = eid;
                 edge[key + eid + "/source/id"] = id;
                 edge[key + eid + "/destination/id"] = pid;
+
+                // add edge to next state
                 next = next.update(edge);
             }
         }
 
+        // same thing for outports
         for (const outport of params.to_outports()) {
             const id: string = outport["id"];
             const pid: string = params.get_parent_id(id);
 
             const key: any = params.to_key_header(pid);
             if (key !== null) {
+                // create an edge object with node as the source and outport as
+                // the destination
                 const edge: object = {};
                 const eid: string = "edge_" + uuidv4();
                 edge[key + eid + "/id"] = eid;
                 edge[key + eid + "/source/id"] = pid;
                 edge[key + eid + "/destination/id"] = id;
+
+                // add outport to desired state
                 next = next.update(edge);
             }
         }
