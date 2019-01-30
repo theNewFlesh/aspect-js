@@ -2,36 +2,54 @@ import * as _ from "lodash";
 import { IParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
+/**
+ * Keys with "translate/" header
+ */
 export const TRANSLATE_KEYS: string[] = [
     "translate/x",
     "translate/y",
     "translate/z",
 ];
 
+/**
+ * Keys with "rotate/" header
+ */
 export const ROTATE_KEYS: string[] = [
     "rotate/x",
     "rotate/y",
     "rotate/z",
 ];
 
+/**
+ * Keys with "scale/" header
+ */
 export const SCALE_KEYS: string[] = [
     "scale/x",
     "scale/y",
     "scale/z",
 ];
 
+/**
+ * Keys with "from/translate/" header
+ */
 export const FROM_KEYS: string[] = [
     "from/translate/x",
     "from/translate/y",
     "from/translate/z",
 ];
 
+/**
+ * Keys with "to/translate/" header
+ */
 export const TO_KEYS: string[] = [
     "to/translate/x",
     "to/translate/y",
     "to/translate/z",
 ];
 
+/**
+ * Keys with "color/" header
+ */
 export const COLOR_KEYS: string[] = [
     "color/hue",
     "color/saturation",
@@ -39,6 +57,9 @@ export const COLOR_KEYS: string[] = [
     "color/alpha",
 ];
 
+/**
+ * Keys with "font/" header
+ */
 export const FONT_KEYS: string[] = [
     "font/text",
     "font/family",
@@ -47,12 +68,18 @@ export const FONT_KEYS: string[] = [
 ];
 // -----------------------------------------------------------------------------
 
+/**
+ * 3D (x, y, z) vector interface
+ */
 export interface IVector3 {
     x: number;
     y: number;
     z: number;
 }
 
+/**
+ * 3D (x?, y?, z?) vector interface
+ */
 interface IVector {
     x?: number;
     y?: number;
@@ -60,14 +87,30 @@ interface IVector {
 }
 // -----------------------------------------------------------------------------
 
+/**
+ * Converts degrees to radians
+ * @param angle Angle in degrees
+ * @return radians
+ */
 export function to_radians(angle: number): number {
     return (angle / 360) * Math.PI * 2;
 }
 
+/**
+ * Converts radians to degrees
+ * @param angle Angle in radians
+ * @return degrees
+ */
 export function to_degrees(radian: number): number {
     return radian * (180 / Math.PI);
 }
 
+/**
+ * Calculate L2 Euclidean distance between two vectors
+ * @param v0 Vector of dimension N
+ * @param v1 Vector of dimension N
+ * @returns Distance
+ */
 export function to_l2_distance(v0: IVector, v1: IVector): number {
     const x0: number = v0.x || 0;
     const y0: number = v0.y || 0;
@@ -85,6 +128,12 @@ export function to_l2_distance(v0: IVector, v1: IVector): number {
     return distance;
 }
 
+/**
+ * Calculate centroid between two vectors
+ * @param v0 3D vector
+ * @param v1 3D vector
+ * @returns 3D centroid
+ */
 export function get_center(v0: IVector3, v1: IVector3): IVector3 {
     return {
         x: (v0.x + v1.x) / 2,
@@ -92,7 +141,13 @@ export function get_center(v0: IVector3, v1: IVector3): IVector3 {
         z: (v0.z + v1.z) / 2,
     };
 }
-
+/**
+ * Calculate the rotation amn arrow at centroid(v0, v1) would require
+ * to point from v0 to v1. Currently, only works in the XY plane.
+ * @param v0 Source vector
+ * @param v1 Target vector
+ * @returns Z axis rotation vector
+ */
 export function get_rotation(v0: IVector3, v1: IVector3): IVector3 {
     function _get_rotation(p0: any, p1: any): number {
         const adj: number = Math.sqrt(Math.pow(p1.x - p0.x, 2));
@@ -146,6 +201,11 @@ export function get_rotation(v0: IVector3, v1: IVector3): IVector3 {
     };
 }
 
+/**
+ * Removes keys with values of null, undefined or NaN
+ * @param params Object with keys to be removed
+ * @returns Object without null keys
+ */
 export function remove_empty_keys(params: object): object {
     const output: object = {};
     for (const key of _.keys(params)) {
@@ -156,6 +216,12 @@ export function remove_empty_keys(params: object): object {
     return output;
 }
 
+/**
+ * Subtracts object b from object a based on value
+ * @param a Object
+ * @param b Object to subtract from a
+ * @returns a - b
+ */
 export function diff_params(a: IParams, b: IParams): IParams {
     const output: IParams = {};
     for (const key of _.keys(a)) {
@@ -166,12 +232,24 @@ export function diff_params(a: IParams, b: IParams): IParams {
     return output;
 }
 
+/**
+ * Assign partial_params to full_params
+ * @param partial_params Params to be assigned
+ * @param full_params Params to be updated
+ * @returns Updated full_params
+ */
 export function update_params(partial_params: object, full_params: object): object {
     const params: object = _.clone(full_params);
     Object.assign(params, partial_params);
     return params;
 }
 
+/**
+ * Removes keys that have subfields, such as translate, which has subfields
+ * x, y and z
+ * @param params Params
+ * @returns Params without group keys
+ */
 export function remove_group_keys(params: object): object {
     const output: object = _.clone(params);
     delete output["name"];
@@ -188,6 +266,12 @@ export function remove_group_keys(params: object): object {
     return output;
 }
 
+/**
+ * Removes keys that do not have subfields from given params. FOr example,
+ * "visibility" would be removed, because it has no keys beneath it.
+ * @param params Params
+ * @returns Params with only group keys
+ */
 export function remove_nongroup_keys(params: object): object {
     const temp: object = remove_group_keys(params);
     const output: object = {};
@@ -199,10 +283,19 @@ export function remove_nongroup_keys(params: object): object {
     return output;
 }
 
+/**
+ * Finds diff of new and old params. If diff contains a member of a group key,
+ * the other members of that group key are added to diff. Empty keys are also
+ * removed.
+ * @param new_params Params
+ * @param old_params Params to be subtracted from new
+ * @returns Cleaned up diff of new and old
+ */
 export function resolve_params(new_params: any, old_params: any): any {
     const diff = diff_params(new_params, old_params);
-    let keys: string[] = _.keys(diff);
 
+    // Add all group key members to keys if sigle group key member found in diff
+    let keys: string[] = _.keys(diff);
     for (const key of keys) {
         if (TRANSLATE_KEYS.includes(key)) {
             keys = _.concat(keys, TRANSLATE_KEYS);
@@ -234,8 +327,9 @@ export function resolve_params(new_params: any, old_params: any): any {
     }
     keys = _.uniq(keys);
 
+    // Effectively update new keys with values of non-included group key members
+    // from old_params
     const new_keys: string[] = _.keys(new_params);
-
     let output: IParams = {};
     for (const key of keys) {
         if (new_keys.includes(key)) {
@@ -249,6 +343,12 @@ export function resolve_params(new_params: any, old_params: any): any {
     return output;
 }
 
+/**
+ * Convenience function that gets name from params name or display/name key + suffix
+ * @param params Params
+ * @param suffix Name suffix
+ * @returns params[<name key>] + "_" + suffix
+ */
 export function get_name(params: object, suffix: string): string {
     if (params["name"]) {
         return params["name"] + "_" + suffix;
