@@ -6,14 +6,33 @@ import TextTexture from "three.texttexture";
 import { ITextBoxParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
+/**
+ * A Cube component with a texture with text foreground and transparent background
+ */
 export class TextBox extends Primitive {
+    /**
+     * "textbox"
+     */
     public _class: string = "textbox";
 
+    /**
+     * Returns font family of material with text texture
+     */
     private __get_font_family(): string {
         const family: string = this._three_item.material[5].map.fontFamily;
         return family.replace(/"/g, "");
     }
 
+    /**
+     * Default params for TextBox
+     * <pre>
+     * Notable default params:
+     *     "font/text": "DEFAULT TEXT",
+     *     "font/family": "Tahoma",
+     *     "font/style": "normal",
+     *     "font/size": 300,
+     * </pre>
+     */
     public get _default_params(): object {
         return {
             "name": "",
@@ -35,9 +54,13 @@ export class TextBox extends Primitive {
             "font/family": "Tahoma",
             "font/style": "normal",
             "font/size": 300,
-        }
-    };
+        };
+    }
 
+    /**
+     * Creates THREE.BoxGeometry with a text texture applied to it
+     * @param params TextBox params
+     */
     public _create_three_item(params: ITextBoxParams): THREE.Mesh {
         const texture = new TextTexture({
             text: params["font/text"],
@@ -62,6 +85,10 @@ export class TextBox extends Primitive {
         return three_item;
     }
 
+    /**
+     * Returns true if params include font keys
+     * @param params TextBox params
+     */
     public _is_destructive(params: ITextBoxParams): boolean {
         for (const key of _.keys(params)) {
             if (three_tools.FONT_KEYS.includes(key)) {
@@ -75,15 +102,22 @@ export class TextBox extends Primitive {
     //     super.create(params);
     // }
 
+    /**
+     * Returns params from primitives
+     */
     public read(): ITextBoxParams {
         const params: ITextBoxParams = super.read();
-        params["font/text"]   = this.three_item.material[5].map.text;
+        params["font/text"] = this.three_item.material[5].map.text;
         params["font/family"] = this.__get_font_family();
-        params["font/style"]  = this.three_item.material[5].map.fontStyle;
-        params["font/size"]   = this.three_item.material[5].map.fontSize;
+        params["font/style"] = this.three_item.material[5].map.fontStyle;
+        params["font/size"] = this.three_item.material[5].map.fontSize;
         return params;
     }
 
+    /**
+     * Update TextBox with given params
+     * @param params TextBox params
+     */
     public update(params: ITextBoxParams): void {
         super.update(params);
     }
