@@ -94,34 +94,63 @@
     import DropDown from "./dropdown.vue";
     import TextArea from "./textarea.vue";
 
+    /**
+     * A cell is a single element of a row of a Table. A cell contains a single
+     * widget and has an API for getting widget values, default values and type.
+     */
     @Component( {components: { Slider, SpinBox, ComboBox, DropDown, TextArea }} )
     export default class Cell extends Vue {
+        /**
+         * Cell of table that contains cell
+         */
         @Prop()
         public row: any;
 
+        /**
+         * Column of table that contains cell
+         */
         @Prop()
         public column: string;
 
+        /**
+         * Return value of row at column
+         */
         public get value(): any {
             return this.row[this.column];
         }
 
+        /**
+         * Return default value of cell
+         */
         public get default_value(): any {
             return this.row.default_value;
         }
 
+        /**
+         * Returns display options for cell widget
+         */
         public get display(): object {
             return this.row.display;
         }
 
+        /**
+         * Returns the cell's widget class
+         */
         public get widget(): string {
             return this.row.widget;
         }
 
+        /**
+         * Returns the value of the cell's lock property. Locks are related to
+         * dataflow.
+         */
         public get lock(): string {
             return this.row.lock;
         }
 
+        /**
+         * Returns the cell's widget type
+         */
         public get widget_type(): string {
             if (this.column === "value") {
                 return this.row.widget;
@@ -141,6 +170,9 @@
             return "inert";
         }
 
+        /**
+         * Options for locks
+         */
         public lock_options: object = {
             options: {
                 values: [
@@ -152,6 +184,9 @@
             }
         };
 
+        /**
+         * Available widget types
+         */
         public widget_options: object = {
             options: {
                 values: [

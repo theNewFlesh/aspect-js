@@ -6,6 +6,9 @@
     import { Component, Vue } from "vue-property-decorator";
     import Layout from "./layout.vue";
 
+    /**
+     * Contains the entire Aspect Vue application
+     */
     @Component( {components: { Layout } })
     export default class App extends Vue {
     }

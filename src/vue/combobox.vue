@@ -62,19 +62,37 @@
 
     @Component({})
     export default class ComboBox extends Vue {
+        /**
+         * Value of component
+         */
         @Prop()
         public value;
 
+        /**
+         * Default value of component
+         */
         @Prop()
         public default_value;
 
+        /**
+         * Display options of component
+         */
         @Prop()
         public display: IDisplay;
 
+        /**
+         * Query string used for searching combobox
+         */
         public query = null;
 
+        /**
+         * Selected items
+         */
         public selection = [];
 
+        /**
+         * Creat widget with value if it exists, else use default value
+         */
         public created() {
             if (this.value !== undefined) {
                 if (this.value instanceof Array) {
@@ -87,6 +105,9 @@
             }
         }
 
+        /**
+         * Returns Array of objects with value, text and color keys
+         */
         public get items(): object[] {
             const output: object[] = [];
 
@@ -100,6 +121,9 @@
             return output;
         }
 
+        /**
+         * Returns the default color of the widget
+         */
         public get default_color(): string {
             if (this.display.options.default_color) {
                 return this.display.options.default_color;
@@ -107,6 +131,12 @@
             return "aspect_cyan_1";
         }
 
+        /**
+         * Update selection and display.options.values with items if they differ
+         * from previous_items
+         * @param items Item to select
+         * @param previous_items Previously selected items
+         */
         @Watch("selection")
         public update_selection(items, previous_items) {
             if (items.length !== previous_items.length) {
@@ -125,6 +155,11 @@
             }
         }
 
+        /**
+         * Determine whether query matchs item
+         * @param item Item to query
+         * @param query Query string
+         */
         public filter(item, query): boolean {
             if (item.text === undefined) {
                 item = {text: item};
