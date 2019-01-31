@@ -51,6 +51,15 @@
 <script lang="ts">
     import { Component, Prop, Watch, Vue } from "vue-property-decorator";
 
+    interface IOptions {
+        values?: string[];
+        default_color?: string;
+    }
+
+    interface IDisplay {
+        options?: IOptions;
+    }
+
     @Component({})
     export default class ComboBox extends Vue {
         @Prop()
@@ -60,7 +69,7 @@
         public default_value;
 
         @Prop()
-        public display: object;
+        public display: IDisplay;
 
         public query = null;
 

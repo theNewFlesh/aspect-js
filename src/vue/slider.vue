@@ -24,6 +24,17 @@
     import { Component, Prop } from "vue-property-decorator";
     import * as _ from "lodash";
 
+    interface IOptions {
+        min: number;
+        max: number;
+        step: number;
+        tick_step: number;
+    }
+
+    interface IDisplay {
+        options?: IOptions;
+    }
+
     @Component({})
     export default class Slider extends Vue {
         @Prop()
@@ -41,7 +52,7 @@
                 tick_step: 10,
             }
         }})
-        public display: object;
+        public display: IDisplay;
 
         public get tick_labels(): number[] {
             let ticks: any[] = _.range(

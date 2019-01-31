@@ -444,7 +444,7 @@ export class Params {
      */
     public filter_scene(scene_id: string, full: boolean = false): Params {
         let data: any = this.__data
-            .filter(x => !x.match("graph|node|edge|inport|outport"), "key")
+            .filter(x => !x.match("graph|node|edge|inport|outport"), "key");
         if (!full) {
             data = data.filter(x => !x.match("graph|node|edge|inport|outport"), "key");
         }
