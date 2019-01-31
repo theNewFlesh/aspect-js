@@ -37,12 +37,30 @@
 
     @Component({})
     export default class Slider extends Vue {
+        /**
+         * Value of component
+         */
         @Prop()
         public value: number;
 
+        /**
+         * Default value of component
+         */
         @Prop()
         public default_value: number;
 
+        /**
+         * Default options of component.
+         * <pre>
+         * color: "#5F95DE",
+         * options: {
+         *     min: 0,
+         *     max: 100,
+         *     step: 1,
+         *     tick_step: 10,
+         * }
+         * </pre>
+         */
         @Prop({default: {
             color: "#5F95DE",
             options: {
@@ -54,6 +72,9 @@
         }})
         public display: IDisplay;
 
+        /**
+         * Return an Array of numbers and "" for v-slider to render as ticks
+         */
         public get tick_labels(): number[] {
             let ticks: any[] = _.range(
                 this.display.options.min,

@@ -52,32 +52,72 @@
         theme: HEX_COLORS,
     });
 
+    /**
+     * The Layout component the DagPane and NodePane components
+     */
     @Component( {components: { Table, DagPane, Multipane, MultipaneResizer } })
     export default class Layout extends Vue {
+        /**
+         * Data for NodePane table
+         */
         public data = new Params(scene).to_node_pane()[0];
+
+        /**
+         * Index for NodePane table
+         */
         public index = new Params(scene).to_node_pane()[1];
+
+        /**
+         * Whether the NodePane is collapsed
+         */
         public _collapsed: boolean = false;
+
+        /**
+         * Previous width of the DagPane
+         */
         public _prev_dag_width: number;
 
+        /**
+         * Current width of the DagPane
+         */
         private __dag_pane_width: number;
+
+        /**
+         * Current height of the DagPane
+         */
         private __dag_pane_height: number;
 
+        /**
+         * Percentage of window width of the DagPane
+         */
         @Prop({default: 75})
         public dag_width: number;
 
+        /**
+         * Percentage of window Width at which NodePane will collapse
+         */
         @Prop({default: 16})
         public collapse_width: number;
 
+        /**
+         * Update DagPane shape
+         */
         public created() {
             this.__update_dag_pane_shape();
         }
 
+        /**
+         * Set DagPane and NodePane widths
+         */
         public mounted() {
             this._set_width(this.$refs.dag_pane, this.dag_width);
             this._set_width(this.$refs.node_pane, 100 - this.dag_width);
             this._prev_dag_width = this._get_width(this.$refs.dag_pane);
         }
 
+        /**
+         * Set width of DagPane
+         */
         private __update_dag_pane_shape(): void {
             let width: number = window.outerWidth * (this.dag_width / 100);
             if (this.$refs.dag !== undefined) {
@@ -88,6 +128,10 @@
             this.__dag_pane_height = window.outerHeight;
         }
 
+        /**
+         * Get width of given DOM element
+         * @param element DOM element
+         */
         public _get_width(element: any): number {
             let width = element.style.width;
 
@@ -103,15 +147,30 @@
             return width;
         }
 
+        /**
+         * Sets width of given element to given width
+         * @param element DOM element
+         * @param width Width in vw (percentage) units
+         */
         public _set_width(element: any, width: number) {
             const num = Math.round(width * 10) / 10;
             element.style.width = num.toString() + "vw";
         }
 
+        /**
+         * Event handler for when user begins dragging pane divider.
+         * Sets _prev_dag_width to DOM element width
+         * @param DOM element
+         */
         public _on_resize_start(element: any) {
             this._prev_dag_width = this._get_width(element);
         }
 
+        /**
+         * Event handler for when the user continues dragging the pane divider.
+         * Updates the DagPane and NodePane width.
+         * @param element Ignored DOM element
+         */
         public _on_resize(element: any) {
             const dag_pane: any = this.$refs.dag_pane;
             const node_pane: any = this.$refs.node_pane;
@@ -123,29 +182,36 @@
             this.__update_dag_pane_shape();
         }
 
+        /**
+         * Event handler for when the user stops dragging the pane divider.
+         * Collapses the NodePane if it is beneath threshold
+         */
         public _on_resize_stop(element: any) {
             const dag_pane: any = this.$refs.dag_pane;
             const node_pane: any = this.$refs.node_pane;
-            let sw: number = this._get_width(dag_pane);
+            let dag_width: number = this._get_width(dag_pane);
 
+            // autosize_event refers to collapsing or expanding the NodePane
             let autosize_event: boolean = false;
-            const delta: number = Math.abs(sw - this._prev_dag_width);
-            if (delta <= 0.1 || sw > 100 - this.collapse_width) {
+            const delta: number = Math.abs(dag_width - this._prev_dag_width);
+            if (delta <= 0.1 || dag_width > 100 - this.collapse_width) {
                 autosize_event = true;
             }
 
             if (autosize_event) {
+                // expand NodePane
                 if (this._collapsed) {
-                    sw = 100 - this.collapse_width;
+                    dag_width = 100 - this.collapse_width;
                 }
+                // collapse NodePane
                 else {
-                    sw = 99.8;
+                    dag_width = 99.8;
                 }
                 this._collapsed = !this._collapsed;
             }
 
-            this._set_width(dag_pane, sw);
-            this._set_width(node_pane, 100 - sw);
+            this._set_width(dag_pane, dag_width);
+            this._set_width(node_pane, 100 - dag_width);
 
             this.__update_dag_pane_shape();
         }

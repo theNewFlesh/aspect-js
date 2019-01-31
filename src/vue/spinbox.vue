@@ -3,9 +3,9 @@
         <v-flex class="aspect-spinbox" >
             <v-text-field
                 ref="input"
-                @keyup.enter.native="onSetValue"
-                @keyup.up.native="onIncrementValue"
-                @keyup.down.native="onDecrementValue"
+                @keyup.enter.native="on_set_value"
+                @keyup.up.native="on_increment_value"
+                @keyup.down.native="on_decrement_value"
                 color="aspect_cyan_1"
                 :value="value"
                 dark
@@ -15,7 +15,7 @@
         </v-flex>
         <v-flex justify-end class="aspect-spinbox-button-up">
             <v-btn
-                @click="onIncrementValue"
+                @click="on_increment_value"
                 depressed
                 small
                 color="aspect_cyan_1"
@@ -25,7 +25,7 @@
         </v-flex>
         <v-flex justify-end class="aspect-spinbox-button-down">
             <v-btn
-                @click="onDecrementValue"
+                @click="on_decrement_value"
                 depressed
                 small
                 color="aspect_cyan_1"
@@ -42,15 +42,31 @@
 
     @Component({})
     export default class SpinBox extends Vue {
+        /**
+         * Value of component
+         */
         @Prop()
         public value: number;
 
+        /**
+         * Default value of component
+         */
         @Prop()
         public default_value;
 
+        /**
+         * Component options
+         */
         @Prop()
         public options;
 
+        /**
+         * Display options for component
+         * <pre>
+         * step: 1
+         * round: 3
+         * </pre>
+         */
         @Prop({default: {
             options: {
                 step: 1,
@@ -59,6 +75,9 @@
         }})
         public display;
 
+        /**
+         * Round value upon change. Currently disabled.
+         */
         @Watch("value")
         public round() {
             // if (this.display.options.round !== undefined) {
@@ -66,15 +85,25 @@
             // }
         }
 
-        public onSetValue(event) {
+        /**
+         * Event handler that sets value given to input's internal value
+         * @param event Ignore event object
+         */
+        public on_set_value(event: any) {
             this.value = parseFloat(this.$refs.input.internalValue);
         }
 
-        public onIncrementValue() {
+        /**
+         * Event handler for the up arrow button press
+         */
+        public on_increment_value() {
             this.value += this.display.options.step;
         }
 
-        public onDecrementValue() {
+        /**
+         * Event handler for the down arrow button press
+         */
+        public on_decrement_value() {
             this.value -= this.display.options.step;
         }
     }

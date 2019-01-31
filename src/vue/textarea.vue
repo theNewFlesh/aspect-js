@@ -17,17 +17,32 @@
     import Vue from "vue";
     import { Component, Prop } from "vue-property-decorator";
 
+    /**
+     * TextArea is a vertically resizing area for typing in text
+     */
     @Component({})
     export default class TextArea extends Vue {
+        /**
+         * Value of component
+         */
         @Prop()
         public value;
 
+        /**
+         * Default value of component
+         */
         @Prop()
         public default_value;
 
+        /**
+         * Options for component
+         */
         @Prop()
         public options;
 
+        /**
+         * Display options for component
+         */
         @Prop()
         public display;
     }
