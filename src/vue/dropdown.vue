@@ -43,21 +43,42 @@
     }
 
 
+    /**
+     * Similar to ComboBox component but only allows 1 item to be selected
+     */
     @Component({})
     export default class DropDown extends Vue {
+        /**
+         * Value of component
+         */
         @Prop()
         public value;
 
+        /**
+         * Default value of component
+         */
         @Prop()
         public default_value;
 
+        /**
+         * Display options of component
+         */
         @Prop()
         public display: IDisplay;
 
+        /**
+         * Query string used for searching combobox
+         */
         public query = null;
 
+        /**
+         * Selected items
+         */
         public selection;
 
+        /**
+         * Creat widget with value if it exists, else use default value
+         */
         public created() {
             if (this.value !== undefined) {
                 this.selection = this.value;
@@ -65,6 +86,9 @@
             this.selection = this.default_value;
         }
 
+        /**
+         * Returns Array of objects with value, text and color keys
+         */
         public get items(): object[] {
             const output: object[] = [];
 
@@ -78,6 +102,9 @@
             return output;
         }
 
+        /**
+         * Returns the default color of the widget
+         */
         public get default_color(): string {
             if (this.display.options.default_color) {
                 return this.display.options.default_color;
@@ -85,6 +112,12 @@
             return "aspect_cyan_1";
         }
 
+        /**
+         * Update selection and display.options.values with item differs from
+         * previous_item
+         * @param items New item
+         * @param previous_items Previously selected item
+         */
         @Watch("selection")
         public update_selection(item, previous_item) {
             if (item !== previous_item) {
@@ -100,6 +133,11 @@
             }
         }
 
+        /**
+         * Determine whether query matchs item
+         * @param item Item to query
+         * @param query Query string
+         */
         public filter(item, query): boolean {
             if (item.text === undefined) {
                 item = {text: item};

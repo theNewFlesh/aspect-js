@@ -19,16 +19,34 @@
      */
     @Component
     export default class DagPane extends Vue {
+        /**
+         * Scene component
+         */
         public scene;
+
+        /**
+         * DAG component
+         */
         public dag;
 
+        /**
+         * Width of DAG window
+         */
         @Prop({ required: true })
         public width: number;
 
+        /**
+         * Height of DAG window
+         */
         @Prop({ required: true })
         public height: number;
 
+        /**
+         * Creates a new DAG component, assigns scene a width and height and
+         * updates DAG with scene
+         */
         public created() {
+            // TODO: replace me with scene independent logic
             this.dag = new DAG();
             test_scene["session/width"] = this.width;
             test_scene["session/height"] = this.height;
@@ -36,12 +54,18 @@
             this.scene = this.dag.parent;
         }
 
+        /**
+         * Tells ThreeJS scene to render
+         */
         public mounted() {
             const elem = document.getElementById("dag-pane");
             this.scene.render(elem, window);
             this.animate();
         }
 
+        /**
+         * Update ThreeJS scene. Called at regular intervals.
+         */
         public animate() {
             window.requestAnimationFrame(this.animate);
             this.scene.render_update();
