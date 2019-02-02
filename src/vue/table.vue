@@ -49,29 +49,53 @@
     import Cell from "./cell.vue";
     // -------------------------------------------------------------------------
 
+    /**
+     * Interface for the row of a table. Must have __index member.
+     */
     export interface IRow {
         __index: number;
     }
 
+    /**
+     * The Table class recursively wraps the contents of a tabular data
+     * structure with a hierarchical index with v-data-tables
+     */
     @Component({components: { Cell }})
     export default class Table extends Vue {
+
+        /**
+         * Internal tabular data structure
+         */
         public _data: Scaffold;
+
+        /**
+         * Index to internal tabular data structure
+         */
         public _index: FancyIndex;
 
+        /**
+         * Index to be passed in as prop
+         */
         @Prop()
         public index: IIndexRow[];
 
         /**
-         * array of dicts
+         * Array of dicts depicting a tabular data structure
          */
         @Prop()
         public data: IRow[];
 
+        /**
+         * Create FancyIndex and Scaffold data structures
+         */
         public created() {
             this._index = new FancyIndex(this.index);
             this._data = new Scaffold().from_array(this.data);
         }
 
+        /**
+         * Print content of index and data to console
+         */
         public print() {
             let output: any = [
                 "INDEX",
@@ -85,10 +109,16 @@
             console.log(output);
         }
 
+        /**
+         * Headers to be passed to a v-data-table
+         */
         public get headers(): IHeader[] {
             return this._index.to_headers();
         }
 
+        /**
+         * Data rows as grouped by the first header
+         */
         public get rows() {
             return this._data
                 .group_by(
@@ -98,22 +128,37 @@
                 .to_array();
         }
 
+        /**
+         * Whether to display headers of each table
+         */
         public get hide_headers(): boolean {
             return this._index.hide_headers;
         }
 
+        /**
+         * Whether each successive table is indented
+         */
         public get indent(): boolean {
             return this._index.indent;
         }
 
+        /**
+         * Column upon which the outmost table is grouped
+         */
         public get group_column(): string {
             return this._index.group_column;
         }
 
+        /**
+         * Returns a lut with the group_column values as its keys
+         */
         public get groups() {
             return this._data.to_lut(this.group_column);
         }
 
+        /**
+         * Determines if given key is in groups
+         */
         public in_groups(key: string): boolean {
             return this.groups.hasOwnProperty(key);
         }
