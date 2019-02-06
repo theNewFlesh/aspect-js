@@ -1,0 +1,4 @@
+site_name: aspect-js
+theme: readthedocs
+extra_css:
+  - css/style.css
