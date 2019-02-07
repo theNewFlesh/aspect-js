@@ -49,6 +49,8 @@ def _merge_content(items):
         for k in filter(lambda x: x != 'content_type', item.keys()):
             tempitem[k] = item[k]
         temp[key].append(tempitem)
+
+        temp['type'] = key
     
     output = {}
     for k, v in temp.items():
@@ -67,14 +69,34 @@ def _merge_content(items):
             desc = '\n'.join(desc)
             output['description'] = desc
             
-            extra = filter(lambda x: 'description' not in x.keys(), extra)
-            output['extra'] = list(extra)
+            # extra = filter(lambda x: 'description' not in x.keys(), extra)
+            # output['extra'] = list(extra)
             
-        elif k == 'method':
-            output[k] = v[0]
+        # elif k == 'method':
+        #     output[k] = v[0]
             
         else:
             output[k] = v
+
+    types = [
+        'setter',
+        'method',
+        'getter',
+        'constructor',
+        'script_start',
+        'script_stop',
+        'interface',
+        'class',
+        'decorator',
+        'docstart',
+        'docstop',
+        'docline',
+        'accessor'
+    ]
+    for t in types:
+        if t in output.keys():
+            if len(output[t]) == 1:
+                output[t] = output[t][0]
         
     return output
 
@@ -135,11 +157,11 @@ def parse_line(line):
     decorator = Suppress('@') + name
 
     # method
-    ptype  = name_re.setResultsName('type_')
+    ptype  = name_re.setResultsName('type')
     dfal   = Regex('".*"|[.*]|{.*}|' + _name_re).setResultsName('default')
     rtype  = Optional(Suppress(':') + name_re.setResultsName('returns'))
     opt    = Optional(Suppress('=') + dfal)
-    param  = name + Suppress(':') + ptype + opt
+    param  = Group(name + Suppress(':') + ptype + opt)
     params = delimitedList(param, delim=',').setResultsName('parameters')
     method = perm + name + Suppress('(') + Optional(params) + Suppress(')') + rtype + Suppress('{')
 
@@ -153,7 +175,7 @@ def parse_line(line):
     setter = perm + Suppress('set') + name + Suppress('(') + params + Suppress(')') + rtype + Suppress('{')
 
     # accessor
-    atype = Optional(Suppress(':') + name_re.setResultsName('type_'))
+    atype = Optional(Suppress(':') + name_re.setResultsName('type'))
     value = Regex('.*').setResultsName('value')
     val = Optional(Suppress('=') + value)
     accessor = perm + name + atype + val + Suppress(';')
@@ -181,7 +203,7 @@ def parse_line(line):
         ('script_start', script_start),
         ('script_stop',  script_stop),
         ('interface',    interface),
-        ('class_',       class_),
+        ('class',       class_),
         ('decorator',    decorator),
         ('docstart',     docstart),
         ('docstop',      docstop),
