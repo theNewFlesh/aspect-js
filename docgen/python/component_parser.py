@@ -75,7 +75,6 @@ def _merge_content(items):
     if 'parameters' in output.keys() and len(output['parameters']) > 0:
         if 'params' in output.keys():
             a = DataFrame(output['params'])
-            print(output['parameters'])
             b = DataFrame(output['parameters'][0])
             df = None
             flag = True
