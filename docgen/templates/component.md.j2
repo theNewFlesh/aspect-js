@@ -1,25 +1,25 @@
 {% for item in component.content %}
-    {% if item.type == 'method' %}
+    {% if item.member_type == 'method' %}
         <div class="definition">
             <div class="definition-header">
-                <strong class="method">{{ item.method.name }}</strong>
+                <strong class="method">{{ item.name }}</strong>
                 <span>(    </span>
-                {% for param in item.method.parameters %}
+                {% for param in item.parameters %}
                     <span class="param-name">{{ param.name }}:    </span>
                     <i class="param-value">{{ param.type }}</i>
                     <span>):    </span>
-                    {% if item.method.returns != None %}
-                        <i class="return-value">{% item.method.returns %}</i>
+                    {% if item.returns != None %}
+                        <i class="return-value">{% item.returns %}</i>
                     {% endif %}
                 {% endfor %}
             </div>
-            <div class="indent">{% item.method.description %}</div>
+            <div class="indent">{% item.description %}</div>
             <br>
-            {% if item.method.params.length > 0 %}
+            {% if item.parameters.length > 0 %}
                 <strong>Parameters</strong>
                 <br>
                 <ul>
-                    {% for param in item.method.params %}
+                    {% for param in item.parameters %}
                     <li>
                         <strong>{{ param.name }}:    </strong><i class="return-value">{{ param.type }}</i>
                         <br>
@@ -28,10 +28,10 @@
                     {% endfor %}
                 </ul>
             {% endif %}
-            {% if item.method.returns != None %}
-                <strong>Returns    </strong><i class="return-value">{{ item.method.returns }}</i>
+            {% if item.returns != None %}
+                <strong>Returns    </strong><i class="return-value">{{ item.returns }}</i>
                 <p>
-                    <div class="indent">{{ item.method.returns.docstring }}</div>
+                    <div class="indent">{{ item.returns.description }}</div>
                 </p>
             {% endif %}
         </div>
