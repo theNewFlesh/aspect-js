@@ -2,28 +2,40 @@
     {% if item.member_type == 'method' %}
         <div class="definition">
             <div class="definition-header">
-                <strong class="method">{{ item.name }}</strong>
-                <span>(    </span>
-                {% for param in item.parameters %}
-                    <span class="param-name">{{ param.name }}:    </span>
-                    <i class="param-value">{{ param.type }}</i>
-                    <span>):    </span>
-                    {% if item.returns != None %}
-                        <i class="return-value">{% item.returns %}</i>
-                    {% endif %}
-                {% endfor %}
+                {% if item.name != None %}
+                    <strong class="method">{{ item.name }}</strong>
+                    <span>(    </span>
+                {% endif %}
+                {% if item.parameters != None %}
+                    {% for param in item.parameters %}
+                        {% if param.name != None %}
+                            <span class="param-name">{{ param.name }}:    </span>
+                        {% endif %}
+                        {% if param.type != None %}
+                            <i class="param-value">{{ param.type }}</i>
+                        {% endif %}
+                        <span>):    </span>
+                        {% if item.returns != None %}
+                            <i class="return-value">{{ item.returns }}</i>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             </div>
-            <div class="indent">{% item.description %}</div>
+            <div class="indent">{{ item.description }}</div>
             <br>
-            {% if item.parameters.length > 0 %}
+            {% if item.parameters != None %}
                 <strong>Parameters</strong>
                 <br>
                 <ul>
                     {% for param in item.parameters %}
                     <li>
-                        <strong>{{ param.name }}:    </strong><i class="return-value">{{ param.type }}</i>
+                        {% if param.name != None %}
+                            <strong>{{ param.name }}:    </strong><i class="return-value">{{ param.type }}</i>
+                        {% endif %}
                         <br>
-                        <span>{{ param.description }}</span>
+                        {% if param.description != None %}
+                            <span>{{ param.description }}</span>
+                        {% endif %}
                     </li>
                     {% endfor %}
                 </ul>
@@ -31,7 +43,7 @@
             {% if item.returns != None %}
                 <strong>Returns    </strong><i class="return-value">{{ item.returns }}</i>
                 <p>
-                    <div class="indent">{{ item.returns.description }}</div>
+                    <div class="indent">{{ item.returns }}</div>
                 </p>
             {% endif %}
         </div>

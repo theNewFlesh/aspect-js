@@ -21,15 +21,13 @@ def component_to_dataframe(fullpath):
     data.text = data.text.apply(lambda x: x.strip('\n'))
     data['content'] = data.text.apply(parse_line)
     data = data[data.content != {}]
-    
-    start = data.content\
-        .apply(lambda x: x['content_type'] == 'script_start')
+
+    start = data.content.apply(lambda x: x['content_type'] == 'script_start')
     start = data[start].index.item()
-    
-    stop = data.content\
-        .apply(lambda x: x['content_type'] == 'script_stop')
+
+    stop = data.content.apply(lambda x: x['content_type'] == 'script_stop')
     stop = data[stop].index.item()
-    
+
     data = data.ix[start:stop]
     data['content_type'] = data.content.apply(lambda x: x['content_type'])
     data['content'] = data.content.apply(lambda x: x['content'])
@@ -50,9 +48,9 @@ def merge_dicts(dicts):
         v = val
         if len(val) > 0:
             if not isinstance(val[0], list) and not isinstance(val[0], dict):
-               v = list(set(val))
-               if len(v) == 1:
-                   v = v[0]
+                v = list(set(val))
+                if len(v) == 1:
+                    v = v[0]
         output[key] = v
 
     output = dict(output)
@@ -61,12 +59,6 @@ def merge_dicts(dicts):
 def _merge_content(items):
     output = merge_dicts(items)
     ctype = output['content_type']
-
-    output['member_type'] = ''
-    if isinstance(ctype, list):
-        ctype = filter(lambda x: x not in ['docline', 'decorator'], ctype)
-        ctype = list(ctype)[0]
-        output['member_type'] = ctype
 
     if 'description' in output.keys():
         if isinstance(output['description'], list):
@@ -84,12 +76,10 @@ def _merge_content(items):
                 flag = False
 
             if flag:
-                df = df\
-                    .apply(lambda row: dict(zip(
-                        df.columns,
-                        row.tolist()
-                    )), axis=1)\
-                    .tolist()
+                df = df.apply(lambda row: dict(zip(
+                    df.columns,
+                    row.tolist()
+                )), axis=1).tolist()
                 params = []
                 for item in df:
                     tmp = {}
@@ -99,6 +89,34 @@ def _merge_content(items):
                     params.append(tmp)
                 output['parameters'] = params
                 del output['params']
+
+
+    template = {
+        # 'content_type': None,
+        # 'member_type':  None,
+        'description':    None,
+        'name':           None,
+        'parameters':     None,
+        'params':         None,
+        'parent_class':   None,
+        'permission':     None,
+        'returns':        None,
+        'type':           None
+    }
+    template.update(output)
+    output = template
+
+    output['member_type'] = None
+    if isinstance(ctype, list):
+        ctype = list(filter(lambda x: x not in ['docline', 'decorator'], ctype))
+        if len(ctype) > 0:
+            output['member_type'] = ctype[-1]
+
+    name = output['name']
+    if isinstance(name, list) and len(name) > 0:
+        name = filter(lambda x: x not in ['Component', 'Prop'], name)
+        name = list(name)[0]
+        output['name'] = name
 
     return output
 
@@ -219,11 +237,11 @@ def parse_line(line):
                 'content_type': ctype,
                 'content': parser.parseString(line).asDict()
             }
-    
+
             if result['content_type'] == 'method':
                 params = result['content']['parameters']
                 result['content']['parameters'] = [p.asDict() for p in params]
-    
+
             break
         except:
             pass
