@@ -25,3 +25,4 @@ docs/
 
 # Python
 .pyc
+__pycache__
