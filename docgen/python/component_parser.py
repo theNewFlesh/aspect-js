@@ -1,5 +1,7 @@
 import os
 import re
+from itertools import takewhile
+from collections import defaultdict
 import pandas as pd
 from pandas import DataFrame
 from pyparsing import Group, Or, Regex, delimitedList, Optional, Suppress, ZeroOrMore
@@ -38,66 +40,67 @@ def _merge_content_types(row):
     row.content['content_type'] = row.content_type
     return row.content
 
+def merge_dicts(dicts):
+    output = defaultdict(lambda: [])
+    for d in dicts:
+        for key, val in d.items():
+            output[key].append(val)
+
+    for key, val in output.items():
+        v = val
+        if len(val) > 0:
+            if not isinstance(val[0], list) and not isinstance(val[0], dict):
+               v = list(set(val))
+               if len(v) == 1:
+                   v = v[0]
+        output[key] = v
+
+    output = dict(output)
+    return output
+
 def _merge_content(items):
-    temp = {}
-    for item in items:
-        key = item['content_type']
-        if not key in temp.keys():
-            temp[key] = []
-            
-        tempitem = {}
-        for k in filter(lambda x: x != 'content_type', item.keys()):
-            tempitem[k] = item[k]
-        temp[key].append(tempitem)
+    output = merge_dicts(items)
+    ctype = output['content_type']
 
-        temp['type'] = key
-    
-    output = {}
-    for k, v in temp.items():
-        if k == 'docline':
-            output['params'] = list(filter(lambda x: 'param' in x.keys(), v))
-            
-            returns = list(filter(lambda x: 'returns' in x.keys(), v))
-            output['returns'] = None
-            if len(returns) > 0:
-                output['returns'] = returns[0]
-                
-            extra = filter(lambda x: 'param' not in x.keys(), v)
-            extra = filter(lambda x: 'returns' not in x.keys(), extra)
-            desc = filter(lambda x: 'description' in x.keys(), extra)
-            desc = [x['description'] for x in desc]
-            desc = '\n'.join(desc)
-            output['description'] = desc
-            
-            # extra = filter(lambda x: 'description' not in x.keys(), extra)
-            # output['extra'] = list(extra)
-            
-        # elif k == 'method':
-        #     output[k] = v[0]
-            
-        else:
-            output[k] = v
+    output['member_type'] = ''
+    if isinstance(ctype, list):
+        ctype = filter(lambda x: x not in ['docline', 'decorator'], ctype)
+        ctype = list(ctype)[0]
+        output['member_type'] = ctype
 
-    types = [
-        'setter',
-        'method',
-        'getter',
-        'constructor',
-        'script_start',
-        'script_stop',
-        'interface',
-        'class',
-        'decorator',
-        'docstart',
-        'docstop',
-        'docline',
-        'accessor'
-    ]
-    for t in types:
-        if t in output.keys():
-            if len(output[t]) == 1:
-                output[t] = output[t][0]
-        
+    if 'description' in output.keys():
+        if isinstance(output['description'], list):
+            output['description'] = '\n'.join(output['description'])
+
+    if 'parameters' in output.keys() and len(output['parameters']) > 0:
+        if 'params' in output.keys():
+            a = DataFrame(output['params'])
+            print(output['parameters'])
+            b = DataFrame(output['parameters'][0])
+            df = None
+            flag = True
+            try:
+                df = pd.merge(a, b, on='name')
+            except:
+                flag = False
+
+            if flag:
+                df = df\
+                    .apply(lambda row: dict(zip(
+                        df.columns,
+                        row.tolist()
+                    )), axis=1)\
+                    .tolist()
+                params = []
+                for item in df:
+                    tmp = {}
+                    for k, v in item.items():
+                        if v != pd.np.nan:
+                            tmp[k] = v
+                    params.append(tmp)
+                output['parameters'] = params
+                del output['params']
+
     return output
 
 def dataframe_to_list(data):
@@ -189,8 +192,7 @@ def parse_line(line):
     name_re = Regex('[a-zA-Z_][a-zA-Z0-9_]*')
     desc    = Regex('.*').setResultsName('description')
     info    = doc_com + desc
-    param   = name_re.setResultsName('param')
-    param   = doc_com + '@param' + param + desc
+    param   = Group(Suppress(doc_com) + Suppress('@param') + name + desc).setResultsName('params')
     returns = Regex('.*').setResultsName('returns')
     returns = doc_com + Regex('@returns?') + returns
     docline = returns | param | info

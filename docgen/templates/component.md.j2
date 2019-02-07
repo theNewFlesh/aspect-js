@@ -1,35 +1,39 @@
-{% for method in methods %}
-<div class="definition">
-    <div class="definition-header">
-        <strong class="method">{{ method.name }}</strong>
-        <span>(    </span>
-        {% for param in method.parameters %}
-        <span class="param-name">{{ param.name }}:    </span>
-        <i class="param-value">{{ param.type }}</i>
-        <span>):    </span>
-        {% if method.returns.exists %}
-        <i class="return-value">{% method.returns.type %}</i>
-        {% endif %}
-    </div>
-    <div class="indent">{% method.docstring %}</div>
-    <br>
-    {% if method.parameters.length > 0 %}
-    <strong>Parameters</strong>
-    <br>
-    <ul>
-        {% for param in method.parameters %}
-        <li>
-            <strong>{{ param.name }}:    </strong><i class="return-value">{{ param.type }}</i>
+{% for item in component.content %}
+    {% if item.type == 'method' %}
+        <div class="definition">
+            <div class="definition-header">
+                <strong class="method">{{ item.method.name }}</strong>
+                <span>(    </span>
+                {% for param in item.method.parameters %}
+                    <span class="param-name">{{ param.name }}:    </span>
+                    <i class="param-value">{{ param.type }}</i>
+                    <span>):    </span>
+                    {% if item.method.returns != None %}
+                        <i class="return-value">{% item.method.returns %}</i>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="indent">{% item.method.description %}</div>
             <br>
-            <span>{{ param.docstring }}</span>
-        </li>
-    </ul>
+            {% if item.method.params.length > 0 %}
+                <strong>Parameters</strong>
+                <br>
+                <ul>
+                    {% for param in item.method.params %}
+                    <li>
+                        <strong>{{ param.name }}:    </strong><i class="return-value">{{ param.type }}</i>
+                        <br>
+                        <span>{{ param.description }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if item.method.returns != None %}
+                <strong>Returns    </strong><i class="return-value">{{ item.method.returns }}</i>
+                <p>
+                    <div class="indent">{{ item.method.returns.docstring }}</div>
+                </p>
+            {% endif %}
+        </div>
     {% endif %}
-    {% if method.returns.exists %}
-    <strong>Returns    </strong><i class="return-value">{{ method.returns.type }}</i>
-    <p>
-        <div class="indent">{{ method.returns.docstring }}</div>
-    </p>
-    {% endif %}
-</div>
 {% endfor %}
