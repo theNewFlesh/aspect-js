@@ -1,6 +1,17 @@
 site_name: aspect-js
 theme: readthedocs
-docs_dir: /tmp/docs
-site_dir: docs
+# docs_dir: /tmp/docs
 extra_css:
   - css/style.css
+nav:
+  - app.md
+  - slider.md
+  - dag_pane.md
+  - table.md
+  - dropdown.md
+  - range_slider.md
+  - textarea.md
+  - combobox.md
+  - layout.md
+  - cell.md
+  - spinbox.md

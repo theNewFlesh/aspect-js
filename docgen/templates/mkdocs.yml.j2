@@ -1,0 +1,8 @@
+site_name: aspect-js
+theme: readthedocs
+extra_css:
+  - style.css
+nav:
+{% for components in components %}
+  - {{ component.name }}.md
+{% endfor %}
