@@ -1,4 +1,6 @@
 site_name: aspect-js
 theme: readthedocs
+docs_dir: /tmp/docs
+site_dir: docs
 extra_css:
   - css/style.css

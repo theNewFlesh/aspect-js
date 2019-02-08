@@ -1,0 +1,92 @@
+/* custom function definition */
+.indent { padding-left: 20px; }
+.definition {
+    background: #242424;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+.definition-header {
+    background: #23292F;
+    margin: -10px -10px 7px -10px;
+    padding: 8px 5px 8px 10px;
+}
+.param-name { color: #A4A4A4; }
+.param-value { color: #DE958E; }
+.return-value { color: #DE958E; }
+
+/* generic classes */
+body { color: #A4A4A4; }
+strong { color: #F4F4F4; }
+em { color: #DE958E; }
+p { margin-bottom: 8px; }
+a { color: #7EC4CF !important; }
+hr { border-top: 1px solid #A4A4A4; }
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="week"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+input {
+    background: #2B333A;
+    border: #000 solid 0px;
+    box-shadow: inset 0 0px 0px #242424;
+    color: #A4A4A4;
+}
+
+/* readthedocs classes */
+.wy-nav-top {
+    color: #93B6E6;
+    background: #23292F;
+    line-height: 18px;
+    border-bottom: #7EC4CF solid 1px;
+}
+code {
+    color: #EBB483;
+    background: #343434;
+    border: 0px;
+}
+.hljs { color: #F4F4F4; background: #343434; }
+.btn, .btn:visited {
+    color: #7EC4CF !important;
+    background: #242424 !important;
+    box-shadow: inset 0 0px 0px #242424;
+}
+
+.fa.fa-bars {
+    font-size: 20px;
+    color: #7EC4CF;
+}
+.wy-nav-top a { color: #7EC4CF; }
+.wy-nav-content-wrap { background: #191919; }
+.wy-side-nav-search { background: #23292F; }
+.wy-side-nav-search>a, .wy-side-nav-search .wy-dropdown>a {
+    color: #7EC4CF;
+}
+.wy-nav-side { background: #23292F; }
+.wy-nav-content { background: #191919; }
+.wy-menu-vertical li.on a, .wy-menu-vertical li.current>a {
+    color: #7EC4CF;
+    background: #34484B;
+    border: 0px;
+}
+.wy-menu-vertical li.current a:hover,
+.wy-menu-vertical li.current>a:hover,
+.wy-menu-vertical a:hover {
+    background: #34484B;
+}
+.subnav { background: #23292F; }
+.wy-menu.wy-menu-vertical a { color: #A4A4A4 !important; }
+.wy-menu-vertical li.current a,
+a.toctree-l3 {
+    border-right: 0px !important;
+}
+.rst-versions .rst-current-version { background: #23292F; }
