@@ -22,8 +22,10 @@ yarn-error.log*
 
 # Documentation
 docs/
-site/
+__md/
+__site/
+mkdocs.yml
 
 # Python
-.pyc
+*.pyc
 __pycache__
