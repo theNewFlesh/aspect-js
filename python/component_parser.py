@@ -39,8 +39,12 @@ def _merge_content_types(row):
     return row.content
 
 def merge_dicts(dicts):
+    assert(isinstance(dicts, list))
+
     output = defaultdict(lambda: [])
     for d in dicts:
+        assert(isinstance(d, dict))
+
         for key, val in d.items():
             output[key].append(val)
 
@@ -65,7 +69,7 @@ def _merge_content(items):
             output['description'] = '\n'.join(output['description'])
 
     if 'parameters' in output.keys() and len(output['parameters']) > 0:
-        if 'params' in output.keys():
+        if 'params' in output.keys() and len(output['params']) > 0:
             a = DataFrame(output['params'])
             b = DataFrame(output['parameters'][0])
             df = None
@@ -114,7 +118,7 @@ def _merge_content(items):
 
     name = output['name']
     if isinstance(name, list) and len(name) > 0:
-        name = filter(lambda x: x not in ['Component', 'Prop'], name)
+        name = filter(lambda x: x not in ['Component', 'Prop', 'Watch'], name)
         name = list(name)[0]
         output['name'] = name
 
@@ -174,7 +178,7 @@ def parse_line(line):
     class_ = Suppress(exp) + Suppress('class') + name + ext + Suppress('{')
 
     # decorator
-    decorator = Suppress('@') + name
+    decorator = Suppress('@') + name + Suppress(Optional(Regex("\(.*\)")))
 
     # method
     ptype  = name_re.setResultsName('type')
@@ -244,7 +248,7 @@ def parse_line(line):
 
             break
         except:
-            pass
+            result = {}
 
     return result
 # ------------------------------------------------------------------------------

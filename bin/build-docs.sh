@@ -1,4 +1,5 @@
 #! /bin/bash
+source activate aspect-js
 export basepath=`pwd`
 rm -rf docs
 npm run docs
