@@ -192,9 +192,11 @@ def parse_line(line):
     decorator = Suppress('@') + name + Suppress(Optional(Regex("\(.*\)")))
 
     # method
-    ptype  = name_re.setResultsName('type')
+    val    = Regex('[a-zA-Z_][a-zA-Z0-9_]*\[?\]?')
+    ptype  = val.setResultsName('type')
     dfal   = Regex('".*"|[.*]|{.*}|' + _name_re).setResultsName('default')
-    rtype  = Optional(Suppress(':') + name_re.setResultsName('returns'))
+    ret    = val.setResultsName('returns')
+    rtype  = Optional(Suppress(':') + ret)
     opt    = Optional(Suppress('=') + dfal)
     param  = Group(name + Optional(Suppress(':') + ptype) + Optional(opt))
     params = delimitedList(param, delim=',').setResultsName('parameters')
