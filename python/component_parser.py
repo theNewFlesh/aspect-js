@@ -95,7 +95,6 @@ def _merge_content(items):
                 output['parameters'] = params
                 del output['params']
 
-
     template = {
         # 'content_type': None,
         # 'member_type':  None,
@@ -105,7 +104,7 @@ def _merge_content(items):
         'params':         None,
         'parent_class':   None,
         'permission':     None,
-        'returns':        None,
+        'returns':        'void',
         'type':           None
     }
     template.update(output)

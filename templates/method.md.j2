@@ -1,8 +1,13 @@
 <div class="definition">
     <div class="definition-header">
+{% if item.member_type == 'getter' %}
+<span class="getter">get</span>
+{% elif item.member_type == 'setter' %}
+<span class="setter">set</span>
+{% endif %}
 {% if item.name != None %}
         <strong class="method">{{ item.name }}</strong>
-        <span>(    </span>
+        <span class="paren">(</span>
 {% endif %}
 {% if item.parameters != None %}
 {% for param in item.parameters %}
@@ -14,7 +19,7 @@
 {% endif %}
 {% endfor %}
 {% endif %}
-        <span>):    </span>
+        <span class="paren">):</span>
 {% if item.returns != None %}
         <i class="return-value">{{ item.returns }}</i>
 {% endif %}
