@@ -264,10 +264,21 @@ def parse_components(base):
     files = get_files(base)
     output = []
     for f in files:
+        content = parse_component(f)
+        getters = filter(lambda x: x['member_type'] == 'getter', content)
+        setters = filter(lambda x: x['member_type'] == 'setter', content)
+        meths = filter(lambda x: x['member_type'] == 'method', content)
+        props = filter(lambda x: x['member_type'] == 'property', content)
         output.append(dict(
             content=parse_component(f),
             fullpath=f,
-            name=os.path.splitext(os.path.split(f)[-1])[0]
+            name=os.path.splitext(os.path.split(f)[-1])[0],
+            has=dict(
+                getters=len(getters) > 0,
+                setters=len(setters) > 0,
+                methods=len(meths) > 0,
+                properties=len(props) > 0
+            )
         ))
     return output
 # ------------------------------------------------------------------------------

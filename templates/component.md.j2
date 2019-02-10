@@ -1,25 +1,33 @@
+{% if component.has.methods %}
 <h2>Methods</h2>
+{% endif %}
 {% for item in component.content %}
 {% if item.member_type == 'method' %}
 {% include 'method.md.j2' %}
 {% endif %}
 {% endfor %}
 
+{% if component.has.properties %}
 <h2>Properties</h2>
+{% endif %}
 {% for item in component.content %}
 {% if item.member_type == 'property' %}
 {% include 'property.md.j2' %}
 {% endif %}
 {% endfor %}
 
+{% if component.has.getters %}
 <h2>Getters</h2>
+{% endif %}
 {% for item in component.content %}
 {% if item.member_type == 'getter' %}
 {% include 'property.md.j2' %}
 {% endif %}
 {% endfor %}
 
+{% if component.has.setters %}
 <h2>Setters</h2>
+{% endif %}
 {% for item in component.content %}
 {% if item.member_type == 'setter' %}
 {% include 'method.md.j2' %}
