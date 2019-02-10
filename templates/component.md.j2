@@ -1,51 +1,27 @@
+<h2>Methods</h2>
 {% for item in component.content %}
 {% if item.member_type == 'method' %}
-<div class="definition">
-    <div class="definition-header">
-{% if item.name != None %}
-        <strong class="method">{{ item.name }}</strong>
-        <span>(    </span>
-{% endif %}
-{% if item.parameters != None %}
-{% for param in item.parameters %}
-{% if param.name != None %}
-        <span class="param-name">{{ param.name }}:    </span>
-{% endif %}
-{% if param.type != None %}
-        <i class="param-value">{{ param.type }}</i>
+{% include 'method.md.j2' %}
 {% endif %}
 {% endfor %}
+
+<h2>Properties</h2>
+{% for item in component.content %}
+{% if item.member_type == 'property' %}
+{% include 'property.md.j2' %}
 {% endif %}
-        <span>):    </span>
-{% if item.returns != None %}
-        <i class="return-value">{{ item.returns }}</i>
-{% endif %}
-    </div>
-    <div class="indent">{{ item.description }}</div>
-    <br>
-{% if item.parameters != None %}
-    <strong>Parameters</strong>
-    <br>
-    <ul>
-{% for param in item.parameters %}
-        <li>
-{% if param.name != None %}
-            <strong>{{ param.name }}:    </strong><i class="return-value">{{ param.type }}</i>
-{% endif %}
-            <br>
-{% if param.description != None %}
-            <span>{{ param.description }}</span>
-{% endif %}
-        </li>
 {% endfor %}
-    </ul>
+
+<h2>Getters</h2>
+{% for item in component.content %}
+{% if item.member_type == 'getter' %}
+{% include 'property.md.j2' %}
 {% endif %}
-{% if item.returns != None %}
-    <strong>Returns    </strong><i class="return-value">{{ item.returns }}</i>
-    <p>
-        <div class="indent">{{ item.returns }}</div>
-    </p>
-{% endif %}
-</div>
+{% endfor %}
+
+<h2>Setters</h2>
+{% for item in component.content %}
+{% if item.member_type == 'setter' %}
+{% include 'method.md.j2' %}
 {% endif %}
 {% endfor %}

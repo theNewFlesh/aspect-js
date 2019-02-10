@@ -1,0 +1,19 @@
+<div class="definition">
+    <div class="definition-header">
+{% if item.name != None %}
+        <strong class="method">{{ item.name }}</strong>
+{% endif %}
+        <span>:    </span>
+{% if item.returns != None %}
+        <i class="return-value">{{ item.returns }}</i>
+{% endif %}
+    </div>
+    <div class="indent">{{ item.description }}</div>
+    <br>
+{% if item.returns != None %}
+    <strong>Returns    </strong><i class="return-value">{{ item.returns }}</i>
+    <p>
+        <div class="indent">{{ item.returns }}</div>
+    </p>
+{% endif %}
+</div>

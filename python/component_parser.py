@@ -134,7 +134,7 @@ def dataframe_to_list(data):
         data.loc[temp[i]: temp[i+1], 'id'] = id_
         id_ += 1
 
-    # assign same id to adjacent methods and accessors
+    # assign same id to adjacent methods and properties
     data.id.ffill(inplace=True)
     data.tail(1).id = pd.np.nan
 
@@ -198,11 +198,11 @@ def parse_line(line):
     # setter
     setter = perm + Suppress('set') + name + Suppress('(') + params + Suppress(')') + rtype + Suppress('{')
 
-    # accessor
+    # property
     atype = Optional(Suppress(':') + name_re.setResultsName('type'))
     value = Regex('.*').setResultsName('value')
     val = Optional(Suppress('=') + value)
-    accessor = perm + name + atype + val + Suppress(';')
+    prop = perm + name + atype + val + Suppress(';')
 
     # docstring start and stop
     docstart = Regex('/\*\*').setResultsName('docstart')
@@ -231,7 +231,7 @@ def parse_line(line):
         ('docstart',     docstart),
         ('docstop',      docstop),
         ('docline',      docline),
-        ('accessor',     accessor)
+        ('property',     prop)
     ]
 
     for ctype, parser in parsers:
