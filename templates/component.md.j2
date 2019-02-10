@@ -34,8 +34,8 @@
 {% endif %}
 {% endfor %}
 
-{% if component.has.getters %}
-<h2>Getters</h2>
+{% if component.has.getters or component.has.setters %}
+<h2>Acessors</h2>
 {% endif %}
 {% for item in component.content %}
 {% if item.member_type == 'getter' %}
@@ -43,9 +43,6 @@
 {% endif %}
 {% endfor %}
 
-{% if component.has.setters %}
-<h2>Setters</h2>
-{% endif %}
 {% for item in component.content %}
 {% if item.member_type == 'setter' %}
 {% include 'method.md.j2' %}

@@ -161,6 +161,11 @@ def dataframe_to_list(data):
     data.reset_index(inplace=True, drop=True)
     data = data.tolist()
 
+    for item in data:
+        if item['content_type'] in ['class', 'interface']:
+            if item['member_type'] == None:
+                item['member_type'] = item['content_type']
+
     return data
 # ------------------------------------------------------------------------------
 
@@ -277,7 +282,7 @@ def parse_components(base):
         meths = filter(lambda x: x['member_type'] == 'method', content)
         props = filter(lambda x: x['member_type'] == 'property', content)
         component = dict(
-            content=parse_component(f),
+            content=content,
             fullpath=f,
             name=os.path.splitext(os.path.split(f)[-1])[0],
             has=dict(
