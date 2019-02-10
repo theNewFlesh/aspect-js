@@ -191,6 +191,18 @@ def parse_line(line):
     # decorator
     decorator = Suppress('@') + name + Suppress(Optional(Regex("\(.*\)")))
 
+    def func(s,l,t):
+        output = []
+        for item in t:
+            temp = dict(
+                name=None,
+                type=None,
+                description=None
+            )
+            temp.update(item)
+            output.append(temp)
+        return output
+
     # method
     val    = Regex('[a-zA-Z_][a-zA-Z0-9_]*\[?\]?')
     ptype  = val.setResultsName('type')
@@ -199,7 +211,7 @@ def parse_line(line):
     rtype  = Optional(Suppress(':') + ret)
     opt    = Optional(Suppress('=') + dfal)
     param  = Group(name + Optional(Suppress(':') + ptype) + Optional(opt))
-    params = delimitedList(param, delim=',').setResultsName('parameters')
+    params = delimitedList(param, delim=',').setResultsName('parameters').setParseAction(func)
     method = perm + name + Suppress('(') + Optional(params) + Suppress(')') + rtype + Suppress('{')
 
     # constructor
