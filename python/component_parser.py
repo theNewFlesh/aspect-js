@@ -50,13 +50,14 @@ def merge_dicts(dicts):
             output[key].append(val)
 
     for key, val in output.items():
-        v = val
-        if len(val) > 0:
-            if not isinstance(val[0], list) and not isinstance(val[0], dict):
-                v = list(set(val))
-                if len(v) == 1:
-                    v = v[0]
-        output[key] = v
+        if key not in ['description']:
+            v = val
+            if len(val) > 0:
+                if not isinstance(val[0], list) and not isinstance(val[0], dict):
+                    v = list(set(val))
+                    if len(v) == 1:
+                        v = v[0]
+            output[key] = v
 
     output = dict(output)
     return output
@@ -151,7 +152,7 @@ def dataframe_to_list(data):
     ]
     mask = data.content_type.apply(lambda x: x not in ignore)
 
-    # group by contiguos docstring and signature blocks
+    # group by contiguous docstring and signature blocks
     data.content = data.apply(_merge_content_types, axis=1)
     data.dropna(inplace=True)
     data = data[mask].groupby('id')\
