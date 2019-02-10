@@ -60,6 +60,9 @@
         options?: IOptions;
     }
 
+    /**
+     * A dropdown box that allows for multiple selections
+     */
     @Component({})
     export default class ComboBox extends Vue {
         /**

@@ -1,5 +1,6 @@
 import os
 import re
+from random import randint
 from itertools import takewhile
 from collections import defaultdict
 import pandas as pd
@@ -138,6 +139,11 @@ def dataframe_to_list(data):
     data.id.ffill(inplace=True)
     data.tail(1).id = pd.np.nan
 
+    # assign ids to items without docstrings
+    mask = data.content_type.apply(lambda x: x not in ['script_start', 'script_stop'])
+    mask = data[mask]
+    data.loc[mask.index, 'id'] = mask['id'].apply(lambda x: randint(0, 100000000) if pd.isnull(x) else x)
+
     ignore = [
         'script_start',
         'script_stop',
@@ -226,7 +232,7 @@ def parse_line(line):
         ('script_start', script_start),
         ('script_stop',  script_stop),
         ('interface',    interface),
-        ('class',       class_),
+        ('class',        class_),
         ('decorator',    decorator),
         ('docstart',     docstart),
         ('docstop',      docstop),
@@ -265,21 +271,28 @@ def parse_components(base):
     output = []
     for f in files:
         content = parse_component(f)
+        constructors = filter(lambda x: x['member_type'] == 'constructor', content)
         getters = filter(lambda x: x['member_type'] == 'getter', content)
         setters = filter(lambda x: x['member_type'] == 'setter', content)
         meths = filter(lambda x: x['member_type'] == 'method', content)
         props = filter(lambda x: x['member_type'] == 'property', content)
-        output.append(dict(
+        component = dict(
             content=parse_component(f),
             fullpath=f,
             name=os.path.splitext(os.path.split(f)[-1])[0],
             has=dict(
+                constructors=len(constructors) > 0,
                 getters=len(getters) > 0,
                 setters=len(setters) > 0,
                 methods=len(meths) > 0,
                 properties=len(props) > 0
             )
-        ))
+        )
+        class_ = list(filter(lambda x: x['member_type'] == 'class', content))
+        if len(class_) > 0:
+            component['name'] = class_[0]['name']
+
+        output.append(component)
     return output
 # ------------------------------------------------------------------------------
 

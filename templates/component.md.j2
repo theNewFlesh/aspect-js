@@ -1,3 +1,21 @@
+<div class="component">
+    <h1>{{ component.name }}</h1>
+</div>
+{% for item in component.content %}
+{% if item.member_type == 'class' %}
+{% include 'class.md.j2' %}
+{% endif %}
+{% endfor %}
+
+{% if component.has.constructors %}
+<h2>Constructors</h2>
+{% endif %}
+{% for item in component.content %}
+{% if item.member_type == 'constructor' %}
+{% include 'method.md.j2' %}
+{% endif %}
+{% endfor %}
+
 {% if component.has.methods %}
 <h2>Methods</h2>
 {% endif %}

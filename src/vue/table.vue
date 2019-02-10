@@ -62,7 +62,6 @@
      */
     @Component({components: { Cell }})
     export default class Table extends Vue {
-
         /**
          * Internal tabular data structure
          */
