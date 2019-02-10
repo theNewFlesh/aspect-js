@@ -141,7 +141,7 @@
          * @param previous_items Previously selected items
          */
         @Watch("selection")
-        public update_selection(items, previous_items) {
+        public update_selection(items: any[], previous_items: any[]) {
             if (items.length !== previous_items.length) {
                 this.selection = [];
                 for (let item of items) {
