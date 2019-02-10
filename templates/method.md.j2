@@ -12,15 +12,18 @@
 {% if item.parameters != None %}
 {% for param in item.parameters %}
 {% if param.name != None %}
-        <span class="param-name">{{ param.name }}:    </span>
-{% endif %}
+        <span class="param-name">{{ param.name }}</span>
 {% if param.type != None %}
+        <span class="paren">:</span>
         <i class="param-value">{{ param.type }}</i>
+{% endif %}
+<span class="paren">,</span>
 {% endif %}
 {% endfor %}
 {% endif %}
-        <span class="paren">):</span>
+        <span class="paren">)</span>
 {% if item.returns != None %}
+        <span class="paren">:</span>
         <i class="return-value">{{ item.returns }}</i>
 {% endif %}
     </div>
@@ -33,7 +36,7 @@
 {% for param in item.parameters %}
         <li>
 {% if param.name != None %}
-            <strong>{{ param.name }}:    </strong><i class="return-value">{{ param.type }}</i>
+            <strong>{{ param.name }}:</strong><i class="return-value">{{ param.type }}</i>
 {% endif %}
             <br>
 {% if param.description != None %}
