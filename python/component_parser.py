@@ -185,7 +185,7 @@ def parse_line(line):
     dfal   = Regex('".*"|[.*]|{.*}|' + _name_re).setResultsName('default')
     rtype  = Optional(Suppress(':') + name_re.setResultsName('returns'))
     opt    = Optional(Suppress('=') + dfal)
-    param  = Group(name + Suppress(':') + ptype + opt)
+    param  = Group(name + Optional(Suppress(':') + ptype) + Optional(opt))
     params = delimitedList(param, delim=',').setResultsName('parameters')
     method = perm + name + Suppress('(') + Optional(params) + Suppress(')') + rtype + Suppress('{')
 
@@ -234,23 +234,19 @@ def parse_line(line):
         ('accessor',     accessor)
     ]
 
-    result = {}
     for ctype, parser in parsers:
+        # return parser.parseString(line).asDict()
+        content = {}
         try:
-            result = {
-                'content_type': ctype,
-                'content': parser.parseString(line).asDict()
-            }
-
-            if result['content_type'] == 'method':
-                params = result['content']['parameters']
-                result['content']['parameters'] = [p.asDict() for p in params]
-
-            break
+            content = parser.parseString(line).asDict()
         except:
-            result = {}
-
-    return result
+            continue
+        
+        return {
+            'content_type': ctype,
+            'content': content
+        }
+    return {}
 # ------------------------------------------------------------------------------
 
 def get_files(base):
