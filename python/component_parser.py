@@ -192,16 +192,19 @@ def parse_line(line):
     decorator = Suppress('@') + name + Suppress(Optional(Regex("\(.*\)")))
 
     def func(s,l,t):
-        output = []
-        for item in t:
+        output = t.asDict()
+        params = []
+        for item in output['parameters']:
             temp = dict(
                 name=None,
                 type=None,
                 description=None
             )
             temp.update(item)
-            output.append(temp)
-        return output
+            params.append(temp)
+        
+        output['parameters'] = params
+        return t
 
     # method
     val    = Regex('[a-zA-Z_][a-zA-Z0-9_]*\[?\]?')

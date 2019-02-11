@@ -163,7 +163,7 @@
          * @param item Item to query
          * @param query Query string
          */
-        public filter(item, query): boolean {
+        public filter(item: any, query: string): boolean {
             if (item.text === undefined) {
                 item = {text: item};
             }

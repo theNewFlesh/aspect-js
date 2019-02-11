@@ -3,15 +3,15 @@
 {% if item.name != None %}
         <strong class="method">{{ item.name }}</strong>
 {% endif %}
-        <span>:    </span>
+        <span class="paren">:</span>
 {% if item.returns != None %}
         <i class="return-value">{{ item.returns }}</i>
 {% endif %}
     </div>
     <div class="indent">{{ item.description }}</div>
     <br>
-{% if item.returns != None %}
-    <strong>Returns    </strong><i class="return-value">{{ item.returns }}</i>
+{% if item.returns not in [None, 'void'] %}
+    <strong>Returns</strong><i class="return-value">&nbsp{{ item.returns }}</i>
     <p>
         <div class="indent">{{ item.returns }}</div>
     </p>

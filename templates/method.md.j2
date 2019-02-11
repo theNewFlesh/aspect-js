@@ -36,10 +36,11 @@
 {% for param in item.parameters %}
         <li>
 {% if param.name != None %}
-            <strong>{{ param.name }}
+            <strong>{{ param.name }}</strong>
 {% endif %}
 {% if param.type != None %}
-            </strong><i class="return-value">:{{ param.type }}</i>
+            <span class="paren">&nbsp:</span>
+            <i class="return-value">{{ param.type }}</i>
 {% endif %}
             <br>
 {% if param.description != None %}
