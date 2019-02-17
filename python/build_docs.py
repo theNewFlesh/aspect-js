@@ -1,8 +1,10 @@
 import argparse
 import os
 import shutil
+from copy import deepcopy
 import subprocess
 import jinja2
+import bs4
 from component_parser import *
 # ------------------------------------------------------------------------------
 
@@ -10,6 +12,22 @@ def make_dir(dirpath):
     if os.path.exists(dirpath):
         shutil.rmtree(dirpath)
     os.makedirs(dirpath)
+
+def append_component_link(src):
+    with open(src) as f:
+        html = f.read()
+    soup = bs4.BeautifulSoup(html, 'html.parser')
+    li = deepcopy(soup.select_one('.tsd-navigation.primary ul li'))
+    a = li.select_one('a')
+    a.attrs['href'] = 'components/search.html'
+    em = li.select_one('em')
+    em.contents[0].__class__
+    em.contents = [bs4.element.NavigableString('Vue Components')]
+    ul = soup.select_one('.tsd-navigation.primary ul')
+    ul.append(li)
+    soup.select('.tsd-navigation.primary ul li')
+    with open(src, 'w') as f:
+        f.write(soup.encode('UTF-8'))
 
 def build_docs(basepath, component_path):
     template_path = os.path.join(basepath, 'templates')
@@ -51,7 +69,10 @@ def build_docs(basepath, component_path):
     subprocess.Popen(
         'mkdocs build --dirty',
         shell=True
-    )
+    ).wait()
+
+    index = os.path.join(doc_path, 'index.html')
+    append_component_link(index)
 # ------------------------------------------------------------------------------
 
 def main():
