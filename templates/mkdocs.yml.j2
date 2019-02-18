@@ -4,6 +4,6 @@ docs_dir: md
 site_dir: components
 extra_css:
   - style.css
-nav:{% for component in components %}
+nav:
+  - 'Main': '../index.html'{% for component in components %}
   - '{{ component.name }}': {{ component.name }}/index.html{% endfor %}
-  - 'Main': '../index.html'

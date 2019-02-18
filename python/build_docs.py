@@ -24,7 +24,7 @@ def append_component_link(src):
     em.contents[0].__class__
     em.contents = [bs4.element.NavigableString('Vue Components')]
     ul = soup.select_one('.tsd-navigation.primary ul')
-    ul.append(li)
+    ul.insert(0, li)
     soup.select('.tsd-navigation.primary ul li')
     with open(src, 'w') as f:
         f.write(soup.encode('UTF-8'))
