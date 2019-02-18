@@ -1,10 +1,13 @@
 <div class="definition">
     <div class="definition-header">
-    <div class="tsd-kind-icon method-icon"></div>
 {% if item.member_type == 'getter' %}
+<div class="tsd-kind-icon accessor-icon"></div>
 <span class="getter">get</span>
 {% elif item.member_type == 'setter' %}
+<div class="tsd-kind-icon acessor-icon"></div>
 <span class="setter">set</span>
+{% else %}
+<div class="tsd-kind-icon method-icon"></div>
 {% endif %}
 {% if item.name != None %}
         <strong class="method">{{ item.name }}</strong>
