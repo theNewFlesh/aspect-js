@@ -67,7 +67,7 @@ def build_docs(basepath, component_path):
 
     os.chdir(doc_path)
     subprocess.Popen(
-        'mkdocs build --dirty',
+        'mkdocs build --dirty --quiet',
         shell=True
     ).wait()
 
