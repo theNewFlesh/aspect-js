@@ -132,7 +132,20 @@ export class Scene extends Component {
 
         // calculate meshes intersecting the selection ray
         const selected = this._raycaster.intersectObjects(this.parent.three_item.children, true);
-        const output: string[] = _.uniq(_.map(selected, x => x.object["component_id"]));
+        const temp: string[] = _.uniq(_.map(selected, x => x.object["component_id"]));
+
+        // sort output by component type
+        const types: string[] = ["node", "inport", "outport", "edge"];
+        const output: string[] = [];
+        for (const type of types) {
+            for (const item of temp) {
+                const head: string = item.split("_")[0];
+                if (head === type) {
+                    output.push(item);
+                }
+            }
+        }
+
         return output;
     }
 
