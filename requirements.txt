@@ -1,4 +1,8 @@
-python=2.7
-pandas
-pyparsing
-jinja2
+name: aspect-js
+dependencies:
+  - beautifulsoup4=4.7.1=py27_1001
+  - jinja2=2.10=py_1
+  - mkdocs=1.0.4=py_0
+  - pandas=0.24.1=py27hf484d3e_0
+  - pyparsing=2.3.1=py_0
+  - python=2.7.15=h938d71a_1006
