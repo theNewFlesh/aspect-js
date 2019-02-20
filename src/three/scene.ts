@@ -3,6 +3,7 @@ import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
 import { Component } from "./component";
 import { ISceneParams } from "../core/iparams";
+import { EventBus } from "../event_bus";
 // -----------------------------------------------------------------------------
 
 /**
@@ -70,7 +71,9 @@ export class Scene extends Component {
             this._mouse.y = -(event.clientY / this._height) * 2 + 1;
 
             const ids: string[] = this.get_selected_ids();
-            console.log(ids);
+            if (ids.length > 0) {
+                EventBus.$emit("scene_on_mouse_move", ids);
+            }
         }.bind(this);
     }
 
