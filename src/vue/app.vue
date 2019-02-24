@@ -16,6 +16,7 @@
 
 <style lang="stylus">
     @import "../static/css/config.styl"
+    @import "../static/css/material-icons.css"
 
     html
         overflow-y: hidden
