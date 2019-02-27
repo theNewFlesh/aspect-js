@@ -20,7 +20,6 @@
         </multipane-resizer>
 
         <div id="node-pane" class="pane" ref="node_pane">
-
             <v-app dark class="pane-app">
                 <Table
                     :data="data"

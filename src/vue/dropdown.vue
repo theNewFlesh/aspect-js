@@ -13,6 +13,7 @@
         hide-selected
         small-chips
         dark
+        v-on:change="on_change"
     >
         <template
             slot="selection"
@@ -31,6 +32,7 @@
 </template>
 
 <script lang="ts">
+    import * as _ from "lodash";
     import { Component, Prop, Watch, Vue } from "vue-property-decorator";
 
     interface IOptions {
@@ -131,6 +133,19 @@
                 }
                 this.selection = item;
             }
+        }
+
+        /**
+         * Event handler for change events
+         * @param value Value of dropdown selection.
+         */
+        public on_change(value: any): void {
+            this.$emit(
+                "widget_value_updated",
+                {
+                    value: value.value
+                }
+            );
         }
 
         /**

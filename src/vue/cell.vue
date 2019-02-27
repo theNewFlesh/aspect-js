@@ -7,6 +7,7 @@
             :value="value"
             :default_value="default_value"
             :display="display"
+            v-on:widget_value_updated="on_widget_value_updated"
         />
     </v-flex>
     <v-flex
@@ -17,6 +18,7 @@
             :value="value"
             :default_value="default_value"
             :display="display"
+            v-on:widget_value_updated="on_widget_value_updated"
         />
     </v-flex>
     <v-flex
@@ -27,6 +29,7 @@
             :value="value"
             :default_value="default_value"
             :display="display"
+            v-on:widget_value_updated="on_widget_value_updated"
         />
     </v-flex>
     <v-flex
@@ -37,6 +40,7 @@
             :value="value"
             :default_value="default_value"
             :display="display"
+            v-on:widget_value_updated="on_widget_value_updated"
         />
     </v-flex>
     <v-flex
@@ -47,6 +51,7 @@
             :value="value"
             :default_value="default_value"
             :display="display"
+            v-on:widget_value_updated="on_widget_value_updated"
         />
     </v-flex>
     <v-flex
@@ -57,6 +62,7 @@
             :value="widget"
             :default_value="widget"
             :display="widget_options"
+            v-on:widget_value_updated="on_widget_value_updated"
         />
     </v-flex>
     <v-flex
@@ -67,6 +73,7 @@
             :value="lock"
             default_value="present"
             :display="lock_options"
+            v-on:widget_value_updated="on_widget_value_updated"
         />
     </v-flex>
     <v-flex
@@ -76,6 +83,7 @@
         <TextArea class="widget"
             :value="JSON.stringify(display)"
             :default_value="default_value"
+            v-on:widget_value_updated="on_widget_value_updated"
         />
     </v-flex>
     <v-flex
@@ -87,6 +95,7 @@
 </template>
 
 <script lang="ts">
+    import { EventBus } from "../event_bus";
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Slider from "./slider.vue";
     import SpinBox from "./spinbox.vue";
@@ -199,6 +208,21 @@
                 ]
             }
         };
+
+        public on_widget_value_updated(event: any): void {
+            let key: string = this.row["node/name"];
+            key += "/" + this.row["name"];
+            key += "/value";
+            
+            EventBus.$emit(
+                "cell_inport_updated",
+                {
+                    key: key,
+                    name: this.row["name"],
+                    value: event.value
+                }
+            )
+        }
     }
 </script>
 

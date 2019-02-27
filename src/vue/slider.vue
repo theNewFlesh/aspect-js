@@ -16,6 +16,7 @@
         :tick-size="1"
         always-dirty
         dark
+        v-on:change="on_change"
     />
 </template>
 
@@ -88,6 +89,19 @@
                 return "";
             });
             return ticks;
+        }
+
+        /**
+         * Event handler for change events
+         * @param value Value of dropdown selection.
+         */
+        public on_change(value: number): void {
+            this.$emit(
+                "widget_value_updated",
+                {
+                    value: value
+                }
+            );
         }
     }
 </script>

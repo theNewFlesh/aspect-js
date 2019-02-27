@@ -10,6 +10,7 @@
         :auto-grow="true"
         :box="true"
         :clearable="true"
+        v-on:change="on_change"
     />
 </template>
 
@@ -45,6 +46,19 @@
          */
         @Prop()
         public display;
+
+        /**
+         * Event handler for change events
+         * @param value Value of dropdown selection.
+         */
+        public on_change(value: string): void {
+            this.$emit(
+                "widget_value_updated",
+                {
+                    value: value
+                }
+            );
+        }
     }
 </script>
 

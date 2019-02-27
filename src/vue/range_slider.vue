@@ -5,6 +5,7 @@
             :min="options.min"
             :max="options.max"
             :step="options.step"
+            v-on:change="on_change"
         ></v-range-slider>
     </v-flex>
 </template>
@@ -46,6 +47,19 @@
             step: 1,
         }})
         public options;
+
+        /**
+         * Event handler for change events
+         * @param value Value of dropdown selection.
+         */
+        public on_change(value: any): void {
+            this.$emit(
+                "widget_value_updated",
+                {
+                    value: value
+                }
+            );
+        }
     }
 </script>
 

@@ -91,6 +91,7 @@
          */
         public on_set_value(event: any) {
             this.value = parseFloat(this.$refs.input.internalValue);
+            this.on_change();
         }
 
         /**
@@ -98,6 +99,7 @@
          */
         public on_increment_value() {
             this.value += this.display.options.step;
+            this.on_change();
         }
 
         /**
@@ -105,6 +107,19 @@
          */
         public on_decrement_value() {
             this.value -= this.display.options.step;
+            this.on_change();
+        }
+
+        /**
+         * Event handler for changes to value.
+         */
+        public on_change(): void {
+            this.$emit(
+                "widget_value_updated",
+                {
+                    value: this.value
+                }
+            );
         }
     }
 </script>

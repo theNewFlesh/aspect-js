@@ -49,6 +49,7 @@
 </template>
 
 <script lang="ts">
+    import * as _ from "lodash";
     import { Component, Prop, Watch, Vue } from "vue-property-decorator";
 
     interface IOptions {
@@ -155,6 +156,13 @@
                     }
                     this.selection.push(item);
                 }
+
+                this.$emit(
+                    "widget_value_updated",
+                    {
+                        value: _.map(this.selection, x => x.value)
+                    }
+                );
             }
         }
 
