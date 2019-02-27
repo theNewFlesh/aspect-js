@@ -210,16 +210,12 @@
         };
 
         public on_widget_value_updated(event: any): void {
-            let key: string = this.row["node/name"];
-            key += "/" + this.row["name"];
-            key += "/value";
-            
             EventBus.$emit(
                 "cell_inport_updated",
                 {
-                    key: key,
-                    name: this.row["name"],
-                    value: event.value
+                    value: event.value,
+                    row: this.row,
+                    column: this.column
                 }
             )
         }
