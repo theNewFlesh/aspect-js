@@ -731,13 +731,15 @@ export class Params {
 
             for (const row of rows) {
                 const datum: object = {};
-                datum["name"] = row["name"];
-                datum["value"] = row["value"];
+                datum["key_header"]    = this.to_key_header(row["id"]);
+                datum["id"]            = row["id"];
+                datum["name"]          = row["name"];
+                datum["value"]         = row["value"];
                 datum["default_value"] = row["default_value"];
-                datum["widget"] = row["widget"];
-                datum["lock"] = row["lock"];
-                // datum["node/id"]       = node["id"];
-                datum["node/name"] = node["name"];
+                datum["widget"]        = row["widget"];
+                datum["lock"]          = row["lock"];
+                datum["node/id"]       = node["id"];
+                datum["node/name"]     = node["name"];
                 // datum["node/function"] = node["function"];
                 // datum["node/module"]   = node["module"];
                 // datum["node/info"]     = node["info"];
