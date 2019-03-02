@@ -12,6 +12,7 @@
             <DagPane
                 :width="__dag_pane_width"
                 :height="__dag_pane_height"
+                :params="params"
             >
             </DagPane>
         </div>
@@ -22,8 +23,8 @@
         <div id="node-pane" class="pane" ref="node_pane">
             <v-app dark class="pane-app">
                 <Table
-                    :data="data"
-                    :index="index"
+                    :data="_data"
+                    :index="_index"
                 />
             </v-app>
         </div>
@@ -37,14 +38,14 @@
 </template>
 
 <script lang="ts">
+    import * as _ from "lodash";
     import { Prop, Component, Vue } from "vue-property-decorator";
+    import { Multipane, MultipaneResizer } from "vue-multipane";
     import Table from "./table.vue";
     import DagPane from "./dag_pane.vue";
-    import { Multipane, MultipaneResizer } from "vue-multipane";
-    import * as _ from "lodash";
     import { Params } from "../../src/core/params";
-    import { scene } from "../../test/test_scene";
     import { HEX_COLORS } from "../core/tools";
+    import { scene as test_scene } from "../../test/test_scene";
 
     import Vuetify from "vuetify";
     Vue.use(Vuetify, {
@@ -59,12 +60,22 @@
         /**
          * Data for NodePane table
          */
-        public data = new Params(scene).to_node_pane()[0];
+        public get _data(): any {
+            return new Params(this.params).to_node_pane()[0];
+        }
 
         /**
          * Index for NodePane table
          */
-        public index = new Params(scene).to_node_pane()[1];
+        public get _index(): object {
+            return new Params(this.params).to_node_pane()[1];
+        }
+
+        /**
+         * Scene definition
+         */
+        @Prop({ default: test_scene })
+        public params: object;
 
         /**
          * Whether the NodePane is collapsed

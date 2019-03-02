@@ -1,0 +1,5 @@
+{
+    "events": {
+        "foo": "on_node_pane_cell_inport_update"
+    }
+}

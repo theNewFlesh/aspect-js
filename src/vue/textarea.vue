@@ -17,6 +17,7 @@
 <script lang="ts">
     import Vue from "vue";
     import { Component, Prop } from "vue-property-decorator";
+    import { ISubEvent } from "./event_manager";
 
     /**
      * TextArea is a vertically resizing area for typing in text
@@ -52,12 +53,12 @@
          * @param value Value of dropdown selection.
          */
         public on_change(value: string): void {
-            this.$emit(
-                "widget_value_updated",
-                {
-                    value: value
-                }
-            );
+            const name: string = "node_pane-widget-value-update";
+            const event: ISubEvent = {
+                name: name,
+                value: value
+            };
+            this.$emit(name, event);
         }
     }
 </script>

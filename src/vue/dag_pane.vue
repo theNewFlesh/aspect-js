@@ -10,7 +10,6 @@
     import { MeshLine, MeshLineMaterial } from "three.meshline";
     import * as CreateOrbitControls from "three-orbit-controls";
     import { DAG } from "../three/dag";
-    import { scene as test_scene } from "../../test/test_scene";
     // -------------------------------------------------------------------------
 
     /**
@@ -28,6 +27,12 @@
          * DAG component
          */
         public dag;
+
+        /**
+         * Scene definition
+         */
+        @Prop({ required: true })
+        public params: object;
 
         /**
          * Width of DAG window
@@ -48,9 +53,9 @@
         public created() {
             // TODO: replace me with scene independent logic
             this.dag = new DAG();
-            test_scene["session/width"] = this.width;
-            test_scene["session/height"] = this.height;
-            this.dag.edit(test_scene);
+            this.params["session/width"] = this.width;
+            this.params["session/height"] = this.height;
+            this.dag.edit(this.params);
             this.scene = this.dag.parent;
         }
 

@@ -3,7 +3,8 @@ import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
 import { Component } from "./component";
 import { ISceneParams } from "../core/iparams";
-import { EventBus } from "../event_bus";
+import { EventBus } from "../vue/event_bus";
+import { ISubEvent } from "../vue/event_manager";
 // -----------------------------------------------------------------------------
 
 /**
