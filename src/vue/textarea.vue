@@ -53,12 +53,11 @@
          * @param value Value of dropdown selection.
          */
         public on_change(value: string): void {
-            const name: string = "node_pane-widget-value-update";
             const event: ISubEvent = {
-                name: name,
+                name: "node_pane-widget-value-update",
                 value: value
             };
-            this.$emit(name, event);
+            this.$emit(event.name, event);
         }
     }
 </script>

@@ -73,7 +73,11 @@ export class Scene extends Component {
 
             const ids: string[] = this.get_selected_ids();
             if (ids.length > 0) {
-                EventBus.$emit("scene_on_mouse_move", ids);
+                const subevent: ISubEvent = {
+                    name: "dag_scene_scene_mouse_move",
+                    value: ids
+                };
+                EventBus.$emit(subevent.name, subevent);
             }
         }.bind(this);
     }

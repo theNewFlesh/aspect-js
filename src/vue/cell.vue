@@ -75,7 +75,7 @@
 
 <script lang="ts">
 import { EventBus } from "./event_bus";
-import { ISubEvent, IEvent } from "./event_manager";
+import { ISubEvent, IEvent, to_event } from "./event_manager";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Slider from "./slider.vue";
 import SpinBox from "./spinbox.vue";
@@ -177,16 +177,13 @@ export default class Cell extends Vue {
     }
   };
 
-  public on_node_pane_widget_value_update(event: ISubEvent): void {
+  public on_node_pane_widget_value_update(subevent: ISubEvent): void {
     const name: string = "node_pane-cell-inport-update";
-    const event_: IEvent = {
-      name: name,
-      value: event.value,
-      row: this.row,
-      column: this.column
-    };
+    const event: IEvent = to_event(name, subevent.value, this.row, this.column);
     EventBus.$emit(name, event);
   }
+
+  public event_bus = EventBus;
 }
 </script>
 

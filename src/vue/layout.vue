@@ -39,6 +39,7 @@
 
 <script lang="ts">
     import * as _ from "lodash";
+    import { EventManager } from "./event_manager";
     import { Prop, Component, Vue } from "vue-property-decorator";
     import { Multipane, MultipaneResizer } from "vue-multipane";
     import Table from "./table.vue";
@@ -57,6 +58,9 @@
      */
     @Component( {components: { Table, DagPane, Multipane, MultipaneResizer } })
     export default class Layout extends Vue {
+
+        public _event_manager: EventManager;
+
         /**
          * Data for NodePane table
          */
@@ -114,6 +118,7 @@
          */
         public created() {
             this.__update_dag_pane_shape();
+            this._event_manager = new EventManager({});
         }
 
         /**
