@@ -1,9 +1,9 @@
 import * as _ from "lodash";
 import uuidv4 from "uuid/v4";
-import { Params } from "../core/params";
-import { DAG } from "./dag";
-import { Scaffold } from "../core/scaffold";
-import * as tools from "../core/tools";
+import { Params } from "./params";
+import { DAG } from "../three/dag";
+import { Scaffold } from "./scaffold";
+import * as tools from "./tools";
 // -----------------------------------------------------------------------------
 
 /**

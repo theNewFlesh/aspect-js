@@ -13,7 +13,7 @@ import { Inport } from "./inport";
 import { Outport } from "./outport";
 import { Params } from "../core/params";
 import { Scaffold } from "../core/scaffold";
-import { Scheduler } from "./scheduler";
+import { Scheduler } from "../core/scheduler";
 import { IPortParams, INodeParams, IEdgeParams } from "../core/iparams";
 // -----------------------------------------------------------------------------
 
