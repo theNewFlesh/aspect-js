@@ -17,7 +17,7 @@
 <script lang="ts">
     import Vue from "vue";
     import { Component, Prop } from "vue-property-decorator";
-    import { ISubEvent } from "./event_manager";
+    import { ISubEvent } from "../core/event_manager";
 
     /**
      * TextArea is a vertically resizing area for typing in text

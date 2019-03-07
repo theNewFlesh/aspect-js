@@ -13,7 +13,7 @@
 <script lang="ts">
     import Vue from "vue";
     import { Component, Prop } from "vue-property-decorator";
-    import { ISubEvent } from "./event_manager";
+    import { ISubEvent } from "../core/event_manager";
 
     /**
      * Slider component with two handles, one for the lower bound, one for the

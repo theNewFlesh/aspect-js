@@ -39,7 +39,7 @@
 
 <script lang="ts">
     import * as _ from "lodash";
-    import { EventManager } from "./event_manager";
+    import { EventManager } from "../core/event_manager";
     import { Prop, Component, Vue } from "vue-property-decorator";
     import { Multipane, MultipaneResizer } from "vue-multipane";
     import Table from "./table.vue";

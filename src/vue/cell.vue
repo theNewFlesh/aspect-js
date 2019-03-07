@@ -75,7 +75,7 @@
 
 <script lang="ts">
 import { EventBus } from "./event_bus";
-import { ISubEvent, IEvent, to_event } from "./event_manager";
+import { ISubEvent, IEvent, to_event } from "../core/event_manager";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Slider from "./slider.vue";
 import SpinBox from "./spinbox.vue";

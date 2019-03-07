@@ -26,7 +26,7 @@
         /**
          * DAG component
          */
-        public dag;
+        public dag: DAG;
 
         /**
          * Scene definition
@@ -52,7 +52,7 @@
          */
         public created() {
             // TODO: replace me with scene independent logic
-            this.dag = new DAG();
+            this.dag = new DAG(this.width, this.height);
             this.params["session/width"] = this.width;
             this.params["session/height"] = this.height;
             this.dag.edit(this.params);

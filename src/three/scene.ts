@@ -3,8 +3,6 @@ import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
 import { Component } from "./component";
 import { ISceneParams } from "../core/iparams";
-import { EventBus } from "../vue/event_bus";
-import { ISubEvent } from "../vue/event_manager";
 // -----------------------------------------------------------------------------
 
 /**
@@ -46,41 +44,6 @@ export class Scene extends Component {
      * Window height
      */
     public _height: number;
-
-    /**
-     * Casts rays from the camera and mouse coordinates and checks for ThreeJS
-     * item intersections.
-     */
-    public _raycaster: THREE.Raycaster;
-
-    /**
-     * Current mouse coordinates. Object with x, y coordinates.
-     */
-    public _mouse: THREE.Vector2 = new THREE.Vector2(0, 0);
-
-    /**
-     * Event handler for mouse movements. Assigns mouse coordinates to _mouse
-     * member.
-     * @returns Event handler
-     */
-    public get on_mouse_move() {
-        return function (event) {
-            // calculate mouse position in normalized device coordinates
-            // (-1 to +1) for both components
-
-            this._mouse.x = (event.clientX / this._width) * 2 - 1;
-            this._mouse.y = -(event.clientY / this._height) * 2 + 1;
-
-            const ids: string[] = this.get_selected_ids();
-            if (ids.length > 0) {
-                const subevent: ISubEvent = {
-                    name: "dag_scene_scene_mouse_move",
-                    value: ids
-                };
-                EventBus.$emit(subevent.name, subevent);
-            }
-        }.bind(this);
-    }
 
     /**
      * Creates ThreeJS directional light and assigns it to light member.
@@ -127,37 +90,6 @@ export class Scene extends Component {
     }
 
     /**
-     * Get ids of items which intersect the mouse selection ray
-     * @returs Array of ids
-     */
-    public get_selected_ids(): string[] {
-        const pos: any = this._camera.position;
-        const origin: THREE.Vector3 = new THREE.Vector3(pos.x, pos.y, pos.z);
-
-        // update the selection ray with the camera and mouse position
-        this._raycaster = new THREE.Raycaster(origin);
-        this._raycaster.setFromCamera(this._mouse, this._camera);
-
-        // calculate meshes intersecting the selection ray
-        const selected = this._raycaster.intersectObjects(this.parent.three_item.children, true);
-        const temp: string[] = _.uniq(_.map(selected, x => x.object["component_id"]));
-
-        // sort output by component type
-        const types: string[] = ["node", "inport", "outport", "edge"];
-        const output: string[] = [];
-        for (const type of types) {
-            for (const item of temp) {
-                const head: string = item.split("_")[0];
-                if (head === type) {
-                    output.push(item);
-                }
-            }
-        }
-
-        return output;
-    }
-
-    /**
      * Render a ThreeJS scene inside a given element.
      * @param element DOM element which houses ThreeJS scene
      * @param window DOM window object
@@ -172,7 +104,7 @@ export class Scene extends Component {
         const elem = document.getElementById("dag-pane");
         element.appendChild(this._renderer.domElement);
 
-        window.addEventListener("mousemove", this.on_mouse_move, false);
+        window.addEventListener("mousemove", this.parent._mouse.on_mouse_move, false);
     }
 
     /**

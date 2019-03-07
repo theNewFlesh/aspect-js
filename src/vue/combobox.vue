@@ -35,7 +35,7 @@
 
 <script lang="ts">
     import * as _ from "lodash";
-    import { ISubEvent } from "./event_manager";
+    import { ISubEvent } from "../core/event_manager";
     import { Component, Prop, Watch, Vue } from "vue-property-decorator";
 
     interface IOptions {

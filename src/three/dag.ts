@@ -13,6 +13,7 @@ import { Params } from "../core/params";
 import { Scaffold } from "../core/scaffold";
 import { Scheduler } from "./scheduler";
 import { IPortParams, INodeParams, IEdgeParams } from "../core/iparams";
+import { Mouse } from "../core/mouse";
 // -----------------------------------------------------------------------------
 
 /**
@@ -21,6 +22,15 @@ import { IPortParams, INodeParams, IEdgeParams } from "../core/iparams";
  * which are connected to each other via Edges.
  */
 export class DAG {
+    public constructor(width: number, height: number) {
+        this.width = width;
+        this.height = height;
+        this._mouse = new Mouse(this);
+    }
+
+    public width: number;
+    public height: number;
+
     // TODO: remove these dev methods
     public get THREE() { return THREE; }
     public get three_tools() { return three_tools; }
@@ -53,6 +63,9 @@ export class DAG {
      * A THREE.Scene instance, needed by all components
      */
     public three_item: any;
+
+    private __scene: Scene;
+    public _mouse: Mouse;
     // -------------------------------------------------------------------------
 
     /**
@@ -274,6 +287,7 @@ export class DAG {
         scene.create(item, this);
         this.set_child(id, scene);
         this.parent = scene;
+        this.__scene = scene;
         this._id = id;
     }
 
@@ -461,4 +475,39 @@ export class DAG {
         this._children = {};
         this._state = new Params({});
     }
+    // -------------------------------------------------------------------------
+
+    /**
+     * Get ids of items which intersect the mouse selection ray
+     * @returs Array of ids
+     */
+    public get_selected_ids(): string[] {
+        const scene: Scene = this.__scene;
+
+        const pos: any = scene._camera.position;
+        const origin: THREE.Vector3 = new THREE.Vector3(pos.x, pos.y, pos.z);
+
+        // update the selection ray with the camera and mouse position
+        const raycaster: THREE.Raycaster = new THREE.Raycaster(origin);
+        raycaster.setFromCamera(this._mouse._coordinates, scene._camera);
+
+        // calculate meshes intersecting the selection ray
+        const selected = raycaster.intersectObjects(this.three_item.children, true);
+        const temp: string[] = _.uniq(_.map(selected, x => x.object["component_id"]));
+
+        // sort output by component type
+        const types: string[] = ["node", "inport", "outport", "edge"];
+        const output: string[] = [];
+        for (const type of types) {
+            for (const item of temp) {
+                const head: string = item.split("_")[0];
+                if (head === type) {
+                    output.push(item);
+                }
+            }
+        }
+
+        return output;
+    } 
+
 }

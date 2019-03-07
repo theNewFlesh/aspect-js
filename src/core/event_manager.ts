@@ -1,4 +1,4 @@
-import { EventBus } from "./event_bus";
+import { EventBus } from "../vue/event_bus";
 // -----------------------------------------------------------------------------
 
 export interface ISubEvent {

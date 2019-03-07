@@ -24,7 +24,7 @@
     import Vue from "vue";
     import { Component, Prop } from "vue-property-decorator";
     import * as _ from "lodash";
-    import { ISubEvent } from "./event_manager";
+    import { ISubEvent } from "../core/event_manager";
 
     interface IOptions {
         min: number;

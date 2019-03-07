@@ -29,7 +29,7 @@
 <script lang="ts">
     import Vue from "vue";
     import { Component, Prop, Watch } from "vue-property-decorator";
-    import { ISubEvent } from "./event_manager";
+    import { ISubEvent } from "../core/event_manager";
 
     @Component({})
     export default class SpinBox extends Vue {
