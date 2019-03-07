@@ -3,6 +3,7 @@ import * as three_tools from "./three_tools";
 import * as tools from "../core/tools";
 import * as test_scene from "../../test/test_scene";
 import * as THREE from "three";
+import * as CreateOrbitControls from "three-orbit-controls";
 import { Scene } from "./scene";
 import { Graph } from "./graph";
 import { Edge } from "./edge";
@@ -23,13 +24,13 @@ import { Mouse } from "../core/mouse";
  */
 export class DAG {
     public constructor(width: number, height: number) {
-        this.width = width;
-        this.height = height;
+        this._width = width;
+        this._height = height;
         this._mouse = new Mouse(this);
     }
 
-    public width: number;
-    public height: number;
+    public _width: number;
+    public _height: number;
 
     // TODO: remove these dev methods
     public get THREE() { return THREE; }
@@ -64,8 +65,106 @@ export class DAG {
      */
     public three_item: any;
 
+    /**
+     * Scene component
+     */
     private __scene: Scene;
+    
+    /**
+     * Mouse
+     */
     public _mouse: Mouse;
+
+    /**
+     * ThreeJS orthographic camera used for viewing components
+     */
+    public _camera: any;
+
+    /**
+     * ThreeJS camera controls
+     */
+    public _controls: any;
+
+    /**
+     * ThreeJS light
+     */
+    public _light: any;
+
+    /**
+     * ThreeJS renderer
+     */
+    public _renderer: THREE.WebGLRenderer;
+    // -------------------------------------------------------------------------
+
+   /**
+     * Creates ThreeJS directional light and assigns it to light member.
+     */
+    public create_light() {
+        const color = 0xffffff;
+        const intensity: number = 1;
+        const light = new THREE.DirectionalLight(color, intensity);
+        light.position.set(0, 0, 6);
+        this.three_item.add(light);
+        this._light = light;
+    }
+
+    /**
+     * Creates ThreeJS orthographic camera
+     */
+    public create_camera() {
+        const aspect: number = this._width / this._height;
+        const camera = new THREE.OrthographicCamera(
+            -5 * aspect,
+            10 * aspect,
+            10,
+            -10,
+            0,
+            10
+        );
+
+        // create view controls
+        const orbit = new CreateOrbitControls(THREE);
+        const controls = new orbit(camera);
+        // controls.mouseButtons = {
+        //     ORBIT: THREE.MOUSE.LEFT,
+        //     ZOOM: THREE.MOUSE.RIGHT,
+        //     PAN: THREE.MOUSE.MIDDLE
+        // };
+        this._controls = controls;
+        this._camera = camera;
+
+        camera.position.x = 0;
+        camera.position.y = 0;
+        camera.position.z = 6;
+
+        camera.lookAt(this.three_item.position);
+    }
+
+    /**
+     * Render a ThreeJS scene inside a given element.
+     * @param element DOM element which houses ThreeJS scene
+     * @param window DOM window object
+     */
+    public render(element: any, window: any) {
+        this._renderer = new THREE.WebGLRenderer({ antialias: true });
+        this._renderer.setSize(this._width, this._height);
+        this._renderer.setClearColor(0x141414);
+        this._renderer.setPixelRatio(window.devicePixelRatio);
+
+        // mount scene
+        const elem = document.getElementById("dag-pane");
+        element.appendChild(this._renderer.domElement);
+
+        window.addEventListener("mousemove", this._mouse.on_mouse_move, false);
+    }
+
+    /**
+     * Rerender ThreeJS scene.
+     */
+    public render_update() {
+        this._controls.update();
+        this._renderer.render(this.three_item, this._camera);
+    }
     // -------------------------------------------------------------------------
 
     /**
@@ -289,6 +388,9 @@ export class DAG {
         this.parent = scene;
         this.__scene = scene;
         this._id = id;
+
+        this.create_light();
+        this.create_camera();
     }
 
     /**
@@ -482,14 +584,12 @@ export class DAG {
      * @returs Array of ids
      */
     public get_selected_ids(): string[] {
-        const scene: Scene = this.__scene;
-
-        const pos: any = scene._camera.position;
+        const pos: any = this._camera.position;
         const origin: THREE.Vector3 = new THREE.Vector3(pos.x, pos.y, pos.z);
 
         // update the selection ray with the camera and mouse position
         const raycaster: THREE.Raycaster = new THREE.Raycaster(origin);
-        raycaster.setFromCamera(this._mouse._coordinates, scene._camera);
+        raycaster.setFromCamera(this._mouse._coordinates, this._camera);
 
         // calculate meshes intersecting the selection ray
         const selected = raycaster.intersectObjects(this.three_item.children, true);

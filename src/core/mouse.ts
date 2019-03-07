@@ -27,8 +27,8 @@ export class Mouse {
             // calculate mouse position in normalized device coordinates
             // (-1 to +1) for both components
 
-            this._coordinates.x = (event.clientX / this.__dag.width) * 2 - 1;
-            this._coordinates.y = -(event.clientY / this.__dag.height) * 2 + 1;
+            this._coordinates.x = (event.clientX / this.__dag._width) * 2 - 1;
+            this._coordinates.y = -(event.clientY / this.__dag._height) * 2 + 1;
 
             const ids: string[] = this.__dag.get_selected_ids();
             if (ids.length > 0) {

@@ -64,7 +64,7 @@
          */
         public mounted() {
             const elem = document.getElementById("dag-pane");
-            this.scene.render(elem, window);
+            this.dag.render(elem, window);
             this.animate();
         }
 
@@ -73,7 +73,7 @@
          */
         public animate() {
             window.requestAnimationFrame(this.animate);
-            this.scene.render_update();
+            this.dag.render_update();
         }
     }
 </script>
