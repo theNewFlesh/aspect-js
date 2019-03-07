@@ -1,4 +1,5 @@
 import * as _ from "lodash";
+import { IVector3 } from "../three/three_tools";
 import { Scaffold } from "./scaffold";
 import {
     ISceneParams,
@@ -712,6 +713,29 @@ export class Params {
      */
     public to_outports(): IPortParams[] {
         return this._to_children("outport");
+    }
+    // -------------------------------------------------------------------------
+
+    /**
+     * Determines ids of components whose translate coordinates are contained
+     * within the given intersection bounds.
+     *
+     * @param start Start vector (lowest x,y,z values)
+     * @param stop Stop vector (highest x,y,z values)
+     * @param type Component type. Default: "node"
+     */
+    public get_intersecting_ids(start: IVector3, stop: IVector3, type: string = "node") {
+        let data: Scaffold = new Scaffold().from_array(this._to_children(type));
+        data = data.filter(x => x >= start.x, "translate/x");
+        data = data.filter(x => x <= stop.x, "translate/x");
+        data = data.filter(y => y >= start.y, "translate/y");
+        data = data.filter(y => y <= stop.y, "translate/y");
+        data = data.filter(z => z >= start.z, "translate/z");
+        data = data.filter(z => z <= stop.z, "translate/z");
+
+        let ids: any = data.cx("id").to_array();
+        ids = _.map(ids, x => _.values(x)[0]);
+        return ids;
     }
     // -------------------------------------------------------------------------
 

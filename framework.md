@@ -72,6 +72,59 @@ override - unlock all ports when data is present
 nodes fire only when all of their ports are unlocked
 
 ---EVENTS-----------------------------------------------------------------------
+Mouse
+    select component
+    deselect component
+    select area
+    deselect area
+    highlight component
+    translate selection
+    rotate selection
+    scale selection
+    pan
+    zoom
+    orbit
+    open in node_pane
+
+Keyboard
+    undo
+    redo
+    frame selected
+    frame all
+    select all
+    deselect all
+    pick walk
+    new scene
+    new version
+    open scene
+    save scene
+    import component
+    export component
+    delete component
+    expand SearchBox
+    collapse SearchBox
+    expand NodePane
+    collapse NodePane
+    expand SearchBox in update config mode
+
+    expand SearchBox in component create mode
+    expand SearchBox in component select mode
+    expand SearchBox in component delete mode
+
+    expand SearchBox in scene create mode
+    expand SearchBox in scene select mode
+    expand SearchBox in scene delete mode
+    
+    expand SearchBox in graph create mode
+    expand SearchBox in graph select mode
+    expand SearchBox in graph delete mode
+    
+    expand SearchBox in node create mode
+    expand SearchBox in node select mode
+    expand SearchBox in node delete mode
+
+    expand SearchBox in inport select mode
+
 SearchBox
     create
         scene
@@ -90,7 +143,7 @@ SearchBox
         node (client)
         edge (client)
 
-SceneView
+DagPane
     select_nodes
     deselect_nodes
     delete_node
@@ -102,10 +155,8 @@ SceneView
     translate
     rotate
     scale
-    rename
-    recolor
 
-NodePanel
+NodePane
     select_node
     select_nodes
     walk_up

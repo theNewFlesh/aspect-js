@@ -1,6 +1,8 @@
 import * as _ from "lodash";
-import * as three_tools from "./three_tools";
 import * as tools from "../core/tools";
+import { Mouse } from "../core/mouse";
+import * as three_tools from "./three_tools";
+import { IVector3 } from "../three/three_tools";
 import * as test_scene from "../../test/test_scene";
 import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
@@ -14,7 +16,6 @@ import { Params } from "../core/params";
 import { Scaffold } from "../core/scaffold";
 import { Scheduler } from "./scheduler";
 import { IPortParams, INodeParams, IEdgeParams } from "../core/iparams";
-import { Mouse } from "../core/mouse";
 // -----------------------------------------------------------------------------
 
 /**
@@ -69,7 +70,7 @@ export class DAG {
      * Scene component
      */
     private __scene: Scene;
-    
+
     /**
      * Mouse
      */
@@ -94,9 +95,13 @@ export class DAG {
      * ThreeJS renderer
      */
     public _renderer: THREE.WebGLRenderer;
+
+    public _hightlight: string[] = [];
+    public _selection: string[] = [];
+    public _selection_mode: string = "node";
     // -------------------------------------------------------------------------
 
-   /**
+    /**
      * Creates ThreeJS directional light and assigns it to light member.
      */
     public create_light() {
@@ -125,11 +130,11 @@ export class DAG {
         // create view controls
         const orbit = new CreateOrbitControls(THREE);
         const controls = new orbit(camera);
-        // controls.mouseButtons = {
-        //     ORBIT: THREE.MOUSE.LEFT,
-        //     ZOOM: THREE.MOUSE.RIGHT,
-        //     PAN: THREE.MOUSE.MIDDLE
-        // };
+        controls.mouseButtons = {
+            ORBIT: null,
+            ZOOM: THREE.MOUSE.MIDDLE,
+            PAN: THREE.MOUSE.RIGHT,
+        };
         this._controls = controls;
         this._camera = camera;
 
@@ -156,6 +161,8 @@ export class DAG {
         element.appendChild(this._renderer.domElement);
 
         window.addEventListener("mousemove", this._mouse.on_mouse_move, false);
+        window.addEventListener("mousedown", this._mouse.on_mouse_down, false);
+        window.addEventListener("mouseup", this._mouse.on_mouse_up, false);
     }
 
     /**

@@ -12,12 +12,12 @@ export interface IEvent {
     class: string;
     component: string;
     action: string;
-    id: string;
-    key: string;
+    id?: string;
+    key?: string;
     value: any;
 }
 
-export function to_event(name: string, value: any, row: object, column: string): IEvent {
+export function to_event(name: string, value: any, row?: object, column?: string): IEvent {
     const fields: string[] = name.split("-");
     const output: IEvent = {
         name: name,
@@ -25,10 +25,15 @@ export function to_event(name: string, value: any, row: object, column: string):
         class: fields[1],
         component: fields[2],
         action: fields[3],
-        id: row["id"],
-        key: row["key_header"] + column,
         value: value,
     };
+    if (row !== undefined) {
+        output["id"] = row["id"];
+        if (column !== undefined) {
+            output["key"] = row["key_header"] + column;
+        }
+    }
+
     return output;
 }
 
@@ -42,8 +47,18 @@ export class EventManager {
         );
 
         EventBus.$on(
-            "dag_scene_scene_mouse_move",
+            "dag-scene-scene-mouse_move",
             this.on_dag_scene_scene_mouse_move
+        );
+
+        EventBus.$on(
+            "dag-scene-scene-mouse_down",
+            this.on_dag_scene_scene_mouse_down
+        );
+
+        EventBus.$on(
+            "dag-scene-scene-mouse_up",
+            this.on_dag_scene_scene_mouse_up
         );
     }
 
@@ -67,10 +82,18 @@ export class EventManager {
     }
 
     public on_node_pane_cell_inport_update(event: IEvent): void {
-        console.log(event);
+        // console.log(event);
     }
 
     public on_dag_scene_scene_mouse_move(event: IEvent): void {
-        console.log(event);
+        // console.log(event);
+    }
+
+    public on_dag_scene_scene_mouse_up(event: IEvent): void {
+        // console.log(event);
+    }
+
+    public on_dag_scene_scene_mouse_down(event: IEvent): void {
+        // console.log(event);
     }
 }
