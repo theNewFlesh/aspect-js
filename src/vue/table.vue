@@ -85,10 +85,10 @@
         public data: IRow[];
 
         /**
-         * Create FancyIndex and Scaffold data structures
+         * Create Index and Scaffold data structures
          */
         public created() {
-            this._index = new FancyIndex(this.index);
+            this._index = new Index(this.index);
             this._data = new Scaffold().from_array(this.data);
         }
 

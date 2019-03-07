@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import { expect } from "chai";
-import { DataFrame, IDataFrame } from "data-forge";
+import { DataFrame } from "data-forge";
 // -----------------------------------------------------------------------------
 
 /**
