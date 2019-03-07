@@ -45,7 +45,7 @@
     import { Component, Prop, Vue } from "vue-property-decorator";
     import { DataFrame } from "data-forge";
     import { Scaffold } from "../core/scaffold";
-    import { FancyIndex, IHeader, IIndexRow } from "../core/fancy_index";
+    import { Index, IHeader, IIndexRow } from "../core/index";
     import Cell from "./cell.vue";
     // -------------------------------------------------------------------------
 
@@ -70,7 +70,7 @@
         /**
          * Index to internal tabular data structure
          */
-        public _index: FancyIndex;
+        public _index: Index;
 
         /**
          * Index to be passed in as prop

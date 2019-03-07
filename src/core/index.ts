@@ -30,7 +30,7 @@ export interface IIndexRow {
 /**
  * A class for supplying a hierarchical index to Table components
  */
-export class FancyIndex {
+export class Index {
     /**
      * Constructs an internal DataFrame from given rows
      * @param data Array of IndexRows

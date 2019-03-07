@@ -5,10 +5,6 @@
 
 <script lang="ts">
     import { Prop, Component, Vue } from "vue-property-decorator";
-    import * as _ from "lodash";
-    import * as THREE from "three";
-    import { MeshLine, MeshLineMaterial } from "three.meshline";
-    import * as CreateOrbitControls from "three-orbit-controls";
     import { DAG } from "../three/dag";
     // -------------------------------------------------------------------------
 

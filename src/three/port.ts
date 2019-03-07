@@ -1,7 +1,6 @@
 import * as _ from "lodash";
 import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
-import { Group } from "./group";
 import { Component } from "./component";
 import { Sphere } from "./sphere";
 import { IPortParams } from "../core/iparams";

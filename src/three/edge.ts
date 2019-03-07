@@ -3,7 +3,6 @@ import * as tools from "../core/tools";
 import * as three_tools from "../three/three_tools";
 import { Cylinder } from "./cylinder";
 import { Sphere } from "./sphere";
-import { Group } from "./group";
 import { Component } from "./component";
 import { IEdgeParams } from "../core/iparams";
 // -----------------------------------------------------------------------------

@@ -2,7 +2,6 @@ import * as _ from "lodash";
 import * as tools from "../core/tools";
 import { Mouse } from "../core/mouse";
 import * as three_tools from "./three_tools";
-import { IVector3 } from "../three/three_tools";
 import * as test_scene from "../../test/test_scene";
 import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";

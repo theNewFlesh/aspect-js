@@ -2,7 +2,6 @@ import * as _ from "lodash";
 import * as tools from "../core/tools";
 import * as three_tools from "./three_tools";
 import { Component } from "./component";
-import { Group } from "./group";
 import { Cube } from "./cube";
 import { TextBox } from "./textbox";
 import { INodeParams } from "../core/iparams";

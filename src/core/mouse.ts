@@ -1,9 +1,9 @@
 import * as _ from "lodash";
-import { ISubEvent } from "./event_manager";
+import { ISubEvent, IEvent } from "./event_manager";
 import { EventBus } from "../vue/event_bus";
-import * as THREE from "three";
 import { DAG } from "../three/dag";
 import { to_event } from "./event_manager";
+import { IVector3 } from "../three/three_tools";
 // -----------------------------------------------------------------------------
 
 export class Mouse {
@@ -15,10 +15,12 @@ export class Mouse {
 
     public _mode: string = "normal";
 
+    public _area: IVector3[] = [];
+
     /**
      * Current mouse coordinates. Object with x, y coordinates.
      */
-    public _coordinates: THREE.Vector2 = new THREE.Vector2(0, 0)
+    public _coordinates: IVector3 = {x: 0, y: 0, z: 0};
 
     /**
      * Event handler for mouse movements. Assigns mouse coordinates to mouse
@@ -33,14 +35,11 @@ export class Mouse {
             this._coordinates.x = (event.clientX / this.__dag._width) * 2 - 1;
             this._coordinates.y = -(event.clientY / this.__dag._height) * 2 + 1;
 
-            const ids: string[] = this.__dag.get_selected_ids();
-            if (ids.length > 0) {
-                const subevent: ISubEvent = {
-                    name: "dag_scene_scene_mouse_move",
-                    value: ids
-                };
-                EventBus.$emit(subevent.name, subevent);
-            }
+            const subevent: ISubEvent = {
+                name: "mouse_move",
+                value: this._coordinates,
+            };
+            EventBus.$emit(subevent.name, subevent);
         }.bind(this);
     }
 
@@ -56,7 +55,7 @@ export class Mouse {
             EventBus.$emit(event.name, event);
 
             this._mode = "left_click";
-            this._highlight_box = [_.cloneDeep(this._mouse)];
+            this._area = [_.cloneDeep(this._mouse)];
         }.bind(this);
     }
 
@@ -66,8 +65,8 @@ export class Mouse {
      */
     public get on_mouse_up() {
         return function handler(value: any) {
-            this._highlight_box.push(this._mouse);
-            console.log(this._highlight_box);
+            this._area.push(this._mouse);
+            console.log(this._area);
 
             const event: IEvent = to_event(
                 "dag-scene-scene-mouse_up", "mouse_up"
