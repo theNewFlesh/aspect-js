@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 import { IParams } from "../core/iparams";
+import * as mathjs from "mathjs";
 // -----------------------------------------------------------------------------
 
 /**
@@ -93,7 +94,7 @@ interface IVector {
  * @return radians
  */
 export function to_radians(angle: number): number {
-    return (angle / 360) * Math.PI * 2;
+    return mathjs.unit(angle, "degree").to("radian").toNumber();
 }
 
 /**
@@ -102,7 +103,7 @@ export function to_radians(angle: number): number {
  * @return degrees
  */
 export function to_degrees(radian: number): number {
-    return radian * (180 / Math.PI);
+    return mathjs.unit(radian, "radian").to("degree").toNumber();
 }
 
 /**
@@ -141,8 +142,60 @@ export function get_center(v0: IVector3, v1: IVector3): IVector3 {
         z: (v0.z + v1.z) / 2,
     };
 }
+
+export function rotate_x(v0: IVector3, degrees: number): IVector3 {
+    const theta: number = to_radians(degrees);
+    const v1: mathjs.Matrix = mathjs.matrix([v0["x"], v0["y"], v0["z"]]);
+    const rot: mathjs.Matrix = mathjs.matrix([
+        [1, 0, 0],
+        [0, Math.cos(theta), -Math.sin(theta)],
+        [0, Math.sin(theta), Math.cos(theta)],
+    ]);
+    const v2: number[] = mathjs.multiply(v1, rot).toArray();
+    const output: IVector3 = {
+        x: v2[0],
+        y: v2[1],
+        z: v2[2],
+    };
+    return output;
+}
+
+export function rotate_y(v0: IVector3, degrees: number): IVector3 {
+    const theta: number = to_radians(degrees);
+    const v1: mathjs.Matrix = mathjs.matrix([v0["x"], v0["y"], v0["z"]]);
+    const rot: mathjs.Matrix = mathjs.matrix([
+        [Math.cos(theta), 0, Math.sin(theta)],
+        [0, 1, 0],
+        [-Math.sin(theta), 0, Math.cos(theta)],
+    ]);
+    const v2: number[] = mathjs.multiply(v1, rot).toArray();
+    const output: IVector3 = {
+        x: v2[0],
+        y: v2[1],
+        z: v2[2],
+    };
+    return output;
+}
+
+export function rotate_z(v0: IVector3, degrees: number): IVector3 {
+    const theta: number = to_radians(degrees);
+    const v1: mathjs.Matrix = mathjs.matrix([v0["x"], v0["y"], v0["z"]]);
+    const rot: mathjs.Matrix = mathjs.matrix([
+        [Math.cos(theta), -Math.sin(theta), 0],
+        [Math.sin(theta), Math.cos(theta), 0],
+        [0, 0, 1],
+    ]);
+    const v2: number[] = mathjs.multiply(v1, rot).toArray();
+    const output: IVector3 = {
+        x: v2[0],
+        y: v2[1],
+        z: v2[2],
+    };
+    return output;
+}
+
 /**
- * Calculate the rotation amn arrow at centroid(v0, v1) would require
+ * Calculate the rotation of an arrow at centroid(v0, v1) would require
  * to point from v0 to v1. Currently, only works in the XY plane.
  * @param v0 Source vector
  * @param v1 Target vector

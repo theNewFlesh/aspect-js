@@ -15,6 +15,7 @@ import { Params } from "../core/params";
 import { Scaffold } from "../core/scaffold";
 import { Scheduler } from "../core/scheduler";
 import { IPortParams, INodeParams, IEdgeParams } from "../core/iparams";
+import * as mathjs from "mathjs";
 // -----------------------------------------------------------------------------
 
 /**
@@ -39,6 +40,7 @@ export class DAG {
     public get tools() { return tools; }
     public get scaffold() { return Scaffold; }
     public get params() { return Params; }
+    public get mathjs() { return mathjs; }
 
     /**
      *  The id of the DAG instance
