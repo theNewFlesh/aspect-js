@@ -21,7 +21,7 @@ yarn-error.log*
 *.sw*
 
 # Documentation
-docs/
+# docs/
 __md/
 __site/
 mkdocs.yml
