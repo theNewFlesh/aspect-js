@@ -1,5 +1,8 @@
 # aspect-js
 
+## Documentation
+[Aspect-js documentation page](https://thenewflesh.github.io/aspect-js/)
+
 ## Project setup
 ```
 npm install
