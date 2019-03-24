@@ -56,3 +56,6 @@ and then click serve on the resulting vue ui page.
 
 ## Docs
 `bin/build-docs.sh`
+
+## Architecture
+![Alt text](./resources/architecture.svg)
