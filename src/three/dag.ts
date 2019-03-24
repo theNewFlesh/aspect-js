@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import * as tools from "../core/tools";
-import { Mouse } from "../core/mouse";
 import * as three_tools from "./three_tools";
+import { IVector3 } from "./three_tools";
 import * as test_scene from "../../test/test_scene";
 import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
@@ -27,7 +27,6 @@ export class DAG {
     public constructor(width: number, height: number) {
         this._width = width;
         this._height = height;
-        this._mouse = new Mouse(this);
     }
 
     public _width: number;
@@ -71,11 +70,6 @@ export class DAG {
      * Scene component
      */
     private __scene: Scene;
-
-    /**
-     * Mouse
-     */
-    public _mouse: Mouse;
 
     /**
      * ThreeJS orthographic camera used for viewing components
@@ -160,10 +154,6 @@ export class DAG {
         // mount scene
         const elem = document.getElementById("dag-pane");
         element.appendChild(this._renderer.domElement);
-
-        window.addEventListener("mousemove", this._mouse.on_mouse_move, false);
-        window.addEventListener("mousedown", this._mouse.on_mouse_down, false);
-        window.addEventListener("mouseup", this._mouse.on_mouse_up, false);
     }
 
     /**
@@ -589,15 +579,16 @@ export class DAG {
 
     /**
      * Get ids of items which intersect the mouse selection ray
-     * @returs Array of ids
+     * @param coordinate Mouse position
+     * @returns Array of ids
      */
-    public get_selected_ids(): string[] {
+    public get_point_intersecting_ids(coordinate: IVector3): string[] {
         const pos: any = this._camera.position;
         const origin: THREE.Vector3 = new THREE.Vector3(pos.x, pos.y, pos.z);
 
         // update the selection ray with the camera and mouse position
         const raycaster: THREE.Raycaster = new THREE.Raycaster(origin);
-        raycaster.setFromCamera(this._mouse._coordinates, this._camera);
+        raycaster.setFromCamera(coordinate, this._camera);
 
         // calculate meshes intersecting the selection ray
         const selected = raycaster.intersectObjects(this.three_item.children, true);
@@ -616,6 +607,5 @@ export class DAG {
         }
 
         return output;
-    } 
-
+    }
 }

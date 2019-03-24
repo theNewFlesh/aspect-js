@@ -40,6 +40,7 @@
 <script lang="ts">
     import * as _ from "lodash";
     import { EventManager } from "../core/event_manager";
+    import { EventBus } from "./event_bus";
     import { Prop, Component, Vue } from "vue-property-decorator";
     import { Multipane, MultipaneResizer } from "vue-multipane";
     import Table from "./table.vue";
@@ -139,8 +140,13 @@
                 width = this._get_width(this.$refs.dag);
                 width = width * 100 * window.outerWidth;
             }
+            const height: number = window.outerHeight;
+
             this.__dag_pane_width = width;
-            this.__dag_pane_height = window.outerHeight;
+            this.__dag_pane_height = height;
+
+            EventBus.$emit("dag-width-update", width);
+            EventBus.$emit("dag-height-update", height);
         }
 
         /**
