@@ -145,8 +145,8 @@
             this.__dag_pane_width = width;
             this.__dag_pane_height = height;
 
-            EventBus.$emit("dag-width-update", width);
-            EventBus.$emit("dag-height-update", height);
+            EventBus.$emit("layout-width-update", width);
+            EventBus.$emit("layout-height-update", height);
         }
 
         /**
