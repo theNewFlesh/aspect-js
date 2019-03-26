@@ -64,7 +64,7 @@ export class EventManager {
 
     public config: object;
     public _gui_mode: string = "dag_pane"; // node_pane, search_pane
-    public _interaction_mode: string = "highlight"; // select, deselect, select_area, deselet_area
+    public _interaction_mode: string = "highlight"; // select, deselect, select_area, deselect_area
     public _selection_mode: string = "any"; // graph, node, edge
     public _vertical_pane_separator: number = 75;
     public _selection_area: IVector3[] = [];
@@ -108,10 +108,6 @@ export class EventManager {
         ].join("_");
     }
     // -------------------------------------------------------------------------
-
-    public on_set_gui_mode(event: IEvent): void {
-        this._gui_mode = event.value;
-    }
 
     public on_set_interaction_mode(event: IEvent): void {
         this._interaction_mode = event.value;
