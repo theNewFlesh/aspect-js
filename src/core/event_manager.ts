@@ -58,30 +58,24 @@ export class EventManager {
         window.addEventListener("mousedown", this.on_mouse_down, false);
         window.addEventListener("mouseup", this.on_mouse_up, false);
 
-        EventBus.$on("layout-width-update", this.on_layout_width_update);
-        EventBus.$on("layout-height-update", this.on_layout_height_update);
+        EventBus.$on("vertical-pane-separator-update", this.on_vertical_pane_separator_update);
         EventBus.$on("node_pane-cell-inport-update", this.on_node_pane_cell_inport_update);
     }
 
     public config: object;
     public _gui_mode: string = "dag_pane"; // node_pane, search_pane
-    public _interaction_mode: string = "highlight"; // select, deselect
+    public _interaction_mode: string = "highlight"; // select, deselect, select_area, deselet_area
     public _selection_mode: string = "any"; // graph, node, edge
-    public _width: number = 75;
-    public _height: number = 100;
-    public _area: IVector3[] = [];
+    public _vertical_pane_separator: number = 75;
+    public _selection_area: IVector3[] = [];
 
     /**
      * Current mouse coordinates. Object with x, y coordinates.
      */
     public _coordinates: IVector3 = { x: 0, y: 0, z: 0 };
 
-    public on_layout_width_update(width: number): void {
-        this._width = width;
-    }
-
-    public on_layout_height_update(height: number): void {
-        this._height = height;
+    public on_vertical_pane_separator_update(width: number): void {
+        this._vertical_pane_separator = width;
     }
 
     public _lookup_handler(event: IEvent): string {
@@ -115,6 +109,19 @@ export class EventManager {
     }
     // -------------------------------------------------------------------------
 
+    public on_set_gui_mode(event: IEvent): void {
+        this._gui_mode = event.value;
+    }
+
+    public on_set_interaction_mode(event: IEvent): void {
+        this._interaction_mode = event.value;
+    }
+
+    public on_set_selection_mode(event: IEvent): void {
+        this._selection_mode = event.value;
+    }
+    // -------------------------------------------------------------------------
+
     /**
      * Event handler for mouse movements. Assigns mouse coordinates to mouse
      * member.
@@ -125,8 +132,25 @@ export class EventManager {
             // calculate mouse position in normalized device coordinates
             // (-1 to +1) for both components
 
-            this._coordinates.x = (event.clientX / this._width) * 2 - 1;
-            this._coordinates.y = -(event.clientY / this._height) * 2 + 1;
+            this._coordinates.x = (event.clientX / window.outerWidth) * 2 - 1;
+            this._coordinates.y = -(event.clientY / window.outerHeight) * 2 + 1;
+
+            if (this._interaction_mode === "select_area") {
+                this._selection_area = [
+                    _.cloneDeep(this._selection_area[0]),
+                    _.cloneDeep(this._coordinates)
+                ];
+            }
+
+            const sep: number = (this._vertical_pane_separator / 100) * 2 - 1;
+            if (this._gui_mode !== "search_pane") {
+                if (this._coordinates.x < sep) {
+                    this._gui_mode = "dag_pane";
+                }
+                else {
+                    this._gui_mode = "node_pane";
+                }
+            }
 
             const subevent: ISubEvent = {
                 name: this._create_mouse_event_name("mouse_move"),
@@ -142,7 +166,10 @@ export class EventManager {
      */
     public get on_mouse_down() {
         return function handler(value: any) {
-            this._area = [_.cloneDeep(this._mouse)];
+            this._selection_area = [
+                _.cloneDeep(this._coordinates),
+                _.cloneDeep(this._coordinates)
+            ];
 
             const subevent: ISubEvent = {
                 name: this._create_mouse_event_name("mouse_down"),
@@ -158,7 +185,10 @@ export class EventManager {
      */
     public get on_mouse_up() {
         return function handler(value: any) {
-            this._area.push(this._mouse);
+            this._selection_area = [
+                _.cloneDeep(this._selection_area[0]),
+                _.cloneDeep(this._coordinates)
+            ];
 
             const subevent: ISubEvent = {
                 name: this._create_mouse_event_name("mouse_up"),
