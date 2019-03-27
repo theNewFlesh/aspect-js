@@ -1,8 +1,5 @@
 import * as _ from "lodash";
-import * as tools from "../core/tools";
-import * as three_tools from "./three_tools";
 import { IVector3 } from "./three_tools";
-import * as test_scene from "../../test/test_scene";
 import * as THREE from "three";
 import * as CreateOrbitControls from "three-orbit-controls";
 import { Scene } from "./scene";
@@ -12,10 +9,8 @@ import { Node } from "./node";
 import { Inport } from "./inport";
 import { Outport } from "./outport";
 import { Params } from "../core/params";
-import { Scaffold } from "../core/scaffold";
 import { Scheduler } from "../core/scheduler";
 import { IPortParams, INodeParams, IEdgeParams } from "../core/iparams";
-import * as mathjs from "mathjs";
 // -----------------------------------------------------------------------------
 
 /**
@@ -31,15 +26,6 @@ export class DAG {
 
     public _width: number;
     public _height: number;
-
-    // TODO: remove these dev methods
-    public get THREE() { return THREE; }
-    public get three_tools() { return three_tools; }
-    public get test_scene() { return test_scene.scene; }
-    public get tools() { return tools; }
-    public get scaffold() { return Scaffold; }
-    public get params() { return Params; }
-    public get mathjs() { return mathjs; }
 
     /**
      *  The id of the DAG instance
@@ -535,7 +521,7 @@ export class DAG {
     public edit(fragment: object): void {
         // get new params state and creation/update schedule
         let scheduler: Scheduler = new Scheduler(this._state).edit(fragment, this);
-        scheduler.print();
+        // scheduler.print();
         scheduler = scheduler.remove_ignores();
         const state: Params = scheduler.to_state();
         const schedule: object[] = scheduler.to_schedule();
@@ -555,7 +541,7 @@ export class DAG {
     public delete(fragment: object): void {
         // get new params state and deletion schedule
         let scheduler: Scheduler = new Scheduler(this._state).delete(fragment, this);
-        scheduler.print();
+        // scheduler.print();
         scheduler = scheduler.remove_ignores();
         const state: Params = scheduler.to_state();
         const schedule: object[] = scheduler.to_schedule();

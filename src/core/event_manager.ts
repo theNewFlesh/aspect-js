@@ -43,14 +43,18 @@ export function to_event(name: string, value: any, row?: object, column?: string
 export class EventManager {
     constructor(config: object) {
         this.config = config;
+        const interactions: object = config["interactions"];
 
-        for (const key of _.keys(config["events"])) {
-            const method: string = "_" + config["events"][key];
-            if (this.hasOwnProperty(method)) {
-                Mousetrap.bind(
-                    key,
-                    this[method],
-                );
+        for (const itype of _.keys(interactions)) {
+            for (const key of _.keys(interactions[itype])) {
+                const method: string = "on_" + interactions[itype][key];
+                if (typeof this[method] === "function") {
+                    Mousetrap.bind(
+                        key,
+                        this[method].bind(this),
+                        itype
+                    );
+                }
             }
         }
 
@@ -96,7 +100,6 @@ export class EventManager {
     }
 
     public on_node_pane_cell_inport_update(event: IEvent): void {
-        // console.log(event);
     }
 
     public _create_mouse_event_name(event_type: string): string {
@@ -109,12 +112,49 @@ export class EventManager {
     }
     // -------------------------------------------------------------------------
 
+    public on_set_selection_mode(event: IEvent): void {
+        this._selection_mode = event.value;
+    }
+
+    public on_set_selection_mode_any(): void {
+        this._selection_mode = "any";
+    }
+
+    public on_set_selection_mode_graph(): void {
+        this._selection_mode = "graph";
+    }
+
+    public on_set_selection_mode_node(): void {
+        this._selection_mode = "node";
+    }
+
+    public on_set_selection_mode_edge(): void {
+        this._selection_mode = "edge";
+    }
+    // -------------------------------------------------------------------------
+
     public on_set_interaction_mode(event: IEvent): void {
         this._interaction_mode = event.value;
     }
 
-    public on_set_selection_mode(event: IEvent): void {
-        this._selection_mode = event.value;
+    public on_set_interaction_mode_highlight(): void {
+        this._interaction_mode = "highlight";
+    }
+
+    public on_set_interaction_mode_select(): void {
+        this._interaction_mode = "select";
+    }
+
+    public on_set_interaction_mode_deselect(): void {
+        this._interaction_mode = "deselect";
+    }
+
+    public on_set_interaction_mode_select_area(): void {
+        this._interaction_mode = "select_area";
+    }
+
+    public on_set_interaction_mode_deselect_area(): void {
+        this._interaction_mode = "deselect_area";
     }
     // -------------------------------------------------------------------------
 

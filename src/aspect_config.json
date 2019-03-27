@@ -1,5 +1,22 @@
 {
-    "events": {
-        "foo": "on_node_pane_cell_inport_update"
+    "interactions": {
+        "keypress": {
+            "1": "set_selection_mode_any",
+            "2": "set_selection_mode_graph",
+            "3": "set_selection_mode_node",
+            "4": "set_selection_mode_edge"
+        },
+        "keydown": {
+            "shift": "set_interaction_mode_select",
+            "ctrl": "set_interaction_mode_deselect",
+            "command+shift": "set_interaction_mode_select_area",
+            "command+ctrl": "set_interaction_mode_deselect_area"
+        },
+        "keyup": {
+            "shift": "set_interaction_mode_highlight",
+            "ctrl": "set_interaction_mode_highlight",
+            "command+shift": "set_interaction_mode_highlight",
+            "command+ctrl": "set_interaction_mode_highlight"
+        }
     }
 }
