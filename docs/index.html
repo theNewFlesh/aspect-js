@@ -2,13 +2,13 @@
 
 <html class="default no-js">
 <head>
-<meta charset="UTF-8">
-<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta charset="UTF-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <title>aspect-js</title>
-<meta content="" name="description">
-<meta content="width=device-width, initial-scale=1" name="viewport">
-<link href="assets/css/main.css" rel="stylesheet">
-</link></meta></meta></meta></meta></head>
+<meta content="" name="description"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+</head>
 <body>
 <header>
 <div class="tsd-page-toolbar">
@@ -66,120 +66,149 @@
 <div class="col-8 col-content">
 <div class="tsd-panel tsd-typography">
 <h1 id="aspect-js">aspect-js</h1>
-<h2 id="project-setup">Project setup</h2>
-<pre><code>npm <span class="hljs-keyword">install</span></code></pre><h3 id="compiles-and-hot-reloads-for-development">Compiles and hot-reloads for development</h3>
-<pre><code>npm <span class="hljs-keyword">run</span><span class="bash"> serve</span></code></pre><h3 id="compiles-and-minifies-for-production">Compiles and minifies for production</h3>
-<pre><code>npm <span class="hljs-keyword">run</span><span class="bash"> build</span></code></pre><h3 id="lints-and-fixes-files">Lints and fixes files</h3>
-<pre><code>npm <span class="hljs-keyword">run</span><span class="bash"> lint</span></code></pre><h3 id="run-your-unit-tests">Run your unit tests</h3>
-<pre><code>npm <span class="hljs-keyword">run</span><span class="bash"> <span class="hljs-built_in">test</span>:unit</span></code></pre>
+<p>Aspect is a web-based nodal editor, built upon Typescript, Vue and Three.js.
+					Its goal is to provide a graphical means of constructing Directed Acyclic Graphs
+					(DAGs) which map to RPC APIs defined elsewhere. In the broadest sense, Aspect
+					can be thought of as a stateless function, which takes in a scene defintion and
+				returns a new one. </p>
+<p>A scene is a collection of graphs which may or may not connect to eachother.
+					Graphs are comprized of nodes and edges. Nodes should be thought of as abstract,
+					graphical representations of singular remote procedure calls. Nodes connect to
+					eachother via ports. The outport of one node connects to the inport of another,
+					and thus a graph network of computation becomes defined. Inports to a node,
+					represent the singular parameters of the RPC function it abstracts. Outports
+					represent what the RPC function returns. Edges are defined as an ordered pair of
+				outport and inport.</p>
+<p>The scene and all its components are represented within a single JSON object
+					which represents the entire state of the DAG at one time. All other parts of
+					Aspect; the Three.js wrapper classes, the Params class, the NodePane component,
+					serve to manipulate this underlying data structure, as an aspect of it. For
+					instance, the class Node serves as the graphical, 3D aspect of a node as defined
+					within some graph of some scene. You can change its size, color, 3D position, etc.
+					In the NodePane, a different aspect of this underlying structure is represented:
+					its ports and their values. In the nodepane, you can alter the constant values
+					values supplied to specific ports of a node, you can alter the GUI widgets used
+				to represent each port, etc.</p>
+<h2 id="documentation">Documentation</h2>
+<p><a href="https://thenewflesh.github.io/aspect-js/">aspect-js documentation page</a></p>
+<h2 id="development-setup">Development Setup</h2>
+<p><code>npm install</code></p>
+<h2 id="documentation-autobuild-setup">Documentation Autobuild Setup</h2>
+<ol>
+<li><a href="https://docs.conda.io/en/latest/miniconda.html">install conda</a></li>
+<li><code>conda create -n aspect-js --file requirements.txt</code></li>
+</ol>
+<h2 id="serve">Serve</h2>
+<p><code>npm run serve</code></p>
+<p>Alternatively, I would recommend </p>
+<pre><code><span class="hljs-built_in">npm</span> install -g @vue/cli
+vue ui</code></pre><p>and then click serve on the resulting vue ui page.</p>
+<h2 id="build">Build</h2>
+<p><code>npm run build</code> or click build in the vue ui page.</p>
+<h2 id="lint">Lint</h2>
+<p><code>npm run lint</code> or click lint in the vue ui page.</p>
+<h2 id="test">Test</h2>
+<p><code>npm run test</code> or click test in the vue ui page.</p>
+<h2 id="docs">Docs</h2>
+<p><code>bin/build-docs.sh</code></p>
+<h2 id="architecture">Architecture</h2>
+<p><img alt="Alt text" src="./resources/architecture.svg"/></p>
 </div>
 </div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <nav class="tsd-navigation primary">
-<ul><li class="globals ">
+<ul><li class="globals">
 <a href="components/search.html"><em>Vue Components</em></a>
 </li>
-<li class="globals ">
+<li class="globals">
 <a href="globals.html"><em>Globals</em></a>
 </li>
-<li class="label tsd-is-external">
-<span>Internals</span>
+<li class="tsd-kind-external-module">
+<a href="modules/_core_event_manager_.html">"core/event_<wbr/>manager"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_core_event_manager_.html">"src/core/event_<wbr>manager"</wbr></a>
+<li class="tsd-kind-external-module">
+<a href="modules/_core_index_.html">"core/index"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_core_index_.html">"src/core/index"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_core_iparams_.html">"core/iparams"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_core_iparams_.html">"src/core/iparams"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_core_params_.html">"core/params"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_core_mouse_.html">"src/core/mouse"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_core_scaffold_.html">"core/scaffold"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_core_params_.html">"src/core/params"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_core_scheduler_.html">"core/scheduler"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_core_scaffold_.html">"src/core/scaffold"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_core_tools_.html">"core/tools"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_core_scheduler_.html">"src/core/scheduler"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_main_.html">"main"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_core_tools_.html">"src/core/tools"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_store_.html">"store"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_main_.html">"src/main"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_component_.html">"three/component"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_store_.html">"src/store"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_cube_.html">"three/cube"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_component_.html">"src/three/component"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_cylinder_.html">"three/cylinder"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_cube_.html">"src/three/cube"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_dag_.html">"three/dag"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_cylinder_.html">"src/three/cylinder"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_edge_.html">"three/edge"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_dag_.html">"src/three/dag"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_graph_.html">"three/graph"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_edge_.html">"src/three/edge"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_group_.html">"three/group"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_graph_.html">"src/three/graph"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_inport_.html">"three/inport"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_group_.html">"src/three/group"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_node_.html">"three/node"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_inport_.html">"src/three/inport"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_outport_.html">"three/outport"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_node_.html">"src/three/node"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_port_.html">"three/port"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_outport_.html">"src/three/outport"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_primitive_.html">"three/primitive"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_port_.html">"src/three/port"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_primitive_base_.html">"three/primitive_<wbr/>base"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_primitive_.html">"src/three/primitive"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_scene_.html">"three/scene"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_primitive_base_.html">"src/three/primitive_<wbr>base"</wbr></a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_sphere_.html">"three/sphere"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_scene_.html">"src/three/scene"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_sprite_.html">"three/sprite"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_sphere_.html">"src/three/sphere"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_text_.html">"three/text"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_sprite_.html">"src/three/sprite"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_textbox_.html">"three/textbox"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_text_.html">"src/three/text"</a>
+<li class="tsd-kind-external-module">
+<a href="modules/_three_three_tools_.html">"three/three_<wbr/>tools"</a>
 </li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_textbox_.html">"src/three/textbox"</a>
-</li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_three_three_tools_.html">"src/three/three_<wbr>tools"</wbr></a>
-</li>
-<li class=" tsd-kind-external-module">
-<a href="modules/_src_vue_event_bus_.html">"src/vue/event_<wbr>bus"</wbr></a>
-</li>
-<li class="label tsd-is-external">
-<span>Externals</span>
-</li>
-<li class=" tsd-kind-external-module tsd-is-external">
-<a href="modules/_test_test_scene_.html">"test/test_<wbr>scene"</wbr></a>
+<li class="tsd-kind-external-module">
+<a href="modules/_vue_event_bus_.html">"vue/event_<wbr/>bus"</a>
 </li>
 </ul>
 </nav>

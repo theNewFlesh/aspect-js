@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import { IParams } from "../core/iparams";
-import * as mathjs from "mathjs";
+import * as mjs from "mathjs";
 // -----------------------------------------------------------------------------
 
 /**
@@ -94,7 +94,7 @@ interface IVector {
  * @return radians
  */
 export function to_radians(angle: number): number {
-    return mathjs.unit(angle, "degree").to("radian").toNumber();
+    return mjs.unit(angle, "degree").toNumber("radian");
 }
 
 /**
@@ -103,7 +103,7 @@ export function to_radians(angle: number): number {
  * @return degrees
  */
 export function to_degrees(radian: number): number {
-    return mathjs.unit(radian, "radian").to("degree").toNumber();
+    return mjs.unit(radian, "radian").toNumber("degree");
 }
 
 /**
@@ -145,13 +145,14 @@ export function get_center(v0: IVector3, v1: IVector3): IVector3 {
 
 export function rotate_x(v0: IVector3, degrees: number): IVector3 {
     const theta: number = to_radians(degrees);
-    const v1: mathjs.Matrix = mathjs.matrix([v0["x"], v0["y"], v0["z"]]);
-    const rot: mathjs.Matrix = mathjs.matrix([
+    const v1: mjs.Matrix = mjs.matrix([v0["x"], v0["y"], v0["z"]]);
+    const rot: mjs.Matrix = mjs.matrix([
         [1, 0, 0],
         [0, Math.cos(theta), -Math.sin(theta)],
         [0, Math.sin(theta), Math.cos(theta)],
     ]);
-    const v2: number[] = mathjs.multiply(v1, rot).toArray();
+    const v2: any = mjs.multiply(v1, rot);
+
     const output: IVector3 = {
         x: v2[0],
         y: v2[1],
@@ -162,13 +163,13 @@ export function rotate_x(v0: IVector3, degrees: number): IVector3 {
 
 export function rotate_y(v0: IVector3, degrees: number): IVector3 {
     const theta: number = to_radians(degrees);
-    const v1: mathjs.Matrix = mathjs.matrix([v0["x"], v0["y"], v0["z"]]);
-    const rot: mathjs.Matrix = mathjs.matrix([
+    const v1: mjs.Matrix = mjs.matrix([v0["x"], v0["y"], v0["z"]]);
+    const rot: mjs.Matrix = mjs.matrix([
         [Math.cos(theta), 0, Math.sin(theta)],
         [0, 1, 0],
         [-Math.sin(theta), 0, Math.cos(theta)],
     ]);
-    const v2: number[] = mathjs.multiply(v1, rot).toArray();
+    const v2: any = mjs.multiply(v1, rot);
     const output: IVector3 = {
         x: v2[0],
         y: v2[1],
@@ -179,13 +180,13 @@ export function rotate_y(v0: IVector3, degrees: number): IVector3 {
 
 export function rotate_z(v0: IVector3, degrees: number): IVector3 {
     const theta: number = to_radians(degrees);
-    const v1: mathjs.Matrix = mathjs.matrix([v0["x"], v0["y"], v0["z"]]);
-    const rot: mathjs.Matrix = mathjs.matrix([
+    const v1: mjs.Matrix = mjs.matrix([v0["x"], v0["y"], v0["z"]]);
+    const rot: mjs.Matrix = mjs.matrix([
         [Math.cos(theta), -Math.sin(theta), 0],
         [Math.sin(theta), Math.cos(theta), 0],
         [0, 0, 1],
     ]);
-    const v2: number[] = mathjs.multiply(v1, rot).toArray();
+    const v2: any = mjs.multiply(v1, rot);
     const output: IVector3 = {
         x: v2[0],
         y: v2[1],
