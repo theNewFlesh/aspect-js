@@ -1,0 +1,1551 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>DAG | aspect-js</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">aspect-js</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/_three_dag_.html">&quot;three/dag&quot;</a>
+				</li>
+				<li>
+					<a href="_three_dag_.dag.html">DAG</a>
+				</li>
+			</ul>
+			<h1>Class DAG</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class for generating editing and rendering a Directed Acyclic Graph in ThreeJS
+							DAG&#39;s consist of a Scene with one or more Graphs inside of which are Node,
+						which are connected to each other via Edges.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">DAG</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_three_dag_.dag.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_three_dag_.dag.html#__scene" class="tsd-kind-icon">__scene</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_three_dag_.dag.html#_camera" class="tsd-kind-icon">_camera</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_three_dag_.dag.html#_children" class="tsd-kind-icon">_children</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_three_dag_.dag.html#_controls" class="tsd-kind-icon">_controls</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_three_dag_.dag.html#_height" class="tsd-kind-icon">_height</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_three_dag_.dag.html#_hightlight" class="tsd-kind-icon">_hightlight</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_three_dag_.dag.html#_id" class="tsd-kind-icon">_id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_three_dag_.dag.html#_light" class="tsd-kind-icon">_light</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_three_dag_.dag.html#_renderer" class="tsd-kind-icon">_renderer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_three_dag_.dag.html#_selection" class="tsd-kind-icon">_selection</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_three_dag_.dag.html#_selection_mode" class="tsd-kind-icon">_selection_<wbr>mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_three_dag_.dag.html#_state" class="tsd-kind-icon">_state</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_three_dag_.dag.html#_width" class="tsd-kind-icon">_width</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_three_dag_.dag.html#parent" class="tsd-kind-icon">parent</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_three_dag_.dag.html#three_item" class="tsd-kind-icon">three_<wbr>item</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="_three_dag_.dag.html#children" class="tsd-kind-icon">children</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_create_edge" class="tsd-kind-icon">_create_<wbr>edge</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_create_graph" class="tsd-kind-icon">_create_<wbr>graph</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_create_inport" class="tsd-kind-icon">_create_<wbr>inport</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_create_node" class="tsd-kind-icon">_create_<wbr>node</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_create_outport" class="tsd-kind-icon">_create_<wbr>outport</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_create_port" class="tsd-kind-icon">_create_<wbr>port</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_create_scene" class="tsd-kind-icon">_create_<wbr>scene</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_get_parent" class="tsd-kind-icon">_get_<wbr>parent</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_resolve_edge_params" class="tsd-kind-icon">_resolve_<wbr>edge_<wbr>params</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_resolve_port_translation" class="tsd-kind-icon">_resolve_<wbr>port_<wbr>translation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_update_edge" class="tsd-kind-icon">_update_<wbr>edge</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_update_graph" class="tsd-kind-icon">_update_<wbr>graph</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_update_inport" class="tsd-kind-icon">_update_<wbr>inport</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_update_node" class="tsd-kind-icon">_update_<wbr>node</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_update_outport" class="tsd-kind-icon">_update_<wbr>outport</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#_update_scene" class="tsd-kind-icon">_update_<wbr>scene</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#create_camera" class="tsd-kind-icon">create_<wbr>camera</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#create_light" class="tsd-kind-icon">create_<wbr>light</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#delete" class="tsd-kind-icon">delete</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#delete_child" class="tsd-kind-icon">delete_<wbr>child</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#destroy" class="tsd-kind-icon">destroy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#edit" class="tsd-kind-icon">edit</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#get_child" class="tsd-kind-icon">get_<wbr>child</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#get_point_intersecting_ids" class="tsd-kind-icon">get_<wbr>point_<wbr>intersecting_<wbr>ids</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#has_child" class="tsd-kind-icon">has_<wbr>child</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#render" class="tsd-kind-icon">render</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#render_update" class="tsd-kind-icon">render_<wbr>update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_three_dag_.dag.html#set_child" class="tsd-kind-icon">set_<wbr>child</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new DAG<span class="tsd-signature-symbol">(</span>width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_three_dag_.dag.html" class="tsd-signature-type">DAG</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>width: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>height: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_three_dag_.dag.html" class="tsd-signature-type">DAG</a></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L21">three/dag.ts:21</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="__scene" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">__scene<span class="tsd-signature-symbol">:</span> <a href="_three_scene_.scene.html" class="tsd-signature-type">Scene</a></div>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Scene component</p>
+						</div>
+					</div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L58">three/dag.ts:58</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_camera" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">_camera<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>ThreeJS orthographic camera used for viewing components</p>
+						</div>
+					</div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L63">three/dag.ts:63</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_children" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">_children<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Lut of child components of the DAG</p>
+						</div>
+					</div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L48">three/dag.ts:48</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_controls" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">_controls<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>ThreeJS camera controls</p>
+						</div>
+					</div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L68">three/dag.ts:68</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_height" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">_height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L28">three/dag.ts:28</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_hightlight" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">_hightlight<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L80">three/dag.ts:80</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_id" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">_id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p> The id of the DAG instance</p>
+						</div>
+					</div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L33">three/dag.ts:33</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_light" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">_light<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>ThreeJS light</p>
+						</div>
+					</div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L73">three/dag.ts:73</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_renderer" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">_renderer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">WebGLRenderer</span></div>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>ThreeJS renderer</p>
+						</div>
+					</div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L78">three/dag.ts:78</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_selection" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">_selection<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L81">three/dag.ts:81</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_selection_mode" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">_selection_<wbr>mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;node&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L82">three/dag.ts:82</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_state" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">_state<span class="tsd-signature-symbol">:</span> <a href="_core_params_.params.html" class="tsd-signature-type">Params</a><span class="tsd-signature-symbol"> =&nbsp;new Params({})</span></div>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The state of the DAG as defined by a Params instance</p>
+						</div>
+					</div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L38">three/dag.ts:38</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_width" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">_width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L27">three/dag.ts:27</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="parent" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">parent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Needed for instantiating a Scene component</p>
+						</div>
+					</div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L43">three/dag.ts:43</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="three_item" class="tsd-anchor"></a>
+					<div class="tsd-signature tsd-kind-icon">three_<wbr>item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A THREE.Scene instance, needed by all components</p>
+						</div>
+					</div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L53">three/dag.ts:53</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="children" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> children<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a lut of child components</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L196">three/dag.ts:196</a></li>
+								</ul>
+						</aside>            </li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_create_edge" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_create_<wbr>edge<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an Edge component, by first resolving its params, then assigning
+									it to children</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params that contain edge and its dependencies</p>
+									</div>
+								</li>
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Edge id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L439">three/dag.ts:439</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_create_graph" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_create_<wbr>graph<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a Graph component and assign it to children</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params that contain graph</p>
+									</div>
+								</li>
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Graph id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L395">three/dag.ts:395</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_create_inport" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_create_<wbr>inport<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create an Inport component and assign it to children</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params that contain inport</p>
+									</div>
+								</li>
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Inport id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L482">three/dag.ts:482</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_create_node" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_create_<wbr>node<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a Node component and assign it to children</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params that contain node</p>
+									</div>
+								</li>
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Node id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L416">three/dag.ts:416</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_create_outport" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_create_<wbr>outport<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create an OutPort component and assign it to children</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params that contain outport</p>
+									</div>
+								</li>
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>OutPort id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L501">three/dag.ts:501</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_create_port" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_create_<wbr>port<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an InPort or OutPort and assigns it to children.
+									Short circuits if inport subtype is not &quot;node&quot; or &quot;both&quot;.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params that contain port and its parent</p>
+									</div>
+								</li>
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Port id</p>
+									</div>
+								</li>
+								<li>
+									<h5>type: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Port type</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L312">three/dag.ts:312</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_create_scene" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_create_<wbr>scene<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a Scene component and assign it to children</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params that contain scene</p>
+									</div>
+								</li>
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Scene id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L366">three/dag.ts:366</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_get_parent" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_get_<wbr>parent<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Searchs a params object and returns the discovered parent component of a
+									given child component id</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params object to be searched</p>
+									</div>
+								</li>
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Child component id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<p>Component</p>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L207">three/dag.ts:207</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_resolve_edge_params" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_resolve_<wbr>edge_<wbr>params<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, edge_params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span>, source_id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, destination_id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_core_iparams_.iedgeparams.html" class="tsd-signature-type">IEdgeParams</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Resolves the world-space coordinates of an Edge&#39;s source and destination
+									fields</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>Error if source or destination components do not exist</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params that contain edge and its dependencies</p>
+									</div>
+								</li>
+								<li>
+									<h5>edge_params: <span class="tsd-signature-type">object</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Edge params</p>
+									</div>
+								</li>
+								<li>
+									<h5>source_id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Component id of a Node or a Port the edge starts at</p>
+									</div>
+								</li>
+								<li>
+									<h5>destination_id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Component id of a Node or a Port the edge ends at</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_core_iparams_.iedgeparams.html" class="tsd-signature-type">IEdgeParams</a></h4>
+							<p>Edge params with correct source and destination fields</p>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L237">three/dag.ts:237</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_resolve_port_translation" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_resolve_<wbr>port_<wbr>translation<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../interfaces/_core_iparams_.inodeparams.html" class="tsd-signature-type">INodeParams</a>, port<span class="tsd-signature-symbol">: </span><a href="../interfaces/_core_iparams_.iportparams.html" class="tsd-signature-type">IPortParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Translates port position relative to node position</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>node: <a href="../interfaces/_core_iparams_.inodeparams.html" class="tsd-signature-type">INodeParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Node params object</p>
+									</div>
+								</li>
+								<li>
+									<h5>port: <a href="../interfaces/_core_iparams_.iportparams.html" class="tsd-signature-type">IPortParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Port params object</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<p>Port position in world-space coordinates</p>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L218">three/dag.ts:218</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_update_edge" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_update_<wbr>edge<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates an Edge component with new params</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params that contain edge and its dependencies</p>
+									</div>
+								</li>
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Edge id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L459">three/dag.ts:459</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_update_graph" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_update_<wbr>graph<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update Graph component with new params</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params that contain graph</p>
+									</div>
+								</li>
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Graph id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L406">three/dag.ts:406</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_update_inport" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_update_<wbr>inport<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update InPort component with new params</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params that contain node</p>
+									</div>
+								</li>
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>InPort id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L491">three/dag.ts:491</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_update_node" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_update_<wbr>node<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update Node component with new params</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params that contain node</p>
+									</div>
+								</li>
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Node id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L428">three/dag.ts:428</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_update_outport" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_update_<wbr>outport<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update OutPort component with new params</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params that contain outport</p>
+									</div>
+								</li>
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>OutPort id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L510">three/dag.ts:510</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_update_scene" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_update_<wbr>scene<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="_core_params_.params.html" class="tsd-signature-type">Params</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update Scene component with new params</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="_core_params_.params.html" class="tsd-signature-type">Params</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Params that contain scene</p>
+									</div>
+								</li>
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Scene id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L385">three/dag.ts:385</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="create_camera" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create_<wbr>camera<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates ThreeJS orthographic camera</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L100">three/dag.ts:100</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="create_light" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create_<wbr>light<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates ThreeJS directional light and assigns it to light member.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L88">three/dag.ts:88</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="delete" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<span class="tsd-signature-symbol">(</span>fragment<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Deletes components from DAG from those found in fragment.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fragment: <span class="tsd-signature-type">object</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A piece of a full DAG description containing component ids</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L541">three/dag.ts:541</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="delete_child" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete_<wbr>child<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calls delete method on child component and removes it from children</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Component id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L188">three/dag.ts:188</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="destroy" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">destroy<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Destroy THREE.Scene, remove all chidlren and wipe state</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L559">three/dag.ts:559</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="edit" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">edit<span class="tsd-signature-symbol">(</span>fragment<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates DAG with params fragment. Adds or edits DAG information.
+										Schedules update calls to affected children and updates state params upon
+									finishing.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fragment: <span class="tsd-signature-type">object</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A piece of a full DAG description</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L521">three/dag.ts:521</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="get_child" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get_<wbr>child<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get a child component given a compoenent id</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>Error if id not found in children keys</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Component id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<p>Child component of DAG</p>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L168">three/dag.ts:168</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="get_point_intersecting_ids" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get_<wbr>point_<wbr>intersecting_<wbr>ids<span class="tsd-signature-symbol">(</span>coordinate<span class="tsd-signature-symbol">: </span><a href="../interfaces/_three_three_tools_.ivector3.html" class="tsd-signature-type">IVector3</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get ids of items which intersect the mouse selection ray</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>coordinate: <a href="../interfaces/_three_three_tools_.ivector3.html" class="tsd-signature-type">IVector3</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Mouse position</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+							<p>Array of ids</p>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L571">three/dag.ts:571</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="has_child" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">has_<wbr>child<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Determines whether DAG contains child component</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Component id</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L158">three/dag.ts:158</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="render" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">render<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, window<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Render a ThreeJS scene inside a given element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>element: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>DOM element which houses ThreeJS scene</p>
+									</div>
+								</li>
+								<li>
+									<h5>window: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>DOM window object</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L134">three/dag.ts:134</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="render_update" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">render_<wbr>update<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Rerender ThreeJS scene.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L148">three/dag.ts:148</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="set_child" class="tsd-anchor"></a>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set_<wbr>child<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, component<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Assigns a component to children</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Component id</p>
+									</div>
+								</li>
+								<li>
+									<h5>component: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Component</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/theNewFlesh/aspect-js/blob/872a796/src/three/dag.ts#L180">three/dag.ts:180</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_three_dag_.html">"three/dag"</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_three_dag_.dag.html" class="tsd-kind-icon">DAG</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_three_dag_.dag.html#__scene" class="tsd-kind-icon">__scene</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_camera" class="tsd-kind-icon">_camera</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_children" class="tsd-kind-icon">_children</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_controls" class="tsd-kind-icon">_controls</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_height" class="tsd-kind-icon">_height</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_hightlight" class="tsd-kind-icon">_hightlight</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_id" class="tsd-kind-icon">_id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_light" class="tsd-kind-icon">_light</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_renderer" class="tsd-kind-icon">_renderer</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_selection" class="tsd-kind-icon">_selection</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_selection_mode" class="tsd-kind-icon">_selection_<wbr>mode</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_state" class="tsd-kind-icon">_state</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_width" class="tsd-kind-icon">_width</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#parent" class="tsd-kind-icon">parent</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#three_item" class="tsd-kind-icon">three_<wbr>item</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#children" class="tsd-kind-icon">children</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_create_edge" class="tsd-kind-icon">_create_<wbr>edge</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_create_graph" class="tsd-kind-icon">_create_<wbr>graph</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_create_inport" class="tsd-kind-icon">_create_<wbr>inport</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_create_node" class="tsd-kind-icon">_create_<wbr>node</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_create_outport" class="tsd-kind-icon">_create_<wbr>outport</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_create_port" class="tsd-kind-icon">_create_<wbr>port</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_create_scene" class="tsd-kind-icon">_create_<wbr>scene</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_get_parent" class="tsd-kind-icon">_get_<wbr>parent</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_resolve_edge_params" class="tsd-kind-icon">_resolve_<wbr>edge_<wbr>params</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_resolve_port_translation" class="tsd-kind-icon">_resolve_<wbr>port_<wbr>translation</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_update_edge" class="tsd-kind-icon">_update_<wbr>edge</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_update_graph" class="tsd-kind-icon">_update_<wbr>graph</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_update_inport" class="tsd-kind-icon">_update_<wbr>inport</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_update_node" class="tsd-kind-icon">_update_<wbr>node</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_update_outport" class="tsd-kind-icon">_update_<wbr>outport</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#_update_scene" class="tsd-kind-icon">_update_<wbr>scene</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#create_camera" class="tsd-kind-icon">create_<wbr>camera</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#create_light" class="tsd-kind-icon">create_<wbr>light</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#delete" class="tsd-kind-icon">delete</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#delete_child" class="tsd-kind-icon">delete_<wbr>child</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#destroy" class="tsd-kind-icon">destroy</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#edit" class="tsd-kind-icon">edit</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#get_child" class="tsd-kind-icon">get_<wbr>child</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#get_point_intersecting_ids" class="tsd-kind-icon">get_<wbr>point_<wbr>intersecting_<wbr>ids</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#has_child" class="tsd-kind-icon">has_<wbr>child</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#render" class="tsd-kind-icon">render</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#render_update" class="tsd-kind-icon">render_<wbr>update</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_three_dag_.dag.html#set_child" class="tsd-kind-icon">set_<wbr>child</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
