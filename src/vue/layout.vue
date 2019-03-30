@@ -48,7 +48,6 @@
     import { Params } from "../../src/core/params";
     import { HEX_COLORS } from "../core/tools";
     import { scene as test_scene } from "../../test/test_scene";
-    // import * as config from "../src/aspect_config.json";
     import config from "../../src/aspect_config.json";
 
     import Vuetify from "vuetify";
