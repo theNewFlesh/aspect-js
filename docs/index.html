@@ -1,87 +1,88 @@
-<!doctype html>
+<!DOCTYPE doctype html>
+
 <html class="default no-js">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>aspect-js</title>
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
-</head>
+<meta charset="UTF-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<title>aspect-js</title>
+<meta content="" name="description">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<link href="assets/css/main.css" rel="stylesheet">
+</link></meta></meta></meta></meta></head>
 <body>
 <header>
-	<div class="tsd-page-toolbar">
-		<div class="container">
-			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
-					<div class="field">
-						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-						<input id="tsd-search-field" type="text" />
-					</div>
-					<ul class="results">
-						<li class="state loading">Preparing search index...</li>
-						<li class="state failure">The search index is not available</li>
-					</ul>
-					<a href="index.html" class="title">aspect-js</a>
-				</div>
-				<div class="table-cell" id="tsd-widgets">
-					<div id="tsd-filter">
-						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-						<div class="tsd-filter-group">
-							<div class="tsd-select" id="tsd-filter-visibility">
-								<span class="tsd-select-label">All</span>
-								<ul class="tsd-select-list">
-									<li data-value="public">Public</li>
-									<li data-value="protected">Public/Protected</li>
-									<li data-value="private" class="selected">All</li>
-								</ul>
-							</div>
-							<input type="checkbox" id="tsd-filter-inherited" checked />
-							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
-						</div>
-					</div>
-					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tsd-page-title">
-		<div class="container">
-			<ul class="tsd-breadcrumb">
-				<li>
-					<a href="globals.html">Globals</a>
-				</li>
-			</ul>
-			<h1> aspect-js</h1>
-		</div>
-	</div>
+<div class="tsd-page-toolbar">
+<div class="container">
+<div class="table-wrap">
+<div class="table-cell" data-base="." data-index="assets/js/search.js" id="tsd-search">
+<div class="field">
+<label class="tsd-widget search no-caption" for="tsd-search-field">Search</label>
+<input id="tsd-search-field" type="text"/>
+</div>
+<ul class="results">
+<li class="state loading">Preparing search index...</li>
+<li class="state failure">The search index is not available</li>
+</ul>
+<a class="title" href="index.html">aspect-js</a>
+</div>
+<div class="table-cell" id="tsd-widgets">
+<div id="tsd-filter">
+<a class="tsd-widget options no-caption" data-toggle="options" href="#">Options</a>
+<div class="tsd-filter-group">
+<div class="tsd-select" id="tsd-filter-visibility">
+<span class="tsd-select-label">All</span>
+<ul class="tsd-select-list">
+<li data-value="public">Public</li>
+<li data-value="protected">Public/Protected</li>
+<li class="selected" data-value="private">All</li>
+</ul>
+</div>
+<input checked="" id="tsd-filter-inherited" type="checkbox"/>
+<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+<input checked="" id="tsd-filter-externals" type="checkbox"/>
+<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+<input id="tsd-filter-only-exported" type="checkbox"/>
+<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+</div>
+</div>
+<a class="tsd-widget menu no-caption" data-toggle="menu" href="#">Menu</a>
+</div>
+</div>
+</div>
+</div>
+<div class="tsd-page-title">
+<div class="container">
+<ul class="tsd-breadcrumb">
+<li>
+<a href="globals.html">Globals</a>
+</li>
+</ul>
+<h1> aspect-js</h1>
+</div>
+</div>
 </header>
 <div class="container container-main">
-	<div class="row">
-		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<h1 id="aspect-js">Aspect-js</h1>
-				<p>Aspect is a web-based nodal editor, built upon Typescript, Vue and Three.js.
+<div class="row">
+<div class="col-8 col-content">
+<div class="tsd-panel tsd-typography">
+<h1 id="aspect-js">Aspect-js</h1>
+<p>Aspect is a web-based nodal editor, built upon Typescript, Vue and Three.js.
 					Its goal is to provide a graphical means of constructing Directed Acyclic Graphs
 					(DAGs) which map to RPC APIs and map-reduce systems, defined elsewhere. In the
 					broadest sense, Aspect can be thought of as a stateless function, which takes in
 				a scene defintion and returns a new one.</p>
-				<p>Intended targets for Aspect-js are:</p>
-				<ul>
-					<li>Aspect: a python library that generates REST APIs around arbitrary python code
+<p>Intended targets for Aspect-js are:</p>
+<ul>
+<li>Aspect: a python library that generates REST APIs around arbitrary python code
 					through inspection.</li>
-					<li>Apache Beam: A distributed map-reduce system.</li>
-					<li>Apache Spark: A distributed map-reduce system common.</li>
-					<li>Geode: A proprietary spatial, n-dimensional distributed map reduce framework I
+<li>Apache Beam: A distributed map-reduce system.</li>
+<li>Apache Spark: A distributed map-reduce system common.</li>
+<li>Geode: A proprietary spatial, n-dimensional distributed map reduce framework I
 					am working on.</li>
-				</ul>
-				<h1 id="explanation">Explanation</h1>
-				<p>After having worked years with several nodal systems: Nuke, Houdini, Maya&#39;s
-					hypershade, Softimage, Fabric Engine, Modo&#39;s schematics, MeVisab, etc. And
+</ul>
+<h1 id="explanation">Explanation</h1>
+<p>After having worked years with several nodal systems: Nuke, Houdini, Maya's
+					hypershade, Softimage, Fabric Engine, Modo's schematics, MeVisab, etc. And
 					some time with several map reduce frameworks: Geode, Apache Spark, Apache Beam,
 					and Apache Hadoop. And attempting to build custom dataflow oriented frameworks:
 					Axon (<a href="https://github.com/theNewFlesh/axon">https://github.com/theNewFlesh/axon</a>) and interogrador, a custom map-reduce
@@ -91,20 +92,20 @@
 					implementation as part of the context of solving problems related to, and only
 					to, specific data structures, rather than as a general utility. This is
 				especially so in the realm of data science, particularly computer vision.</p>
-				<p>Good nodal editors, say those popular in visual effects, have shallow learning curves,
+<p>Good nodal editors, say those popular in visual effects, have shallow learning curves,
 					low technical barriers to entry and are incrediby useful. They are also proprietary,
 					tied to proprietary formats and designed to run one a single machine, even though
 					they are often found in render farms. Good data science libraries, can efficiently
 					exploit large distributed systems, are made incredibly powerful through the use of
 					machine learning, and can do things at a scale that no render farm and army of
 					humans can. They also have no decent nodal editors, large technical barriers to
-				entry and aren&#39;t easily accessible across locations.</p>
-				<p>Aspect-js is meant to combine these two worlds in a declarative manner, with
+				entry and aren't easily accessible across locations.</p>
+<p>Aspect-js is meant to combine these two worlds in a declarative manner, with
 					predifined extensibility and careful attention paid towards how it maps to
 					frameworks that solve hard problems at scale, rather than trying to compete with
 				them.</p>
-				<h1 id="data-structures">Data Structures</h1>
-				<p>A scene is a collection of graphs which may or may not connect to eachother.
+<h1 id="data-structures">Data Structures</h1>
+<p>A scene is a collection of graphs which may or may not connect to eachother.
 					Graphs are comprized of nodes and edges. Nodes should be thought of as abstract,
 					graphical representations of singular remote procedure calls. Nodes connect to
 					eachother via ports. The outport of one node connects to the inport of another,
@@ -112,7 +113,7 @@
 					represent the singular parameters of the RPC function it abstracts. Outports
 					represent what the RPC function returns. Edges are defined as an ordered pair of
 				outport and inport.</p>
-				<p>The scene and all its components are represented within a single JSON object
+<p>The scene and all its components are represented within a single JSON object
 					which represents the entire state of the DAG at one time. All other parts of
 					Aspect; the Three.js wrapper classes, the Params class, the NodePane component,
 					serve to manipulate this underlying data structure, as an aspect of it. For
@@ -122,192 +123,194 @@
 					its ports and their values. In the nodepane, you can alter the constant values
 					values supplied to specific ports of a node, you can alter the GUI widgets used
 				to represent each port, etc.</p>
-				<h2 id="documentation">Documentation</h2>
-				<p><a href="https://thenewflesh.github.io/aspect-js/">aspect-js documentation page</a></p>
-				<h2 id="development-setup">Development Setup</h2>
-				<p><code>npm install</code></p>
-				<h2 id="documentation-autobuild-setup">Documentation Autobuild Setup</h2>
-				<ol>
-					<li><a href="https://docs.conda.io/en/latest/miniconda.html">install conda</a></li>
-					<li><code>conda create -n aspect-js --file requirements.txt</code></li>
-				</ol>
-				<h2 id="serve">Serve</h2>
-				<p><code>npm run serve</code></p>
-				<p>Alternatively, I would recommend </p>
-				<pre><code><span class="hljs-built_in">npm</span> install -g @vue/cli
+<h2 id="documentation">Documentation</h2>
+<p><a href="https://thenewflesh.github.io/aspect-js/">aspect-js documentation page</a></p>
+<h2 id="development-setup">Development Setup</h2>
+<p><code>npm install</code></p>
+<h2 id="documentation-autobuild-setup">Documentation Autobuild Setup</h2>
+<ol>
+<li><a href="https://docs.conda.io/en/latest/miniconda.html">install conda</a></li>
+<li><code>conda create -n aspect-js --file requirements.txt</code></li>
+</ol>
+<h2 id="serve">Serve</h2>
+<p><code>npm run serve</code></p>
+<p>Alternatively, I would recommend </p>
+<pre><code><span class="hljs-built_in">npm</span> install -g @vue/cli
 vue ui</code></pre><p>and then click serve on the resulting vue ui page.</p>
-				<h2 id="build">Build</h2>
-				<p><code>npm run build</code> or click build in the vue ui page.</p>
-				<h2 id="lint">Lint</h2>
-				<p><code>npm run lint</code> or click lint in the vue ui page.</p>
-				<h2 id="test">Test</h2>
-				<p><code>npm run test</code> or click test in the vue ui page.</p>
-				<h2 id="docs">Docs</h2>
-				<p><code>bin/build-docs.sh</code></p>
-				<h2 id="architecture">Architecture</h2>
-				<p><img src="./resources/architecture.svg" alt="Alt text"></p>
-			</div>
-		</div>
-		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-			<nav class="tsd-navigation primary">
-				<ul>
-					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_core_event_manager_.html">"core/event_<wbr>manager"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_core_index_.html">"core/index"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_core_iparams_.html">"core/iparams"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_core_params_.html">"core/params"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_core_scaffold_.html">"core/scaffold"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_core_scheduler_.html">"core/scheduler"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_core_tools_.html">"core/tools"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_main_.html">"main"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_store_.html">"store"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_component_.html">"three/component"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_cube_.html">"three/cube"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_cylinder_.html">"three/cylinder"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_dag_.html">"three/dag"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_edge_.html">"three/edge"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_graph_.html">"three/graph"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_group_.html">"three/group"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_inport_.html">"three/inport"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_node_.html">"three/node"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_outport_.html">"three/outport"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_port_.html">"three/port"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_primitive_.html">"three/primitive"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_primitive_base_.html">"three/primitive_<wbr>base"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_scene_.html">"three/scene"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_sphere_.html">"three/sphere"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_sprite_.html">"three/sprite"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_text_.html">"three/text"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_textbox_.html">"three/textbox"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_three_three_tools_.html">"three/three_<wbr>tools"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_vue_event_bus_.html">"vue/event_<wbr>bus"</a>
-					</li>
-				</ul>
-			</nav>
-			<nav class="tsd-navigation secondary menu-sticky">
-				<ul class="before-current">
-				</ul>
-			</nav>
-		</div>
-	</div>
+<h2 id="build">Build</h2>
+<p><code>npm run build</code> or click build in the vue ui page.</p>
+<h2 id="lint">Lint</h2>
+<p><code>npm run lint</code> or click lint in the vue ui page.</p>
+<h2 id="test">Test</h2>
+<p><code>npm run test</code> or click test in the vue ui page.</p>
+<h2 id="docs">Docs</h2>
+<p><code>bin/build-docs.sh</code></p>
+<h2 id="architecture">Architecture</h2>
+<p><img alt="Alt text" src="./resources/architecture.svg"/></p>
+</div>
+</div>
+<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+<nav class="tsd-navigation primary">
+<ul><li class="globals ">
+<a href="components/search.html"><em>Vue Components</em></a>
+</li>
+<li class="globals ">
+<a href="globals.html"><em>Globals</em></a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_core_event_manager_.html">"core/event_<wbr>manager"</wbr></a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_core_index_.html">"core/index"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_core_iparams_.html">"core/iparams"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_core_params_.html">"core/params"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_core_scaffold_.html">"core/scaffold"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_core_scheduler_.html">"core/scheduler"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_core_tools_.html">"core/tools"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_main_.html">"main"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_store_.html">"store"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_component_.html">"three/component"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_cube_.html">"three/cube"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_cylinder_.html">"three/cylinder"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_dag_.html">"three/dag"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_edge_.html">"three/edge"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_graph_.html">"three/graph"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_group_.html">"three/group"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_inport_.html">"three/inport"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_node_.html">"three/node"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_outport_.html">"three/outport"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_port_.html">"three/port"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_primitive_.html">"three/primitive"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_primitive_base_.html">"three/primitive_<wbr>base"</wbr></a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_scene_.html">"three/scene"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_sphere_.html">"three/sphere"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_sprite_.html">"three/sprite"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_text_.html">"three/text"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_textbox_.html">"three/textbox"</a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_three_three_tools_.html">"three/three_<wbr>tools"</wbr></a>
+</li>
+<li class=" tsd-kind-external-module">
+<a href="modules/_vue_event_bus_.html">"vue/event_<wbr>bus"</wbr></a>
+</li>
+</ul>
+</nav>
+<nav class="tsd-navigation secondary menu-sticky">
+<ul class="before-current">
+</ul>
+</nav>
+</div>
+</div>
 </div>
 <footer>
-	<div class="container">
-		<h2>Legend</h2>
-		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
-			</ul>
-		</div>
-	</div>
+<div class="container">
+<h2>Legend</h2>
+<div class="tsd-legend-group">
+<ul class="tsd-legend">
+<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+</ul>
+<ul class="tsd-legend">
+<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+</ul>
+<ul class="tsd-legend">
+<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+</ul>
+<ul class="tsd-legend">
+<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+</ul>
+<ul class="tsd-legend">
+<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+</ul>
+<ul class="tsd-legend">
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+</ul>
+<ul class="tsd-legend">
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+</ul>
+<ul class="tsd-legend">
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+</ul>
+</div>
+</div>
 </footer>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
