@@ -16,14 +16,15 @@ Intended targets for Aspect-js are:
 # Explanation
 After having worked years with several nodal systems: Nuke, Houdini, Maya's
 hypershade, Softimage, Fabric Engine, Modo's schematics, MeVisab, etc. And
-some time with several map reduce frameworks: Geode, Apache Spark, Apache Beam, and
-Apache Hadoop. And attempting to build custom dataflow oriented frameworks: Axon
-and interogrador, a custom map-reduce framework for mesh construction inside Modo.
-I have come to the conclusion that visual, DAG-oriented programming can be a very
-poweful paradigm for performing and comprehending complicated work, but that is
-bedevilled by its universal implementation as part of the context of solving problems
-related to, and only to, specific data structures, rather than as a general
-utility. This is especially so the realm of data science, particularly computer vision.
+some time with several map reduce frameworks: Geode, Apache Spark, Apache Beam,
+and Apache Hadoop. And attempting to build custom dataflow oriented frameworks:
+Axon (https://github.com/theNewFlesh/axon) and interogrador, a custom map-reduce
+framework for mesh construction inside Modo. I have come to the conclusion that
+visual, DAG-oriented programming can be a very poweful paradigm for performing
+and comprehending complicated work, but that is bedevilled by its universal
+implementation as part of the context of solving problems related to, and only
+to, specific data structures, rather than as a general utility. This is
+especially so in the realm of data science, particularly computer vision.
 
 Good nodal editors, say those popular in visual effects, have shallow learning curves,
 low technical barriers to entry and are incrediby useful. They are also proprietary,
