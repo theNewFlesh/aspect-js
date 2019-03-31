@@ -15,7 +15,7 @@ Intended targets for Aspect-js are:
 
 # Explanation
 After having worked years with several nodal systems: Nuke, Houdini, Maya's
-hypershade, Softimage, Fabric Engine, Modo's schematics, MeVisab, etc. And
+hypershade, Softimage, Fabric Engine, Modo's MeshOps, MeVisab, etc. And
 some time with several map reduce frameworks: Geode, Apache Spark, Apache Beam,
 and Apache Hadoop. And attempting to build custom dataflow oriented frameworks:
 [Axon](https://github.com/theNewFlesh/axon) and interogrador, a custom map-reduce
