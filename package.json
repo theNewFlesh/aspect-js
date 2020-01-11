@@ -18,7 +18,7 @@
         "@types/tinycolor2": "^1.4.1",
         "chai": "^4.2.0",
         "data-forge": "^1.2.6",
-        "lodash": "^4.17.10",
+        "lodash": "^4.17.13",
         "mathjs": "^5.7.0",
         "mousetrap": "^1.6.3",
         "three": "^0.98.0",
