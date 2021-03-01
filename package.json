@@ -21,7 +21,7 @@
         "lodash": "^4.17.10",
         "mathjs": "^5.7.0",
         "mousetrap": "^1.6.3",
-        "three": "^0.98.0",
+        "three": "^0.125.0",
         "three-orbit-controls": "^82.1.0",
         "three.meshline": "^1.1.0",
         "three.texttexture": "^18.10.24",
