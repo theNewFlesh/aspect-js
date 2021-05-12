@@ -19,7 +19,7 @@
         "chai": "^4.2.0",
         "data-forge": "^1.2.6",
         "lodash": "^4.17.10",
-        "mathjs": "^5.7.0",
+        "mathjs": "^7.5.1",
         "mousetrap": "^1.6.3",
         "three": "^0.98.0",
         "three-orbit-controls": "^82.1.0",
